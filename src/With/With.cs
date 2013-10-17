@@ -19,7 +19,7 @@ namespace With
                 var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
                 if (p != null)
                 {
-                    values[i] = p.GetValue(t);
+                    values[i] = p.GetValue(t, null);
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace With
                 var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
                 if (p != null)
                 {
-                    values[i] = p.GetValue(t);
+                    values[i] = p.GetValue(t, null);
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace With
                 var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
                 if (p != null)
                 {
-                    values[i] = p.GetValue(t);
+                    values[i] = p.GetValue(t, null);
                 }
                 else
                 {
