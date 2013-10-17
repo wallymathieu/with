@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>With</id>
+    <title>With</title>
+    <version>0.0.1</version>
+    <authors>Oskar Gewalli</authors>
+    <owners>Oskar Gewalli</owners>
+    <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/wallymathieu/with</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>With is a small library to handle read only objects in c#.</description>
+    <copyright>Copyright 2013</copyright>
+    <releaseNotes></releaseNotes>
+    <references>
+      <reference file="With.dll" />
+    </references>
+  </metadata>
+</package>
