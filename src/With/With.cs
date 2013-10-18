@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -16,7 +17,7 @@ namespace With
             for (int i = 0; i < values.Length - parameters.Length; i++)
             {
                 var param = ctorParams[i];
-                var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
+                var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
                 if (p != null)
                 {
                     values[i] = p.GetValue(t, null);
@@ -38,17 +39,17 @@ namespace With
             var ctor = ctors.Single();
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
-            var propertyName = GetPropertyName(expr).ToUpper();
+            var propertyName = GetPropertyName(expr);
 
             for (int i = 0; i < values.Length; i++)
             {
                 var param = ctorParams[i];
-                if (param.Name.ToUpper().Equals(propertyName))
+                if (param.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     values[i] = val;
                     continue;
                 }
-                var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
+                var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
                 if (p != null)
                 {
                     values[i] = p.GetValue(t, null);
@@ -86,17 +87,18 @@ namespace With
             var ctor = ctors.Single();
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
-            var propertyNameAndValue = GetPropertyNameAndValue(expr);
+            var propertyNameAndValues = GetPropertyNameAndValue<TRet>(expr).ToArray().ToDictionary(nv=>nv.Name,
+                StringComparer.InvariantCultureIgnoreCase);
 
             for (int i = 0; i < values.Length; i++)
             {
                 var param = ctorParams[i];
-                if (param.Name.ToUpper().Equals(propertyNameAndValue.Name.ToUpper()))
+                if (propertyNameAndValues.ContainsKey(param.Name))
                 {
-                    values[i] = propertyNameAndValue.Value;
+                    values[i] = propertyNameAndValues[param.Name].Value;
                     continue;
                 }
-                var p = props.SingleOrDefault(prop => prop.Name.ToUpper().Equals(param.Name.ToUpper()));
+                var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
                 if (p != null)
                 {
                     values[i] = p.GetValue(t, null);
@@ -115,26 +117,68 @@ namespace With
             public object Value { get; set; }
         }
 
-        private static NameAndValue GetPropertyNameAndValue<TRet>(Expression<Func<TRet, bool>> expr)
+        private static IEnumerable<NameAndValue> GetPropertyNameAndValue<TRet>(Expression expr)
         {
             switch (expr.NodeType)
             {
                 case ExpressionType.Lambda:
-                    switch (expr.Body.NodeType)
+                    var lambda = ((LambdaExpression)expr);
+                    switch (lambda.Body.NodeType)
                     {
                         case ExpressionType.Equal:
-                            var eq = ((System.Linq.Expressions.BinaryExpression)expr.Body);
-                            return new NameAndValue
-                            {
-                                Name = GetNameFromMemberAccess<TRet>((MemberExpression)eq.Left),
-                                Value = GetValueFromExpression(eq.Right)
-                            };
+                        case ExpressionType.AndAlso:
+                            var retval = new List<NameAndValue>();
+                            BinaryExpression<TRet>((BinaryExpression)lambda.Body,retval);
+                            return retval;
+                            break;
                         default:
-                            throw new Exception(expr.Body.NodeType.ToString());
+                            throw new Exception(lambda.Body.NodeType.ToString());
                     }
+                    break;
                 default:
                     throw new Exception(expr.NodeType.ToString());
             }
+        }
+
+        private static void BinaryExpression<TRet>(BinaryExpression expr, IList<NameAndValue> retval)
+        {
+            switch (expr.Left.NodeType)
+            {
+                case ExpressionType.AndAlso:
+                case ExpressionType.Equal:
+                    {
+                        BinaryExpression<TRet>((BinaryExpression)expr.Left, retval);
+                        switch (expr.Right.NodeType)
+                        {
+                            case ExpressionType.AndAlso:
+                            case ExpressionType.Equal:
+                                BinaryExpression<TRet>((BinaryExpression)expr.Right,retval);
+                                break;
+                            default:
+                                throw new Exception(expr.Right.NodeType.ToString());
+                        }
+                    }
+                    break;
+                case ExpressionType.MemberAccess:
+                    {
+                        retval.Add(BinaryExpressionWithMemberAccess<TRet>(expr));
+                    }
+                    break;
+                default:
+                    throw new Exception(expr.Left.NodeType.ToString());
+            }
+
+
+        }
+
+        private static NameAndValue BinaryExpressionWithMemberAccess<TRet>(BinaryExpression eq)
+        {
+            var retval = new NameAndValue
+            {
+                Name = GetNameFromMemberAccess<TRet>((MemberExpression)eq.Left),
+                Value = GetValueFromExpression(eq.Right)
+            };
+            return retval;
         }
 
         private static string GetNameFromMemberAccess<TRet>(MemberExpression member)

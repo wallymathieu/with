@@ -42,6 +42,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AClassWithSeveralProperties.cs" />
     <Compile Include="OneClassCanCloneItselfWithAPropertySet.cs" />
     <Compile Include="TwoClassesWhereOneInheritsFromTheOtherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

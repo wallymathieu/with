@@ -31,6 +31,14 @@ namespace Tests
             Assert.That(ret.MyProperty2, Is.EqualTo("2"));
         }
         [Test]
+        public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal()
+        {
+            var ret = new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "3");
+            Assert.That(ret.MyProperty, Is.EqualTo(3));
+            Assert.That(ret.MyProperty2, Is.EqualTo("3"));
+        }
+
+        [Test]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal_and_another_propertyvalue()
         {
             var t = new MyClass(3, "3");
