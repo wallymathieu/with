@@ -6,7 +6,8 @@ With is a small library written in c# intended to help when using read only clas
 
 	new MyClass(1, "2").With(m => m.MyProperty, 3)
 	
-	new MyClass(1, "2").With(m => m.MyProperty == 3)
+	new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "value")
 
 	new MyClass(1, "2").With<MyClass2>(valueOnlyInMyClass2)
+
 
