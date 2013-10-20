@@ -27,7 +27,7 @@ namespace With.Plumbing
                     {
                         case ExpressionType.Equal:
                         case ExpressionType.AndAlso:
-                            BinaryExpression((BinaryExpression)lambda.Body);
+                            BinaryExpression1((BinaryExpression)lambda.Body);
                             break;
                         default:
                             throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, lambda.Body.NodeType);
@@ -38,32 +38,36 @@ namespace With.Plumbing
             }
         }
 
-        private void BinaryExpression(BinaryExpression expr)
+        /// <summary>
+        /// TODO: Refactor
+        /// </summary>
+        /// <param name="expr"></param>
+        private void BinaryExpression1(BinaryExpression expr)
         {
             switch (expr.Left.NodeType)
             {
                 case ExpressionType.AndAlso:
                 case ExpressionType.Equal:
                     {
-                        BinaryExpression((BinaryExpression)expr.Left);
+                        BinaryExpression1((BinaryExpression) expr.Left);
                         switch (expr.Right.NodeType)
                         {
                             case ExpressionType.AndAlso:
                             case ExpressionType.Equal:
-                                BinaryExpression((BinaryExpression)expr.Right);
+                                BinaryExpression1((BinaryExpression) expr.Right);
                                 break;
                             default:
-                                throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, expr.Right.NodeType);
+                                throw new ExpectedButGotException(new[] {ExpressionType.Equal, ExpressionType.AndAlso},
+                                                                  expr.Right.NodeType);
                         }
                     }
                     break;
                 case ExpressionType.MemberAccess:
-                    {
-                        BinaryExpressionWithMemberAccess(expr);
-                    }
+                    BinaryExpressionWithMemberAccess(expr);
                     break;
                 default:
-                    throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso, ExpressionType.MemberAccess }, 
+                    throw new ExpectedButGotException(
+                        new[] {ExpressionType.Equal, ExpressionType.AndAlso, ExpressionType.MemberAccess},
                         expr.Left.NodeType);
             }
         }
