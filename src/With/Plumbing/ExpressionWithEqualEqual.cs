@@ -26,8 +26,8 @@ namespace With.Plumbing
                     switch (lambda.Body.NodeType)
                     {
                         case ExpressionType.Equal:
-                        case ExpressionType.AndAlso:
-                            BinaryExpression1((BinaryExpression)lambda.Body);
+                        case ExpressionType.AndAlso://TODO: Fix, this is a bit sloppy
+                            BinaryExpressionAndOrEqualOrMemberAccess((BinaryExpression)lambda.Body);
                             break;
                         default:
                             throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, lambda.Body.NodeType);
@@ -42,25 +42,13 @@ namespace With.Plumbing
         /// TODO: Refactor
         /// </summary>
         /// <param name="expr"></param>
-        private void BinaryExpression1(BinaryExpression expr)
+        private void BinaryExpressionAndOrEqualOrMemberAccess(BinaryExpression expr)
         {
             switch (expr.Left.NodeType)
             {
                 case ExpressionType.AndAlso:
-                case ExpressionType.Equal:
-                    {
-                        BinaryExpression1((BinaryExpression) expr.Left);
-                        switch (expr.Right.NodeType)
-                        {
-                            case ExpressionType.AndAlso:
-                            case ExpressionType.Equal:
-                                BinaryExpression1((BinaryExpression) expr.Right);
-                                break;
-                            default:
-                                throw new ExpectedButGotException(new[] {ExpressionType.Equal, ExpressionType.AndAlso},
-                                                                  expr.Right.NodeType);
-                        }
-                    }
+                case ExpressionType.Equal://TODO: Fix, this is a bit sloppy
+                    BinaryExpressionAndOrEqual(expr);
                     break;
                 case ExpressionType.MemberAccess:
                     BinaryExpressionWithMemberAccess(expr);
@@ -69,6 +57,21 @@ namespace With.Plumbing
                     throw new ExpectedButGotException(
                         new[] {ExpressionType.Equal, ExpressionType.AndAlso, ExpressionType.MemberAccess},
                         expr.Left.NodeType);
+            }
+        }
+
+        private void BinaryExpressionAndOrEqual(BinaryExpression expr)
+        {
+            BinaryExpressionAndOrEqualOrMemberAccess((BinaryExpression)expr.Left);
+            switch (expr.Right.NodeType)
+            {
+                case ExpressionType.AndAlso:
+                case ExpressionType.Equal://TODO: Fix, this is a bit sloppy
+                    BinaryExpressionAndOrEqualOrMemberAccess((BinaryExpression)expr.Right);
+                    break;
+                default:
+                    throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso },
+                                                      expr.Right.NodeType);
             }
         }
 

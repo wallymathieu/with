@@ -59,7 +59,7 @@ namespace Tests
         }
 
         [Test]
-        public void A_time()
+        public void A_time_equalequal()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -68,7 +68,7 @@ namespace Tests
             }
         }
         [Test]
-        public void A_time_2()
+        public void A_time_propertyname_only()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -77,7 +77,7 @@ namespace Tests
             }
         }
         [Test]
-        public void A_time_3()
+        public void A_time_dictionary()
         {
             for (int i = 0; i < 1000; i++)
             {
@@ -85,8 +85,9 @@ namespace Tests
                 var ret = new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { {"MyProperty3",time} });
             }
         }
+        
         [Test]
-        public void A_time_4()
+        public void A_time_ordinal()
         {
             for (int i = 0; i < 1000; i++)
             {
