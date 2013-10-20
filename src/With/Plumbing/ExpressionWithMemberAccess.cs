@@ -31,11 +31,13 @@ namespace With.Plumbing
                             GetNameFromMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand);
                             break;
                         default:
-                            throw new Exception(expr.Body.NodeType.ToString());
+                            throw new ExpectedButGotException(
+                                new[] {ExpressionType.MemberAccess, ExpressionType.Convert}, expr.Body.NodeType);
                     }
                     break;
                 default:
-                    throw new Exception(expr.NodeType.ToString());
+                    throw new ExpectedButGotException(new[] {ExpressionType.Lambda},
+                                                      expr.NodeType);
             }
         }
     }

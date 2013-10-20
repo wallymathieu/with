@@ -30,11 +30,11 @@ namespace With.Plumbing
                             BinaryExpression((BinaryExpression)lambda.Body);
                             break;
                         default:
-                            throw new Exception(lambda.Body.NodeType.ToString());
+                            throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, lambda.Body.NodeType);
                     }
                     break;
                 default:
-                    throw new Exception(expr.NodeType.ToString());
+                    throw new ExpectedButGotException(new[] { ExpressionType.Lambda }, expr.NodeType);
             }
         }
 
@@ -53,7 +53,7 @@ namespace With.Plumbing
                                 BinaryExpression((BinaryExpression)expr.Right);
                                 break;
                             default:
-                                throw new Exception(expr.Right.NodeType.ToString());
+                                throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, expr.Right.NodeType);
                         }
                     }
                     break;
@@ -63,7 +63,8 @@ namespace With.Plumbing
                     }
                     break;
                 default:
-                    throw new Exception(expr.Left.NodeType.ToString());
+                    throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso, ExpressionType.MemberAccess }, 
+                        expr.Left.NodeType);
             }
         }
 
@@ -88,10 +89,16 @@ namespace With.Plumbing
                     return GetValue((MemberExpression)((UnaryExpression)right).Operand);
 
                 default:
-                    throw new Exception(right.NodeType.ToString() + Environment.NewLine + right.GetType().FullName);
+                    throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess, ExpressionType.Convert }, 
+                        right.NodeType);
             }
         }
 
+        /// <summary>
+        /// NOTE: Lots of time spent here!
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
         protected internal static object GetValue(MemberExpression member)
         {
             var objectMember = Expression.Convert(member, typeof(object));

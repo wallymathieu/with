@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpectedButGotException.cs" />
     <Compile Include="MissingValueException.cs" />
     <Compile Include="Plumbing\ExpressionWithEqualEqual.cs" />
     <Compile Include="Plumbing\ExpressionWithMemberAccess.cs" />
