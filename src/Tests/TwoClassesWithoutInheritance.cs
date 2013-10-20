@@ -33,7 +33,7 @@ namespace Tests
         public void A_class_should_map_properties()
         {
             var time = new DateTime(2001, 1, 1);
-            var ret = new MyClass(1, "2").With<MyClass2>(time);
+            var ret = new MyClass(1, "2").As<MyClass2>(time);
             Assert.That(ret.MyProperty, Is.EqualTo(1));
             Assert.That(ret.MyProperty2, Is.EqualTo("2"));
             Assert.That(ret.MyProperty3, Is.EqualTo(time));

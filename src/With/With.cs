@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace With
 {
     public static class WithExtensions
     {
-        public static TRet With<TRet>(this Object t, params Object[] parameters)
+        public static TRet As<TRet>(this Object t, params Object[] parameters)
         {
             var props = t.GetType().GetProperties();
             var ctors = typeof(TRet).GetConstructors().ToArray();
@@ -24,7 +25,7 @@ namespace With
                 }
                 else
                 {
-                    throw new MissingValueException();
+                    throw new MissingValueException(param.Name);
                 }
             }
 
@@ -37,28 +38,43 @@ namespace With
             var props = typeof(TRet).GetProperties();
             var ctors = typeof(TRet).GetConstructors().ToArray();
             var ctor = ctors.Single();
-            var ctorParams = ctor.GetParameters();
-            var values = new object[ctorParams.Length];
             var propertyName = GetPropertyName(expr);
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                var param = ctorParams[i];
-                if (param.Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    values[i] = val;
-                    continue;
-                }
-                var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
-                if (p != null)
-                {
-                    values[i] = p.GetValue(t, null);
-                }
-                else
-                {
-                    throw new MissingValueException();
-                }
-            }
+            var values = GetConstructorParamterValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
+
+            return (TRet)ctor.Invoke(values);
+        }
+
+        public static TRet With<TRet>(this TRet t, IDictionary<string, object> parameters)
+        {
+            var props = typeof(TRet).GetProperties();
+            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+
+            var values = GetConstructorParamterValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
+
+            return (TRet)ctor.Invoke(values);
+        }
+
+        public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
+        {
+            var props = t.GetType().GetProperties();
+            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+
+            var values = GetConstructorParamterValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
+
+            return (TRet)ctor.Invoke(values);
+        }
+
+        public static TRet As<TRet>(this Object t, Expression<Func<TRet, object>> expr, object val)
+        {
+            var props = typeof(TRet).GetProperties();
+            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+            var propertyName = GetPropertyName(expr);
+
+            var values = GetConstructorParamterValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
 
             return (TRet)ctor.Invoke(values);
         }
@@ -72,6 +88,8 @@ namespace With
                     {
                         case ExpressionType.MemberAccess:
                             return GetNameFromMemberAccess<TRet>((MemberExpression)expr.Body);
+                        case ExpressionType.Convert:
+                            return GetNameFromMemberAccess<TRet>((MemberExpression)((UnaryExpression)expr.Body).Operand);
                         default:
                             throw new Exception(expr.Body.NodeType.ToString());
                     }
@@ -80,16 +98,36 @@ namespace With
             }
         }
 
+        public static TRet As<TRet>(this Object t, Expression<Func<TRet, bool>> expr)
+        {
+            var propertyNameAndValues = GetPropertyNameAndValue<TRet>(expr).ToArray();
+
+            var props = t.GetType().GetProperties();
+            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+            var values = GetConstructorParamterValues(t, propertyNameAndValues, props, ctor);
+
+            return (TRet)ctor.Invoke(values);
+        }
+
         public static TRet With<TRet>(this TRet t, Expression<Func<TRet, bool>> expr)
         {
             var props = typeof(TRet).GetProperties();
             var ctors = typeof(TRet).GetConstructors().ToArray();
             var ctor = ctors.Single();
+            var propertyNameAndValues = GetPropertyNameAndValue<TRet>(expr).ToArray();
+
+            var values = GetConstructorParamterValues(t, propertyNameAndValues, props, ctor);
+
+            return (TRet)ctor.Invoke(values);
+        }
+
+        private static object[] GetConstructorParamterValues(Object t, IEnumerable<NameAndValue> specifiedValues, PropertyInfo[] props, ConstructorInfo ctor)
+        {
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
-            var propertyNameAndValues = GetPropertyNameAndValue<TRet>(expr).ToArray().ToDictionary(nv=>nv.Name,
+            var propertyNameAndValues = specifiedValues.ToDictionary(nv => nv.Name,
                 StringComparer.InvariantCultureIgnoreCase);
-
             for (int i = 0; i < values.Length; i++)
             {
                 var param = ctorParams[i];
@@ -105,14 +143,23 @@ namespace With
                 }
                 else
                 {
-                    throw new MissingValueException();
+                    throw new MissingValueException(param.Name);
                 }
             }
-
-            return (TRet)ctor.Invoke(values);
+            return values;
         }
+
         private class NameAndValue
         {
+            public NameAndValue()
+            {
+
+            }
+            public NameAndValue(string name, object value)
+            {
+                Name = name;
+                Value = value;
+            }
             public string Name { get; set; }
             public object Value { get; set; }
         }
@@ -128,7 +175,7 @@ namespace With
                         case ExpressionType.Equal:
                         case ExpressionType.AndAlso:
                             var retval = new List<NameAndValue>();
-                            BinaryExpression<TRet>((BinaryExpression)lambda.Body,retval);
+                            BinaryExpression<TRet>((BinaryExpression)lambda.Body, retval);
                             return retval;
                             break;
                         default:
@@ -152,7 +199,7 @@ namespace With
                         {
                             case ExpressionType.AndAlso:
                             case ExpressionType.Equal:
-                                BinaryExpression<TRet>((BinaryExpression)expr.Right,retval);
+                                BinaryExpression<TRet>((BinaryExpression)expr.Right, retval);
                                 break;
                             default:
                                 throw new Exception(expr.Right.NodeType.ToString());
@@ -199,12 +246,15 @@ namespace With
                     return ((ConstantExpression)right).Value;
                 case ExpressionType.MemberAccess:
                     return GetValue((MemberExpression)right);
+                case ExpressionType.Convert:
+                    return GetValue((MemberExpression)((UnaryExpression)right).Operand);
 
                 default:
                     throw new Exception(right.NodeType.ToString() + Environment.NewLine + right.GetType().FullName);
                     break;
             }
         }
+
         private static object GetValue(MemberExpression member)
         {
             var objectMember = Expression.Convert(member, typeof(object));
@@ -215,7 +265,5 @@ namespace With
 
             return getter();
         }
-
-
     }
 }
