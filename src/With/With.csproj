@@ -37,6 +37,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MissingValueException.cs" />
+    <Compile Include="Plumbing\ExpressionWithEqualEqual.cs" />
+    <Compile Include="Plumbing\ExpressionWithMemberAccess.cs" />
+    <Compile Include="Plumbing\NameAndValue.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="With.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
