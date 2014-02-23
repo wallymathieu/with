@@ -42,6 +42,7 @@
     <Compile Include="Plumbing\ExpressionWithMemberAccess.cs" />
     <Compile Include="Plumbing\NameAndValue.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
+    <Compile Include="Switch.cs" />
     <Compile Include="With.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
