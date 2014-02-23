@@ -53,5 +53,17 @@ namespace Tests
             Assert.That(result.Value(), Is.EqualTo(1));
         }
 
+
+        [Test]
+        public void Prepared_Multi_case()
+        {
+            var instance = new MyClass();
+
+            var result = Switch.On()
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3);
+            Assert.That(result.ValueOf(instance), Is.EqualTo(1));
+        }
     }
 }

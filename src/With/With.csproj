@@ -43,6 +43,16 @@
     <Compile Include="Plumbing\NameAndValue.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
+    <Compile Include="SwitchPlumbing\IPreparedRegexSwitch.cs" />
+    <Compile Include="SwitchPlumbing\IPreparedSwitch.cs" />
+    <Compile Include="SwitchPlumbing\RegexCaseCondition.cs" />
+    <Compile Include="SwitchPlumbing\RegexSwitchValue.cs" />
+    <Compile Include="SwitchPlumbing\RegexSwitch.cs" />
+    <Compile Include="SwitchPlumbing\SwitchOn.cs" />
+    <Compile Include="SwitchPlumbing\PreparedSwitchCase.cs" />
+    <Compile Include="SwitchPlumbing\SwitchOnInstance.cs" />
+    <Compile Include="SwitchPlumbing\PreparedSwitch.cs" />
+    <Compile Include="SwitchPlumbing\SwitchOnWithCase.cs" />
     <Compile Include="With.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
