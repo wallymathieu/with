@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq.Expressions;
-
+using With.LetPlumbing;
 namespace With
 {
 	/// <summary>
@@ -31,9 +30,9 @@ namespace With
 				Object = obj;
 				Property = property;
 			}
-			public Let<TObject, TReturnValueType> Be (TReturnValueType value)
+			public LetValueBeContext<TObject, TReturnValueType> Be (TReturnValueType value)
 			{
-				return new Let<TObject, TReturnValueType> (Object, Property, value);
+				return new LetValueBeContext<TObject, TReturnValueType> (Object, Property, value);
 			}
 		}
 
@@ -44,9 +43,9 @@ namespace With
 			{
 				Property = property;
 			}
-			public Let<Object, T> Be (T value)
+			public LetValueBeContext<Object, T> Be (T value)
 			{
-				return new Let<Object, T> (Property,value);
+				return new LetValueBeContext<Object, T> (Property,value);
 			}
 		}
 
@@ -61,115 +60,5 @@ namespace With
 		}
 	}
 
-	/// <summary>
-	/// This code is mostly fetched from automapper and moq.
-	/// </summary>
-	public class Let<TObj,T> : IDisposable
-	{
-		private readonly PropertyOrAttribute _property;
-		private readonly object _oldvalue;
-
-		public Let(TObj target, Expression<Func<TObj,T>> property, T value)
-		{
-			_property = new PropertyOrAttribute(target,property);
-			_oldvalue = _property.GetMemberValue();
-			_property.SetMemberValue(value);
-		}
-		public Let(Expression<Func<T>> property, T value)
-		{
-			_property = new PropertyOrAttribute(null, property);
-			_oldvalue = _property.GetMemberValue();
-			_property.SetMemberValue(value);
-		}
-
-		public void Dispose()
-		{
-			_property.SetMemberValue(_oldvalue);
-		}
-
-		/// <summary>
-		/// From automapper, moq
-		/// </summary>
-		private class PropertyOrAttribute
-		{
-			private readonly object target;
-			private readonly MemberInfo member;
-
-			public PropertyOrAttribute(object target, LambdaExpression lambdaExpression)
-			{
-				this.target = target;
-				this.member = FindProperty(lambdaExpression);
-
-			}
-
-			private static MemberInfo FindProperty(LambdaExpression lambdaExpression)
-			{
-				Expression expressionToCheck = lambdaExpression;
-
-				bool done = false;
-
-				while (!done)
-				{
-					switch (expressionToCheck.NodeType)
-					{
-					case ExpressionType.Convert:
-						expressionToCheck = ((UnaryExpression)expressionToCheck).Operand;
-						break;
-					case ExpressionType.Lambda:
-						expressionToCheck = ((LambdaExpression)expressionToCheck).Body;
-						break;
-					case ExpressionType.MemberAccess:
-						var memberExpression = ((MemberExpression)expressionToCheck);
-
-						if (memberExpression.Expression != null)
-						{
-							if (memberExpression.Expression.NodeType != ExpressionType.Parameter &&
-								memberExpression.Expression.NodeType != ExpressionType.Convert)
-							{
-								throw new ArgumentException(String.Format("Expression '{0}' must resolve to top-level member.", 
-									lambdaExpression), "lambdaExpression");
-							}
-						}
-
-						MemberInfo member = memberExpression.Member;
-
-						return member;
-					default:
-						done = true;
-						break;
-					}
-				}
-				throw new ArgumentException("Failed!");
-			}
-
-			public void SetMemberValue(object value)
-			{
-				switch (member.MemberType)
-				{
-				case MemberTypes.Field:
-					((FieldInfo)member).SetValue(target, value);
-					break;
-				case MemberTypes.Property:
-					((PropertyInfo)member).SetValue(target, value, null);
-					break;
-				default:
-					throw new ArgumentException("member");
-				}
-			}
-
-			public object GetMemberValue()
-			{
-				switch (member.MemberType)
-				{
-				case MemberTypes.Field:
-					return ((FieldInfo)member).GetValue(target);
-				case MemberTypes.Property:
-					return ((PropertyInfo)member).GetValue(target, null);
-				default:
-					throw new ArgumentException("member");
-				}
-			}
-		}
-	}
 }
 
