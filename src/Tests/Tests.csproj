@@ -50,6 +50,7 @@
     <Compile Include="TwoClassesWithoutInheritance.cs" />
     <Compile Include="LetFieldVariableBeTest.cs" />
     <Compile Include="LetPropertyVariableBeTest.cs" />
+    <Compile Include="BuildingWith.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

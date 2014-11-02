@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace With.Plumbing
+namespace With.WithPlumbing
 {
     internal class ExpressionWithEqualEqual<TRet>
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace With.Plumbing
+namespace With.WithPlumbing
 {
     internal class ExpressionWithMemberAccess<TRet,TVal>
     {

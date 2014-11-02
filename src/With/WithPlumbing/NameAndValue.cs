@@ -1,4 +1,4 @@
-namespace With.Plumbing
+namespace With.WithPlumbing
 {
     internal class NameAndValue
     {

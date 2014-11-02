@@ -38,9 +38,6 @@
   <ItemGroup>
     <Compile Include="ExpectedButGotException.cs" />
     <Compile Include="MissingValueException.cs" />
-    <Compile Include="Plumbing\ExpressionWithEqualEqual.cs" />
-    <Compile Include="Plumbing\ExpressionWithMemberAccess.cs" />
-    <Compile Include="Plumbing\NameAndValue.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
     <Compile Include="SwitchPlumbing\IPreparedRegexSwitch.cs" />
@@ -64,6 +61,11 @@
     <Compile Include="LetPlumbing\LetMember.cs" />
     <Compile Include="LetPlumbing\LetMemberOf.cs" />
     <Compile Include="LetPlumbing\PropertyOrField.cs" />
+    <Compile Include="WithPlumbing\ExpressionWithEqualEqual.cs" />
+    <Compile Include="WithPlumbing\ExpressionWithMemberAccess.cs" />
+    <Compile Include="WithPlumbing\NameAndValue.cs" />
+    <Compile Include="WithPlumbing\With.cs" />
+    <Compile Include="WithPlumbing\GetConstructorParamterValues.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
