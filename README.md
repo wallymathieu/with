@@ -1,4 +1,4 @@
-#with
+#with [![Build status](https://ci.appveyor.com/api/projects/status/d9g3sthe02ikx319?svg=true)](https://ci.appveyor.com/project/wallymathieu/with)
 
 With is a small library written in c# intended to help when using read only classes in c#.
 
