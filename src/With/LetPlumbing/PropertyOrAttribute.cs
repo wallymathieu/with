@@ -21,29 +21,34 @@ namespace With.LetPlumbing
 
 		public void SetMemberValue(object value)
 		{
-			switch (member.MemberType)
-			{
-			case MemberTypes.Field:
-				((FieldInfo)member).SetValue(target, value);
-				break;
-			case MemberTypes.Property:
-				((PropertyInfo)member).SetValue(target, value, null);
-				break;
-			default:
-				throw new ArgumentException("member");
-			}
+			OnFieldOrProperty(member,
+				fi => fi.SetValue (target, value),
+				pi => pi.SetValue (target, value, null)
+			);
 		}
 
 		public object GetMemberValue()
 		{
+			Object value=null;
+			OnFieldOrProperty (member,
+				fi => value = fi.GetValue (target),
+				pi => value = pi.GetValue (target, null)
+			);
+			return value;
+		}
+
+		void OnFieldOrProperty (MemberInfo member, Action<FieldInfo> onFieldInfo, Action<PropertyInfo> onPropertyInfo)
+		{
 			switch (member.MemberType)
 			{
 			case MemberTypes.Field:
-				return ((FieldInfo)member).GetValue(target);
+				onFieldInfo((FieldInfo)member);
+				break;
 			case MemberTypes.Property:
-				return ((PropertyInfo)member).GetValue(target, null);
+				onPropertyInfo((PropertyInfo)member);
+				break;
 			default:
-				throw new ArgumentException("member");
+				throw new Exception(String.Format("Unexpected member type encountered: {0}",member.MemberType));
 			}
 		}
 	}
