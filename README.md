@@ -42,7 +42,7 @@ using (Let.Object(myClass)
 		  .Member(obj=>obj.Value)
 		  .Be(temporaryValue))
 {
-	// myClass.Value will be here temporaryValue
+	// myClass.Value will return temporaryValue
 }
 // but not here
 ```
@@ -51,7 +51,7 @@ The let api can also be used in the following manner
 using (Let.Member(()=>myClass.Value)
 		  .Be(temporaryValue))
 {
-	// myClass.Value will be here temporaryValue
+	// myClass.Value will return temporaryValue
 }
 // but not here
 ```
