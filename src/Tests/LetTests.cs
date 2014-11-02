@@ -42,7 +42,7 @@ namespace Tests
 			Assert.That(MyClass.staticValue, Is.EqualTo(1000));
 		}
 
-		[Test,Ignore("Doesnt work yet")]
+		[Test]
 		public void Test_instance()
 		{
 			var myClass = new MyClass();

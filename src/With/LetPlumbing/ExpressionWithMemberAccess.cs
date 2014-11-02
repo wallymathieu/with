@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace With.LetPlumbing
 {
@@ -9,12 +11,12 @@ namespace With.LetPlumbing
 
 		public ExpressionWithMemberAccess ()
 		{
-			
+			Members = new List<MemberInfo> ();
 		}
-
-		public MemberInfo Member {
-			get;
-			private set;
+		public IList<MemberInfo> Members;
+		public MemberInfo Member 
+		{
+			get { return Members.Last(); }
 		}
 
 		public void Lambda(LambdaExpression lambdaExpression)
@@ -23,12 +25,12 @@ namespace With.LetPlumbing
 			ExpectMemberAccess (body);
 		}
 
-		private void MemberAccess(MemberExpression memberExpression)
+		protected virtual void MemberAccess(MemberExpression memberExpression)
 		{
-			Member = memberExpression.Member;
+			Members.Add(memberExpression.Member);
 		}
 
-		private void ExpectMemberAccess (Expression body)
+		protected virtual void ExpectMemberAccess (Expression body)
 		{
 			if (body.NodeType == ExpressionType.MemberAccess)
 			{
@@ -36,9 +38,10 @@ namespace With.LetPlumbing
 			} else 
 			{
 				throw new ExpectedButGotException(
-					new[] {ExpressionType.MemberAccess, ExpressionType.Convert}, body.NodeType);
+					new[] {ExpressionType.MemberAccess}, body.NodeType);
 			}
 		}
+
 	}
 }
 

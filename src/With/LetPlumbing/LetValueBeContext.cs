@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace With.LetPlumbing
 {
@@ -21,8 +22,14 @@ namespace With.LetPlumbing
 
 		public LetValueBeContext(Expression<Func<T>> property, T value)
 		{
-			var member = new ExpressionWithMemberAccess ().Tap (e => e.Lambda (property)).Member;
-			_property = new PropertyOrField(null, member);
+			object target = null;
+			var expression = new ExpressionWithMemberAccessMightBeFromConstant().Tap (e => e.Lambda (property));
+			var member = expression.Member;
+			if (expression.Members.Count () > 1) 
+			{
+				target = new PropertyOrField (expression.ConstantValue, expression.Members.First()).GetMemberValue();					
+			}
+			_property = new PropertyOrField(target, member);
 			_oldvalue = _property.GetMemberValue();
 			_property.SetMemberValue(value);
 		}
