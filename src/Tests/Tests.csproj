@@ -48,7 +48,8 @@
     <Compile Include="TwoClassesWhereOneInheritsFromTheOtherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwoClassesWithoutInheritance.cs" />
-    <Compile Include="LetTests.cs" />
+    <Compile Include="LetFieldVariableBeTest.cs" />
+    <Compile Include="LetPropertyVariableBeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
