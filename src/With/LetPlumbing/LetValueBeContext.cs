@@ -27,7 +27,11 @@ namespace With.LetPlumbing
 			var member = expression.Member;
 			if (expression.Members.Count () > 1) 
 			{
-				target = new PropertyOrField (expression.ConstantValue, expression.Members.First()).GetMemberValue();					
+				Object targetFrom = expression.ConstantValue;
+				for (int i = 0; i < expression.Members.Count()-1; i++) {
+					targetFrom = new PropertyOrField (targetFrom, expression.Members[i]).GetMemberValue();					
+				}
+				target = targetFrom;
 			}
 			_property = new PropertyOrField(target, member);
 			_oldvalue = _property.GetMemberValue();

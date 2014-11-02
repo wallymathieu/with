@@ -35,11 +35,6 @@ namespace Tests
 			Assert.That(myClass.Value, Is.EqualTo(100));
 		}
 
-		class ClassWithClass
-		{
-			public MyClass value = new MyClass();
-		}
-
 		[Test]
 		public void Static()
 		{
@@ -61,6 +56,23 @@ namespace Tests
 				Assert.That(myClass.Value, Is.EqualTo(13));
 			}
 			Assert.That(myClass.Value, Is.EqualTo(100));
+		}
+
+		class ClassWithClass
+		{
+			public MyClass Inner = new MyClass();
+		}
+
+		[Test]
+		public void Test_instance_on_demeter()
+		{
+			var myClass = new ClassWithClass();
+			using (Let.Of(()=>myClass.Inner.Value)
+				.Be(13))
+			{
+				Assert.That(myClass.Inner.Value, Is.EqualTo(13));
+			}
+			Assert.That(myClass.Inner.Value, Is.EqualTo(100));
 		}
 	}
 }
