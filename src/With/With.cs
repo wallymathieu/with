@@ -9,9 +9,9 @@ namespace With
 {
     public static class WithExtensions
     {
-		public static With<T> With<T>(this T t)
+		public static ValuesForConstructor<T> With<T>(this T t)
 		{
-			return new WithPlumbing.With<T>(t);
+			return new WithPlumbing.ValuesForConstructor<T>(t);
 		}
 
         public static TRet With<TRet, TVal>(this TRet t, Expression<Func<TRet, TVal>> expr, TVal val)
@@ -52,31 +52,45 @@ namespace With
 
             return (TRet)ctor.Invoke(values);
         }
+		public static ValuesForConstructor<TRet> As<TRet>(this Object t)
+		{
+			return new WithPlumbing.ValuesForConstructor<TRet> (t);
+		}
 
-        public static TRet As<TRet>(this Object t, params Object[] parameters)
+        public static TRet As<TRet>(this Object t, Object first, params Object[] parameters)
         {
             var props = t.GetType().GetProperties();
             var ctors = typeof(TRet).GetConstructors().ToArray();
             var ctor = ctors.Single();
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
-            for (int i = 0; i < values.Length - parameters.Length; i++)
+			var allParameters = new Object[parameters.Length+1];
+			allParameters[0]= first;
+			parameters.CopyTo (allParameters, 1);
+			for (int i = 0; i < values.Length - allParameters.Length; i++)
             {
                 var param = ctorParams[i];
-                var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
-                if (p != null)
-                {
-                    values[i] = p.GetValue(t, null);
-                }
-                else
-                {
-                    throw new MissingValueException(param.Name);
-                }
+				object val;
+				val = GetValue (t, props, param);
+				values [i] = val;
             }
 
-            parameters.CopyTo(values, values.Length - parameters.Length);
+			allParameters.CopyTo(values, values.Length - allParameters.Length);
             return (TRet)ctor.Invoke(values);
         }
+
+		static object GetValue (object t, IEnumerable<PropertyInfo> props, ParameterInfo param)
+		{
+			object val;
+			var p = props.SingleOrDefault (prop => prop.Name.Equals (param.Name, StringComparison.InvariantCultureIgnoreCase));
+			if (p != null) {
+				val = p.GetValue (t, null);
+			}
+			else {
+				throw new MissingValueException (param.Name);
+			}
+			return val;
+		}
 
         public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
         {

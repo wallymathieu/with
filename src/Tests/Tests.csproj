@@ -51,6 +51,7 @@
     <Compile Include="LetFieldVariableBeTest.cs" />
     <Compile Include="LetPropertyVariableBeTest.cs" />
     <Compile Include="BuildingWith.cs" />
+    <Compile Include="BuildingAs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

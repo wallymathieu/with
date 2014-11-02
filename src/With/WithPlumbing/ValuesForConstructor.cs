@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq.Expressions;
 using System.Linq;
 using System.Collections.Generic;
@@ -6,15 +6,15 @@ using System.Reflection;
 
 namespace With.WithPlumbing
 {
-	public class With<T>
+	public class ValuesForConstructor<T>
 	{
-		private readonly T parent;
+		private readonly Object parent;
 		private readonly PropertyInfo[] props;
 		private readonly ConstructorInfo[] ctors;
 		private readonly ConstructorInfo ctor;
 		private readonly IList<NameAndValue> values;
 
-		public With (T parent)
+		public ValuesForConstructor (Object parent)
 		{
 			this.parent = parent;
 			this.props = typeof(T).GetProperties();
@@ -22,8 +22,7 @@ namespace With.WithPlumbing
 			this.ctor = ctors.Single();
 			values = new List<NameAndValue> ();
 		}
-
-		public With<T> Eql<TValue> (Expression<Func<T, TValue>> expr, TValue val)
+		public ValuesForConstructor<T> Eql<TValue> (Expression<Func<T, TValue>> expr, TValue val)
 		{
 			var memberAccess = new ExpressionWithMemberAccess<T, TValue>();
 			memberAccess.Lambda(expr);
@@ -37,11 +36,9 @@ namespace With.WithPlumbing
 			return (T)ctor.Invoke( new GetConstructorParamterValues().GetValues(parent, values, props, ctor));
 		}
 
-		public static implicit operator T(With<T> d)
+		public static implicit operator T(ValuesForConstructor<T> d)
 		{
 			return d.To ();
 		}
 	}
-
 }
-
