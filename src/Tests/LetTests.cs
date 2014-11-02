@@ -26,6 +26,11 @@ namespace Tests
 			Assert.That(myClass.value, Is.EqualTo(100));
 		}
 
+		class ClassWithClass
+		{
+			public MyClass value = new MyClass();
+		}
+
 		[Test]
 		public void Static()
 		{

@@ -57,9 +57,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Let.cs" />
     <Compile Include="LetPlumbing\PropertyOrAttribute.cs" />
-    <Compile Include="LetPlumbing\PropertyOrAttributeAccessExpression.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="LetPlumbing\LetValueBeContext.cs" />
+    <Compile Include="LetPlumbing\ExpressionWithMemberAccess.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

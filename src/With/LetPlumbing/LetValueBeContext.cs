@@ -13,7 +13,7 @@ namespace With.LetPlumbing
 
 		public LetValueBeContext(TObj target, Expression<Func<TObj,T>> property, T value)
 		{
-			var member = new PropertyOrFieldAccessExpression ().Tap (e => e.Lambda (property)).Member;
+			var member = new ExpressionWithMemberAccess ().Tap (e => e.Lambda (property)).Member;
 			_property = new PropertyOrField(target,member);
 			_oldvalue = _property.GetMemberValue();
 			_property.SetMemberValue(value);
@@ -21,7 +21,7 @@ namespace With.LetPlumbing
 
 		public LetValueBeContext(Expression<Func<T>> property, T value)
 		{
-			var member = new PropertyOrFieldAccessExpression ().Tap (e => e.Lambda (property)).Member;
+			var member = new ExpressionWithMemberAccess ().Tap (e => e.Lambda (property)).Member;
 			_property = new PropertyOrField(null, member);
 			_oldvalue = _property.GetMemberValue();
 			_property.SetMemberValue(value);

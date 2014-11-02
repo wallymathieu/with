@@ -4,10 +4,10 @@ using System.Linq.Expressions;
 
 namespace With.LetPlumbing
 {
-	internal class PropertyOrFieldAccessExpression
+	internal class ExpressionWithMemberAccess
 	{
 
-		public PropertyOrFieldAccessExpression ()
+		public ExpressionWithMemberAccess ()
 		{
 			
 		}
