@@ -58,42 +58,5 @@ namespace Tests
             Assert.That(ret.MyProperty3, Is.EqualTo(time));
         }
 
-        [Test]
-        public void A_time_equalequal()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                var ret = new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == time);
-            }
-        }
-        [Test]
-        public void A_time_propertyname_only()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                var ret = new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3,time);
-            }
-        }
-        [Test]
-        public void A_time_dictionary()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                var ret = new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { {"MyProperty3",time} });
-            }
-        }
-        
-        [Test]
-        public void A_time_ordinal()
-        {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                var ret = new MyClass(1, "2").As<MyClass2>(time);
-            }
-        }
     }
 }
