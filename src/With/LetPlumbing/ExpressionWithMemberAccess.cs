@@ -21,8 +21,7 @@ namespace With.LetPlumbing
 
 		public void Lambda(LambdaExpression lambdaExpression)
 		{
-			var body = lambdaExpression.Body;
-			ExpectMemberAccess (body);
+			ExpectMemberAccess (lambdaExpression.Body);
 		}
 
 		protected virtual void MemberAccess(MemberExpression memberExpression)
