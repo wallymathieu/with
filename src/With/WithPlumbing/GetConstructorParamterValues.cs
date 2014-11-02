@@ -6,7 +6,6 @@ using System.Reflection;
 
 namespace With.WithPlumbing
 {
-
 	internal class GetConstructorParamterValues
 	{
 		public object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, PropertyInfo[] props, ConstructorInfo ctor)

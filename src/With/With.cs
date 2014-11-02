@@ -59,38 +59,16 @@ namespace With
 
         public static TRet As<TRet>(this Object t, Object first, params Object[] parameters)
         {
-            var props = t.GetType().GetProperties();
-            var ctors = typeof(TRet).GetConstructors().ToArray();
-            var ctor = ctors.Single();
-            var ctorParams = ctor.GetParameters();
-            var values = new object[ctorParams.Length];
 			var allParameters = new Object[parameters.Length+1];
 			allParameters[0]= first;
 			parameters.CopyTo (allParameters, 1);
-			for (int i = 0; i < values.Length - allParameters.Length; i++)
-            {
-                var param = ctorParams[i];
-				object val;
-				val = GetValue (t, props, param);
-				values [i] = val;
-            }
 
-			allParameters.CopyTo(values, values.Length - allParameters.Length);
-            return (TRet)ctor.Invoke(values);
+			var values = new GetParameterValuesUsingOrdinal ().GetValues (t, typeof(TRet), allParameters);
+            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+           	return (TRet)ctor.Invoke(values);
         }
 
-		static object GetValue (object t, IEnumerable<PropertyInfo> props, ParameterInfo param)
-		{
-			object val;
-			var p = props.SingleOrDefault (prop => prop.Name.Equals (param.Name, StringComparison.InvariantCultureIgnoreCase));
-			if (p != null) {
-				val = p.GetValue (t, null);
-			}
-			else {
-				throw new MissingValueException (param.Name);
-			}
-			return val;
-		}
 
         public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
         {
