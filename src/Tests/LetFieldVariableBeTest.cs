@@ -17,8 +17,8 @@ namespace Tests
 		public void Test()
 		{
 			var myClass = new MyClass();
-			using (Let.Of(myClass)
-					  .Property(obj=>obj.Value)
+			using (Let.Object(myClass)
+					  .Member(obj=>obj.Value)
 					  .Be(13))
 			{
 				Assert.That(myClass.Value, Is.EqualTo(13));
@@ -34,7 +34,7 @@ namespace Tests
 		[Test]
 		public void Static()
 		{
-			using (Let.Of(()=> MyClass.StaticField)
+			using (Let.Member(()=> MyClass.StaticField)
 					  .Be(13))
 			{
 				Assert.That(MyClass.StaticField, Is.EqualTo(13));
@@ -46,7 +46,7 @@ namespace Tests
 		public void Test_instance()
 		{
 			var myClass = new MyClass();
-			using (Let.Of(()=>myClass.Value)
+			using (Let.Member(()=>myClass.Value)
 					  .Be(13))
 			{
 				Assert.That(myClass.Value, Is.EqualTo(13));

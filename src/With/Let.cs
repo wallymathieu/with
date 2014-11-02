@@ -15,7 +15,7 @@ namespace With
 			{
 				Object = obj;
 			}
-			public PropertyExpression<TObject,TReturnValue> Property<TReturnValue>( Expression<Func<TObject,TReturnValue>> property)
+			public PropertyExpression<TObject,TReturnValue> Member<TReturnValue>( Expression<Func<TObject,TReturnValue>> property)
 			{
 				return new PropertyExpression<TObject,TReturnValue> (Object, property);
 			}
@@ -49,12 +49,12 @@ namespace With
 			}
 		}
 
-		public static OfExpression<TObject> Of<TObject>(TObject obj)
+		public static OfExpression<TObject> Object<TObject>(TObject obj)
 		{
 			return new OfExpression<TObject> (obj);
 		}
 
-		public static OfPropertyExpression<T> Of<T>(Expression<Func<T>> property)
+		public static OfPropertyExpression<T> Member<T>(Expression<Func<T>> property)
 		{
 			return new OfPropertyExpression<T> (property);
 		}

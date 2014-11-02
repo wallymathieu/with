@@ -26,8 +26,8 @@ namespace Tests
 		public void Test()
 		{
 			var myClass = new MyClass();
-			using (Let.Of(myClass)
-				.Property(obj=>obj.Value)
+			using (Let.Object(myClass)
+				.Member(obj=>obj.Value)
 				.Be(13))
 			{
 				Assert.That(myClass.Value, Is.EqualTo(13));
@@ -38,7 +38,7 @@ namespace Tests
 		[Test]
 		public void Static()
 		{
-			using (Let.Of(()=> MyClass.StaticProperty)
+			using (Let.Member(()=> MyClass.StaticProperty)
 				.Be(13))
 			{
 				Assert.That(MyClass.StaticProperty, Is.EqualTo(13));
@@ -50,7 +50,7 @@ namespace Tests
 		public void Test_instance()
 		{
 			var myClass = new MyClass();
-			using (Let.Of(()=>myClass.Value)
+			using (Let.Member(()=>myClass.Value)
 				.Be(13))
 			{
 				Assert.That(myClass.Value, Is.EqualTo(13));
@@ -67,7 +67,7 @@ namespace Tests
 		public void Test_instance_on_demeter()
 		{
 			var myClass = new ClassWithClass();
-			using (Let.Of(()=>myClass.Inner.Value)
+			using (Let.Member(()=>myClass.Inner.Value)
 				.Be(13))
 			{
 				Assert.That(myClass.Inner.Value, Is.EqualTo(13));
