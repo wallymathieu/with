@@ -6,25 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 namespace Timing
 {
-	class MainClass
+	class Timings
 	{
-
-		public static void Main (string[] args)
-		{
-			Console.WriteLine ("Starting:");
-			var m = new MainClass ();
-			var methods = m.GetType ().GetMethods (BindingFlags.Public | BindingFlags.Instance)
-				.Where(method=>!method.GetParameters().Any())
-				.Where(method=>method.Name.StartsWith("Timing",StringComparison.InvariantCultureIgnoreCase));
-			foreach (var method in methods) {
-				Stopwatch stopwatch = new Stopwatch();
-
-				stopwatch.Start();
-				method.Invoke (m, null);
-				stopwatch.Stop ();
-				Console.WriteLine ("Running {0} for {1}",method.Name,stopwatch.Elapsed.ToString());
-			}
-		}
 
 		public class MyClass
 		{
@@ -90,5 +73,37 @@ namespace Timing
 					.To(); // use to or cast to get the new instance
 			}
 		}
+
+		public IEnumerable<KeyValuePair<string,TimeSpan>> Get()
+		{	
+			var methods = GetType ().GetMethods (BindingFlags.Public | BindingFlags.Instance)
+				.Where(method=>!method.GetParameters().Any())
+				.Where(method=>method.Name.StartsWith("Timing",StringComparison.InvariantCultureIgnoreCase));
+			foreach (var method in methods) {
+				Stopwatch stopwatch = new Stopwatch();
+
+				stopwatch.Start();
+				method.Invoke (this, null);
+				stopwatch.Stop ();
+				yield return new KeyValuePair<string,TimeSpan> (method.Name, stopwatch.Elapsed);
+			}
+
+		}
+	}
+
+	class MainClass
+	{
+
+		public static void Main (string[] args)
+		{
+			Console.WriteLine ("Starting:");
+			var m = new Timings ();
+			Console.WriteLine ("Elapsed\t\t\t\tName");
+			var timings = m.Get ().OrderBy(t=>t.Value);
+			foreach (var method in timings) {
+				Console.WriteLine ("{0}\t\t{1}",method.Value.ToString(), method.Key);
+			}
+		}
+
 	}
 }
