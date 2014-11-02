@@ -19,40 +19,25 @@ namespace With.LetPlumbing
 
 		public void Lambda(LambdaExpression lambdaExpression)
 		{
-			Expression expressionToCheck = lambdaExpression;
+			var body = lambdaExpression.Body;
+			ExpectMemberAccess (body);
+		}
 
-			bool done = false;
+		private void MemberAccess(MemberExpression memberExpression)
+		{
+			Member = memberExpression.Member;
+		}
 
-			while (!done)
+		private void ExpectMemberAccess (Expression body)
+		{
+			if (body.NodeType == ExpressionType.MemberAccess)
 			{
-				switch (expressionToCheck.NodeType)
-				{
-				case ExpressionType.Convert:
-					expressionToCheck = ((UnaryExpression)expressionToCheck).Operand;
-					break;
-				case ExpressionType.Lambda:
-					expressionToCheck = ((LambdaExpression)expressionToCheck).Body;
-					break;
-				case ExpressionType.MemberAccess:
-					var memberExpression = ((MemberExpression)expressionToCheck);
-
-					if (memberExpression.Expression != null) {
-						if (memberExpression.Expression.NodeType != ExpressionType.Parameter &&
-						    memberExpression.Expression.NodeType != ExpressionType.Convert) {
-							throw new ArgumentException (String.Format ("Expression '{0}' must resolve to top-level member.", 
-								lambdaExpression), "lambdaExpression");
-						}
-					}
-
-					Member = memberExpression.Member;
-					return;
-					//return member;
-				default:
-					done = true;
-					break;
-				}
+				MemberAccess((MemberExpression)body);
+			} else 
+			{
+				throw new ExpectedButGotException(
+					new[] {ExpressionType.MemberAccess, ExpressionType.Convert}, body.NodeType);
 			}
-			throw new ArgumentException("Failed!");
 		}
 	}
 }
