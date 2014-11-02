@@ -86,10 +86,11 @@ namespace With
 		{
 			_property.SetMemberValue(_oldvalue);
 		}
+
 		/// <summary>
 		/// From automapper, moq
 		/// </summary>
-		public class PropertyOrAttribute
+		private class PropertyOrAttribute
 		{
 			private readonly object target;
 			private readonly MemberInfo member;
