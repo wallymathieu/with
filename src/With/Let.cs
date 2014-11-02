@@ -127,7 +127,7 @@ namespace With
 								memberExpression.Expression.NodeType != ExpressionType.Convert)
 							{
 								throw new ArgumentException(String.Format("Expression '{0}' must resolve to top-level member.", 
-									lambdaExpression.NodeType), "lambdaExpression");
+									lambdaExpression), "lambdaExpression");
 							}
 						}
 
