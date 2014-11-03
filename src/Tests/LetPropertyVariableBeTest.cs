@@ -13,14 +13,27 @@ namespace Tests
 			public MyClass ()
 			{
 				Value = 100;
+                ValuePrivateSet = 100;
 			}
 			public int Value{ get; set;}
+            public int ValuePrivateSet { get; private set; }
 			private static int _staticValue=1000;
 			public static int StaticProperty {
 				get{ return _staticValue;}
 				set{ _staticValue = value;}
 			}
 		}
+
+        [Test]
+        public void Test_cleaner_syntax()
+        {
+            var myClass = new MyClass();
+            using (myClass.SetTemporary(obj => obj.Value, 13))
+            {
+                Assert.That(myClass.Value, Is.EqualTo(13));
+            }
+            Assert.That(myClass.Value, Is.EqualTo(100));
+        }
 
 		[Test]
 		public void Test()
@@ -74,6 +87,18 @@ namespace Tests
 			}
 			Assert.That(myClass.Inner.Value, Is.EqualTo(100));
 		}
+
+        [Test]
+        public void Test_instance_with_private_set()
+        {
+            var myClass = new MyClass();
+            using (Let.Member(() => myClass.ValuePrivateSet)
+                .Be(13))
+            {
+                Assert.That(myClass.ValuePrivateSet, Is.EqualTo(13));
+            }
+            Assert.That(myClass.ValuePrivateSet, Is.EqualTo(100));
+        }
 	}
 }
 

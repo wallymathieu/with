@@ -10,9 +10,21 @@ namespace Tests
 		class MyClass
 		{
 			public int Value = 100;
+            public readonly int ValueReadonly = 100;
 			public static int StaticField = 1000;
 		}
-	
+
+        [Test]
+        public void Test_cleaner_syntax()
+        {
+            var myClass = new MyClass();
+            using (myClass.SetTemporary(obj => obj.Value, 13))
+            {
+                Assert.That(myClass.Value, Is.EqualTo(13));
+            }
+            Assert.That(myClass.Value, Is.EqualTo(100));
+        }
+
 		[Test]
 		public void Test()
 		{
@@ -65,6 +77,19 @@ namespace Tests
 			}
 			Assert.That(myClass.Inner.Value, Is.EqualTo(100));
 		}
+
+        [Test]
+        public void Test_instance_set_readonly()
+        {
+            var myClass = new MyClass();
+            using (Let.Member(() => myClass.ValueReadonly)
+                      .Be(13))
+            {
+                Assert.That(myClass.ValueReadonly, Is.EqualTo(13));
+            }
+            Assert.That(myClass.ValueReadonly, Is.EqualTo(100));
+        }
+
 	}
 }
 
