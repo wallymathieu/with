@@ -3,11 +3,11 @@ require 'albacore'
 dir = File.dirname(__FILE__)
 
 desc "build using msbuild"
-msbuild :build do |msb|
-  msb.properties :configuration => :Debug
-  msb.targets :Clean, :Rebuild
-  msb.verbosity = 'quiet'
-  msb.solution =File.join(dir, "src", "With.sln")
+build :build do |msb|
+  msb.prop :configuration, :Debug
+  msb.target = [:Rebuild]
+  msb.logging = 'minimal'
+  msb.sln =File.join(dir, "src", "With.sln")
 end
 
 task :core_copy_to_nuspec => [:build] do

@@ -38,6 +38,14 @@ var result = Switch.Regex(instance)
 ```
 ###Temporarily set value
 ```
+using (myClass.SetTemporary(obj => obj.Value, temporaryValue))
+{
+    // myClass.Value will return temporaryValue
+}
+// but not here
+```
+
+```
 using (Let.Object(myClass)
 		  .Member(obj=>obj.Value)
 		  .Be(temporaryValue))
