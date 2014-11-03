@@ -1,9 +1,10 @@
 require 'albacore'
+require_relative './src/.nuget/nuget'
 
 dir = File.dirname(__FILE__)
 
 desc "build using msbuild"
-build :build do |msb|
+build :build => [:install_packages] do |msb|
   msb.prop :configuration, :Debug
   msb.target = [:Rebuild]
   msb.logging = 'minimal'
@@ -24,7 +25,23 @@ task :nugetpack => [:core_nugetpack]
 
 task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
   cd File.join(dir,"nuget") do
-    sh "..\\src\\.nuget\\NuGet.exe pack With.nuspec"
+    NuGet::exec "pack With.nuspec"
   end
+end
+
+desc "Install missing NuGet packages."
+task :install_packages do
+  package_paths = FileList["src/**/packages.config"]+["src/.nuget/packages.config"]
+
+  package_paths.each.each do |filepath|
+      NuGet::exec("i #{filepath} -o ./src/packages -source http://www.nuget.org/api/v2/")
+  end
+end
+
+desc "test using nunit console"
+test_runner :test => [:build] do |nunit|
+  nunit.exe = NuGet::nunit_path
+  files = [File.join(File.dirname(__FILE__),"src","Tests","bin","Debug","Tests.dll")]
+  nunit.files = files 
 end
 
