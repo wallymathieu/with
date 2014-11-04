@@ -1,16 +1,23 @@
-﻿using System;
-
-namespace With.SwitchPlumbing
+﻿namespace With.SwitchPlumbing
 {
-    public abstract class TypeSwitchOn
+    public class TypeSwitchOn : TypeSwitchOnBase
     {
-        public virtual SwitchOnWithCase<T, TRet> Case<T, TRet>(Func<T, TRet> func)
+        private readonly object _instance;
+
+        public TypeSwitchOn(object instance)
         {
-            return new SwitchOnWithCase<T, TRet>(this, func);
+            _instance = instance;
         }
 
-        protected internal abstract bool TryGetValue(out object value);
+        protected internal override bool TryGetValue(out object value)
+        {
+            value = null;
+            return false;
+        }
 
-        protected internal abstract object GetInstance();
+        protected internal override object GetInstance()
+        {
+            return _instance;
+        }
     }
 }

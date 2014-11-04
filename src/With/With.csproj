@@ -65,16 +65,16 @@
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="RangePlumbing\IStep.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitchCase.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\IPreparedSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOnInstance.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\SwitchOnWithCase.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition_T.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\RegexCondition_T.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\RegexCondition.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOnBase.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn_T.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

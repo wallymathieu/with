@@ -4,9 +4,9 @@ namespace With
 {
     public class Switch
     {
-        public static TypeSwitchOnInstance On(object instance)
+        public static TypeSwitchOn On(object instance)
         {
-            return new TypeSwitchOnInstance(instance);
+            return new TypeSwitchOn(instance);
         }
 
         public static RegexCondition Regex(string instance)
