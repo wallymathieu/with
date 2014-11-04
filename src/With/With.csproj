@@ -67,6 +67,8 @@
     <Compile Include="WithPlumbing\GetConstructorParamterValues.cs" />
     <Compile Include="WithPlumbing\ValuesForConstructor.cs" />
     <Compile Include="WithPlumbing\GetParameterValuesUsingOrdinal.cs" />
+    <Compile Include="Range.cs" />
+    <Compile Include="InternalExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,6 +52,7 @@
     <Compile Include="LetPropertyVariableBeTest.cs" />
     <Compile Include="BuildingWith.cs" />
     <Compile Include="BuildingAs.cs" />
+    <Compile Include="RangeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
