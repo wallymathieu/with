@@ -68,8 +68,6 @@
     <Compile Include="SwitchPlumbing\OnTypes\IPreparedSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition_T.cs" />
-    <Compile Include="SwitchPlumbing\OnRegex\RegexCondition_T.cs" />
-    <Compile Include="SwitchPlumbing\OnRegex\RegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOnBase.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />

@@ -9,9 +9,9 @@ namespace With
             return new TypeSwitchOn(instance);
         }
 
-        public static RegexCondition Regex(string instance)
+		public static PreparedRegexCondition Regex(string instance)
         {
-            return new RegexCondition(instance);
+			return new PreparedRegexCondition().Tap(c=>c.SetString(instance));
         }
 
 		public static PreparedRegexCondition Regex()
