@@ -69,6 +69,10 @@
     <Compile Include="WithPlumbing\GetParameterValuesUsingOrdinal.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="InternalExtensions.cs" />
+    <Compile Include="RangePlumbing\SingleRange.cs" />
+    <Compile Include="RangePlumbing\DecimalRange.cs" />
+    <Compile Include="RangePlumbing\Int64Range.cs" />
+    <Compile Include="RangePlumbing\Int32Range.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -80,5 +84,6 @@
   -->
   <ItemGroup>
     <Folder Include="LetPlumbing\" />
+    <Folder Include="RangePlumbing\" />
   </ItemGroup>
 </Project>
