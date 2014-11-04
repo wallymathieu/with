@@ -2,7 +2,7 @@
 
 namespace With.SwitchPlumbing
 {
-    public abstract class SwitchOn
+    public abstract class TypeSwitchOn
     {
         public virtual SwitchOnWithCase<T, TRet> Case<T, TRet>(Func<T, TRet> func)
         {

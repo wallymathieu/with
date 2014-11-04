@@ -1,10 +1,10 @@
 ﻿namespace With.SwitchPlumbing
 {
-    public class SwitchOnInstance : SwitchOn
+    public class TypeSwitchOnInstance : TypeSwitchOn
     {
         private readonly object _instance;
 
-        public SwitchOnInstance(object instance)
+        public TypeSwitchOnInstance(object instance)
         {
             _instance = instance;
         }

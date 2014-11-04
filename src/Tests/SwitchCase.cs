@@ -24,9 +24,9 @@ namespace Tests
         {
             var instance = new MyClass();
 
-            var result = Switch.On(instance)
+            int result = Switch.On(instance)
                 .Case((MyClass c) => 1);
-            Assert.That(result.Value(), Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -34,11 +34,11 @@ namespace Tests
         {
             var instance = new MyClass();
 
-            var result = Switch.On(instance)
+            int result = Switch.On(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
-            Assert.That(result.Value(), Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -46,11 +46,11 @@ namespace Tests
         {
             var instance = new MyClass();
 
-            var result = Switch.On(instance)
+            int result = Switch.On(instance)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
                 .Case((MyClass c) => 1);
-            Assert.That(result.Value(), Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
 

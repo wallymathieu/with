@@ -11,11 +11,11 @@ namespace Tests
         {
             var instance = "m";
 
-            var result = Switch.Regex(instance)
+            int result = Switch.Regex(instance)
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Case("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.That(result.Value(), Is.EqualTo(1));
+            Assert.That(result, Is.EqualTo(1));
         }
 
         [Test]
@@ -23,11 +23,11 @@ namespace Tests
         {
             var instance = "Rio1";
 
-            var result = Switch.Regex(instance)
+            int result = Switch.Regex(instance)
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Case("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.That(result.Value(), Is.EqualTo(3));
+            Assert.That(result, Is.EqualTo(3));
         }
 
         [Test]

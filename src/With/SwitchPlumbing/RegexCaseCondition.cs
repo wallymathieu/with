@@ -43,5 +43,9 @@ namespace With.SwitchPlumbing
             object value;
             return TryGetValue(out value) ? value : null;
         }
+		public static implicit operator TRet(RegexCaseCondition<TRet> d)
+		{
+			return (TRet) d.Value ();
+		}
     }
 }

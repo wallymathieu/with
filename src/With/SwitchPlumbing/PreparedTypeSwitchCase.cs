@@ -2,12 +2,12 @@
 
 namespace With.SwitchPlumbing
 {
-    public class PreparedSwitchCase<T, TRet> : SwitchOnWithCase<T, TRet>, IPreparedSwitch
+    public class PreparedTypeSwitchCase<T, TRet> : SwitchOnWithCase<T, TRet>, IPreparedSwitch
     {
         private readonly IPreparedSwitch _preparedSwitch;
 
-        public PreparedSwitchCase(IPreparedSwitch preparedSwitch, Func<T, TRet> @case)
-            : base((SwitchOn)preparedSwitch, @case)
+        public PreparedTypeSwitchCase(IPreparedSwitch preparedSwitch, Func<T, TRet> @case)
+            : base((TypeSwitchOn)preparedSwitch, @case)
         {
             _preparedSwitch = preparedSwitch;
         }
@@ -18,9 +18,9 @@ namespace With.SwitchPlumbing
             return Value();
         }
 
-        public new PreparedSwitchCase<T1, TRet1> Case<T1, TRet1>(Func<T1, TRet1> func)
+        public new PreparedTypeSwitchCase<T1, TRet1> Case<T1, TRet1>(Func<T1, TRet1> func)
         {
-            return new PreparedSwitchCase<T1, TRet1>(this, func);
+            return new PreparedTypeSwitchCase<T1, TRet1>(this, func);
         }
 
         public void SetInstance(object instance)

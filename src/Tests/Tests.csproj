@@ -53,6 +53,8 @@
     <Compile Include="BuildingWith.cs" />
     <Compile Include="BuildingAs.cs" />
     <Compile Include="RangeTests.cs" />
+    <Compile Include="MatchActionTests.cs" />
+    <Compile Include="MatchFuncTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

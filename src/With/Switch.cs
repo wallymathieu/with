@@ -4,9 +4,9 @@ namespace With
 {
     public class Switch
     {
-        public static SwitchOnInstance On(object instance)
+        public static TypeSwitchOnInstance On(object instance)
         {
-            return new SwitchOnInstance(instance);
+            return new TypeSwitchOnInstance(instance);
         }
 
         public static RegexSwitchValue Regex(string instance)
@@ -20,9 +20,19 @@ namespace With
         }
 
 
-        public static PreparedSwitch On()
+        public static PreparedTypeSwitch On()
         {
-            return new PreparedSwitch();
+            return new PreparedTypeSwitch();
         }
+
+		public static MatchSwitch<Ingoing> Match <Ingoing>(Ingoing value)
+		{
+			return new MatchSwitch<Ingoing>();
+		}
+
+		public static MatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing v)
+		{
+			throw new System.NotImplementedException ();
+		}
     }
 }

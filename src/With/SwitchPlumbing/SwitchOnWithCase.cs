@@ -2,12 +2,12 @@ using System;
 
 namespace With.SwitchPlumbing
 {
-    public class SwitchOnWithCase<T, TRet> : SwitchOn
+    public class SwitchOnWithCase<T, TRet> : TypeSwitchOn
     {
-        private readonly SwitchOn _switchOn;
+        private readonly TypeSwitchOn _switchOn;
         private readonly Func<T, TRet> _func;
 
-        public SwitchOnWithCase(SwitchOn switchOn, Func<T, TRet> func)
+        public SwitchOnWithCase(TypeSwitchOn switchOn, Func<T, TRet> func)
         {
             _switchOn = switchOn;
             _func = func;
@@ -18,6 +18,11 @@ namespace With.SwitchPlumbing
             object value;
             return TryGetValue(out value) ? value : null;
         }
+
+		public static implicit operator TRet(SwitchOnWithCase<T, TRet> d)
+		{
+			return (TRet)d.Value ();
+		}
 
         protected internal override bool TryGetValue(out object value)
         {
