@@ -1,89 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Collections;
+using System.Linq;
 namespace With
 {
 	public class Range<T>:IEnumerable<T>
 		where T: IComparable, IComparable<T>
 	{
-		private readonly T @from;
-		private readonly T @to;
-		private readonly Func<T,T> step;
-		public Range (T @from,T @to, T step)
-			:this(@from, @to, GetStepper(step))
+		class Int32Range:IEnumerable
 		{
-		}
-		public Range (T @from,T @to, Func<T,T> step=null)
-		{
-			this.@from = @from;
-			this.@to = @to;
-			if (step == null) {
-				var one = (T)Convert.ChangeType(1,typeof (T));
-				if (typeof(T) == typeof(Int32)) {
-					this.step = Int32DefaultStep(one);
-				} else if (typeof(T) == typeof(Int64)) {
-					this.step = Int64DefaultStep(one);
-				} else if (typeof(T) == typeof(Decimal)) {
-					this.step = DecimalDefaultStep(one);
-				}else if (typeof(T) == typeof(float)) {
-					this.step = FloatDefaultStep(one);
-				} else {
-					throw new Exception (String.Format("There is no default step for type {0}",typeof(T).Name));
+			private readonly Int32 @from;
+			private readonly Int32 @to;
+			private readonly Int32 @step;
+			public Int32Range (object @from, object @to, object step)
+			{
+				this.@from = (Int32)@from;
+				this.@to = (Int32)@to;
+				this.@step = (Int32)@step;
+			}
+
+			public IEnumerator GetEnumerator ()
+			{
+				for (var i = @from; i<@to; i+=step) {
+					yield return i;
 				}
-			} else {
-				this.step = step;
 			}
 		}
 
-		private static Func<T,T> GetStepper (T step)
+		class Int64Range:IEnumerable
+		{
+			private readonly Int64 @from;
+			private readonly Int64 @to;
+			private readonly Int64 @step;
+			public Int64Range (object @from, object @to, object step)
+			{
+				this.@from =(Int64) @from;
+				this.@to = (Int64)@to;
+				this.@step = (Int64)@step;
+			}
+
+			public IEnumerator GetEnumerator ()
+			{
+				for (var i = @from; i<@to; i+=step) {
+					yield return i;
+				}
+			}
+
+		}
+
+		class DecimalRange:IEnumerable
+		{
+			private readonly Decimal @from;
+			private readonly Decimal @to;
+			private readonly Decimal @step;
+			public DecimalRange (object @from, object @to, object step)
+			{
+				this.@from =(Decimal) @from;
+				this.@to = (Decimal)@to;
+				this.@step = (Decimal)@step;
+			}
+
+			public IEnumerator GetEnumerator ()
+			{
+				for (var i = @from; i<@to; i+=step) {
+					yield return i;
+				}
+			}
+		}
+
+		class SingleRange:IEnumerable
+		{
+			private readonly Single @from;
+			private readonly Single @to;
+			private readonly Single @step;
+			public SingleRange (object @from, object @to, object step)
+			{
+				this.@from = (Single)@from;
+				this.@to =  (Single)@to;
+				this.@step =  (Single)@step;
+			}
+
+			public IEnumerator GetEnumerator ()
+			{
+				for (var i = @from; i<@to; i+=step) {
+					yield return i;
+				}
+			}
+		}
+
+		private readonly IEnumerable inner;
+		public Range (T @from,T @to)
+			:this(@from,@to, (T)Convert.ChangeType(1,typeof (T)))
+		{
+		}
+
+		public Range (T @from,T @to, T step)
 		{
 			if (typeof(T) == typeof(Int32)) {
-				return Int32DefaultStep(step);
+				inner = new Int32Range (@from, @to, @step);
 			} else if (typeof(T) == typeof(Int64)) {
-				return Int64DefaultStep(step);
+				inner = new Int64Range (@from, @to, @step);
 			} else if (typeof(T) == typeof(Decimal)) {
-				return DecimalDefaultStep(step);
-			}else if (typeof(T) == typeof(float)) {
-				return FloatDefaultStep(step);
+				inner = new DecimalRange (@from, @to, @step);
+			} else if (typeof(T) == typeof(Single)) {
+				inner = new SingleRange (@from, @to, @step);
 			} else {
-				throw new Exception (String.Format("There is no default + for type {0}",typeof(T).Name));
+				throw new Exception (String.Format("There is implementation for type {0}",typeof(T).Name));
 			}
 		}
 
-		private static Func<T,T> Int32DefaultStep (T step)
-		{
-			// il emit?
-			var s = (Int32)(object)step;
-			return (i)=> (T)(object)((Int32)(object)i).Plus(s);
-		}
-		private static Func<T,T> Int64DefaultStep (T step)
-		{
-			// il emit?
-			var s = (Int64)(object)step;
-			return (i)=>(T)(object)((Int64)(object)i).Plus(s);
-		}
-		private static Func<T,T> DecimalDefaultStep (T step)
-		{
-			// il emit?
-			var s = (Decimal)(object)step;
-			return (i)=>(T)(object)((Decimal)(object)i).Plus(s);
-		}
-		private static Func<T,T> FloatDefaultStep (T step)
-		{
-			// il emit?
-			var s = (float)(object)step;
-			return (i)=>(T)(object)((float)(object)i).Plus(s);
-		}
 		public IEnumerator<T> GetEnumerator ()
 		{
-			for (T i = @from; i.CompareTo(@to)<0; i=step(i)) {
-				yield return i;				
+			foreach (var i in inner) {
+				yield return (T)i;
 			}
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
 		{
-			return this.GetEnumerator ();
+			return this.inner.GetEnumerator ();
 		}
 
 	}
