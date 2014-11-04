@@ -3,7 +3,7 @@ using With;
 using NUnit.Framework;
 namespace Tests
 {	
-	[TestFixture,Ignore("Not implemented")]
+	[TestFixture]
 	public class MatchActionTests
 	{
 		private string DoMatch(int v){
@@ -30,7 +30,7 @@ namespace Tests
 		}
 		[Test]
 		public void Test_other(){
-			Assert.That (DoMatch (200), Is.EqualTo ("A teen"));
+			Assert.That (DoMatch (200), Is.EqualTo ("Ain't special"));
 		}
 	}
 }

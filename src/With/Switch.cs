@@ -1,6 +1,7 @@
 ﻿using With.SwitchPlumbing;
 using System;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace With
 {
@@ -37,14 +38,45 @@ namespace With
             return new PreparedTypeSwitch();
         }
 
-		public static MatchSwitch<Ingoing> Match <Ingoing>(Ingoing value)
+		public static IMatchSwitch<Ingoing> Case <Ingoing>(this IMatchSwitch<Ingoing> that, Ingoing expected, Action result)
 		{
-			return new MatchSwitch<Ingoing>().Tap(c=>c.SetValue(value));
+			return new MatchSwitchSingle<Ingoing> (that, expected,result);
 		}
 
-		public static MatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing value)
+		public static IMatchSwitch<Ingoing> Case<Ingoing> (this IMatchSwitch<Ingoing> that, IEnumerable<Ingoing> expected, Action<Ingoing> result)
 		{
-			return new MatchSwitch<Ingoing,Outgoing>().Tap(c=>c.SetValue(value));
+			return new MatchSwitchArray<Ingoing> (that, expected, result);
+		}
+
+		public static void Else <Ingoing> (this IMatchSwitch<Ingoing> that,Action<Ingoing> result)
+		{
+			if (!that.TryMatch ())
+				result (that.Instance);
+		}
+
+		public static IMatchSwitch<Ingoing> Match <Ingoing>(Ingoing value)
+		{
+			return new MatchSwitch<Ingoing>().Tap(c=>c.Instance =value);
+		}
+
+		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,Ingoing expected, Func<Outgoing> result)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static MatchSwitch<Ingoing,Outgoing> Else<Ingoing,Outgoing> (this IMatchSwitch<Ingoing,Outgoing> that,Func<Ingoing,Outgoing> result)
+		{
+			throw new NotImplementedException ();
+		}
+
+		public static IMatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing value)
+		{
+			return new MatchSwitch<Ingoing,Outgoing>().Tap(c=>c.Instance = value);
 		}
     }
 }
