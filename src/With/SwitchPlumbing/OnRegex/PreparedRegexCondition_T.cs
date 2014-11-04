@@ -50,7 +50,11 @@ namespace With.SwitchPlumbing
 		public virtual object Value()
 		{
 			object value;
-			return TryGetValue(out value) ? value : null;
+			if (TryGetValue(out value)) {
+				return value;
+			}else{
+				throw new Exception("No match found");
+			}
 		}
 
 		public static implicit operator TRet(PreparedRegexCondition<TRet> d)
