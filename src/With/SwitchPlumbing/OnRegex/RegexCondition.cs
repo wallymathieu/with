@@ -1,10 +1,10 @@
 ﻿namespace With.SwitchPlumbing
 {
-    public class RegexSwitchOnValue : PreparedRegexSwitch
+	public class RegexCondition : PreparedRegexCondition
     {
         private readonly string _string;
 
-        public RegexSwitchOnValue(string @string)
+        public RegexCondition(string @string)
         {
             _string = @string;
         }

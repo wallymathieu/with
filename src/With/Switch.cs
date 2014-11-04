@@ -9,14 +9,14 @@ namespace With
             return new TypeSwitchOnInstance(instance);
         }
 
-        public static RegexSwitchOnValue Regex(string instance)
+        public static RegexCondition Regex(string instance)
         {
-            return new RegexSwitchOnValue(instance);
+            return new RegexCondition(instance);
         }
 
-        public static PreparedRegexSwitch Regex()
+		public static PreparedRegexCondition Regex()
         {
-            return new PreparedRegexSwitch();
+			return new PreparedRegexCondition();
         }
 
 

@@ -3,13 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace With.SwitchPlumbing
 {
-    public class RegexCaseCondition<TRet> : PreparedRegexSwitch
+	public class RegexCondition<TRet> : PreparedRegexCondition
     {
-        private readonly PreparedRegexSwitch _base;
+		private readonly PreparedRegexCondition _base;
         private readonly Regex _regex;
         private readonly Func<Match, TRet> _func;
 
-        public RegexCaseCondition(PreparedRegexSwitch @base, string regex, Func<Match, TRet> func)
+		public RegexCondition(PreparedRegexCondition @base, string regex, Func<Match, TRet> func)
         {
             _base = @base;
             _regex = new Regex(regex);
@@ -43,7 +43,7 @@ namespace With.SwitchPlumbing
             object value;
             return TryGetValue(out value) ? value : null;
         }
-		public static implicit operator TRet(RegexCaseCondition<TRet> d)
+		public static implicit operator TRet(RegexCondition<TRet> d)
 		{
 			return (TRet) d.Value ();
 		}

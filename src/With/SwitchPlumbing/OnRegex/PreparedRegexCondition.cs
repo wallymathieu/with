@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace With.SwitchPlumbing
 {
     
-    public class PreparedRegexSwitch : IPreparedRegexSwitch
+    public class PreparedRegexCondition 
     {
         private string _string;
 
@@ -24,9 +24,9 @@ namespace With.SwitchPlumbing
             return _string;
         }
 
-        public virtual PreparedRegexSwitchCase<TRet1> Case<TRet1>(string regex, Func<Match, TRet1> func)
+		public virtual PreparedRegexCondition<TRet1> Case<TRet1>(string regex, Func<Match, TRet1> func)
         {
-            return new PreparedRegexSwitchCase<TRet1>(this, regex, func);
+			return new PreparedRegexCondition<TRet1>(this, regex, func);
         }
     }
 

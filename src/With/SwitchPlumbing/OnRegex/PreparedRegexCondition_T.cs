@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 namespace With.SwitchPlumbing
 {
     
-    public class PreparedRegexSwitchCase<TRet> : RegexCaseCondition<TRet>, IPreparedRegexSwitch
+    public class PreparedRegexCondition<TRet> : RegexCondition<TRet>
     {
-        private readonly IPreparedRegexSwitch _preparedSwitch;
+		private readonly PreparedRegexCondition _preparedSwitch;
 
-        public PreparedRegexSwitchCase(IPreparedRegexSwitch preparedSwitch, string regex, Func<Match, TRet> @case)
-            : base((PreparedRegexSwitch)preparedSwitch, regex, @case)
+		public PreparedRegexCondition(PreparedRegexCondition preparedSwitch, string regex, Func<Match, TRet> @case)
+            : base(preparedSwitch, regex, @case)
         {
             _preparedSwitch = preparedSwitch;
         }
