@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace With.RangePlumbing
 {
-	public class Int32Range:IEnumerable<Int32>
+	internal class Int32Range:IStep<Int32>
 	{
 		private readonly Int32 @from;
 		private readonly Int32 @to;
@@ -23,7 +23,7 @@ namespace With.RangePlumbing
 			this.@step = (Int32)@step;
 		}
 
-		public Int32Range Step(Int32 step){
+		public IStep<Int32> Step(Int32 step){
 			return new Int32Range (@from,@to,step);
 		}
 

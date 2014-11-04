@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace With.RangePlumbing
 {
-
-	public class SingleRange:IEnumerable<Single>
+	internal class SingleRange:IStep<Single>
 	{
 		private readonly Single @from;
 		private readonly Single @to;
@@ -23,7 +22,7 @@ namespace With.RangePlumbing
 			this.@step =  (Single)@step;
 		}
 
-		public SingleRange Step(Single step){
+		public IStep<Single> Step(Single step){
 			return new SingleRange (@from,@to,step);
 		}
 

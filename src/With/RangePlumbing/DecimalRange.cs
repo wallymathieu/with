@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace With.RangePlumbing
 {
-	public class DecimalRange:IEnumerable<Decimal>
+	internal class DecimalRange:IStep<Decimal>
 	{
 		private readonly Decimal @from;
 		private readonly Decimal @to;
@@ -22,7 +22,7 @@ namespace With.RangePlumbing
 			this.@step = (Decimal)@step;
 		}
 
-		public DecimalRange Step(Decimal step){
+		public IStep<Decimal> Step(Decimal step){
 			return new DecimalRange (@from,@to,step);
 		}
 
