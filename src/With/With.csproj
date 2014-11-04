@@ -70,6 +70,8 @@
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch_T.cs" />
+    <Compile Include="SwitchPlumbing\OnRegex\IPreparedRegexCondition.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\IPreparedTypeSwitch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

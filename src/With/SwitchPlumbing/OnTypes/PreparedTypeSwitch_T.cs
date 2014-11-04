@@ -2,11 +2,11 @@
 
 namespace With.SwitchPlumbing
 {
-	public class PreparedTypeSwitch<T, TRet> : PreparedTypeSwitch
+	public class PreparedTypeSwitch<T, TRet> : IPreparedTypeSwitch
     {
-		private readonly PreparedTypeSwitch _preparedSwitch;
+		private readonly IPreparedTypeSwitch _preparedSwitch;
 		private readonly Func<T,TRet> _func;
-		public PreparedTypeSwitch(PreparedTypeSwitch preparedSwitch, Func<T, TRet> @case)
+		public PreparedTypeSwitch(IPreparedTypeSwitch preparedSwitch, Func<T, TRet> @case)
         {
             _preparedSwitch = preparedSwitch;
 			_func = @case;
@@ -14,27 +14,22 @@ namespace With.SwitchPlumbing
 
         public object ValueOf(object instance)
         {
-            SetInstance(instance);
+			Instance = instance;
             return Value();
         }
 
-        public override void SetInstance(object instance)
-        {
-            _preparedSwitch.SetInstance(instance);
-        }
-
-		protected internal override object GetInstance ()
-		{
-			return _preparedSwitch.GetInstance ();
+		public Object Instance {
+			get{ return _preparedSwitch.Instance; }
+			set{ _preparedSwitch.Instance = value; }
 		}
 
-		protected internal override bool TryGetValue(out object value)
+		public bool TryGetValue(out object value)
 		{
 			if (_preparedSwitch.TryGetValue(out value))
 			{
 				return true;
 			}
-			var instance = _preparedSwitch.GetInstance();
+			var instance = Instance;
 			if (instance is T)
 			{
 				value = _func((T)instance);

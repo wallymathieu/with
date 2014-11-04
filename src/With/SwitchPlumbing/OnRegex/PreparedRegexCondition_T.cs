@@ -4,37 +4,39 @@ using System.Text.RegularExpressions;
 namespace With.SwitchPlumbing
 {
     
-	public class PreparedRegexCondition<TRet> : PreparedRegexCondition
+	public class PreparedRegexCondition<TRet> : IPreparedRegexCondition
     {
-		public PreparedRegexCondition(PreparedRegexCondition preparedSwitch, string regex, Func<Match, TRet> @case)
+		public PreparedRegexCondition(IPreparedRegexCondition preparedSwitch, string regex, Func<Match, TRet> @case)
         {
 			_regex = new Regex(regex);
 			_func = @case;
 			_base = preparedSwitch;
         }
 
+		public string Instance {
+			get{ return _base.Instance;}
+			set{ _base.Instance = value;}
+		}
+
+
         public object ValueOf(string instance)
         {
-            SetString(instance);
+			Instance = instance;
             return Value();
         }
 
-		public override void SetString(string s)
-        {
-			_base.SetString(s);
-        }
 
-		private readonly PreparedRegexCondition _base;
+		private readonly IPreparedRegexCondition _base;
 		private readonly Regex _regex;
 		private readonly Func<Match, TRet> _func;
 
-		protected internal override bool TryGetValue(out object value)
+		public bool TryGetValue(out object value)
 		{
 			if (_base.TryGetValue(out value))
 			{
 				return true;
 			}
-			var instance = _base.GetString();
+			var instance = Instance;
 			var m = _regex.Match(instance);
 			if (m.Success)
 			{
@@ -43,11 +45,6 @@ namespace With.SwitchPlumbing
 			}
 			value = null;
 			return false;
-		}
-
-		protected internal override string GetString()
-		{
-			return _base.GetString();
 		}
 
 		public virtual object Value()

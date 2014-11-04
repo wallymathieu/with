@@ -1,17 +1,29 @@
 ﻿using With.SwitchPlumbing;
+using System;
+using System.Text.RegularExpressions;
 
 namespace With
 {
-    public class Switch
+    public static class Switch
     {
+		public static PreparedTypeSwitch<T, TRet> Case<T, TRet>(this IPreparedTypeSwitch that, Func<T, TRet> func)
+		{
+			return new PreparedTypeSwitch<T, TRet>(that, func);
+		}
+
+		public static PreparedRegexCondition<TRet1> Case<TRet1>(this IPreparedRegexCondition that, string regex, Func<Match, TRet1> func)
+		{
+			return new PreparedRegexCondition<TRet1>(that, regex, func);
+		}
+
 		public static PreparedTypeSwitch On(object instance)
         {
-			return new PreparedTypeSwitch().Tap(tc=>tc.SetInstance(instance));
+			return new PreparedTypeSwitch().Tap(tc=>tc.Instance= instance);
         }
 
 		public static PreparedRegexCondition Regex(string instance)
         {
-			return new PreparedRegexCondition().Tap(c=>c.SetString(instance));
+			return new PreparedRegexCondition().Tap(c=>c.Instance = instance);
         }
 
 		public static PreparedRegexCondition Regex()

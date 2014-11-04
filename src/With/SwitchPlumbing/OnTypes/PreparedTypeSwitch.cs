@@ -2,30 +2,17 @@
 
 namespace With.SwitchPlumbing
 {
-    public class PreparedTypeSwitch
+	public class PreparedTypeSwitch:IPreparedTypeSwitch
     {
-        private object _instance;
+		public Object Instance {
+			get;
+			set;
+		}
 
-        protected internal virtual bool TryGetValue(out object value)
+		public bool TryGetValue(out object value)
         {
             value = null;
             return false;
         }
-
-		protected internal virtual object GetInstance()
-        {
-            return _instance;
-        }
-
-        public virtual void SetInstance(object instance)
-        {
-            _instance = instance;
-        }
-
-		public PreparedTypeSwitch<T, TRet> Case<T, TRet>(Func<T, TRet> func)
-		{
-			return new PreparedTypeSwitch<T, TRet>(this, func);
-		}
-
     }
 }
