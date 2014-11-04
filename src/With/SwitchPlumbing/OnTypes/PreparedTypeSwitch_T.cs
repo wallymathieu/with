@@ -2,14 +2,14 @@
 
 namespace With.SwitchPlumbing
 {
-    public class PreparedTypeSwitch<T, TRet> : TypeSwitchOn<T, TRet>, IPreparedSwitch
+	public class PreparedTypeSwitch<T, TRet> : PreparedTypeSwitch
     {
-        private readonly IPreparedSwitch _preparedSwitch;
-
-        public PreparedTypeSwitch(IPreparedSwitch preparedSwitch, Func<T, TRet> @case)
-            : base((TypeSwitchOnBase)preparedSwitch, @case)
+		private readonly PreparedTypeSwitch _preparedSwitch;
+		private readonly Func<T,TRet> _func;
+		public PreparedTypeSwitch(PreparedTypeSwitch preparedSwitch, Func<T, TRet> @case)
         {
             _preparedSwitch = preparedSwitch;
+			_func = @case;
         }
 
         public object ValueOf(object instance)
@@ -18,14 +18,41 @@ namespace With.SwitchPlumbing
             return Value();
         }
 
-        public new PreparedTypeSwitch<T1, TRet1> Case<T1, TRet1>(Func<T1, TRet1> func)
-        {
-            return new PreparedTypeSwitch<T1, TRet1>(this, func);
-        }
-
-        public void SetInstance(object instance)
+        public override void SetInstance(object instance)
         {
             _preparedSwitch.SetInstance(instance);
         }
+
+		protected internal override object GetInstance ()
+		{
+			return _preparedSwitch.GetInstance ();
+		}
+
+		protected internal override bool TryGetValue(out object value)
+		{
+			if (_preparedSwitch.TryGetValue(out value))
+			{
+				return true;
+			}
+			var instance = _preparedSwitch.GetInstance();
+			if (instance is T)
+			{
+				value = _func((T)instance);
+				return true;
+			}
+			value = null;
+			return false;
+		}
+
+		public object Value()
+		{
+			object value;
+			return TryGetValue(out value) ? value : null;
+		}
+
+		public static implicit operator TRet(PreparedTypeSwitch<T, TRet> d)
+		{
+			return (TRet) d.Value ();
+		}
     }
 }

@@ -41,16 +41,28 @@ namespace Tests
             Assert.That(result, Is.EqualTo(1));
         }
 
+		[Test]
+		public void Multi_case_3()
+		{
+			var instance = new MyClass3();
+
+			int result = Switch.On(instance)
+				.Case((MyClass c) => 1)
+				.Case((MyClass2 c) => 2)
+				.Case((MyClass3 c) => 3);
+			Assert.That(result, Is.EqualTo(3));
+		}
+
         [Test]
         public void Multi_case_with_a_differnt_order()
         {
             var instance = new MyClass();
 
-            int result = Switch.On(instance)
+            var result = Switch.On(instance)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
                 .Case((MyClass c) => 1);
-            Assert.That(result, Is.EqualTo(1));
+			Assert.That(result.Value(), Is.EqualTo(1));
         }
 
 

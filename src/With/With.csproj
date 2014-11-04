@@ -65,12 +65,9 @@
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="RangePlumbing\IStep.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\IPreparedSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition_T.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOnBase.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn_T.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch_T.cs" />
   </ItemGroup>
