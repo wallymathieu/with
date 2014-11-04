@@ -9,9 +9,9 @@ namespace With
             return new TypeSwitchOnInstance(instance);
         }
 
-        public static RegexSwitchValue Regex(string instance)
+        public static RegexSwitchOnValue Regex(string instance)
         {
-            return new RegexSwitchValue(instance);
+            return new RegexSwitchOnValue(instance);
         }
 
         public static PreparedRegexSwitch Regex()

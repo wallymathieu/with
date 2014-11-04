@@ -1,10 +1,10 @@
 ﻿namespace With.SwitchPlumbing
 {
-    public class RegexSwitchValue : RegexSwitch
+    public class RegexSwitchOnValue : PreparedRegexSwitch
     {
         private readonly string _string;
 
-        public RegexSwitchValue(string @string)
+        public RegexSwitchOnValue(string @string)
         {
             _string = @string;
         }
@@ -16,7 +16,7 @@
             return false;
         }
 
-        protected internal override string GetString()
+		protected internal override string GetString()
         {
             return _string;
         }

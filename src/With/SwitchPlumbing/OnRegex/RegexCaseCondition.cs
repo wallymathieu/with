@@ -3,20 +3,20 @@ using System.Text.RegularExpressions;
 
 namespace With.SwitchPlumbing
 {
-    public class RegexCaseCondition<TRet> : RegexSwitch
+    public class RegexCaseCondition<TRet> : PreparedRegexSwitch
     {
-        private readonly RegexSwitch _base;
+        private readonly PreparedRegexSwitch _base;
         private readonly Regex _regex;
         private readonly Func<Match, TRet> _func;
 
-        public RegexCaseCondition(RegexSwitch @base, string regex, Func<Match, TRet> func)
+        public RegexCaseCondition(PreparedRegexSwitch @base, string regex, Func<Match, TRet> func)
         {
             _base = @base;
             _regex = new Regex(regex);
             _func = func;
         }
 
-        protected internal override bool TryGetValue(out object value)
+		protected internal override bool TryGetValue(out object value)
         {
             if (_base.TryGetValue(out value))
             {
@@ -33,12 +33,12 @@ namespace With.SwitchPlumbing
             return false;
         }
 
-        protected internal override string GetString()
+		protected internal override string GetString()
         {
             return _base.GetString();
         }
 
-        public object Value()
+        public virtual object Value()
         {
             object value;
             return TryGetValue(out value) ? value : null;
