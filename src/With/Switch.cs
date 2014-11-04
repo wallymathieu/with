@@ -4,9 +4,9 @@ namespace With
 {
     public class Switch
     {
-        public static TypeSwitchOn On(object instance)
+		public static PreparedTypeSwitch On(object instance)
         {
-            return new TypeSwitchOn(instance);
+			return new PreparedTypeSwitch().Tap(tc=>tc.SetInstance(instance));
         }
 
 		public static PreparedRegexCondition Regex(string instance)
@@ -27,12 +27,12 @@ namespace With
 
 		public static MatchSwitch<Ingoing> Match <Ingoing>(Ingoing value)
 		{
-			return new MatchSwitch<Ingoing>();
+			return new MatchSwitch<Ingoing>().Tap(c=>c.SetValue(value));
 		}
 
-		public static MatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing v)
+		public static MatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing value)
 		{
-			throw new System.NotImplementedException ();
+			return new MatchSwitch<Ingoing,Outgoing>().Tap(c=>c.SetValue(value));
 		}
     }
 }

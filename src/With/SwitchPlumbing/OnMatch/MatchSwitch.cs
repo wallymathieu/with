@@ -18,6 +18,11 @@ namespace With.SwitchPlumbing
 		{
 			throw new NotImplementedException ();
 		}
+
+		public void SetValue (Ingoing value)
+		{
+			throw new NotImplementedException ();
+		}
 	}
 	
 }
