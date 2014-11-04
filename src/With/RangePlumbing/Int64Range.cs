@@ -5,12 +5,12 @@ using System.Collections.Generic;
 namespace With.RangePlumbing
 {
 
-	internal class Int64Range:IEnumerable<Int64>
+	public class Int64Range:IEnumerable<Int64>
 	{
 		private readonly Int64 @from;
 		private readonly Int64 @to;
 		private readonly Int64 @step;
-		public Int64Range (object @from, object @to, object step)
+		internal Int64Range (object @from, object @to, object step)
 		{
 			this.@from =(Int64) @from;
 			this.@to = (Int64)@to;
@@ -23,9 +23,13 @@ namespace With.RangePlumbing
 			this.@step = @step;
 		}
 
+		public Int64Range Step(Int64 step){
+			return new Int64Range (@from,@to,step);
+		}
+
 		public IEnumerator<Int64> GetEnumerator ()
 		{
-			for (var i = @from; i<@to; i+=step) {
+			for (var i = @from; i<=@to; i+=step) {
 				yield return i;
 			}
 		}

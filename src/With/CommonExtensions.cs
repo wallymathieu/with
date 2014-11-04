@@ -11,38 +11,38 @@ namespace With
 			tapaction(that);
 			return that;
 		}
-		public static IEnumerable<Int32> To(this Int32 @from, Int32 @to)
+		public static Int32Range To(this Int32 @from, Int32 @to)
 		{
 			return new Int32Range (@from,@to,1);
 		}
-		public static IEnumerable<Int32> To(this Int32 @from, Int32 @to, Int32 step)
+		public static Int32Range To(this Int32 @from, Int32 @to, Int32 step)
 		{
 			return new Int32Range (@from,@to,step);
 		}
 
-		public static IEnumerable<Int64> To(this Int64 @from, Int64 @to)
+		public static Int64Range To(this Int64 @from, Int64 @to)
 		{
 			return new Int64Range (@from,@to,1);
 		}
-		public static IEnumerable<Int64> To(this Int64 @from, Int64 @to, Int64 step)
+		public static Int64Range To(this Int64 @from, Int64 @to, Int64 step)
 		{
 			return new Int64Range (@from,@to,step);
 		}
 
-		public static IEnumerable<Decimal> To(this Decimal @from, Decimal @to)
+		public static DecimalRange To(this Decimal @from, Decimal @to)
 		{
 			return new DecimalRange (@from,@to,1);
 		}
-		public static IEnumerable<Decimal> To(this Decimal @from, Decimal @to, Decimal step)
+		public static DecimalRange To(this Decimal @from, Decimal @to, Decimal step)
 		{
 			return new DecimalRange (@from,@to,step);
 		}
 
-		public static IEnumerable<Single> To(this Single @from, Single @to)
+		public static SingleRange To(this Single @from, Single @to)
 		{
 			return new SingleRange (@from,@to,1);
 		}
-		public static IEnumerable<Single> To(this Single @from, Single @to, Single step)
+		public static SingleRange To(this Single @from, Single @to, Single step)
 		{
 			return new SingleRange (@from,@to,step);
 		}

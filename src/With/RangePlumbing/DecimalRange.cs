@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 namespace With.RangePlumbing
 {
-
-	internal class DecimalRange:IEnumerable<Decimal>
+	public class DecimalRange:IEnumerable<Decimal>
 	{
 		private readonly Decimal @from;
 		private readonly Decimal @to;
@@ -16,19 +15,24 @@ namespace With.RangePlumbing
 			this.@to = @to;
 			this.@step = @step;
 		}
-		public DecimalRange (object @from, object @to, object step)
+		internal DecimalRange (object @from, object @to, object step)
 		{
 			this.@from =(Decimal) @from;
 			this.@to = (Decimal)@to;
 			this.@step = (Decimal)@step;
 		}
 
+		public DecimalRange Step(Decimal step){
+			return new DecimalRange (@from,@to,step);
+		}
+
 		public IEnumerator<Decimal> GetEnumerator ()
 		{
-			for (var i = @from; i<@to; i+=step) {
+			for (var i = @from; i<=@to; i+=step) {
 				yield return i;
 			}
 		}
+
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
 			return this.GetEnumerator ();

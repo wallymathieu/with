@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace With.RangePlumbing
 {
 
-	internal class SingleRange:IEnumerable<Single>
+	public class SingleRange:IEnumerable<Single>
 	{
 		private readonly Single @from;
 		private readonly Single @to;
@@ -16,16 +16,20 @@ namespace With.RangePlumbing
 			this.@to = @to;
 			this.@step = @step;
 		}
-		public SingleRange (object @from, object @to, object step)
+		internal SingleRange (object @from, object @to, object step)
 		{
 			this.@from = (Single)@from;
 			this.@to =  (Single)@to;
 			this.@step =  (Single)@step;
 		}
 
+		public SingleRange Step(Single step){
+			return new SingleRange (@from,@to,step);
+		}
+
 		public IEnumerator<Single> GetEnumerator ()
 		{
-			for (var i = @from; i<@to; i+=step) {
+			for (var i = @from; i<=@to; i+=step) {
 				yield return i;
 			}
 		}
