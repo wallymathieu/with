@@ -40,12 +40,6 @@
     <Compile Include="MissingValueException.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
-    <Compile Include="SwitchPlumbing\IPreparedRegexSwitch.cs" />
-    <Compile Include="SwitchPlumbing\IPreparedSwitch.cs" />
-    <Compile Include="SwitchPlumbing\RegexCaseCondition.cs" />
-    <Compile Include="SwitchPlumbing\RegexSwitchValue.cs" />
-    <Compile Include="SwitchPlumbing\RegexSwitch.cs" />
-    <Compile Include="SwitchPlumbing\SwitchOnWithCase.cs" />
     <Compile Include="With.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Let.cs" />
@@ -70,11 +64,17 @@
     <Compile Include="RangePlumbing\Int64Range.cs" />
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="RangePlumbing\IStep.cs" />
-    <Compile Include="SwitchPlumbing\PreparedTypeSwitch.cs" />
-    <Compile Include="SwitchPlumbing\PreparedTypeSwitchCase.cs" />
-    <Compile Include="SwitchPlumbing\TypeSwitchOnInstance.cs" />
-    <Compile Include="SwitchPlumbing\TypeSwitchOn.cs" />
     <Compile Include="SwitchPlumbing\MatchSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitchCase.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\IPreparedSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOn.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\TypeSwitchOnInstance.cs" />
+    <Compile Include="SwitchPlumbing\OnRegex\IPreparedRegexSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnRegex\RegexCaseCondition.cs" />
+    <Compile Include="SwitchPlumbing\OnRegex\RegexSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnRegex\RegexSwitchValue.cs" />
+    <Compile Include="SwitchPlumbing\OnTypes\SwitchOnWithCase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -87,5 +87,7 @@
   <ItemGroup>
     <Folder Include="LetPlumbing\" />
     <Folder Include="RangePlumbing\" />
+    <Folder Include="SwitchPlumbing\OnTypes\" />
+    <Folder Include="SwitchPlumbing\OnRegex\" />
   </ItemGroup>
 </Project>
