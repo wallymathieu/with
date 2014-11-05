@@ -12,6 +12,7 @@ namespace Tests
 				.Case (new []{ 2, 3, 5, 7, 11 }, p => "This is a prime!")
 				.Case (13.To (19), t => "A teen")
 				.Case (i=>i==42,(i)=>"Meaning of life")
+				.Case (i=>i==52,()=>"Some other number")
 				.Else (_ => "Ain't special");
 		}
 

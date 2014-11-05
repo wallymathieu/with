@@ -13,6 +13,7 @@ namespace Tests
 				.Case (new []{ 2, 3, 5, 7, 11 }, p => retval="This is a prime!")
 				.Case (13.To (19), t => retval="A teen")
 				.Case (i=>i==42,(i)=>retval="Meaning of life")
+				.Case (i=>i==52,()=>retval="Some other number")
 				.Else (_ => retval="Ain't special");
 			return retval;
 		}
