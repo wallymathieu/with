@@ -59,6 +59,16 @@ namespace With
 		{
 			return new MatchSwitchFunc<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<Ingoing,NothingOrPrepared>((i)=>result()));
 		}
+
+		public static IMatchSwitch<string,NothingOrPrepared> Regex <NothingOrPrepared>(this IMatchSwitch<string,NothingOrPrepared> that,string expected, Action<string> result)
+		{
+			return new MatchSwitchFunc<string,NothingOrPrepared> (that, new Regex(expected).IsMatch, ReturnDefault<string,NothingOrPrepared>( result));
+		}
+		public static IMatchSwitch<string,NothingOrPrepared> Regex <NothingOrPrepared>(this IMatchSwitch<string,NothingOrPrepared> that,string expected, Action result)
+		{
+			return new MatchSwitchFunc<string,NothingOrPrepared> (that, new Regex(expected).IsMatch, ReturnDefault<string,NothingOrPrepared>((s)=>result()));
+		}
+
 		private static Func<T> ReturnDefault<T>(Action action){
 			return () => {
 				action ();
@@ -95,6 +105,14 @@ namespace With
 			return new MatchSwitchSingle<Ingoing,Outgoing> (that, expected,result);
 		}
 
+		public static IMatchSwitch<string,Outgoing> Regex <Outgoing>(this IMatchSwitch<string,Outgoing> that,string expected, Func<string,Outgoing> result)
+		{
+			return new MatchSwitchFunc<string,Outgoing> (that, new Regex(expected).IsMatch, result);
+		}
+		public static IMatchSwitch<string,Outgoing> Regex <Outgoing>(this IMatchSwitch<string,Outgoing> that,string expected, Func<Outgoing> result)
+		{
+			return new MatchSwitchFunc<string,Outgoing> (that, new Regex(expected).IsMatch, (s)=>result());
+		}
 		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
 		{
 			return new MatchSwitchFunc<Ingoing,Outgoing> (that, expected, result);

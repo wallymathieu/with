@@ -55,6 +55,8 @@
     <Compile Include="RangeTests.cs" />
     <Compile Include="MatchActionTests.cs" />
     <Compile Include="MatchFuncTests.cs" />
+    <Compile Include="MatchRegexFuncTests.cs" />
+    <Compile Include="MatchRegexActionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
