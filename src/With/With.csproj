@@ -76,6 +76,7 @@
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchSingle.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\Nothing.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchElse.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\Prepared.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
