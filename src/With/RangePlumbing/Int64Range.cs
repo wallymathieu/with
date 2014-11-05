@@ -26,6 +26,11 @@ namespace With.RangePlumbing
 			return new Int64Range (@from,@to,step);
 		}
 
+		public bool Contain (long value)
+		{
+			return @from <= value && value <= @to && (value-@from)%step==0; 
+		}
+
 		public IEnumerator<Int64> GetEnumerator ()
 		{
 			for (var i = @from; i<=@to; i+=step) {

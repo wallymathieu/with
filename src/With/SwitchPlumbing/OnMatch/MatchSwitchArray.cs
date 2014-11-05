@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using With.RangePlumbing;
 namespace With.SwitchPlumbing
 {
-
 	public class MatchSwitchArray<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>{
-		private readonly IList<Ingoing> expected;
+		private readonly Func<Ingoing,bool> expected;
 		private readonly Func<Ingoing,Outgoing> result;
 		private readonly IMatchSwitch<Ingoing,Outgoing> inner;
 		public override Ingoing Instance {
@@ -18,7 +18,7 @@ namespace With.SwitchPlumbing
 			if (inner.TryMatch (out value)) {
 				return true;
 			}
-			if (expected.Contains (Instance)) {
+			if (expected (Instance)) {
 				value = result (Instance);
 				return true;
 			}
@@ -28,7 +28,17 @@ namespace With.SwitchPlumbing
 		public MatchSwitchArray (IMatchSwitch<Ingoing,Outgoing> inner, IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
 		{
 			this.inner = inner;
-			this.expected = expected.ToList();
+			if (expected is IStep<Ingoing>) {
+				this.expected = ((IStep<Ingoing>)(expected)).Contain;
+			} else {
+				this.expected = expected.ToList ().Contains;
+			}
+			this.result = result;
+		}
+		public MatchSwitchArray (IMatchSwitch<Ingoing,Outgoing> inner, Func<Ingoing,bool> expected, Func<Ingoing,Outgoing> result)
+		{
+			this.inner = inner;
+			this.expected = expected;
 			this.result = result;
 		}
 	}

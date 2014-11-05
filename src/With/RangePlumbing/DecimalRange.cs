@@ -26,6 +26,11 @@ namespace With.RangePlumbing
 			return new DecimalRange (@from,@to,step);
 		}
 
+		public bool Contain (decimal value)
+		{
+			return @from <= value && value <= @to && (value-@from)%step==0; 
+		}
+
 		public IEnumerator<Decimal> GetEnumerator ()
 		{
 			for (var i = @from; i<=@to; i+=step) {

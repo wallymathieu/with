@@ -26,6 +26,11 @@ namespace With.RangePlumbing
 			return new SingleRange (@from,@to,step);
 		}
 
+		public bool Contain (float value)
+		{
+			return @from <= value && value <= @to && (value-@from)%step==0; 
+		}
+
 		public IEnumerator<Single> GetEnumerator ()
 		{
 			for (var i = @from; i<=@to; i+=step) {
