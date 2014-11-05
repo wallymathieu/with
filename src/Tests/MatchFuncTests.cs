@@ -30,6 +30,7 @@ namespace Tests
 		[Test]
 		public void Test_other(){
 			Assert.That (DoMatch (200), Is.EqualTo ("Ain't special"));
+			Assert.That (DoMatch (29), Is.EqualTo ("Ain't special"));
 		}
 		[Test]
 		public void Test_meaning_of_life(){
