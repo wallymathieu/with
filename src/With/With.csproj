@@ -70,12 +70,12 @@
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
     <Compile Include="SwitchPlumbing\OnRegex\IPreparedRegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\IPreparedTypeSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\NoReturn\MatchSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\NoReturn\IMatchSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\NoReturn\MatchSwitchArray.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\NoReturn\MatchSwitchSingle.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\WithReturn\IMatchSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\WithReturn\MatchSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\IMatchSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchArray.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchSingle.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\Nothing.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchElse.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -91,7 +91,5 @@
     <Folder Include="SwitchPlumbing\OnTypes\" />
     <Folder Include="SwitchPlumbing\OnRegex\" />
     <Folder Include="SwitchPlumbing\OnMatch\" />
-    <Folder Include="SwitchPlumbing\OnMatch\NoReturn\" />
-    <Folder Include="SwitchPlumbing\OnMatch\WithReturn\" />
   </ItemGroup>
 </Project>

@@ -38,40 +38,60 @@ namespace With
             return new PreparedTypeSwitch();
         }
 
-		public static IMatchSwitch<Ingoing> Case <Ingoing>(this IMatchSwitch<Ingoing> that, Ingoing expected, Action result)
+		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case <Ingoing,NothingOrPrepared>(this IMatchSwitch<Ingoing,NothingOrPrepared> that, Ingoing expected, Action result)
 		{
-			return new MatchSwitchSingle<Ingoing> (that, expected,result);
+			return new MatchSwitchSingle<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<NothingOrPrepared>(result));
 		}
 
-		public static IMatchSwitch<Ingoing> Case<Ingoing> (this IMatchSwitch<Ingoing> that, IEnumerable<Ingoing> expected, Action<Ingoing> result)
+		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case<Ingoing,NothingOrPrepared> (this IMatchSwitch<Ingoing,NothingOrPrepared> that, IEnumerable<Ingoing> expected, Action<Ingoing> result)
 		{
-			return new MatchSwitchArray<Ingoing> (that, expected, result);
+			return new MatchSwitchArray<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<Ingoing,NothingOrPrepared>(result));
 		}
 
-		public static void Else <Ingoing> (this IMatchSwitch<Ingoing> that,Action<Ingoing> result)
-		{
-			if (!that.TryMatch ())
-				result (that.Instance);
+		private static Func<T> ReturnDefault<T>(Action action){
+			return () => {
+				action ();
+				return default(T);
+			};
 		}
 
-		public static IMatchSwitch<Ingoing> Match <Ingoing>(Ingoing value)
+		private static Func<T,TReturn> ReturnDefault<T,TReturn>(Action<T> action){
+			return (incoming) => {
+				action (incoming);
+				return default(TReturn);
+			};
+		}
+
+		public static void Else <Ingoing> (this IMatchSwitch<Ingoing,Nothing> that,Action<Ingoing> result)
 		{
-			return new MatchSwitch<Ingoing>().Tap(c=>c.Instance =value);
+			var els= new MatchSwitchElse<Ingoing,Nothing> (that, ReturnDefault<Ingoing,Nothing>(result));
+			Nothing value;
+			els.TryMatch (out value);
+		}
+
+		public static IMatchSwitch<Ingoing,Prepared> Else <Ingoing> (this IMatchSwitch<Ingoing,Prepared> that,Action<Ingoing> result)
+		{
+			return new MatchSwitchElse<Ingoing,Prepared> (that, ReturnDefault<Ingoing,Prepared>(result));
+		}
+
+		public static IMatchSwitch<Ingoing,Nothing> Match <Ingoing>(Ingoing value)
+		{
+			return new MatchSwitch<Ingoing,Nothing>().Tap(c=>c.Instance =value);
 		}
 
 		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,Ingoing expected, Func<Outgoing> result)
 		{
-			throw new NotImplementedException ();
+			return new MatchSwitchSingle<Ingoing,Outgoing> (that, expected,result);
 		}
 
 		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
 		{
-			throw new NotImplementedException ();
+			return new MatchSwitchArray<Ingoing,Outgoing> (that, expected, result);
 		}
 
-		public static MatchSwitch<Ingoing,Outgoing> Else<Ingoing,Outgoing> (this IMatchSwitch<Ingoing,Outgoing> that,Func<Ingoing,Outgoing> result)
+		public static IMatchSwitch<Ingoing,Outgoing> Else<Ingoing,Outgoing> (this IMatchSwitch<Ingoing,Outgoing> that,Func<Ingoing,Outgoing> result)
 		{
-			throw new NotImplementedException ();
+			return new MatchSwitchElse<Ingoing,Outgoing> (that, result);
 		}
 
 		public static IMatchSwitch<Ingoing,Outgoing> Match<Ingoing,Outgoing> (Ingoing value)

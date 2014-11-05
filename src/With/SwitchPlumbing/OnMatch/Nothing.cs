@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public interface IMatchSwitch<Ingoing>
+	public enum Nothing
 	{
-		bool TryMatch ();
-
-		Ingoing Instance {
-			get;
-			set;
-		}
 	}
-	
+	public enum Prepared
+	{
+	}
 }
