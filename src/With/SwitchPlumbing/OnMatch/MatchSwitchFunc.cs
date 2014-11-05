@@ -4,7 +4,7 @@ using System.Linq;
 using With.RangePlumbing;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitchArray<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>{
+	public class MatchSwitchFunc<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>{
 		private readonly Func<Ingoing,bool> expected;
 		private readonly Func<Ingoing,Outgoing> result;
 		private readonly IMatchSwitch<Ingoing,Outgoing> inner;
@@ -25,7 +25,7 @@ namespace With.SwitchPlumbing
 			return false;
 		}
 
-		public MatchSwitchArray (IMatchSwitch<Ingoing,Outgoing> inner, IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
+		public MatchSwitchFunc (IMatchSwitch<Ingoing,Outgoing> inner, IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
 		{
 			this.inner = inner;
 			if (expected is IStep<Ingoing>) {
@@ -35,7 +35,7 @@ namespace With.SwitchPlumbing
 			}
 			this.result = result;
 		}
-		public MatchSwitchArray (IMatchSwitch<Ingoing,Outgoing> inner, Func<Ingoing,bool> expected, Func<Ingoing,Outgoing> result)
+		public MatchSwitchFunc (IMatchSwitch<Ingoing,Outgoing> inner, Func<Ingoing,bool> expected, Func<Ingoing,Outgoing> result)
 		{
 			this.inner = inner;
 			this.expected = expected;

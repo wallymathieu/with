@@ -11,6 +11,7 @@ namespace Tests
 				.Case (1, () => "One!")
 				.Case (new []{ 2, 3, 5, 7, 11 }, p => "This is a prime!")
 				.Case (13.To (19), t => "A teen")
+				.Case (i=>i==42,(i)=>"Meaning of life")
 				.Else (_ => "Ain't special");
 		}
 
@@ -30,6 +31,11 @@ namespace Tests
 		public void Test_other(){
 			Assert.That (DoMatch (200), Is.EqualTo ("Ain't special"));
 		}
+		[Test]
+		public void Test_meaning_of_life(){
+			Assert.That (DoMatch (42), Is.EqualTo ("Meaning of life"));
+		}
+
 	}
 }
 

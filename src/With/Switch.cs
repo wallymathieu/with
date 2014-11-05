@@ -45,9 +45,12 @@ namespace With
 
 		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case<Ingoing,NothingOrPrepared> (this IMatchSwitch<Ingoing,NothingOrPrepared> that, IEnumerable<Ingoing> expected, Action<Ingoing> result)
 		{
-			return new MatchSwitchArray<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<Ingoing,NothingOrPrepared>(result));
+			return new MatchSwitchFunc<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<Ingoing,NothingOrPrepared>(result));
 		}
-
+		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case<Ingoing,NothingOrPrepared> (this IMatchSwitch<Ingoing,NothingOrPrepared> that, Func<Ingoing,bool> expected, Action<Ingoing> result)
+		{
+			return new MatchSwitchFunc<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<Ingoing,NothingOrPrepared>(result));
+		}
 		private static Func<T> ReturnDefault<T>(Action action){
 			return () => {
 				action ();
@@ -86,9 +89,12 @@ namespace With
 
 		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
 		{
-			return new MatchSwitchArray<Ingoing,Outgoing> (that, expected, result);
+			return new MatchSwitchFunc<Ingoing,Outgoing> (that, expected, result);
 		}
-
+		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,Func<Ingoing,bool> expected, Func<Ingoing,Outgoing> result)
+		{
+			return new MatchSwitchFunc<Ingoing,Outgoing> (that, expected, result);
+		}
 		public static IMatchSwitch<Ingoing,Outgoing> Else<Ingoing,Outgoing> (this IMatchSwitch<Ingoing,Outgoing> that,Func<Ingoing,Outgoing> result)
 		{
 			return new MatchSwitchElse<Ingoing,Outgoing> (that, result);
