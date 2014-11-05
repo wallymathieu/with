@@ -31,7 +31,7 @@ namespace With.SwitchPlumbing
 			if (expected is IStep<Ingoing>) {
 				this.expected = ((IStep<Ingoing>)(expected)).Contain;
 			} else {
-				this.expected = expected.ToList ().Contains;
+				this.expected = expected.Contains;
 			}
 			this.result = result;
 		}
