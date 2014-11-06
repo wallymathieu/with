@@ -28,13 +28,23 @@ var result = Switch.On(instance)
     .Case((ClassWithMethodY c) => c.Y)
     .Case((ClassWithMethodZ c) => c.Z);
 ```
-###Switch on regex
-Or regular expression switch statements
+###Switch on range, func, etc
 ```
-var result = Switch.Regex(instance)
+string result = Switch.Match<int,string> (v)
+    .Case (1, () => "One!")
+    .Case (new []{ 2, 3, 5, 7, 11 }, p => "This is a prime!")
+    .Case (13.To (19), t => "A teen")
+    .Case (i=>i==42,(i)=>"Meaning of life")
+    .Case (i=>i==52,()=>"Some other number")
+    .Else (_ => "Ain't special");
+```
+###Switch on regex
+When the ingoing type is a string, you can use a regex to match
+```
+var result = Switch.Match<string,string>(instance)
     .Case("m", m => FoundM())
     .Case("s", m => FoundS())
-    .Case("[A-Z]{1}[a-z]{2}\\d{1,}", m => ParseMatch(m));
+    .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => ParseMatch(m));
 ```
 ###Temporarily set value
 ```
