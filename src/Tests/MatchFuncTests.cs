@@ -37,6 +37,74 @@ namespace Tests
 		public void Test_meaning_of_life(){
 			Assert.That (DoMatch (42), Is.EqualTo ("Meaning of life"));
 		}
+        [Test]
+        public void Test_does_not_match()
+        {
+            Assert.Throws<NoMatchFoundException>(() => {
+                string one = Switch.Match<int, string>(2)
+                    .Case(1, () => "One!");
+            });
+        }
+
+        [Test]
+        public void Regex_find_first()
+        {
+            var instance = "m";
+
+            int result = Switch.Match<string, int>(instance)
+                .Case("m", m => 1)
+                .Case("s", m => 2)
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+            Assert.That(result, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Regex_find_complicated()
+        {
+            var instance = "Rio1";
+
+            int result = Switch.Match<string, int>(instance)
+                .Case("m", m => 1)
+                .Case("s", m => 2)
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+            Assert.That(result, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Regex_use_match_object()
+        {
+            var instance = "Rio3";
+
+            int result = Switch.Match<string, int>(instance)
+                .Case("m", m => 1)
+                .Case("s", m => 2)
+                .Regex("[A-Z]{1}[a-z]{2}(\\d{1,})", m => Int32.Parse(m.Groups[1].Value));
+            Assert.That(result, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Regex_find_complicated_differnt_order()
+        {
+            var instance = "Rio1";
+
+            int result = Switch.Match<string, int>(instance)
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3)
+                .Case("m", m => 1)
+                .Case("s", m => 2);
+            Assert.That(result, Is.EqualTo(3));
+        }
+
+        [Test]
+        public void Regex_prepared_Find_complicated()
+        {
+            var instance = "Rio1";
+
+            var result = Switch.Match<string, int>()
+                .Case("m", m => 1)
+                .Case("s", m => 2)
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+            Assert.That(result.ValueOf(instance), Is.EqualTo(3));
+        }
 
 	}
 }

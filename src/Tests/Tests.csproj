@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AClassWithSeveralProperties.cs" />
-    <Compile Include="RegexSwitch.cs" />
     <Compile Include="SwitchCase.cs" />
     <Compile Include="OneClassCanCloneItselfWithAPropertySet.cs" />
     <Compile Include="TwoClassesWhereOneInheritsFromTheOtherTests.cs" />

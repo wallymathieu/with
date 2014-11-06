@@ -11,13 +11,22 @@ namespace With.SwitchPlumbing
 			get;
 			set;
 		}
+
+        public Outgoing ValueOf(Ingoing instance)
+        {
+            this.Instance = instance;
+            Outgoing value;
+            if (TryMatch(out value))
+                return value;
+            throw new NoMatchFoundException();
+        }
+
 		public static implicit operator Outgoing(IMatchSwitch<Ingoing,Outgoing> d)
 		{
-			Outgoing value;
-			if (d.TryMatch (out value))
-				return value;
-			throw new Exception("Could not match");
+            Outgoing value;
+            if (d.TryMatch(out value))
+                return value;
+            throw new NoMatchFoundException();
 		}
-
 	}
 }

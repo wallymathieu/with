@@ -11,7 +11,7 @@ namespace Tests
 			string retval = null;
 			Switch.Match<string> (v)
 				.Case ("1", () => retval= "One!")
-				.Regex ("[A-Z]{1}[a-z]{2}\\d{1,}", p =>retval= "Happ!")
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", p => { retval = "Happ!"; })
 				.Case (i=>i=="42",(i)=>retval="Meaning of life")
 				.Case (i=>i=="52",()=>retval="Some other number")
 				.Else (_ => retval="Ain't special");

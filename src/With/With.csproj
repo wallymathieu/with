@@ -40,6 +40,7 @@
     <Compile Include="MissingValueException.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
+    <Compile Include="SwitchPlumbing\OnMatch\NoMatchFoundException.cs" />
     <Compile Include="With.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Let.cs" />
@@ -86,11 +87,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="LetPlumbing\" />
-    <Folder Include="RangePlumbing\" />
-    <Folder Include="SwitchPlumbing\OnTypes\" />
-    <Folder Include="SwitchPlumbing\OnRegex\" />
-    <Folder Include="SwitchPlumbing\OnMatch\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
