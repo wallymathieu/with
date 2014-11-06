@@ -65,7 +65,6 @@
     <Compile Include="WithPlumbing\GetParameterValuesUsingOrdinal.cs" />
     <Compile Include="Range.cs" />
     <Compile Include="InternalExtensions.cs" />
-    <Compile Include="RangePlumbing\SingleRange.cs" />
     <Compile Include="RangePlumbing\DecimalRange.cs" />
     <Compile Include="RangePlumbing\Int64Range.cs" />
     <Compile Include="RangePlumbing\Int32Range.cs" />

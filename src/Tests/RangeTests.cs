@@ -63,40 +63,6 @@ namespace Tests
 			Assert.That (range.Contain(1), Is.False);
 			Assert.That (range.Contain(5), Is.False);
 		}
-
-		[Test]
-		public void New_Float_range()
-		{
-			Assert.That (new Range<float> (0.1F,2.1F).ToArray(), Is.EquivalentTo (new []{ 0.1F, 1.1F, 2.1F }));
-		}
-		[Test]
-		public void Float_range()
-		{
-			Assert.That (0.1F.To(2.1F).ToArray(), Is.EquivalentTo (new []{ 0.1F, 1.1F, 2.1F }));
-		}
-		[Test]
-		public void Float_range_with_step()
-		{
-			Assert.That (0.1F.To(4.1F).Step(2).ToArray(), Is.EquivalentTo (new []{ 0.1F, 2.1F, 4.1F }));
-		}
-
-		[Test,Ignore("Doesnt work")]
-		public void Float_range_has()
-		{
-			var range = 0.1F.To(4.1F).Step (2F);
-			Assert.That (range.Contain(2.1F), Is.True);
-			Assert.That (range.Contain(0.1F), Is.True);
-			Assert.That (range.Contain(4.1F), Is.True);
-
-			Assert.That (range.Contain(-1.1F), Is.False);
-			Assert.That (range.Contain(1.1F), Is.False);
-			Assert.That (range.Contain(5.1F), Is.False);
-
-			Assert.That (range.Contain(2F), Is.False);
-			Assert.That (range.Contain(0F), Is.False);
-			Assert.That (range.Contain(4F), Is.False);
-		}
-
 		[Test]
 		public void New_Decimal_range()
 		{

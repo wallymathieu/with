@@ -31,14 +31,5 @@ namespace With
         {
             return new DecimalRange(@from, @to, step);
         }
-
-        public static IStep<Single> To(this Single @from, Single @to)
-        {
-            return new SingleRange(@from, @to, 1);
-        }
-        public static IStep<Single> To(this Single @from, Single @to, Single step)
-        {
-            return new SingleRange(@from, @to, step);
-        }
     }
 }

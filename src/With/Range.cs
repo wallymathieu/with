@@ -26,8 +26,6 @@ namespace With
 				inner = new Int64Range (@from, @to, @step);
 			} else if (typeof(T) == typeof(Decimal)) {
 				inner = new DecimalRange (@from, @to, @step);
-			} else if (typeof(T) == typeof(Single)) {
-				inner = new SingleRange (@from, @to, @step);
 			} else {
 				throw new Exception (String.Format("There is implementation for type {0}",typeof(T).Name));
 			}
