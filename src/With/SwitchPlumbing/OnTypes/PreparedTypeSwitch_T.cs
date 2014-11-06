@@ -45,7 +45,7 @@ namespace With.SwitchPlumbing
 			if (TryGetValue(out value)) {
 				return value;
 			}else{
-				throw new Exception("No match found");
+                throw new NoMatchFoundException();
 			}
 		}
 

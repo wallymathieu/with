@@ -4,21 +4,14 @@ using With;
 namespace Tests
 {
     [TestFixture]
-    public class SwitchCase
+    public class SwitchOnTypeTests
     {
-        public class MyClass
-        {
+        public class MyClass{}
 
-        }
+        public class MyClass2{}
 
-        public class MyClass2
-        {
+        public class MyClass3{}
 
-        }
-        public class MyClass3
-        {
-
-        }
         [Test]
         public void Single_case()
         {
@@ -65,7 +58,6 @@ namespace Tests
 			Assert.That(result.Value(), Is.EqualTo(1));
         }
 
-
         [Test]
         public void Prepared_Multi_case()
         {
@@ -76,6 +68,27 @@ namespace Tests
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
             Assert.That(result.ValueOf(instance), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void Should_throw_when_fails_to_match()
+        {
+            var result = Switch.On(new object())
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3);
+            Assert.Throws<NoMatchFoundException>(()=>result.Value());
+        }
+        [Test]
+        public void Should_throw_when_fails_to_match_prepared()
+        {
+            var instance = new MyClass();
+
+            var result = Switch.On()
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3);
+            Assert.Throws<NoMatchFoundException>(() => result.ValueOf(new object()));
         }
     }
 }
