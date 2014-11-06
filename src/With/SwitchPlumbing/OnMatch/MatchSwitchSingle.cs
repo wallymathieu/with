@@ -6,7 +6,7 @@ namespace With.SwitchPlumbing
 
 	public class MatchSwitchSingle<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>{
 		private readonly Ingoing expected;
-		private readonly Func<Outgoing> result;
+		private readonly Func<Ingoing,Outgoing> result;
 		private readonly IMatchSwitch<Ingoing,Outgoing> inner;
 		public override Ingoing Instance {
 			get{ return inner.Instance;}
@@ -18,12 +18,12 @@ namespace With.SwitchPlumbing
 				return true;
 			}
 			if (expected.Equals(Instance)) {
-				value = result ();
+				value = result (Instance);
 				return true;
 			}
 			return false;
 		}
-		public MatchSwitchSingle (IMatchSwitch<Ingoing,Outgoing> inner, Ingoing expected, Func<Outgoing> result)
+		public MatchSwitchSingle (IMatchSwitch<Ingoing,Outgoing> inner, Ingoing expected, Func<Ingoing,Outgoing> result)
 		{
 			this.inner = inner;
 			this.expected = expected;

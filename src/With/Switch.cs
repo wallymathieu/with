@@ -37,10 +37,13 @@ namespace With
         {
             return new PreparedTypeSwitch();
         }
-
+        public static IMatchSwitch<Ingoing, NothingOrPrepared> Case<Ingoing, NothingOrPrepared>(this IMatchSwitch<Ingoing, NothingOrPrepared> that, Ingoing expected, Action<Ingoing> result)
+        {
+            return new MatchSwitchSingle<Ingoing, NothingOrPrepared>(that, expected, ReturnDefault<Ingoing,NothingOrPrepared>(result));
+        }
 		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case <Ingoing,NothingOrPrepared>(this IMatchSwitch<Ingoing,NothingOrPrepared> that, Ingoing expected, Action result)
 		{
-			return new MatchSwitchSingle<Ingoing,NothingOrPrepared> (that, expected,ReturnDefault<NothingOrPrepared>(result));
+            return new MatchSwitchSingle<Ingoing, NothingOrPrepared>(that, expected, ReturnDefault<Ingoing, NothingOrPrepared>((i) => result()));
 		}
 
 		public static IMatchSwitch<Ingoing,NothingOrPrepared> Case<Ingoing,NothingOrPrepared> (this IMatchSwitch<Ingoing,NothingOrPrepared> that, IEnumerable<Ingoing> expected, Action<Ingoing> result)
@@ -69,13 +72,6 @@ namespace With
 			return new MatchSwitchFunc<string,NothingOrPrepared> (that, new Regex(expected).IsMatch, ReturnDefault<string,NothingOrPrepared>((s)=>result()));
 		}
 
-		private static Func<T> ReturnDefault<T>(Action action){
-			return () => {
-				action ();
-				return default(T);
-			};
-		}
-
 		private static Func<T,TReturn> ReturnDefault<T,TReturn>(Action<T> action){
 			return (incoming) => {
 				action (incoming);
@@ -100,9 +96,14 @@ namespace With
 			return new MatchSwitch<Ingoing,Nothing>().Tap(c=>c.Instance =value);
 		}
 
+        public static IMatchSwitch<Ingoing, Outgoing> Case<Ingoing, Outgoing>(this IMatchSwitch<Ingoing, Outgoing> that, Ingoing expected, Func<Ingoing,Outgoing> result)
+        {
+            return new MatchSwitchSingle<Ingoing, Outgoing>(that, expected, result);
+        }
+
 		public static IMatchSwitch<Ingoing,Outgoing> Case <Ingoing,Outgoing>(this IMatchSwitch<Ingoing,Outgoing> that,Ingoing expected, Func<Outgoing> result)
 		{
-			return new MatchSwitchSingle<Ingoing,Outgoing> (that, expected,result);
+			return new MatchSwitchSingle<Ingoing,Outgoing> (that, expected,(i)=>result());
 		}
 
 		public static IMatchSwitch<string,Outgoing> Regex <Outgoing>(this IMatchSwitch<string,Outgoing> that,string expected, Func<string,Outgoing> result)
