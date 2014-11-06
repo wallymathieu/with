@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public abstract class IMatchSwitch<Ingoing,Outgoing>
+	public abstract class IMatchSwitch<In,Out>
 	{
-		public abstract bool TryMatch (out Outgoing value);
+		public abstract bool TryMatch (out Out value);
 
-		public abstract Ingoing Instance {
+		public abstract In Instance {
 			get;
 			set;
 		}
 
-        public Outgoing ValueOf(Ingoing instance)
+        public Out ValueOf(In instance)
         {
             this.Instance = instance;
-            Outgoing value;
+            Out value;
             if (TryMatch(out value))
                 return value;
             throw new NoMatchFoundException();
         }
 
-		public static implicit operator Outgoing(IMatchSwitch<Ingoing,Outgoing> d)
+		public static implicit operator Out(IMatchSwitch<In,Out> d)
 		{
-            Outgoing value;
+            Out value;
             if (d.TryMatch(out value))
                 return value;
             throw new NoMatchFoundException();

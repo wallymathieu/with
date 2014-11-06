@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitch<Ingoing,Outgoing>:IMatchSwitch<Ingoing, Outgoing>{
-		public override bool TryMatch (out Outgoing value)
+	public class MatchSwitch<In,Out>:IMatchSwitch<In, Out>{
+		public override bool TryMatch (out Out value)
 		{
-			value = default(Outgoing);
+			value = default(Out);
 			return false;
 		}
 
-		public override Ingoing Instance {
+		public override In Instance {
 			get;
 			set;
 		}

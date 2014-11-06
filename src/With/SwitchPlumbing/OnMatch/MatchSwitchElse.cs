@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	
-	public class MatchSwitchElse<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>
+	public class MatchSwitchElse<In,Out>:IMatchSwitch<In,Out>
 	{
-		private readonly Func<Ingoing,Outgoing> result;
-		private readonly IMatchSwitch<Ingoing,Outgoing> inner;
+		private readonly Func<In,Out> result;
+		private readonly IMatchSwitch<In,Out> inner;
 
-		public MatchSwitchElse (IMatchSwitch<Ingoing,Outgoing> inner,Func<Ingoing,Outgoing> result)
+		public MatchSwitchElse (IMatchSwitch<In,Out> inner,Func<In,Out> result)
 		{
 			this.inner = inner;
 			this.result = result;
 		}
-		public override bool TryMatch (out Outgoing value)
+		public override bool TryMatch (out Out value)
 		{
 			if (inner.TryMatch (out value)) {
 				return true;
@@ -23,7 +22,7 @@ namespace With.SwitchPlumbing
 			return true;
 		}
 
-		public override Ingoing Instance {
+		public override In Instance {
 			get{ return inner.Instance;}
 			set{ inner.Instance = value;}
 		}

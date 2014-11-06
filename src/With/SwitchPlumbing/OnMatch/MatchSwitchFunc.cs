@@ -4,16 +4,16 @@ using System.Linq;
 using With.RangePlumbing;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitchFunc<Ingoing,Outgoing>:IMatchSwitch<Ingoing,Outgoing>{
-		private readonly Func<Ingoing,bool> expected;
-		private readonly Func<Ingoing,Outgoing> result;
-		private readonly IMatchSwitch<Ingoing,Outgoing> inner;
-		public override Ingoing Instance {
+	public class MatchSwitchFunc<In,Out>:IMatchSwitch<In,Out>{
+		private readonly Func<In,bool> expected;
+		private readonly Func<In,Out> result;
+		private readonly IMatchSwitch<In,Out> inner;
+		public override In Instance {
 			get{ return inner.Instance;}
 			set{ inner.Instance = value;}
 		}
 
-		public override bool TryMatch (out Outgoing value)
+		public override bool TryMatch (out Out value)
 		{
 			if (inner.TryMatch (out value)) {
 				return true;
@@ -25,17 +25,17 @@ namespace With.SwitchPlumbing
 			return false;
 		}
 
-		public MatchSwitchFunc (IMatchSwitch<Ingoing,Outgoing> inner, IEnumerable<Ingoing> expected, Func<Ingoing,Outgoing> result)
+		public MatchSwitchFunc (IMatchSwitch<In,Out> inner, IEnumerable<In> expected, Func<In,Out> result)
 		{
 			this.inner = inner;
-			if (expected is IStep<Ingoing>) {
-				this.expected = ((IStep<Ingoing>)(expected)).Contain;
+			if (expected is IStep<In>) {
+				this.expected = ((IStep<In>)(expected)).Contain;
 			} else {
 				this.expected = expected.Contains;
 			}
 			this.result = result;
 		}
-		public MatchSwitchFunc (IMatchSwitch<Ingoing,Outgoing> inner, Func<Ingoing,bool> expected, Func<Ingoing,Outgoing> result)
+		public MatchSwitchFunc (IMatchSwitch<In,Out> inner, Func<In,bool> expected, Func<In,Out> result)
 		{
 			this.inner = inner;
 			this.expected = expected;

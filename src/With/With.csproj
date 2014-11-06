@@ -37,11 +37,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpectedButGotException.cs" />
+    <Compile Include="IMatchSwitchExtensions.cs" />
     <Compile Include="MissingValueException.cs" />
+    <Compile Include="NumbericExtensions.cs" />
+    <Compile Include="RegexMatchSwitchExtensions.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
-    <Compile Include="SwitchPlumbing\OnMatch\NoMatchFoundException.cs" />
-    <Compile Include="With.cs" />
+    <Compile Include="NoMatchFoundException.cs" />
+    <Compile Include="SwitchPlumbing\f.cs" />
+    <Compile Include="TypeSwitchExtensions.cs" />
+    <Compile Include="WithExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Let.cs" />
     <Compile Include="CommonExtensions.cs" />
@@ -66,10 +71,7 @@
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="RangePlumbing\IStep.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch.cs" />
-    <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition.cs" />
-    <Compile Include="SwitchPlumbing\OnRegex\PreparedRegexCondition_T.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
-    <Compile Include="SwitchPlumbing\OnRegex\IPreparedRegexCondition.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\IPreparedTypeSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\IMatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
