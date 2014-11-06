@@ -3,7 +3,7 @@
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
 ##Examples
-###With readonly value set in a new class
+###With readonly value set in a new instance of the same class, but with all the other values from the old instance
 ```
 new MyClass(1, "2").With(m => m.MyProperty, 3)
 
@@ -11,7 +11,7 @@ new MyClass(1, "2").With(m => m.MyProperty, 3)
 new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "value")
 ```
 
-Or to change the type of MyClass to MyClass2
+Or to change the type of MyClass to MyClass2 (where MyClass2 inherits from MyClass)
 ```
 new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3, 3)
 
