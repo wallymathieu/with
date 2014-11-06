@@ -2,8 +2,8 @@
 using With;
 using NUnit.Framework;
 namespace Tests
-{	
-	[TestFixture]
+{
+    [TestFixture, Category("Case")]
 	public class MatchFuncTests
 	{
 		private string DoMatch(int v){

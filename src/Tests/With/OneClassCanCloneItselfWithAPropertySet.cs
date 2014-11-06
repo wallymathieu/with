@@ -2,7 +2,7 @@
 using With;
 namespace Tests
 {
-    [TestFixture]
+    [TestFixture, Category("With")]
     public class OneClassCanCloneItselfWithAPropertySet
     {
         public class MyClass

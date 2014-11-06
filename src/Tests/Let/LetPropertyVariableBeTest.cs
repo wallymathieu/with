@@ -4,7 +4,7 @@ using With;
 
 namespace Tests
 {
-	[TestFixture]
+    [TestFixture, Category("Let")]
 	public class LetPropertyVariableBeTest
 	{
 		class MyClass

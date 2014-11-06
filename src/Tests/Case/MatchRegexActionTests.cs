@@ -2,9 +2,9 @@ using System;
 using With;
 using NUnit.Framework;
 namespace Tests
-{	
+{
 
-	[TestFixture]
+    [TestFixture, Category("Case")]
 	public class MatchRegexActionTests
 	{
 		private string DoMatch(string v){

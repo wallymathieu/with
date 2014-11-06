@@ -6,7 +6,7 @@ using NUnit.Framework;
 using With;
 namespace Tests
 {
-    [TestFixture]
+    [TestFixture, Category("With")]
     public class AClassWithSeveralProperties
     {
         public class MyClass

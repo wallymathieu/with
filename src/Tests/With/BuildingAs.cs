@@ -3,7 +3,7 @@ using NUnit.Framework;
 using With;
 namespace Tests
 {
-	[TestFixture]
+    [TestFixture, Category("With")]
 	public class BuildingAs
 	{
 		public class MyClass

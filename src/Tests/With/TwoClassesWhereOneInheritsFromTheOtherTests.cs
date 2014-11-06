@@ -4,7 +4,7 @@ using NUnit.Framework;
 using With;
 namespace Tests
 {
-    [TestFixture]
+    [TestFixture, Category("With")]
     public class TwoClassesWhereOneInheritsFromTheOtherTests
     {
         public class MyClass

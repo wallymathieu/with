@@ -2,8 +2,8 @@ using System;
 using With;
 using NUnit.Framework;
 namespace Tests
-{	
-	[TestFixture]
+{
+    [TestFixture, Category("Case")]
 	public class MatchRegexFuncTests
 	{
 		private string DoMatch(string v){

@@ -3,7 +3,7 @@ using With;
 using NUnit.Framework;
 namespace Tests
 {	
-	[TestFixture]
+	[TestFixture, Category("Case")]
 	public class MatchActionTests
 	{
 		private string DoMatch(int v){
