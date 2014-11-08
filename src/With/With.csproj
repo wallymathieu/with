@@ -45,6 +45,7 @@
     <Compile Include="Switch.cs" />
     <Compile Include="NoMatchFoundException.cs" />
     <Compile Include="SwitchPlumbing\f.cs" />
+    <Compile Include="Switch_generated.cs" />
     <Compile Include="TypeSwitchExtensions.cs" />
     <Compile Include="WithExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

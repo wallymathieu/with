@@ -3,43 +3,61 @@ using With;
 using Xunit;
 namespace Tests
 {
-	public class MatchFuncTests
-	{
-		private string DoMatch(int v){
-			return Switch.Match<int,string> (v)
-				.Case (1, () => "One!")
-				.Case (new []{ 2, 3, 5, 7, 11 }, p => "This is a prime!")
-				.Case (13.To (19), t => "A teen")
-				.Case (i=>i==42,(i)=>"Meaning of life")
-				.Case (i=>i==52,()=>"Some other number")
-				.Else (_ => "Ain't special");
-		}
+    public class MatchFuncTests
+    {
+        private string DoMatch(int v)
+        {
+            return Switch.Match<int, string>(v)
+                .Case(1, () => "One!")
+                .Case(new[] { 2, 3, 5, 7, 11 }, p => "This is a prime!")
+                .Case(13.To(19), t => "A teen")
+                .Case(i => i == 42, (i) => "Meaning of life")
+                .Case(i => i == 52, () => "Some other number")
+                .Else(_ => "Ain't special");
+        }
 
-		[Fact]
-		public void Test_one(){
-			Assert.Equal(DoMatch (1), "One!");
-		}
-		[Fact]
-		public void Test_prime(){
-			Assert.Equal(DoMatch (7), "This is a prime!");
-		}
-		[Fact]
-		public void Test_teen(){
-			Assert.Equal(DoMatch (17), "A teen");
-		}
-		[Fact]
-		public void Test_other(){
-			Assert.Equal(DoMatch (200), "Ain't special");
-			Assert.Equal(DoMatch (29), "Ain't special");
-		}
-		[Fact]
-		public void Test_meaning_of_life(){
-			Assert.Equal(DoMatch (42), "Meaning of life");
-		}
+        [Fact]
+        public void Test_one_using_different_syntax()
+        {
+            string result = Switch.Match<int, string>(1,
+                1.AsArray(), _ => "One!",
+                new[] { 2, 3, 5, 7, 11 }, _ => "This is a prime!",
+                13.To(19), _ => "A teen")
+                .Else(_ => "Ain't special");
+            Assert.Equal("One!", result);
+        }
+
+        [Fact]
+        public void Test_one()
+        {
+            Assert.Equal(DoMatch(1), "One!");
+        }
+        [Fact]
+        public void Test_prime()
+        {
+            Assert.Equal(DoMatch(7), "This is a prime!");
+        }
+        [Fact]
+        public void Test_teen()
+        {
+            Assert.Equal(DoMatch(17), "A teen");
+        }
+        [Fact]
+        public void Test_other()
+        {
+            Assert.Equal(DoMatch(200), "Ain't special");
+            Assert.Equal(DoMatch(29), "Ain't special");
+        }
+        [Fact]
+        public void Test_meaning_of_life()
+        {
+            Assert.Equal(DoMatch(42), "Meaning of life");
+        }
         [Fact]
         public void Test_does_not_match()
         {
-            Assert.Throws<NoMatchFoundException>(() => {
+            Assert.Throws<NoMatchFoundException>(() =>
+            {
                 string one = Switch.Match<int, string>(2)
                     .Case(1, () => "One!");
             });
@@ -105,6 +123,6 @@ namespace Tests
             Assert.Equal(result.ValueOf(instance), 3);
         }
 
-	}
+    }
 }
 

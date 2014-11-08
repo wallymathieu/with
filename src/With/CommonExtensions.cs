@@ -9,6 +9,10 @@ namespace With
 			tapaction(that);
 			return that;
 		}
+        public static T[] AsArray<T>(this T t) 
+        {
+            return new[] { t };
+        }
 	}
 }
 

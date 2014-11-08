@@ -38,10 +38,18 @@ task :install_packages do
   end
 end
 
-desc "test using nunit console"
-test_runner :test => [:build] do |nunit|
-  nunit.exe = NuGet::xunit_path
+desc "test using console"
+test_runner :test => [:build] do |runner|
+  runner.exe = NuGet::xunit_path
   files = [File.join(File.dirname(__FILE__),"src","Tests","bin","Debug","Tests.dll")]
-  nunit.files = files 
+  runner.files = files 
 end
 
+require_relative 'templates/with'
+desc "Generate switch extensions"
+task :generate do |t|
+  file = File.join(File.dirname(__FILE__),"src","With","Switch_generated.cs")
+  File.open(file,"w") do |f|
+    f<<With.new(6).to_s
+  end
+end

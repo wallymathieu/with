@@ -1,15 +1,13 @@
 ﻿using With.SwitchPlumbing;
-using System;
 
 namespace With
 {
-    public static class Switch
+    public static partial class Switch
     {
 		public static PreparedTypeSwitch On(object instance)
         {
 			return new PreparedTypeSwitch().Tap(tc=>tc.Instance= instance);
         }
-
         public static PreparedTypeSwitch On()
         {
             return new PreparedTypeSwitch();

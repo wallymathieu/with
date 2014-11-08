@@ -110,5 +110,17 @@ namespace Tests
                 .Else(_=>4);
             Assert.Equal(4, result.ValueOf(instance));
         }
+
+        [Theory, AutoData]
+        public void Should_exec_else_when_fails_to_match_using_slightly_less_code(
+            int instance)
+        {
+            var result = Switch.On(instance,
+                (MyClass c) => 1,
+                (MyClass2 c) => 2,
+                (MyClass3 c) => 3)
+                .Else(_ => 4);
+            Assert.Equal(4, result.ValueOf(instance));
+        }
     }
 }
