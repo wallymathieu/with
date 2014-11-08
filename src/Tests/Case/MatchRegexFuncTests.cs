@@ -1,7 +1,6 @@
 using System;
 using With;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {
 	public class MatchRegexFuncTests
@@ -15,21 +14,21 @@ namespace Tests
 				.Else (_ => "Ain't special");
 		}
 
-		[Test]
+		[Fact]
 		public void Test_one(){
 			Assert.Equal(DoMatch ("1"), "One!");
 		}
-		[Test]
+		[Fact]
 		public void Test_complicated(){
 			Assert.Equal(DoMatch ("Rio1"), "Happ!");
 		}
 
-		[Test]
+		[Fact]
 		public void Test_other(){
 			Assert.Equal(DoMatch ("200"), "Ain't special");
 			Assert.Equal(DoMatch ("29"), "Ain't special");
 		}
-		[Test]
+		[Fact]
 		public void Test_meaning_of_life(){
 			Assert.Equal(DoMatch ("42"), "Meaning of life");
 		}

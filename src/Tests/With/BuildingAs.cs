@@ -1,6 +1,5 @@
 ﻿using System;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
@@ -27,7 +26,7 @@ namespace Tests
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void A_class_should_map_its_parents_properties_and_get_the_new_value()
 		{
 			var time = new DateTime(2001, 1, 1);

@@ -1,6 +1,5 @@
 ﻿using System;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
@@ -17,7 +16,7 @@ namespace Tests
 			public string MyProperty2 { get; private set; }
 		}
 
-		[Test]
+		[Fact]
 		public void A_class_should_be_able_to_create_a_clone_with_a_property_set()
 		{
 			MyClass ret = new MyClass(1, "2").With()
@@ -26,7 +25,7 @@ namespace Tests
 			Assert.Equal(ret.MyProperty2, "2");
 		}
 
-		[Test]
+		[Fact]
 		public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal()
 		{
 			MyClass ret = new MyClass(1, "2").With()

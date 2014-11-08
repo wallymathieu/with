@@ -1,7 +1,6 @@
 ﻿using System;
 using With;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using System.Linq;
 using Ploeh.AutoFixture.Xunit;
 using Xunit.Extensions;
@@ -9,7 +8,7 @@ namespace Tests
 {
 	public class RangeTests
 	{
-		[Test]
+		[Fact]
 		public void New_Int_range()
 		{
 			Assert.Equal (new Range<int> (0,2).ToArray(),new []{ 0, 1, 2 });
@@ -19,12 +18,12 @@ namespace Tests
 		{
             Assert.Equal(0.To(size).ToArray(), new Range<int>(0, size).ToArray());
 		}
-		[Test]
+		[Fact]
 		public void Int_range_with_step()
 		{
             Assert.Equal(0.To(4).Step(2).ToArray(), new[] { 0, 2, 4 });
 		}
-		[Test]
+		[Fact]
 		public void Int_range_have()
 		{
 			var range = 0.To (4).Step (2);
@@ -32,7 +31,7 @@ namespace Tests
             Assert.Equal(range.Contain(0), true);
             Assert.Equal(range.Contain(4), true);
 		}
-        [Test]
+        [Fact]
         public void Int_range_doesn_not_have()
         {
             var range = 0.To(4).Step(2);
@@ -41,23 +40,23 @@ namespace Tests
             Assert.Equal(range.Contain(1), false);
             Assert.Equal(range.Contain(5), false);
         }
-		[Test]
+		[Fact]
 		public void New_Long_range()
 		{
             Assert.Equal(new Range<long>(0, 2).ToArray(), new long[] { 0, 1, 2 });
 		}
-		[Test]
+		[Fact]
 		public void Long_range()
 		{
             Assert.Equal(0L.To(2L).ToArray(), new[] { 0L, 1L, 2L });
 		}
-		[Test]
+		[Fact]
 		public void Long_range_with_step()
 		{
             Assert.Equal(0L.To(4L).Step(2).ToArray(), new long[] { 0L, 2L, 4L });
 		}
 
-		[Test]
+		[Fact]
 		public void Long_range_has()
 		{
 			var range = 0L.To (4L).Step (2L);
@@ -69,22 +68,22 @@ namespace Tests
             Assert.Equal(range.Contain(1), false);
             Assert.Equal(range.Contain(5), false);
         }
-		[Test]
+		[Fact]
 		public void New_Decimal_range()
 		{
             Assert.Equal(new Range<Decimal>(0.1m, 2.1m).ToArray(), new[] { 0.1m, 1.1m, 2.1m });
 		}
-		[Test]
+		[Fact]
 		public void Decimal_range()
 		{
             Assert.Equal(0.1m.To(2.1m).ToArray(), new[] { 0.1m, 1.1m, 2.1m });
 		}
-		[Test]
+		[Fact]
 		public void Decimal_range_with_step()
 		{
             Assert.Equal(0.1m.To(4.1m).Step(2).ToArray(), new[] { 0.1m, 2.1m, 4.1m });
 		}
-		[Test]
+		[Fact]
 		public void Decimal_range_has()
 		{
 			var range = 0.1m.To(4.1m).Step(2m);

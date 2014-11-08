@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using With;
 using Ploeh.AutoFixture.Xunit;
 using Xunit.Extensions;

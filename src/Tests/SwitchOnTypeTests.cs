@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using With;
 
 namespace Tests
@@ -12,7 +11,7 @@ namespace Tests
 
         public class MyClass3{}
 
-        [Test]
+        [Fact]
         public void Single_case()
         {
             var instance = new MyClass();
@@ -23,7 +22,7 @@ namespace Tests
             Assert.Equal(result, 1);
         }
 
-        [Test]
+        [Fact]
         public void Multi_case()
         {
             var instance = new MyClass();
@@ -35,7 +34,7 @@ namespace Tests
             Assert.Equal(result, 1);
         }
 
-		[Test]
+		[Fact]
 		public void Multi_case_3()
 		{
 			var instance = new MyClass3();
@@ -47,7 +46,7 @@ namespace Tests
 			Assert.Equal(result, 3);
 		}
 
-        [Test]
+        [Fact]
         public void Multi_case_with_a_differnt_order()
         {
             var instance = new MyClass();
@@ -59,7 +58,7 @@ namespace Tests
 			Assert.Equal(result.Value(), 1);
         }
 
-        [Test]
+        [Fact]
         public void Prepared_Multi_case()
         {
             var instance = new MyClass();
@@ -71,7 +70,7 @@ namespace Tests
             Assert.Equal(result.ValueOf(instance), 1);
         }
 
-        [Test]
+        [Fact]
         public void Should_throw_when_fails_to_match()
         {
             var result = Switch.On(new object())
@@ -80,7 +79,7 @@ namespace Tests
                 .Case((MyClass3 c) => 3);
             Assert.Throws<NoMatchFoundException>(()=>result.Value());
         }
-        [Test]
+        [Fact]
         public void Should_throw_when_fails_to_match_prepared()
         {
             var instance = new MyClass();

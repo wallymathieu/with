@@ -1,6 +1,5 @@
 ﻿using With;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {
     public class OneClassCanCloneItselfWithAPropertySet
@@ -16,21 +15,21 @@ namespace Tests
             public string MyProperty2 { get; private set; }
         }
 
-        [Test]
+        [Fact]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set()
         {
             var ret = new MyClass(1, "2").With(m => m.MyProperty, 3);
             Assert.Equal(ret.MyProperty, 3);
             Assert.Equal(ret.MyProperty2, "2");
         }
-        [Test]
+        [Fact]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal()
         {
             var ret = new MyClass(1, "2").With(m => m.MyProperty == 3);
             Assert.Equal(ret.MyProperty, 3);
             Assert.Equal(ret.MyProperty2, "2");
         }
-        [Test]
+        [Fact]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal()
         {
             var ret = new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "3");
@@ -38,7 +37,7 @@ namespace Tests
             Assert.Equal(ret.MyProperty2, "3");
         }
 
-        [Test]
+        [Fact]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal_and_another_propertyvalue()
         {
             var t = new MyClass(3, "3");
@@ -46,7 +45,7 @@ namespace Tests
             Assert.Equal(ret.MyProperty, 3);
             Assert.Equal(ret.MyProperty2, "2");
         }
-        [Test]
+        [Fact]
         public void A_class_should_throw_a_decent_exception_when_changing_the_order()
         {
             var t = new { MyProperty = 3 };

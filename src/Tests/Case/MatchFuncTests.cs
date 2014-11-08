@@ -1,7 +1,6 @@
 ﻿using System;
 using With;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {
 	public class MatchFuncTests
@@ -16,28 +15,28 @@ namespace Tests
 				.Else (_ => "Ain't special");
 		}
 
-		[Test]
+		[Fact]
 		public void Test_one(){
 			Assert.Equal(DoMatch (1), "One!");
 		}
-		[Test]
+		[Fact]
 		public void Test_prime(){
 			Assert.Equal(DoMatch (7), "This is a prime!");
 		}
-		[Test]
+		[Fact]
 		public void Test_teen(){
 			Assert.Equal(DoMatch (17), "A teen");
 		}
-		[Test]
+		[Fact]
 		public void Test_other(){
 			Assert.Equal(DoMatch (200), "Ain't special");
 			Assert.Equal(DoMatch (29), "Ain't special");
 		}
-		[Test]
+		[Fact]
 		public void Test_meaning_of_life(){
 			Assert.Equal(DoMatch (42), "Meaning of life");
 		}
-        [Test]
+        [Fact]
         public void Test_does_not_match()
         {
             Assert.Throws<NoMatchFoundException>(() => {
@@ -46,7 +45,7 @@ namespace Tests
             });
         }
 
-        [Test]
+        [Fact]
         public void Regex_find_first()
         {
             var instance = "m";
@@ -58,7 +57,7 @@ namespace Tests
             Assert.Equal(result, 1);
         }
 
-        [Test]
+        [Fact]
         public void Regex_find_complicated()
         {
             var instance = "Rio1";
@@ -70,7 +69,7 @@ namespace Tests
             Assert.Equal(result, 3);
         }
 
-        [Test]
+        [Fact]
         public void Regex_use_match_object()
         {
             var instance = "Rio3";
@@ -82,7 +81,7 @@ namespace Tests
             Assert.Equal(result, 3);
         }
 
-        [Test]
+        [Fact]
         public void Regex_find_complicated_differnt_order()
         {
             var instance = "Rio1";
@@ -94,7 +93,7 @@ namespace Tests
             Assert.Equal(result, 3);
         }
 
-        [Test]
+        [Fact]
         public void Regex_prepared_Find_complicated()
         {
             var instance = "Rio1";

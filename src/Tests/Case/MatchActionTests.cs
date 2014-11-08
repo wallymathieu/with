@@ -1,7 +1,6 @@
 using System;
 using With;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {	
 	public class MatchActionTests
@@ -18,24 +17,24 @@ namespace Tests
 			return retval;
 		}
 
-		[Test]
+		[Fact]
 		public void Test_one(){
 			Assert.Equal(DoMatch (1), "One!");
 		}
-		[Test]
+		[Fact]
 		public void Test_prime(){
 			Assert.Equal(DoMatch (7), "This is a prime!");
 		}
-		[Test]
+		[Fact]
 		public void Test_teen(){
 			Assert.Equal(DoMatch (17), "A teen");
 		}
-		[Test]
+		[Fact]
 		public void Test_other(){
 			Assert.Equal(DoMatch (200), "Ain't special");
 			Assert.Equal(DoMatch (29), "Ain't special");
 		}
-		[Test]
+		[Fact]
 		public void Test_meaning_of_life(){
 			Assert.Equal(DoMatch (42), "Meaning of life");
 		}

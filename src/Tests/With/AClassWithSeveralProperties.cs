@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
-using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
@@ -24,7 +23,7 @@ namespace Tests
             public string MyProperty4 { get; private set; }
         }
 
-        [Test]
+        [Fact]
         public void A_class_should_be_able_to_create_a_clone_with_several_properties_set_using_equal_equal()
         {
             var ret = new MyClass(1, "1","2","3").With(m => 
