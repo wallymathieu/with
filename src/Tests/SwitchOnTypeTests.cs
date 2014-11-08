@@ -19,7 +19,7 @@ namespace Tests
             int result = Switch.On(instance)
                 .Case((MyClass c) => 1);
 
-            Assert.Equal(result, 1);
+            Assert.Equal(1, result);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
-            Assert.Equal(result, 1);
+            Assert.Equal(1, result);
         }
 
 		[Fact]
@@ -43,8 +43,21 @@ namespace Tests
 				.Case((MyClass c) => 1)
 				.Case((MyClass2 c) => 2)
 				.Case((MyClass3 c) => 3);
-			Assert.Equal(result, 3);
+			Assert.Equal(3, result);
 		}
+
+        [Fact]
+        public void Multi_case_else()
+        {
+            var instance = new object();
+
+            int result = Switch.On(instance)
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3)
+                .Else(_=>4);
+            Assert.Equal(4, result);
+        }
 
         [Fact]
         public void Multi_case_with_a_differnt_order()
@@ -55,7 +68,7 @@ namespace Tests
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
                 .Case((MyClass c) => 1);
-			Assert.Equal(result.Value(), 1);
+			Assert.Equal(1, result.Value());
         }
 
         [Fact]
@@ -67,7 +80,7 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
-            Assert.Equal(result.ValueOf(instance), 1);
+            Assert.Equal(1, result.ValueOf(instance));
         }
 
         [Fact]
@@ -89,6 +102,18 @@ namespace Tests
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
             Assert.Throws<NoMatchFoundException>(() => result.ValueOf(new object()));
+        }
+        [Fact]
+        public void Should_exec_else_when_fails_to_match_prepared()
+        {
+            var instance = new MyClass();
+
+            var result = Switch.On()
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3)
+                .Else(_=>4);
+            Assert.Equal(4, result.ValueOf(new object()));
         }
     }
 }
