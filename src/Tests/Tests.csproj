@@ -54,6 +54,7 @@
     <Compile Include="With\AClassWithSeveralProperties.cs" />
     <Compile Include="SwitchOnTypeTests.cs" />
     <Compile Include="With\OneClassCanCloneItselfWithAPropertySet.cs" />
+    <Compile Include="With\TestData\MyClass.cs" />
     <Compile Include="With\TwoClassesWhereOneInheritsFromTheOtherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="With\TwoClassesWithoutInheritance.cs" />

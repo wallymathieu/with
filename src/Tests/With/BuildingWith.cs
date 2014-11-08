@@ -1,38 +1,29 @@
 ﻿using System;
-using Xunit;
 using With;
+using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
+using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
+using Assert = Xunit.Assert;
 namespace Tests
 {
 	public class BuildingWith
 	{
-		public class MyClass
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_a_property_set(MyClass instance, int newInt)
 		{
-			public MyClass(int myProperty, string myProperty2)
-			{
-				MyProperty = myProperty;
-				MyProperty2 = myProperty2;
-			}
-			public int MyProperty { get; private set; }
-			public string MyProperty2 { get; private set; }
+            MyClass ret = instance.With()
+				.Eql(m => m.MyProperty, newInt);
+			Assert.Equal(newInt, ret.MyProperty);
+			Assert.Equal(instance.MyProperty2, ret.MyProperty2);
 		}
 
-		[Fact]
-		public void A_class_should_be_able_to_create_a_clone_with_a_property_set()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(MyClass instance, int newInt,string newString)
 		{
-			MyClass ret = new MyClass(1, "2").With()
-				.Eql(m => m.MyProperty, 3);
-			Assert.Equal(ret.MyProperty, 3);
-			Assert.Equal(ret.MyProperty2, "2");
-		}
-
-		[Fact]
-		public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal()
-		{
-			MyClass ret = new MyClass(1, "2").With()
-				.Eql(m => m.MyProperty, 3)
-				.Eql(m => m.MyProperty2, "3");
-			Assert.Equal(ret.MyProperty, 3);
-			Assert.Equal(ret.MyProperty2, "3");
+            MyClass ret = instance.With()
+				.Eql(m => m.MyProperty, newInt)
+				.Eql(m => m.MyProperty2, newString);
+			Assert.Equal(newInt, ret.MyProperty);
+			Assert.Equal(newString, ret.MyProperty2);
 		}
 	}
 }

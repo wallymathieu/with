@@ -1,5 +1,5 @@
-﻿using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
-using With;
+﻿using With;
+using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
 using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 using Assert = Xunit.Assert;
 using System;
