@@ -40,7 +40,7 @@ end
 
 desc "test using nunit console"
 test_runner :test => [:build] do |nunit|
-  nunit.exe = NuGet::nunit_path
+  nunit.exe = NuGet::xunit_path
   files = [File.join(File.dirname(__FILE__),"src","Tests","bin","Debug","Tests.dll")]
   nunit.files = files 
 end

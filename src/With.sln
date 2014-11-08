@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.20827.3
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "With\With.csproj", "{E0894165-7345-4AF4-B477-CA21AB0344F5}"
 EndProject
@@ -11,10 +11,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{034539
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\nuget.rb = .nuget\nuget.rb
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{7DDC70FD-7DA6-473B-8779-528442DC497D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C1B5645D-F534-4236-ABB6-B946703EBA63}"
+	ProjectSection(SolutionItems) = preProject
+		..\Gemfile = ..\Gemfile
+		..\rakefile.rb = ..\rakefile.rb
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +30,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,17 +42,11 @@ Global
 		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = With\With.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = With\With.csproj
 	EndGlobalSection
 EndGlobal

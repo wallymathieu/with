@@ -1,98 +1,104 @@
 ﻿using System;
 using With;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 using System.Linq;
-
+using Ploeh.AutoFixture.Xunit;
+using Xunit.Extensions;
 namespace Tests
 {
-	[TestFixture]
 	public class RangeTests
 	{
 		[Test]
 		public void New_Int_range()
 		{
-			Assert.That (new Range<int> (0,2).ToArray(), Is.EquivalentTo (new []{ 0, 1, 2 }));
+			Assert.Equal (new Range<int> (0,2).ToArray(),new []{ 0, 1, 2 });
 		}
-		[Test]
-		public void Int_range()
+        [Theory, AutoData]
+		public void Int_range(int size)
 		{
-			Assert.That ( 0.To( 2).ToArray(), Is.EquivalentTo (new []{ 0, 1, 2 }));
+            Assert.Equal(0.To(size).ToArray(), new Range<int>(0, size).ToArray());
 		}
 		[Test]
 		public void Int_range_with_step()
 		{
-			Assert.That ( 0.To( 4).Step(2).ToArray(), Is.EquivalentTo (new []{ 0, 2, 4 }));
+            Assert.Equal(0.To(4).Step(2).ToArray(), new[] { 0, 2, 4 });
 		}
 		[Test]
-		public void Int_range_has()
+		public void Int_range_have()
 		{
 			var range = 0.To (4).Step (2);
-			Assert.That (range.Contain(2), Is.True);
-			Assert.That (range.Contain(0), Is.True);
-			Assert.That (range.Contain(4), Is.True);
-
-			Assert.That (range.Contain(-1), Is.False);
-			Assert.That (range.Contain(1), Is.False);
-			Assert.That (range.Contain(5), Is.False);
+			Assert.Equal (range.Contain(2), true);
+            Assert.Equal(range.Contain(0), true);
+            Assert.Equal(range.Contain(4), true);
 		}
+        [Test]
+        public void Int_range_doesn_not_have()
+        {
+            var range = 0.To(4).Step(2);
+            var expected = new[] { 0, 2, 4 };
+            Assert.Equal(range.Contain(-1), false);
+            Assert.Equal(range.Contain(1), false);
+            Assert.Equal(range.Contain(5), false);
+        }
 		[Test]
 		public void New_Long_range()
 		{
-			Assert.That (new Range<long> (0,2).ToArray(), Is.EquivalentTo (new []{ 0, 1, 2 }));
+            Assert.Equal(new Range<long>(0, 2).ToArray(), new long[] { 0, 1, 2 });
 		}
 		[Test]
 		public void Long_range()
 		{
-			Assert.That ( 0L.To( 2L).ToArray(), Is.EquivalentTo (new []{ 0L, 1L, 2L }));
+            Assert.Equal(0L.To(2L).ToArray(), new[] { 0L, 1L, 2L });
 		}
 		[Test]
 		public void Long_range_with_step()
 		{
-			Assert.That ( 0L.To( 4L).Step(2).ToArray(), Is.EquivalentTo (new []{ 0L, 2L, 4L }));
+            Assert.Equal(0L.To(4L).Step(2).ToArray(), new long[] { 0L, 2L, 4L });
 		}
 
 		[Test]
 		public void Long_range_has()
 		{
 			var range = 0L.To (4L).Step (2L);
-			Assert.That (range.Contain(2), Is.True);
-			Assert.That (range.Contain(0), Is.True);
-			Assert.That (range.Contain(4), Is.True);
+            Assert.Equal(range.Contain(2), true);
+            Assert.Equal(range.Contain(0), true);
+            Assert.Equal(range.Contain(4), true);
 
-			Assert.That (range.Contain(-1), Is.False);
-			Assert.That (range.Contain(1), Is.False);
-			Assert.That (range.Contain(5), Is.False);
-		}
+            Assert.Equal(range.Contain(-1), false);
+            Assert.Equal(range.Contain(1), false);
+            Assert.Equal(range.Contain(5), false);
+        }
 		[Test]
 		public void New_Decimal_range()
 		{
-			Assert.That (new Range<Decimal> (0.1m,2.1m).ToArray(), Is.EquivalentTo (new []{ 0.1m, 1.1m, 2.1m }));
+            Assert.Equal(new Range<Decimal>(0.1m, 2.1m).ToArray(), new[] { 0.1m, 1.1m, 2.1m });
 		}
 		[Test]
 		public void Decimal_range()
 		{
-			Assert.That (0.1m.To(2.1m).ToArray(), Is.EquivalentTo (new []{ 0.1m, 1.1m, 2.1m }));
+            Assert.Equal(0.1m.To(2.1m).ToArray(), new[] { 0.1m, 1.1m, 2.1m });
 		}
 		[Test]
 		public void Decimal_range_with_step()
 		{
-			Assert.That (0.1m.To(4.1m).Step(2).ToArray(), Is.EquivalentTo (new []{ 0.1m, 2.1m, 4.1m }));
+            Assert.Equal(0.1m.To(4.1m).Step(2).ToArray(), new[] { 0.1m, 2.1m, 4.1m });
 		}
 		[Test]
 		public void Decimal_range_has()
 		{
 			var range = 0.1m.To(4.1m).Step(2m);
-			Assert.That (range.Contain(2.1m), Is.True);
-			Assert.That (range.Contain(0.1m), Is.True);
-			Assert.That (range.Contain(4.1m), Is.True);
+			Assert.Equal(range.Contain(2.1m), true);
+			Assert.Equal(range.Contain(0.1m), true);
+			Assert.Equal(range.Contain(4.1m), true);
 
-			Assert.That (range.Contain(-1.1m), Is.False);
-			Assert.That (range.Contain(1.1m), Is.False);
-			Assert.That (range.Contain(5.1m), Is.False);
+			Assert.Equal(range.Contain(-1.1m), false);
+			Assert.Equal(range.Contain(1.1m), false);
+			Assert.Equal(range.Contain(5.1m), false);
 
-			Assert.That (range.Contain(2m), Is.False);
-			Assert.That (range.Contain(0m), Is.False);
-			Assert.That (range.Contain(4m), Is.False);
+			Assert.Equal(range.Contain(2m), false);
+			Assert.Equal(range.Contain(0m), false);
+			Assert.Equal(range.Contain(4m), false);
 		}
 	}
 }

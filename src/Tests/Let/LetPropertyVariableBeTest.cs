@@ -1,13 +1,15 @@
 ﻿using System;
-using NUnit.Framework;
 using With;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
+using Ploeh.AutoFixture.Xunit;
+using Xunit.Extensions;
 
 namespace Tests
 {
-    [TestFixture, Category("Let")]
 	public class LetPropertyVariableBeTest
 	{
-		class MyClass
+		public class MyClass
 		{
 			public MyClass ()
 			{
@@ -23,80 +25,75 @@ namespace Tests
 			}
 		}
 
-        [Test]
-        public void Test_cleaner_syntax()
+        [Theory, AutoData]
+        public void Test_cleaner_syntax(MyClass myClass, int temporary)
         {
-            var myClass = new MyClass();
-            using (myClass.SetTemporary(obj => obj.Value, 13))
+            using (myClass.SetTemporary(obj => obj.Value, temporary))
             {
-                Assert.That(myClass.Value, Is.EqualTo(13));
+                Assert.Equal(myClass.Value, temporary);
             }
-            Assert.That(myClass.Value, Is.EqualTo(100));
+            Assert.NotEqual(myClass.Value, temporary);
         }
 
-		[Test]
-		public void Test()
+        [Theory, AutoData]
+        public void Test(MyClass myClass, int temporary)
 		{
-			var myClass = new MyClass();
 			using (Let.Object(myClass)
 				.Member(obj=>obj.Value)
-				.Be(13))
+                .Be(temporary))
 			{
-				Assert.That(myClass.Value, Is.EqualTo(13));
+                Assert.Equal(myClass.Value, temporary);
 			}
-			Assert.That(myClass.Value, Is.EqualTo(100));
-		}
+            Assert.NotEqual(myClass.Value, temporary);
+        }
 
-		[Test]
-		public void Static()
+        [Theory, AutoData]
+        public void Static(int temporary)
 		{
 			using (Let.Member(()=> MyClass.StaticProperty)
-				.Be(13))
+				.Be(temporary))
 			{
-				Assert.That(MyClass.StaticProperty, Is.EqualTo(13));
+                Assert.Equal(MyClass.StaticProperty, temporary);
 			}
-			Assert.That(MyClass.StaticProperty, Is.EqualTo(1000));
-		}
+            Assert.NotEqual(MyClass.StaticProperty, temporary);
+        }
 
-		[Test]
-		public void Test_instance()
+        [Theory, AutoData]
+        public void Test_instance(MyClass myClass, int temporary)
 		{
-			var myClass = new MyClass();
 			using (Let.Member(()=>myClass.Value)
-				.Be(13))
+				.Be(temporary))
 			{
-				Assert.That(myClass.Value, Is.EqualTo(13));
+                Assert.Equal(myClass.Value, temporary);
 			}
-			Assert.That(myClass.Value, Is.EqualTo(100));
+            Assert.NotEqual(myClass.Value, temporary);
 		}
 
-		class ClassWithClass
+		public class ClassWithClass
 		{
 			public MyClass Inner = new MyClass();
 		}
 
-		[Test]
-		public void Test_instance_on_demeter()
+        [Theory, AutoData]
+        public void Test_instance_on_demeter(ClassWithClass myClass, int temporary)
 		{
-			var myClass = new ClassWithClass();
 			using (Let.Member(()=>myClass.Inner.Value)
-				.Be(13))
+                .Be(temporary))
 			{
-				Assert.That(myClass.Inner.Value, Is.EqualTo(13));
+				Assert.Equal(myClass.Inner.Value, temporary);
 			}
-			Assert.That(myClass.Inner.Value, Is.EqualTo(100));
+            Assert.NotEqual(myClass.Inner.Value, temporary);
 		}
 
-        [Test]
-        public void Test_instance_with_private_set()
+        [Theory, AutoData]
+        public void Test_instance_with_private_set(MyClass myClass, int temporary)
         {
-            var myClass = new MyClass();
             using (Let.Member(() => myClass.ValuePrivateSet)
-                .Be(13))
+                .Be(temporary))
             {
-                Assert.That(myClass.ValuePrivateSet, Is.EqualTo(13));
+                Assert.Equal(myClass.ValuePrivateSet, temporary);
             }
-            Assert.That(myClass.ValuePrivateSet, Is.EqualTo(100));
+            Assert.NotEqual(myClass.ValuePrivateSet, temporary);
         }
 	}
 }

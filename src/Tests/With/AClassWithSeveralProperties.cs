@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
-    [TestFixture, Category("With")]
     public class AClassWithSeveralProperties
     {
         public class MyClass

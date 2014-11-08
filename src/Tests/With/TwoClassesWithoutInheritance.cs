@@ -1,9 +1,9 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
-    [TestFixture, Category("With")]
     public class TwoClassesWithoutInheritance
     {
         public class MyClass
@@ -34,9 +34,9 @@ namespace Tests
         {
             var time = new DateTime(2001, 1, 1);
             var ret = new MyClass(1, "2").As<MyClass2>(time);
-            Assert.That(ret.MyProperty, Is.EqualTo(1));
-            Assert.That(ret.MyProperty2, Is.EqualTo("2"));
-            Assert.That(ret.MyProperty3, Is.EqualTo(time));
+            Assert.Equal(ret.MyProperty, 1);
+            Assert.Equal(ret.MyProperty2, "2");
+            Assert.Equal(ret.MyProperty3, time);
         }
     }
 }

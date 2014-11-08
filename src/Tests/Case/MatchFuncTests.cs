@@ -1,9 +1,9 @@
 ﻿using System;
 using With;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {
-    [TestFixture, Category("Case")]
 	public class MatchFuncTests
 	{
 		private string DoMatch(int v){
@@ -18,24 +18,24 @@ namespace Tests
 
 		[Test]
 		public void Test_one(){
-			Assert.That (DoMatch (1), Is.EqualTo ("One!"));
+			Assert.Equal(DoMatch (1), "One!");
 		}
 		[Test]
 		public void Test_prime(){
-			Assert.That (DoMatch (7), Is.EqualTo ("This is a prime!"));
+			Assert.Equal(DoMatch (7), "This is a prime!");
 		}
 		[Test]
 		public void Test_teen(){
-			Assert.That (DoMatch (17), Is.EqualTo ("A teen"));
+			Assert.Equal(DoMatch (17), "A teen");
 		}
 		[Test]
 		public void Test_other(){
-			Assert.That (DoMatch (200), Is.EqualTo ("Ain't special"));
-			Assert.That (DoMatch (29), Is.EqualTo ("Ain't special"));
+			Assert.Equal(DoMatch (200), "Ain't special");
+			Assert.Equal(DoMatch (29), "Ain't special");
 		}
 		[Test]
 		public void Test_meaning_of_life(){
-			Assert.That (DoMatch (42), Is.EqualTo ("Meaning of life"));
+			Assert.Equal(DoMatch (42), "Meaning of life");
 		}
         [Test]
         public void Test_does_not_match()
@@ -55,7 +55,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.That(result, Is.EqualTo(1));
+            Assert.Equal(result, 1);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.That(result, Is.EqualTo(3));
+            Assert.Equal(result, 3);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}(\\d{1,})", m => Int32.Parse(m.Groups[1].Value));
-            Assert.That(result, Is.EqualTo(3));
+            Assert.Equal(result, 3);
         }
 
         [Test]
@@ -91,7 +91,7 @@ namespace Tests
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3)
                 .Case("m", m => 1)
                 .Case("s", m => 2);
-            Assert.That(result, Is.EqualTo(3));
+            Assert.Equal(result, 3);
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.That(result.ValueOf(instance), Is.EqualTo(3));
+            Assert.Equal(result.ValueOf(instance), 3);
         }
 
 	}

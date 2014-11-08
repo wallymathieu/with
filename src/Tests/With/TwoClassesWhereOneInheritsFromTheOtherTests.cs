@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 using With;
+using Ploeh.AutoFixture.Xunit;
+using Xunit.Extensions;
+
 namespace Tests
 {
-    [TestFixture, Category("With")]
     public class TwoClassesWhereOneInheritsFromTheOtherTests
     {
         public class MyClass
@@ -28,34 +31,32 @@ namespace Tests
             }
         }
 
-        [Test]
-        public void A_class_should_map_its_parents_properties()
+        [Theory, AutoData]
+        public void A_class_should_map_its_parents_properties(MyClass myClass, DateTime time)
         {
-            var time = new DateTime(2001, 1, 1);
-            var ret = new MyClass(1, "2").As<MyClass2>(time);
-            Assert.That(ret.MyProperty, Is.EqualTo(1));
-            Assert.That(ret.MyProperty2, Is.EqualTo("2"));
-            Assert.That(ret.MyProperty3, Is.EqualTo(time));
+            var ret = myClass.As<MyClass2>(time);
+            Assert.Equal(ret.MyProperty, myClass.MyProperty);
+            Assert.Equal(ret.MyProperty2, myClass.MyProperty2);
+            Assert.Equal(ret.MyProperty3, time);
         }
 
-        [Test]
-        public void A_class_should_be_able_to_use_lambda()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_use_lambda(MyClass myClass, DateTime time)
         {
-            var time = new DateTime(2001, 1, 1);
-            var ret = new MyClass(1, "2").As<MyClass2>(m=>m.MyProperty3==time);
-            Assert.That(ret.MyProperty, Is.EqualTo(1));
-            Assert.That(ret.MyProperty2, Is.EqualTo("2"));
-            Assert.That(ret.MyProperty3, Is.EqualTo(time));
+            var ret = myClass.As<MyClass2>(m => m.MyProperty3 == time);
+            Assert.Equal(ret.MyProperty, myClass.MyProperty);
+            Assert.Equal(ret.MyProperty2, myClass.MyProperty2);
+            Assert.Equal(ret.MyProperty3, time);
         }
-        
-        [Test]
-        public void A_class_using_cast()
+
+        [Theory, AutoData]
+        public void A_class_using_cast(MyClass myClass, DateTime time)
         {
-            Object time = new DateTime(2001, 1, 1);
-            var ret = new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == (DateTime)time);
-            Assert.That(ret.MyProperty, Is.EqualTo(1));
-            Assert.That(ret.MyProperty2, Is.EqualTo("2"));
-            Assert.That(ret.MyProperty3, Is.EqualTo(time));
+            Object _time = (Object)time;
+            var ret = myClass.As<MyClass2>(m => m.MyProperty3 == (DateTime)_time);
+            Assert.Equal(ret.MyProperty, myClass.MyProperty);
+            Assert.Equal(ret.MyProperty2, myClass.MyProperty2);
+            Assert.Equal(ret.MyProperty3, time);
         }
 
     }

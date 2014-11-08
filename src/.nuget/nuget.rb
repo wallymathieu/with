@@ -36,4 +36,13 @@ module NuGet
       raise "Could not find nunit runner!"
     end
   end
+  def self.xunit_path
+    cmds = Dir.glob(File.join(File.dirname(__FILE__),"..","packages","xunit.runners.*","tools","xunit.console.clr4.exe"))
+    if cmds.any?
+        command = cmds.first
+    else
+      raise "Could not find xunit runner!"
+    end
+  end
+
 end

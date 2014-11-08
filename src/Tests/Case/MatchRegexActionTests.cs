@@ -1,10 +1,9 @@
 using System;
 using With;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 namespace Tests
 {
-
-    [TestFixture, Category("Case")]
 	public class MatchRegexActionTests
 	{
 		private string DoMatch(string v){
@@ -20,21 +19,21 @@ namespace Tests
 
 		[Test]
 		public void Test_one(){
-			Assert.That (DoMatch ("1"), Is.EqualTo ("One!"));
+			Assert.Equal(DoMatch ("1"), "One!");
 		}
 		[Test]
 		public void Test_complicated(){
-			Assert.That (DoMatch ("Rio1"), Is.EqualTo ("Happ!"));
+			Assert.Equal(DoMatch ("Rio1"), "Happ!");
 		}
 
 		[Test]
 		public void Test_other(){
-			Assert.That (DoMatch ("200"), Is.EqualTo ("Ain't special"));
-			Assert.That (DoMatch ("29"), Is.EqualTo ("Ain't special"));
+			Assert.Equal(DoMatch ("200"), "Ain't special");
+			Assert.Equal(DoMatch ("29"), "Ain't special");
 		}
 		[Test]
 		public void Test_meaning_of_life(){
-			Assert.That (DoMatch ("42"), Is.EqualTo ("Meaning of life"));
+			Assert.Equal(DoMatch ("42"), "Meaning of life");
 		}
 
 	}

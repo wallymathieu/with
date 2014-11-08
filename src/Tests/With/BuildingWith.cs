@@ -1,9 +1,9 @@
 ﻿using System;
-using NUnit.Framework;
+using Xunit;
+using TestAttribute = Xunit.FactAttribute;
 using With;
 namespace Tests
 {
-    [TestFixture, Category("With")]
 	public class BuildingWith
 	{
 		public class MyClass
@@ -22,8 +22,8 @@ namespace Tests
 		{
 			MyClass ret = new MyClass(1, "2").With()
 				.Eql(m => m.MyProperty, 3);
-			Assert.That(ret.MyProperty, Is.EqualTo(3));
-			Assert.That(ret.MyProperty2, Is.EqualTo("2"));
+			Assert.Equal(ret.MyProperty, 3);
+			Assert.Equal(ret.MyProperty2, "2");
 		}
 
 		[Test]
@@ -32,8 +32,8 @@ namespace Tests
 			MyClass ret = new MyClass(1, "2").With()
 				.Eql(m => m.MyProperty, 3)
 				.Eql(m => m.MyProperty2, "3");
-			Assert.That(ret.MyProperty, Is.EqualTo(3));
-			Assert.That(ret.MyProperty2, Is.EqualTo("3"));
+			Assert.Equal(ret.MyProperty, 3);
+			Assert.Equal(ret.MyProperty2, "3");
 		}
 	}
 }
