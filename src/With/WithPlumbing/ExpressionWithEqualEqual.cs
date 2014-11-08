@@ -111,10 +111,17 @@ namespace With.WithPlumbing
             var objectMember = Expression.Convert(member, typeof(object));
 
             var getterLambda = Expression.Lambda<Func<object>>(objectMember);
-
-            var getter = getterLambda.Compile();
-
+            Func<object> getter;
+            try
+            {
+                getter = getterLambda.Compile();
+            }
+            catch (InvalidOperationException e)
+            {
+                throw new ShouldBeAnExpressionLeftToRightException("lambda compile failed, this might be due to wrong order",e);
+            }
             return getter();
+
         }
 
         private string MemberAccess(MemberExpression member)

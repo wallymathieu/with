@@ -1,5 +1,7 @@
-﻿using With;
-using Xunit;
+﻿using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
+using With;
+using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
+using Assert = Xunit.Assert;
 namespace Tests
 {
     public class OneClassCanCloneItselfWithAPropertySet
@@ -15,42 +17,46 @@ namespace Tests
             public string MyProperty2 { get; private set; }
         }
 
-        [Fact]
-        public void A_class_should_be_able_to_create_a_clone_with_a_property_set()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_a_property_set(
+            MyClass myClass, int newValue)
         {
-            var ret = new MyClass(1, "2").With(m => m.MyProperty, 3);
-            Assert.Equal(ret.MyProperty, 3);
-            Assert.Equal(ret.MyProperty2, "2");
+            var ret = myClass.With(m => m.MyProperty, newValue);
+            Assert.Equal(newValue, ret.MyProperty);
+            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
         }
-        [Fact]
-        public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(
+            MyClass myClass, int newValue)
         {
-            var ret = new MyClass(1, "2").With(m => m.MyProperty == 3);
-            Assert.Equal(ret.MyProperty, 3);
-            Assert.Equal(ret.MyProperty2, "2");
+            var ret = myClass.With(m => m.MyProperty == newValue);
+            Assert.Equal(newValue, ret.MyProperty);
+            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
         }
-        [Fact]
-        public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(
+            MyClass myClass, int newIntValue, string newStrValue)
         {
-            var ret = new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "3");
-            Assert.Equal(ret.MyProperty, 3);
-            Assert.Equal(ret.MyProperty2, "3");
+            var ret = myClass.With(m => m.MyProperty == newIntValue && m.MyProperty2 == newStrValue);
+            Assert.Equal(newIntValue, ret.MyProperty);
+            Assert.Equal(newStrValue, ret.MyProperty2);
         }
 
-        [Fact]
-        public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal_and_another_propertyvalue()
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal_and_another_propertyvalue(
+            MyClass anInstance,MyClass anotherInstance)
         {
-            var t = new MyClass(3, "3");
-            var ret = new MyClass(1, "2").With(m => m.MyProperty == t.MyProperty);
-            Assert.Equal(ret.MyProperty, 3);
-            Assert.Equal(ret.MyProperty2, "2");
+            var ret = anotherInstance.With(m => m.MyProperty == anInstance.MyProperty);
+            Assert.Equal(anInstance.MyProperty, ret.MyProperty);
+            Assert.Equal(anotherInstance.MyProperty2, ret.MyProperty2);
         }
-        [Fact]
-        public void A_class_should_throw_a_decent_exception_when_changing_the_order()
+        [Theory, AutoData]
+        public void A_class_should_throw_a_decent_exception_when_changing_the_order(
+            MyClass anInstance, MyClass anotherInstance)
         {
-            var t = new { MyProperty = 3 };
-            var mc = new MyClass(1, "2");
-            Assert.Throws<ShouldBeAnExpressionLeftToRightException>(() => mc.With(m => t.MyProperty == m.MyProperty));
+            Assert.Throws<ShouldBeAnExpressionLeftToRightException>(() => {
+                anInstance.With(m => anotherInstance.MyProperty == m.MyProperty);
+            });
         }
     }
 }
