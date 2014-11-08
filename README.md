@@ -28,6 +28,13 @@ var result = Switch.On(instance)
     .Case((ClassWithMethodY c) => c.Y)
     .Case((ClassWithMethodZ c) => c.Z);
 ```
+Or less fluently
+```
+var result = Switch.On(instance,
+    (ClassWithMethodX c) => c.X,
+    (ClassWithMethodY c) => c.Y,
+    (ClassWithMethodZ c) => c.Z);
+```
 ###Switch on range, func, etc
 ```
 string result = Switch.Match<int,string> (v)
@@ -38,6 +45,15 @@ string result = Switch.Match<int,string> (v)
     .Case (i=>i==52,()=>"Some other number")
     .Else (_ => "Ain't special");
 ```
+or less fluently
+```
+string result = Switch.Match<int,string> (v,
+    1.AsArray(), _ => "One!",
+    new []{ 2, 3, 5, 7, 11 }, _ => "This is a prime!",
+    13.To (19), _ => "A teen")
+    .Else (_ => "Ain't special");
+```
+
 ###Switch on regex
 When the ingoing type is a string, you can use a regex to match
 ```

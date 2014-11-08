@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Alternative constructions in c# to do things that may look clumsy in regular code</description>
     <copyright>Copyright 2013</copyright>
-    <releaseNotes>Removed Switch.Regex and made sure that you get a 'Match' object from the regex case statement.</releaseNotes>
+    <releaseNotes>Possible to be less fluent.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
