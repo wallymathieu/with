@@ -1,40 +1,46 @@
 ﻿using System;
 using Xunit;
 using With;
+using Xunit.Extensions;
+using Ploeh.AutoFixture.Xunit;
 namespace Tests
 {
     public class TwoClassesWithoutInheritance
     {
         public class MyClass
         {
+            private readonly int myProperty;
+            private readonly string myProperty2;
             public MyClass(int myProperty, string myProperty2)
             {
-                MyProperty = myProperty;
-                MyProperty2 = myProperty2;
+                this.myProperty = myProperty;
+                this.myProperty2 = myProperty2;
             }
-            public int MyProperty { get; private set; }
-            public string MyProperty2 { get; private set; }
+            public int MyProperty { get { return myProperty; } private set { throw new Exception(); } }
+            public string MyProperty2 { get { return myProperty2; } private set { throw new Exception(); } }
         }
         public class MyClass2 
         {
-            public int MyProperty { get; private set; }
-            public string MyProperty2 { get; private set; }
-            public DateTime MyProperty3 { get; set; }
+            private readonly int myProperty;
+            private readonly string myProperty2;
+            private readonly DateTime myProperty3;
             public MyClass2(int myProperty, string myProperty2, DateTime time)
             {
-                MyProperty3 = time;
-                MyProperty = myProperty;
-                MyProperty2 = myProperty2;
+                this.myProperty = myProperty;
+                this.myProperty2 = myProperty2;
+                this.myProperty3 = time;
             }
+            public int MyProperty { get { return myProperty; } private set { throw new Exception(); } }
+            public string MyProperty2 { get { return myProperty2; } private set { throw new Exception(); } }
+            public DateTime MyProperty3 { get { return myProperty3; } private set { throw new Exception(); } }
         }
 
-        [Fact]
-        public void A_class_should_map_properties()
+        [Theory, AutoData]
+        public void A_class_should_map_properties(MyClass myClass, DateTime time)
         {
-            var time = new DateTime(2001, 1, 1);
-            var ret = new MyClass(1, "2").As<MyClass2>(time);
-            Assert.Equal(ret.MyProperty, 1);
-            Assert.Equal(ret.MyProperty2, "2");
+            var ret = myClass.As<MyClass2>(time);
+            Assert.Equal(ret.MyProperty, myClass.MyProperty);
+            Assert.Equal(ret.MyProperty2, myClass.MyProperty2);
             Assert.Equal(ret.MyProperty3, time);
         }
     }
