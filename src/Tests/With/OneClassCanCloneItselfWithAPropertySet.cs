@@ -2,19 +2,22 @@
 using With;
 using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 using Assert = Xunit.Assert;
+using System;
 namespace Tests
 {
     public class OneClassCanCloneItselfWithAPropertySet
     {
         public class MyClass
         {
+            private readonly int myProperty;
+            private readonly string myProperty2;
             public MyClass(int myProperty, string myProperty2)
             {
-                MyProperty = myProperty;
-                MyProperty2 = myProperty2;
+                this.myProperty = myProperty;
+                this.myProperty2 = myProperty2;
             }
-            public int MyProperty { get; private set; }
-            public string MyProperty2 { get; private set; }
+            public int MyProperty { get { return myProperty; } private set { throw new Exception(); } }
+            public string MyProperty2 { get { return myProperty2; } private set { throw new Exception(); } }
         }
 
         [Theory, AutoData]

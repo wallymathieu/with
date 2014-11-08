@@ -118,6 +118,7 @@ namespace With.WithPlumbing
             }
             catch (InvalidOperationException e)
             {
+                // ugly, should probably do something to be able to do any direction
                 throw new ShouldBeAnExpressionLeftToRightException("lambda compile failed, this might be due to wrong order",e);
             }
             return getter();
