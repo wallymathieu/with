@@ -5,7 +5,7 @@ using Assert = Xunit.Assert;
 using System;
 namespace Tests
 {
-    public class OneClassCanCloneItselfWithAPropertySet
+    public class Clone_an_instance_into_the_same_type
     {
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set(
@@ -47,6 +47,27 @@ namespace Tests
             Assert.Throws<ShouldBeAnExpressionLeftToRightException>(() => {
                 anInstance.With(m => anotherInstance.MyProperty == m.MyProperty);
             });
+        }
+
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_eql(
+            MyClass instance, int newInt)
+        {
+            MyClass ret = instance.With()
+                .Eql(m => m.MyProperty, newInt);
+            Assert.Equal(newInt, ret.MyProperty);
+            Assert.Equal(instance.MyProperty2, ret.MyProperty2);
+        }
+
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_eql(
+            MyClass instance, int newInt, string newString)
+        {
+            MyClass ret = instance.With()
+                .Eql(m => m.MyProperty, newInt)
+                .Eql(m => m.MyProperty2, newString);
+            Assert.Equal(newInt, ret.MyProperty);
+            Assert.Equal(newString, ret.MyProperty2);
         }
     }
 }

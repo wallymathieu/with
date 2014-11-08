@@ -23,7 +23,8 @@ namespace Tests
         }
 
         [Theory, AutoData]
-        public void A_class_should_map_its_parents_properties(MyClass myClass, DateTime time)
+        public void A_class_should_map_its_parents_properties(
+            MyClass myClass, DateTime time)
         {
             var ret = myClass.As<MyClass2>(time);
             Assert.Equal(time, ret.MyProperty3);
@@ -33,7 +34,8 @@ namespace Tests
         }
 
         [Theory, AutoData]
-        public void A_class_should_be_able_to_use_lambda(MyClass myClass, DateTime time)
+        public void A_class_should_be_able_to_use_lambda(
+            MyClass myClass, DateTime time)
         {
             var ret = myClass.As<MyClass2>(m => m.MyProperty3 == time);
             Assert.Equal(ret.MyProperty3, time);
@@ -43,7 +45,8 @@ namespace Tests
         }
 
         [Theory, AutoData]
-        public void A_class_using_cast(MyClass myClass, DateTime time)
+        public void A_class_using_cast(
+            MyClass myClass, DateTime time)
         {
             Object _time = (Object)time;
             var ret = myClass.As<MyClass2>(m => m.MyProperty3 == (DateTime)_time);
@@ -51,6 +54,17 @@ namespace Tests
 
             Assert.Equal(myClass.MyProperty, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+        }
+
+        [Theory, AutoData]
+        public void A_class_should_map_its_parents_properties_and_get_the_new_value(
+            MyClass myClass, DateTime time)
+        {
+            MyClass2 ret = myClass.As<MyClass2>()
+                .Eql(p => p.MyProperty3, time);
+            Assert.Equal(myClass.MyProperty, ret.MyProperty);
+            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            Assert.Equal(time, ret.MyProperty3);
         }
     }
 }
