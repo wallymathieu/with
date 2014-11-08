@@ -5,7 +5,7 @@ using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
 namespace Tests
 {
-    public class TwoClassesWithoutInheritance
+    public class Another_instance_gets_created_without_the_need_for_inheritance
     {
         public class MyClass2 
         {

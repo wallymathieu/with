@@ -8,19 +8,8 @@ using Xunit.Extensions;
 
 namespace Tests
 {
-    public class TwoClassesWhereOneInheritsFromTheOtherTests
+    public class A_new_instance_of_a_class_that_inherits_from_the_other
     {
-        public class MyClass
-        {
-            public MyClass(int myProperty, string myProperty2)
-            {
-                MyProperty = myProperty;
-                MyProperty2 = myProperty2;
-            }
-            public int MyProperty { get; private set; }
-            public string MyProperty2 { get; private set; }
-        }
-
         public class MyClass2 : MyClass
         {
             private readonly DateTime myProperty3;

@@ -5,17 +5,6 @@ namespace Tests
 {
 	public class BuildingAs
 	{
-		public class MyClass
-		{
-			public MyClass(int myProperty, string myProperty2)
-			{
-				MyProperty = myProperty;
-				MyProperty2 = myProperty2;
-			}
-			public int MyProperty { get; private set; }
-			public string MyProperty2 { get; private set; }
-		}
-
 		public class MyClass2 : MyClass
 		{
 			public DateTime MyProperty3 { get; set; }
