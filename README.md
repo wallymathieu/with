@@ -36,6 +36,7 @@ var result = Switch.On(instance,
     (ClassWithMethodZ c) => c.Z);
 ```
 ###Switch on range, func, etc
+Note that switch statements should generally be short to avoid confusing logic jumps. A switch is very similar to a goto (in parser code where goto is missing, it's implemented by switch).
 ```
 string result = Switch.Match<int,string> (v)
     .Case (1, () => "One!")
