@@ -21,7 +21,7 @@ new MyClass(1, "2").As<MyClass2>(valueOnlyInMyClass2)
 new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == 3 && m.MyProperty2 == "value")
 ```
 ###Switch on type
-You can use this library to switch on type
+You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generaly self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
 ```
 var result = Switch.On(instance)
     .Case((ClassWithMethodX c) => c.X)
@@ -70,26 +70,6 @@ using (myClass.SetTemporary(obj => obj.Value, temporaryValue))
 }
 // but not here
 ```
-
-```
-using (Let.Object(myClass)
-		  .Member(obj=>obj.Value)
-		  .Be(temporaryValue))
-{
-	// myClass.Value will return temporaryValue
-}
-// but not here
-```
-The let api can also be used in the following manner
-```
-using (Let.Member(()=>myClass.Value)
-		  .Be(temporaryValue))
-{
-	// myClass.Value will return temporaryValue
-}
-// but not here
-```
-It can also be used to set static variables.
 
 ##Nuget
 <https://www.nuget.org/packages/With>
