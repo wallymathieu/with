@@ -4,6 +4,8 @@ using Ploeh.AutoFixture;
 using Xunit;
 using Ploeh.AutoFixture.Xunit;
 using Xunit.Extensions;
+using With.SetTemporary;
+using With.Let;
 
 namespace Tests
 {

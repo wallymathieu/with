@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Linq;
 
-namespace With.LetPlumbing
+namespace With.Let.Plumbing
 {
 	/// <summary>
 	/// Sets the value of a property or a field and then resets that value when this class is disposed.

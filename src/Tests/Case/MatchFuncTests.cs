@@ -1,6 +1,8 @@
 ﻿using System;
 using With;
 using Xunit;
+using With.General;
+
 namespace Tests
 {
     public class MatchFuncTests

@@ -1,7 +1,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace With.LetPlumbing
+namespace With.Let.Plumbing
 {
 	public class LetMemberOf<TObject,TReturnValueType>
 	{

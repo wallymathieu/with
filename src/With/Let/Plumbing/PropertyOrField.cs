@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Linq.Expressions;
 
-namespace With.LetPlumbing
+namespace With.Let.Plumbing
 {
 	/// <summary>
 	/// From automapper, moq
