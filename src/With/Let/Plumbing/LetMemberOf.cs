@@ -14,7 +14,7 @@ namespace With.Let.Plumbing
 		}
 		public LetValueBeContext<TObject, TReturnValueType> Be (TReturnValueType value)
 		{
-			return new LetValueBeContext<TObject, TReturnValueType> (Object, Property, value);
+			return new LetValueBeContext<TObject, TReturnValueType> (Object, Property, value, allowSetReadonly:false);
 		}
 	}
 }

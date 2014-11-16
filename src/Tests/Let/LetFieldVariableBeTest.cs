@@ -78,7 +78,7 @@ namespace Tests
             Assert.NotEqual(myClass.Inner.Value, temporary);
 		}
 
-        [Theory, AutoData]
+		[Theory(Skip="The syntax for this is not implemented yet"), AutoData]
         public void Test_instance_set_readonly(MyClass myClass, int temporary)
         {
             using (Let.Member(() => myClass.ValueReadonly)

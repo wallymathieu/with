@@ -81,6 +81,7 @@
     <Compile Include="Let\Plumbing\LetValueBeContext.cs" />
     <Compile Include="Let\Plumbing\PropertyOrField.cs" />
     <Compile Include="SetTemporary\SetTemporaryExtensions.cs" />
+    <Compile Include="Let\Plumbing\CantSetReadonly.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

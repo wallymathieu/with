@@ -12,15 +12,18 @@ namespace With.Let.Plumbing
 		private readonly PropertyOrField _property;
 		private readonly object _oldvalue;
 
-		public LetValueBeContext(TObj target, Expression<Func<TObj,T>> property, T value)
+		public LetValueBeContext(TObj target, Expression<Func<TObj,T>> property, T value, bool allowSetReadonly)
 		{
 			var member = new ExpressionWithMemberAccess ().Tap (e => e.Lambda (property)).Member;
 			_property = new PropertyOrField(target,member);
+			if ( !allowSetReadonly && _property.IsReadonly ())
+				throw new CantSetReadonlyException ();
+
 			_oldvalue = _property.GetMemberValue();
 			_property.SetMemberValue(value);
 		}
 
-		public LetValueBeContext(Expression<Func<T>> property, T value)
+		public LetValueBeContext(Expression<Func<T>> property, T value, bool allowSetReadonly)
 		{
 			object target = null;
 			var expression = new ExpressionWithMemberAccessMightBeFromConstant().Tap (e => e.Lambda (property));
@@ -34,6 +37,9 @@ namespace With.Let.Plumbing
 				target = targetFrom;
 			}
 			_property = new PropertyOrField(target, member);
+			if ( !allowSetReadonly && _property.IsReadonly ())
+				throw new CantSetReadonlyException ();
+
 			_oldvalue = _property.GetMemberValue();
 			_property.SetMemberValue(value);
 		}

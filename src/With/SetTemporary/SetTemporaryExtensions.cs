@@ -6,9 +6,13 @@ namespace With.SetTemporary
 {
 	public static class SetTemporaryExtensions
 	{
-		public static LetValueBeContext<TObject, TReturnValue> SetTemporary<TObject, TReturnValue>(this TObject obj, Expression<Func<TObject, TReturnValue>> property, TReturnValue value)
+		public static LetValueBeContext<TObject, TReturnValue> 
+			SetTemporary<TObject, TReturnValue>(this TObject obj, 
+				Expression<Func<TObject, TReturnValue>> property, 
+				TReturnValue value,
+				bool allowSetReadonly=false)
 		{
-			return new LetValueBeContext<TObject, TReturnValue>(obj, property, value);
+			return new LetValueBeContext<TObject, TReturnValue>(obj, property, value, allowSetReadonly:allowSetReadonly);
 		}
 	}
 }

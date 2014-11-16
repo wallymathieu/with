@@ -37,6 +37,16 @@ namespace With.Let.Plumbing
 			return value;
 		}
 
+		public bool IsReadonly ()
+		{
+			var isPrivate=false;
+			OnFieldOrProperty(member,
+				fi => isPrivate= fi.IsLiteral||fi.IsInitOnly||fi.IsPrivate,
+				pi => {}
+			);
+			return isPrivate;
+		}
+
 		void OnFieldOrProperty (MemberInfo member, Action<FieldInfo> onFieldInfo, Action<PropertyInfo> onPropertyInfo)
 		{
 			switch (member.MemberType)

@@ -88,7 +88,7 @@ namespace Tests
 
         [Theory, AutoData]
         public void Test_instance_with_private_set(MyClass myClass, int temporary)
-        {
+        {// NOTE: this is a bit problematic:
             using (Let.Member(() => myClass.ValuePrivateSet)
                 .Be(temporary))
             {

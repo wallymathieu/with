@@ -12,7 +12,7 @@ namespace With.Let.Plumbing
 		}
 		public LetValueBeContext<Object, T> Be (T value)
 		{
-			return new LetValueBeContext<Object, T> (Property,value);
+			return new LetValueBeContext<Object, T> (Property,value,allowSetReadonly:false);
 		}
 	}
 }
