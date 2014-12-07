@@ -23,17 +23,10 @@ new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == 3 && m.MyProperty2 == "va
 ###Switch on type
 You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generaly self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
 ```
-var result = Switch.On(instance)
+var result = Switch.Match<object,object>(instance)
     .Case((ClassWithMethodX c) => c.X)
     .Case((ClassWithMethodY c) => c.Y)
     .Case((ClassWithMethodZ c) => c.Z);
-```
-Or less fluently
-```
-var result = Switch.On(instance,
-    (ClassWithMethodX c) => c.X,
-    (ClassWithMethodY c) => c.Y,
-    (ClassWithMethodZ c) => c.Z);
 ```
 ###Switch on range, func, etc
 Note that switch statements should generally be short to avoid confusing logic jumps. A switch is very similar to a goto (in parser code where goto is missing, it's implemented by switch).

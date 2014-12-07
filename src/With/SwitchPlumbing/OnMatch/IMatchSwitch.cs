@@ -20,6 +20,7 @@ namespace With.SwitchPlumbing
                 return value;
             throw new NoMatchFoundException();
         }
+        public Out Value(){ return ValueOf(Instance); }
 
 		public static implicit operator Out(IMatchSwitch<In,Out> d)
 		{

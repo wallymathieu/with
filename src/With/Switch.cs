@@ -4,13 +4,17 @@ namespace With
 {
     public static partial class Switch
     {
-		public static PreparedTypeSwitch On(object instance)
+        public static IMatchSwitch<In, Nothing> On<In>(In value)
         {
-			return new PreparedTypeSwitch().Tap(tc=>tc.Instance= instance);
+            return new MatchSwitch<In, Nothing>().Tap(c => c.Instance = value);
+		}
+        public static IMatchSwitch<In, Prepared> On<In>()
+        {
+            return new MatchSwitch<In, Prepared>();
         }
-        public static PreparedTypeSwitch On()
+        public static IMatchSwitch<object, Prepared> On()
         {
-            return new PreparedTypeSwitch();
+            return new MatchSwitch<object, Prepared>();
         }
 
         public static IMatchSwitch<In, Nothing> Match<In>(In value)

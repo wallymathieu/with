@@ -45,7 +45,9 @@
     <Compile Include="Switch.cs" />
     <Compile Include="NoMatchFoundException.cs" />
     <Compile Include="SwitchPlumbing\f.cs" />
-    <Compile Include="Switch_generated.cs" />
+    <Compile Include="Switch_generated.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TypeSwitchExtensions.cs" />
     <Compile Include="WithExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,9 +63,7 @@
     <Compile Include="RangePlumbing\Int64Range.cs" />
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="RangePlumbing\IStep.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnTypes\PreparedTypeSwitch_T.cs" />
-    <Compile Include="SwitchPlumbing\OnTypes\IPreparedTypeSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\IMatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitch.cs" />
     <Compile Include="SwitchPlumbing\OnMatch\MatchSwitchSingle.cs" />
@@ -92,9 +92,5 @@
   </Target>
   -->
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="General\" />
-    <Folder Include="Let\" />
-    <Folder Include="SetTemporary\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

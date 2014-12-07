@@ -2,56 +2,37 @@
 
 namespace With.SwitchPlumbing
 {
-	public class PreparedTypeSwitch<T, TRet> : IPreparedTypeSwitch
+    public class PreparedTypeSwitch<On, In, Out> : IMatchSwitch<In, Out>
+        where On:In
     {
-		private readonly IPreparedTypeSwitch _preparedSwitch;
-		private readonly Func<T,TRet> _func;
-		public PreparedTypeSwitch(IPreparedTypeSwitch preparedSwitch, Func<T, TRet> @case)
+        private readonly IMatchSwitch<In, Out> inner;
+        private readonly Func<On, Out> _func;
+        public PreparedTypeSwitch(IMatchSwitch<In, Out> inner, Func<On, Out> @case)
         {
-            _preparedSwitch = preparedSwitch;
+            this.inner = inner;
 			_func = @case;
         }
 
-        public object ValueOf(object instance)
+        public override In Instance
         {
-			Instance = instance;
-            return Value();
+            get { return inner.Instance; }
+            set { inner.Instance = value; }
         }
 
-		public Object Instance {
-			get{ return _preparedSwitch.Instance; }
-			set{ _preparedSwitch.Instance = value; }
-		}
-
-		public bool TryGetValue(out object value)
-		{
-			if (_preparedSwitch.TryGetValue(out value))
-			{
-				return true;
-			}
-			var instance = Instance;
-			if (instance is T)
-			{
-				value = _func((T)instance);
-				return true;
-			}
-			value = null;
-			return false;
-		}
-
-		public object Value()
-		{
-			object value;
-			if (TryGetValue(out value)) {
-				return value;
-			}else{
-                throw new NoMatchFoundException();
-			}
-		}
-
-		public static implicit operator TRet(PreparedTypeSwitch<T, TRet> d)
-		{
-			return (TRet) d.Value ();
-		}
+        public override bool TryMatch(out Out value)
+        {
+            if (inner.TryMatch(out value))
+            {
+                return true;
+            }
+            var instance = Instance;
+            if (instance is On)
+            {
+                value = _func((On)instance);
+                return true;
+            }
+            value = default(Out);
+            return false;
+        }
     }
 }
