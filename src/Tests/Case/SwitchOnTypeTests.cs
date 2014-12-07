@@ -110,5 +110,6 @@ namespace Tests
                 .Else(_=>4);
             Assert.Equal(4, result.ValueOf(instance));
         }
+
     }
 }
