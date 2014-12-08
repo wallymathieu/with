@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public abstract class IMatchSwitch<In,Out>
+	public abstract class ISwitch<In,Out>
 	{
 		public abstract bool TryMatch (out Out value);
 
@@ -22,7 +22,7 @@ namespace With.SwitchPlumbing
         }
         public Out Value(){ return ValueOf(Instance); }
 
-		public static implicit operator Out(IMatchSwitch<In,Out> d)
+		public static implicit operator Out(ISwitch<In,Out> d)
 		{
             Out value;
             if (d.TryMatch(out value))

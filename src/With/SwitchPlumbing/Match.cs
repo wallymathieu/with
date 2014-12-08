@@ -4,10 +4,10 @@ using System.Linq;
 using With.RangePlumbing;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitchFunc<In,Out>:IMatchSwitch<In,Out>{
+	public class Match<In,Out>:ISwitch<In,Out>{
 		private readonly Func<In,bool> expected;
 		private readonly Func<In,Out> result;
-		private readonly IMatchSwitch<In,Out> inner;
+		private readonly ISwitch<In,Out> inner;
 		public override In Instance {
 			get{ return inner.Instance;}
 			set{ inner.Instance = value;}
@@ -25,7 +25,7 @@ namespace With.SwitchPlumbing
 			return false;
 		}
 
-		public MatchSwitchFunc (IMatchSwitch<In,Out> inner, IEnumerable<In> expected, Func<In,Out> result)
+		public Match (ISwitch<In,Out> inner, IEnumerable<In> expected, Func<In,Out> result)
 		{
 			this.inner = inner;
 			if (expected is IStep<In>) {
@@ -35,7 +35,7 @@ namespace With.SwitchPlumbing
 			}
 			this.result = result;
 		}
-		public MatchSwitchFunc (IMatchSwitch<In,Out> inner, Func<In,bool> expected, Func<In,Out> result)
+		public Match (ISwitch<In,Out> inner, Func<In,bool> expected, Func<In,Out> result)
 		{
 			this.inner = inner;
 			this.expected = expected;

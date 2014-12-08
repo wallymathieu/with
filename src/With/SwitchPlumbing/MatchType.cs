@@ -2,12 +2,12 @@
 
 namespace With.SwitchPlumbing
 {
-    public class PreparedTypeSwitch<On, In, Out> : IMatchSwitch<In, Out>
+    public class MatchType<On, In, Out> : ISwitch<In, Out>
         where On:In
     {
-        private readonly IMatchSwitch<In, Out> inner;
+        private readonly ISwitch<In, Out> inner;
         private readonly Func<On, Out> _func;
-        public PreparedTypeSwitch(IMatchSwitch<In, Out> inner, Func<On, Out> @case)
+        public MatchType(ISwitch<In, Out> inner, Func<On, Out> @case)
         {
             this.inner = inner;
 			_func = @case;
