@@ -21,7 +21,7 @@ new MyClass(1, "2").As<MyClass2>(valueOnlyInMyClass2)
 new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == 3 && m.MyProperty2 == "value")
 ```
 ###Switch on type
-You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generaly self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
+You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generally self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
 ```
 var result = Switch.Match<object,object>(instance)
     .Case((ClassWithMethodX c) => c.X)
