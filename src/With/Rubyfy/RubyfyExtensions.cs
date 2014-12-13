@@ -8,35 +8,6 @@ namespace With.Rubyfy
 {
     public static class RubyfyExtensions
     {
-        public static string Unless<T>(this string obj, T exc) where T : Exception
-        {
-            if (String.IsNullOrEmpty(obj))
-                throw exc;
-            return obj;
-        }
-        public static TRet Unless<T, TRet>(this TRet obj, T exc)
-            where T : Exception
-            where TRet : class
-        {
-            if (obj == null)
-                throw exc;
-            return obj;
-        }
-
-        public static bool NotNull(this object self)
-        {
-            return self != null;
-        }
-        public static T Tap<T>(this T self, Action<T> action)
-        {
-            action(self);
-            return self;
-        }
-        public static TResult Yield<T, TResult>(this T self, Func<T, TResult> action)
-        {
-            return action(self);
-        }
-
         private static MatchEvaluator Evaluate(string evaluator)
         {
             // Is this really needed?

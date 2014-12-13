@@ -85,8 +85,9 @@
     <Compile Include="SetTemporary\SetTemporaryExtensions.cs" />
     <Compile Include="Let\Plumbing\CantSetReadonly.cs" />
     <Compile Include="Rubyfy\RubyfyExtensions.cs" />
-    <Compile Include="Nokogiri\Extensions.cs" />
-    <Compile Include="Nokogiri\Nokogiri.cs" />
+    <Compile Include="Xml\Extensions.cs" />
+    <Compile Include="Xml\XmlDoc.cs" />
+    <Compile Include="Xml\Node.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,10 +1,10 @@
 using System.Linq;
 
-namespace With.Nokogiri
+namespace With.Xml
 {
-    internal static class NokogiriExtensions
+    public static class Extensions
     {
-        public static string Text(this Nokogiri.Node[] self)
+        public static string Text(this Node[] self)
         {
             return string.Join("", self
                 .Where(node=>node.IsText)
