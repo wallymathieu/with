@@ -8,7 +8,12 @@ namespace With
 		{
 			tapaction(that);
 			return that;
-		}        
+		}
+
+        public static TResult Yield<T, TResult>(this T self, Func<T, TResult> action)
+        {
+            return action(self);
+        }
 	}
 }
 

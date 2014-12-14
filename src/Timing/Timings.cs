@@ -35,7 +35,7 @@ namespace Timing
 			for (int i = 0; i < 1000; i++)
 			{
 				var time = new DateTime(2001, 1, 1).AddMinutes(i);
-				var ret = new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == time);
+				new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == time);
 			}
 		}
 		public void Timing_propertyname_only()
@@ -43,7 +43,7 @@ namespace Timing
 			for (int i = 0; i < 1000; i++)
 			{
 				var time = new DateTime(2001, 1, 1).AddMinutes(i);
-				var ret = new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3,time);
+				new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3,time);
 			}
 		}
 		public void Timing_dictionary()
@@ -51,7 +51,7 @@ namespace Timing
 			for (int i = 0; i < 1000; i++)
 			{
 				var time = new DateTime(2001, 1, 1).AddMinutes(i);
-				var ret = new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { {"MyProperty3",time} });
+				new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { {"MyProperty3",time} });
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace Timing
 			for (int i = 0; i < 1000; i++)
 			{
 				var time = new DateTime(2001, 1, 1).AddMinutes(i);
-				var ret = new MyClass(1, "2").As<MyClass2>(time);
+				new MyClass(1, "2").As<MyClass2>(time);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace Timing
 			for (int i = 0; i < 1000; i++)
 			{
 				var time = new DateTime(2001, 1, 1).AddMinutes(i);
-				var ret = new MyClass(1, "2").As<MyClass2>().Eql(p=>p.MyProperty3,time)
+				new MyClass(1, "2").As<MyClass2>().Eql(p=>p.MyProperty3,time)
 					.To(); // use to or cast to get the new instance
 			}
 		}
