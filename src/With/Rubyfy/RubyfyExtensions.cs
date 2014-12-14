@@ -249,5 +249,18 @@ namespace With.Rubyfy
         {
             return enumerable.Cast<Object>().ToArray();
         }
+
+        public static IEnumerable<T[]> Zip<T>(this IEnumerable<T> self, params IEnumerable<T>[] arrays) 
+        {
+            var i=0;
+            foreach (var item in self)
+            {
+                var list = new List<T> { item };
+                list.AddRange( arrays.Map(array => array.ElementAtOrDefault(i)));
+                yield return list.ToA();
+                i++;
+            }
+        }
+
     }
 }
