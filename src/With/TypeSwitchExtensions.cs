@@ -5,16 +5,11 @@ namespace With
 {
     public static class TypeSwitchExtensions
     {
-        public static PreparedTypeSwitch<In, Out> Case<In, Out>(
-            this IPreparedTypeSwitch that, Func<In, Out> func)
+        public static ISwitch<In, Out> Case<On, In, Out>(
+            this ISwitch<In, Out> that, Func<On, Out> func)
+            where On:In
         {
-            return new PreparedTypeSwitch<In, Out>(that, func);
-        }
-
-        public static PreparedTypeSwitch<object, Out> Else<In,Out>(
-            this  PreparedTypeSwitch<In, Out> that, Func<object, Out> func)
-        {
-            return new PreparedTypeSwitch<object, Out>(that, func);
+            return new MatchType<On, In, Out>(that, func);
         }
     }
 }

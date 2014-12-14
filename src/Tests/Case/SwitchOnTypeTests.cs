@@ -17,7 +17,7 @@ namespace Tests
         public void Single_case(
             MyClass instance)
         {
-            int result = Switch.On(instance)
+            int result = Switch.Match<object,int>(instance)
                 .Case((MyClass c) => 1);
 
             Assert.Equal(1, result);
@@ -27,7 +27,7 @@ namespace Tests
         public void Should_match_the_first_case(
             MyClass instance)
         {
-            int result = Switch.On(instance)
+            int result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
@@ -38,7 +38,7 @@ namespace Tests
         public void Should_match_the_last_case(
             MyClass3 instance)
 		{
-			int result = Switch.On(instance)
+            int result = Switch.Match<object, int>(instance)
 				.Case((MyClass c) => 1)
 				.Case((MyClass2 c) => 2)
 				.Case((MyClass3 c) => 3);
@@ -49,7 +49,7 @@ namespace Tests
         public void Should_match_else_when_an_unknown_type_is_switched_on(
             int instance)
         {
-            int result = Switch.On(instance)
+            int result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
@@ -61,7 +61,7 @@ namespace Tests
         public void Multi_case_with_a_differnt_order(
             MyClass instance)
         {
-            var result = Switch.On(instance)
+            var result = Switch.Match<object, int>(instance)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
                 .Case((MyClass c) => 1);
@@ -72,7 +72,7 @@ namespace Tests
         public void Prepared_Multi_case(
             MyClass instance)
         {
-            var result = Switch.On()
+            var result = Switch.Match<object, int>()
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
@@ -83,7 +83,7 @@ namespace Tests
         public void Should_throw_when_fails_to_match(
             object instance)
         {
-            var result = Switch.On(instance)
+            var result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
@@ -93,7 +93,7 @@ namespace Tests
         public void Should_throw_when_fails_to_match_prepared(
             int instance)
         {
-            var result = Switch.On()
+            var result = Switch.Match<object, int>()
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
@@ -103,7 +103,7 @@ namespace Tests
         public void Should_exec_else_when_fails_to_match_prepared(
             int instance)
         {
-            var result = Switch.On()
+            var result = Switch.Match<object,int>()
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
@@ -111,16 +111,5 @@ namespace Tests
             Assert.Equal(4, result.ValueOf(instance));
         }
 
-        [Theory, AutoData]
-        public void Should_exec_else_when_fails_to_match_using_slightly_less_code(
-            int instance)
-        {
-            var result = Switch.On(instance,
-                (MyClass c) => 1,
-                (MyClass2 c) => 2,
-                (MyClass3 c) => 3)
-                .Else(_ => 4);
-            Assert.Equal(4, result.ValueOf(instance));
-        }
     }
 }

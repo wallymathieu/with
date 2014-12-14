@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="With\Setting_several_properties_at_once.cs" />
-    <Compile Include="SwitchOnTypeTests.cs" />
+    <Compile Include="Case\SwitchOnTypeTests.cs" />
     <Compile Include="With\Clone_an_instance_into_the_same_type.cs" />
     <Compile Include="With\TestData\MyClass.cs" />
     <Compile Include="With\A_new_instance_of_a_class_that_inherits_from_the_other.cs" />

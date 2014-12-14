@@ -2,6 +2,7 @@
 using With;
 using Xunit;
 using With.General;
+using System.Text.RegularExpressions;
 
 namespace Tests
 {
@@ -121,7 +122,7 @@ namespace Tests
             var result = Switch.Match<string, int>()
                 .Case("m", m => 1)
                 .Case("s", m => 2)
-                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+                .Regex("[a-z]{1}[a-z]{2}\\d{1,}", RegexOptions.IgnoreCase, m => 3);
             Assert.Equal(result.ValueOf(instance), 3);
         }
 

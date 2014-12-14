@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitchElse<In,Out>:IMatchSwitch<In,Out>
+	public class MatchElse<In,Out>:ISwitch<In,Out>
 	{
 		private readonly Func<In,Out> result;
-		private readonly IMatchSwitch<In,Out> inner;
+		private readonly ISwitch<In,Out> inner;
 
-		public MatchSwitchElse (IMatchSwitch<In,Out> inner,Func<In,Out> result)
+		public MatchElse (ISwitch<In,Out> inner,Func<In,Out> result)
 		{
 			this.inner = inner;
 			this.result = result;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-	public class MatchSwitchSingle<In,Out>:IMatchSwitch<In,Out>{
+	public class MatchSingle<In,Out>:ISwitch<In,Out>{
 		private readonly In expected;
 		private readonly Func<In,Out> result;
-		private readonly IMatchSwitch<In,Out> inner;
+		private readonly ISwitch<In,Out> inner;
 		public override In Instance {
 			get{ return inner.Instance;}
 			set{ inner.Instance = value;}
@@ -22,7 +22,7 @@ namespace With.SwitchPlumbing
 			}
 			return false;
 		}
-		public MatchSwitchSingle (IMatchSwitch<In,Out> inner, In expected, Func<In,Out> result)
+		public MatchSingle (ISwitch<In,Out> inner, In expected, Func<In,Out> result)
 		{
 			this.inner = inner;
 			this.expected = expected;
