@@ -60,5 +60,12 @@ namespace With.Tests.Rubyfy
             Assert.Equal(expected, input.Sub("/ First /x", "X"));
         }
 
+        [Fact]
+        public void test_back_reference_is_commented_out()
+        {
+            var expected = "\\1 sentence.";
+            var input = "First sentence.";
+            Assert.Equal(expected, input.Gsub("/([A-Z][a-z]+)/", @"\\1"));
+        }
     }
 }

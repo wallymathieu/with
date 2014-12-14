@@ -8,48 +8,70 @@ namespace With.Rubyfy
 {
     public static class RubyfyExtensions
     {
+        private static Regex BackReference = new Regex(@"
+(?: # not really needed, just grouping
+    (?<slash>\\)? # an optional first slash
+    (?<slash_and_digits>\\ # this construct matches \2
+        (?<digits>\d+)
+    )
+)",RegexOptions.IgnorePatternWhitespace);
+
         private static MatchEvaluator Evaluate(string evaluator)
         {
-            // Is this really needed?
             return match =>
                        {
                            var eval = evaluator;
-                           for (int i = 1; i < match.Groups.Count; i++)
+                           var refs = GetBackReferences(match);
+                           return BackReference.Replace(evaluator, m =>
                            {
-                               var g = match.Groups[i];
-                               if (g.Success)
-                               {
-                                   eval = eval.Replace("\\" + (i), g.Value);
-                               }
-                           }
-                           return eval;
+                               var digits = m.Groups["digits"];
+                               return !m.Groups["slash"].Success && refs.ContainsKey(digits.Value)
+                                   ? refs[digits.Value].Value
+                                   : m.Groups["slash_and_digits"].Value;
+                           });
                        };
+        }
+
+        private static Dictionary<string, Group> GetBackReferences(System.Text.RegularExpressions.Match match)
+        {
+            var backReferences = new Dictionary<string, Group>();
+            for (int i = 1; i < match.Groups.Count; i++)
+            {
+                var g = match.Groups[i];
+                if (g.Success)
+                {
+                    backReferences.Add(i.ToString(), g);
+                }
+            }
+            return backReferences;
         }
 
         private static Regex AsRegex(string regex)
         {
-            return regex.StartsWith("/", StringComparison.InvariantCultureIgnoreCase)
+            return FirstSlash.IsMatch(regex)
                 ? new Regex(RemoveSlashes(regex), ParseOptions(regex))
                 : new Regex(Regex.Escape(regex));
         }
 
+        private static Regex FirstSlash = new Regex("^/", RegexOptions.Multiline);
+        private static Regex TrailingSlash = new Regex("/([ixm]*)$", RegexOptions.Multiline);
+        
         private static string RemoveSlashes(string regex)
         {
-            var firstSlash = Regex.Replace(regex, "^/", "");
-            var trailingSlash = Regex.Replace(firstSlash, "/[ixm]*$", "");
-            return trailingSlash;
+            return FirstSlash.Replace(regex, "")
+                .Yield(s => TrailingSlash.Replace(s, ""));
         }
 
         private static RegexOptions ParseOptions(string regex)
         {
-            var trailingSlash = Regex.Match(regex, "/([ixm]*)$").Groups[1];
+            var trailingSlash = TrailingSlash.Match(regex).Groups[1];
 
-            if (trailingSlash.Success && trailingSlash.Length > 0) 
+            if (trailingSlash.Success && trailingSlash.Length > 0)
             {
                 return trailingSlash.Value
                     .ToA()
-                    .Map(token=> ParseOption(token))
-                    .Reduce((memo,opt)=>memo|opt);
+                    .Map(token => ParseOption(token))
+                    .Reduce((memo, opt) => memo | opt);
             }
             return RegexOptions.None;
         }
@@ -94,7 +116,7 @@ namespace With.Rubyfy
         {
             return regex.Replace(self ?? String.Empty, evaluator, 1);
         }
-        
+
 
         public static Match Match(this string self, Regex regex)
         {
@@ -115,7 +137,7 @@ namespace With.Rubyfy
         {
             return self.Aggregate(initial, map);
         }
-        
+
         /// <summary>
         /// Returns a new array that is a one-dimensional flattening of self (recursively).
         ///
@@ -138,7 +160,7 @@ namespace With.Rubyfy
                 }
             }
         }
-     
+
         /// <summary>
         /// Returns a new array that is a one-dimensional flattening of self (recursively).
         ///
@@ -146,15 +168,15 @@ namespace With.Rubyfy
         ///
         ///The optional level argument determines the level of recursion to flatten.
         /// </summary>
-        public static IEnumerable Flatten(this IEnumerable self, int? order=null)
+        public static IEnumerable Flatten(this IEnumerable self, int? order = null)
         {
-            if (order==null || order >= 0)
+            if (order == null || order >= 0)
             {
                 foreach (var variable in self)
                 {
                     if (variable is IEnumerable && !(variable is string))
                     {
-                        foreach (var result in Flatten((IEnumerable)variable, order!=null? order - 1:null))
+                        foreach (var result in Flatten((IEnumerable)variable, order != null ? order - 1 : null))
                         {
                             yield return result;
                         }
