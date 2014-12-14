@@ -36,13 +36,37 @@ namespace With.Rubyfy
         private static string RemoveSlashes(string regex)
         {
             var firstSlash = Regex.Replace(regex, "^/", "");
-            var trailingSlash = Regex.Replace(firstSlash, "/$", "");
+            var trailingSlash = Regex.Replace(firstSlash, "/[ixm]*$", "");
             return trailingSlash;
         }
 
         private static RegexOptions ParseOptions(string regex)
         {
+            var trailingSlash = Regex.Match(regex, "/([ixm]*)$").Groups[1];
+
+            if (trailingSlash.Success && trailingSlash.Length > 0) 
+            {
+                return trailingSlash.Value
+                    .ToA()
+                    .Map(token=> ParseOption(token))
+                    .Reduce((memo,opt)=>memo|opt);
+            }
             return RegexOptions.None;
+        }
+
+        private static RegexOptions ParseOption(char token)
+        {
+            switch (token)
+            {
+                case 'i':
+                    return RegexOptions.IgnoreCase;
+                case 'x':
+                    return RegexOptions.IgnorePatternWhitespace;
+                case 'm':
+                    return RegexOptions.Singleline | RegexOptions.Multiline;
+                default:
+                    throw new NotImplementedException(token.ToString());
+            }
         }
 
         public static string Gsub(this string self, Regex regex, string evaluator)
@@ -81,6 +105,17 @@ namespace With.Rubyfy
         {
             return self.Select(map);
         }
+
+        public static T Reduce<T>(this IEnumerable<T> self, Func<T, T, T> map)
+        {
+            return self.Aggregate(map);
+        }
+
+        public static T Reduce<T>(this IEnumerable<T> self, T initial, Func<T, T, T> map)
+        {
+            return self.Aggregate(initial, map);
+        }
+        
         /// <summary>
         /// Returns a new array that is a one-dimensional flattening of self (recursively).
         ///

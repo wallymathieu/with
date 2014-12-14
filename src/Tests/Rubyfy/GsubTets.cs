@@ -19,5 +19,46 @@ namespace With.Tests.Rubyfy
             var input = "First sentence. Second sentence.Third sentence!Fourth sentence?Fifth sentence.";
             Assert.Equal(input, input.Gsub("([.!?])([A-Z1-9])", "\\1\n\\2"));
         }
+
+        [Fact]
+        public void test_case()
+        {
+            var expected = "FX X.";
+            var input = "First sentence.";
+            Assert.Equal(expected, input.Gsub("/([a-z]+)/", "X"));
+        }
+
+        [Fact]
+        public void test_ignore_case()
+        {
+            var expected = "X X.";
+            var input = "First sentence.";
+            Assert.Equal(expected, input.Gsub("/([a-z]+)/i", "X"));
+        }
+
+        [Fact]
+        public void test_multiline()
+        {
+            var expected = @"X";
+            var input = @"First sentence.".Split(' ').Join("\n");
+            Assert.Equal(expected, input.Sub("/(.+)/m", "X"));
+        }
+
+        [Fact]
+        public void test_not_multiline()
+        {
+            var expected = @"X sentence.".Split(' ').Join("\n");
+            var input = @"First sentence.".Split(' ').Join("\n");
+            Assert.Equal(expected, input.Sub("/(.+)/", "X"));
+        }
+
+        [Fact]
+        public void test_ignore_pattern_whitespace()
+        {
+            var expected = @"X sentence.";
+            var input = @"First sentence.";
+            Assert.Equal(expected, input.Sub("/ First /x", "X"));
+        }
+
     }
 }
