@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deestructure\DestructureStructTests.cs" />
     <Compile Include="Deestructure\DestructureClassTests.cs" />
     <Compile Include="Deestructure\DestructureListsTests.cs" />
     <Compile Include="Deestructure\DestructureTupleTests.cs" />
