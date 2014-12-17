@@ -54,13 +54,13 @@ namespace With.Destructure
             that.Properties = true;
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, In, Out>(
+        public static MatchFields<In, Out> Case<T, In, Out>(
             this MatchFields<In, Out> that, Func<T, Out> func)
         {
             that.Funcs.Add(func);
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, T2, In, Out>(
+        public static MatchFields<In, Out> Case<T, T2, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, Out> func)
         {
             that.Funcs.Add(func);
@@ -72,19 +72,19 @@ namespace With.Destructure
             that.Funcs.Add(func);
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, T2, T3, T4, In, Out>(
+        public static MatchFields<In, Out> Case<T, T2, T3, T4, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, Out> func)
         {
             that.Funcs.Add(func);
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, T2, T3, T4, T5, In, Out>(
+        public static MatchFields<In, Out> Case<T, T2, T3, T4, T5, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, T5, Out> func)
         {
             that.Funcs.Add(func);
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, T2, T3, T4, T5, T6, In, Out>(
+        public static MatchFields<In, Out> Case<T, T2, T3, T4, T5, T6, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, T5, T6, Out> func)
         {
             that.Funcs.Add(func);

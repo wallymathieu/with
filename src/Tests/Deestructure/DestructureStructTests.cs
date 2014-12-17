@@ -56,7 +56,10 @@ namespace Tests.Deestructure
             return Switch.Match<object, int>(instance).Fields(
                f => f
                     .IncludeAll()
+                    .Case((string a) => -1)
                     .Case((string a, string b, string c) => 1)
+                    .Case((string a, int b) => 20)
+                    .Case((string a, int b, string c, string d) => 50)
                     .Case((string a, int b, string c) => 2)
                     .Case((string a, string b, int c) => 3)
                     .Case((string a, int b, int c) => 4)
