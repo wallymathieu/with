@@ -15,23 +15,41 @@ namespace Tests.Deestructure
     {
         public class MyClass0
         {
-            public string A;
-            public string B;
-            public string C;
+            public MyClass0(string a, string b, string c)
+            {
+                A = a;
+                B = b;
+                C = c;
+            }
+            public readonly string A;
+            public readonly string B;
+            public readonly string C;
         }
 
         public class MyClass1
         {
-            public string A;
-            public int B;
-            public string C;
+            public MyClass1(string a, int b, string c)
+            {
+                A = a;
+                B = b;
+                C = c;
+            }
+            public readonly string A;
+            public readonly int B;
+            public readonly string C;
         }
 
         public class MyClass2
         {
-            public string A;
-            public int B;
-            public int C;
+            public MyClass2(string a, int b, int c)
+            {
+                A = a;
+                B = b;
+                C = c;
+            }
+            public readonly string A;
+            public readonly int B;
+            public readonly int C;
         }
         private static int Match(object instance)
         {
