@@ -1,7 +1,6 @@
 ﻿using System;
 using With;
 using Xunit;
-using With.General;
 using System.Text.RegularExpressions;
 
 namespace Tests
@@ -23,7 +22,7 @@ namespace Tests
         public void Test_one_using_different_syntax()
         {
             string result = Switch.Match<int, string>(1,
-                1.AsArray(), _ => "One!",
+                new []{ 1 }, _ => "One!",
                 new[] { 2, 3, 5, 7, 11 }, _ => "This is a prime!",
                 13.To(19), _ => "A teen")
                 .Else(_ => "Ain't special");

@@ -42,7 +42,7 @@ string result = Switch.Match<int,string> (v)
 or less fluently
 ```
 string result = Switch.Match<int,string> (v,
-    1.AsArray(), _ => "One!",
+    new []{ 1 }, _ => "One!",
     new []{ 2, 3, 5, 7, 11 }, _ => "This is a prime!",
     13.To (19), _ => "A teen")
     .Else (_ => "Ain't special");

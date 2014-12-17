@@ -83,7 +83,6 @@
     <Compile Include="SwitchPlumbing\MatchElse.cs" />
     <Compile Include="SwitchPlumbing\Prepared.cs" />
     <Compile Include="SwitchPlumbing\Match.cs" />
-    <Compile Include="General\GeneralExtensions.cs" />
     <Compile Include="Let\Let.cs" />
     <Compile Include="Let\Plumbing\ExpressionWithMemberAccess.cs" />
     <Compile Include="Let\Plumbing\ExpressionWithMemberAccessMightBeFromConstant.cs" />
