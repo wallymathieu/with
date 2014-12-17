@@ -42,6 +42,7 @@
     <Compile Include="Destructure\MatchFields.cs" />
     <Compile Include="Destructure\MethodInfoOrProperty.cs" />
     <Compile Include="Destructure\Fields.cs" />
+    <Compile Include="Destructure\TupleExtensions.cs" />
     <Compile Include="ExpectedButGotException.cs" />
     <Compile Include="IMatchSwitchExtensions.cs" />
     <Compile Include="Destructure\SwitchMatchFields.cs" />

@@ -11,7 +11,7 @@ using Xunit.Extensions;
 
 namespace Tests.Deestructure
 {
-    public class DestructureTests
+    public class DestructureClassTests
     {
         public class MyClass0
         {
