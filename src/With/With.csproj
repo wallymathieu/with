@@ -39,6 +39,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Destructure\ListExtensions.cs" />
     <Compile Include="Destructure\MatchFields.cs" />
     <Compile Include="Destructure\MethodInfoOrProperty.cs" />
     <Compile Include="Destructure\Fields.cs" />
