@@ -12,8 +12,15 @@ namespace With.Destructure
             Funcs = new List<Delegate>();
         }
         internal IList<Delegate> Funcs { get; private set; }
-        public bool Fields { get; set; }
-        public bool Properties { get; set; }
-        public bool Methods { get; set; }
+        internal TypeOfFIelds TypeOfFields { get; set; }
+        public bool Fields { set { TypeOfFields |= TypeOfFIelds.Fields; } }
+        public bool Properties { set { TypeOfFields |= TypeOfFIelds.Properties; } }
+        public bool Methods { set { TypeOfFields |= TypeOfFIelds.Methods; } }
+
+        internal void Add(Delegate f)
+        {
+            Funcs.Add(f);
+        }
+ 
     }
 }

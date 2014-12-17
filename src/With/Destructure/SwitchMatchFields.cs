@@ -6,13 +6,15 @@ using With.Rubyfy;
 using System.Collections.Generic;
 namespace With.Destructure
 {
-    public class SwitchMatchFields<In, Out> : ISwitch<In, Out>
+    internal class SwitchMatchFields<In, Out> : ISwitch<In, Out>
     {
         private readonly ISwitch<In, Out> inner;
         private readonly IEnumerable<Tuple<Type[], Delegate>> matches;
+        private readonly TypeOfFIelds typeOfFields;
 
-        public SwitchMatchFields(ISwitch<In, Out> inner, Delegate[] funcs)
+        public SwitchMatchFields(ISwitch<In, Out> inner, Delegate[] funcs, TypeOfFIelds typeOfFields)
         {
+            this.typeOfFields = typeOfFields;
             this.inner = inner;
             this.matches = funcs.Map(f => Tuple.Create(f.Method.GetParameters().Select(p => p.ParameterType).ToArray(), f)).ToA();
         }
@@ -23,7 +25,7 @@ namespace With.Destructure
             {
                 return true;
             }
-            var fields = new Fields(Instance.GetType());
+            var fields = new Fields(Instance.GetType(), typeOfFields);
             foreach (var kv in matches)
             {
                 if (fields.IsTupleMatch(kv.Item1))

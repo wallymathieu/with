@@ -14,7 +14,7 @@ namespace With.Destructure
             var m = new MatchFields<In, Out>();
             m.Fields = true;
             fields(m);
-            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray());
+            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray(), m.TypeOfFields);
         }
 
         public static ISwitch<In, Out> Properties<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)
@@ -22,7 +22,7 @@ namespace With.Destructure
             var m = new MatchFields<In, Out>();
             m.Properties = true;
             fields(m);
-            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray());
+            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray(), m.TypeOfFields);
         }
 
         /// <summary>
@@ -57,37 +57,37 @@ namespace With.Destructure
         public static MatchFields<In, Out> Case<T, In, Out>(
             this MatchFields<In, Out> that, Func<T, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
         public static MatchFields<In, Out> Case<T, T2, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
         public static MatchFields<In, Out> Case<T, T2, T3, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
         public static MatchFields<In, Out> Case<T, T2, T3, T4, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
         public static MatchFields<In, Out> Case<T, T2, T3, T4, T5, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, T5, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
         public static MatchFields<In, Out> Case<T, T2, T3, T4, T5, T6, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, T4, T5, T6, Out> func)
         {
-            that.Funcs.Add(func);
+            that.Add(func);
             return that;
         }
     }

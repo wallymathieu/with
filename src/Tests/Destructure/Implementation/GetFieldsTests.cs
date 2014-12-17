@@ -53,24 +53,22 @@ namespace Tests.Destructure.Implementation
         [Fact]
         public void Should_get_fields_of_class()
         {
-            var result = new Fields(typeof(MyClass0)).GetNames().ToArray();
+            var result = new Fields(typeof(MyClass0), TypeOfFIelds.Fields).GetNames().ToArray();
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
 
         [Fact]
         public void Should_get_properties_of_class()
         {
-            var result = new Fields(typeof(MyClass1)).GetNames().ToArray();
+            var result = new Fields(typeof(MyClass1), TypeOfFIelds.Properties).GetNames().ToArray();
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
 
         [Fact]
         public void Should_get_fields_of_struct()
         {
-            var result = new Fields(typeof(MyStruct0)).GetNames().ToArray();
+            var result = new Fields(typeof(MyStruct0), TypeOfFIelds.Fields).GetNames().ToArray();
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
-
-
     }
 }

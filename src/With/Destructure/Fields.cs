@@ -12,16 +12,27 @@ namespace With.Destructure
     {
         GetMethodInfoOrFieldOrProperty[] fields;
 
-        public Fields(Type type)
+        public Fields(Type type, TypeOfFIelds typeOfFIelds)
         {
-            fields = new[]{ 
-                GetPublicGetMethods(type)
-                 .Map(m=>new GetMethodInfoOrFieldOrProperty(m)),
-                GetPublicFields(type)
-                 .Map(f=>new GetMethodInfoOrFieldOrProperty(f)),
-                GetPublicProperties(type)
-                 .Map(f=>new GetMethodInfoOrFieldOrProperty(f)),
-            }.Flatten<GetMethodInfoOrFieldOrProperty>().ToA();
+            var list = new List<GetMethodInfoOrFieldOrProperty>();
+            if (typeOfFIelds.HasFlag(TypeOfFIelds.Methods))
+            {
+                list.AddRange(GetPublicGetMethods(type)
+                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
+            }
+
+            if (typeOfFIelds.HasFlag(TypeOfFIelds.Properties))
+            {
+                list.AddRange(GetPublicProperties(type)
+                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
+            }
+
+            if (typeOfFIelds.HasFlag(TypeOfFIelds.Fields))
+            {
+                list.AddRange(GetPublicFields(type)
+                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
+            }
+            fields = list.ToA();
         }
 
         private IEnumerable<PropertyInfo> GetPublicProperties(Type type)
