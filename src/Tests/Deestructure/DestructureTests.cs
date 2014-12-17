@@ -13,20 +13,6 @@ namespace Tests.Deestructure
 {
     public class DestructureTests
     {
-        public class MyClass
-        {
-            public string A_Property { get; set; }
-            public string B_Field;
-            private string _methodvalue;
-            public string GetC_Method()
-            {
-                return _methodvalue;
-            }
-            public void SetC_Method(string value)
-            {
-                _methodvalue = value;
-            }
-        }
         public class MyClass0
         {
             public string A;
@@ -49,7 +35,7 @@ namespace Tests.Deestructure
         }
         private static int Match(object instance)
         {
-            int result = Switch.Match<object, int>(instance).Fields(
+            return Switch.Match<object, int>(instance).Fields(
                f => f
                     .IncludeAll()
                     .Case((string a, string b, string c) => 1)
@@ -57,7 +43,6 @@ namespace Tests.Deestructure
                     .Case((string a, string b, int c) => 3)
                     .Case((string a, int b, int c) => 4)
                 );
-            return result;
         }
 
         [Theory, AutoData]
