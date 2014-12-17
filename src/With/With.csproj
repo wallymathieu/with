@@ -39,11 +39,12 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Destructure\MatchFields.cs" />
     <Compile Include="Destructure\MethodInfoOrProperty.cs" />
     <Compile Include="Destructure\Fields.cs" />
     <Compile Include="ExpectedButGotException.cs" />
     <Compile Include="IMatchSwitchExtensions.cs" />
-    <Compile Include="Destructure\MatchFields.cs" />
+    <Compile Include="Destructure\SwitchMatchFields.cs" />
     <Compile Include="MissingValueException.cs" />
     <Compile Include="NumbericExtensions.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="Switch.cs" />
     <Compile Include="NoMatchFoundException.cs" />
     <Compile Include="SwitchPlumbing\f.cs" />
-    <Compile Include="Switch_Fields.cs" />
+    <Compile Include="Destructure\Switch_Fields.cs" />
     <Compile Include="Switch_generated.cs">
       <SubType>Code</SubType>
     </Compile>
