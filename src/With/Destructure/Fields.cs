@@ -33,7 +33,7 @@ namespace With.Destructure
         private static IEnumerable<MethodInfo> GetPublicGetMethods(Type type)
         {
             return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(m => m.DeclaringType != typeof(Object)
+                .Where(m => m.DeclaringType != typeof(Object) && m.DeclaringType.IsValueType
                     && m.Name.Match(_getNotUnderscore).Success);
         }
 

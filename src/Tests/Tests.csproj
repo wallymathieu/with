@@ -51,10 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Deestructure\DestructureStructTests.cs" />
-    <Compile Include="Deestructure\DestructureClassTests.cs" />
-    <Compile Include="Deestructure\DestructureListsTests.cs" />
-    <Compile Include="Deestructure\DestructureTupleTests.cs" />
+    <Compile Include="Destructure\DestructureStructTests.cs" />
+    <Compile Include="Destructure\DestructureClassTests.cs" />
+    <Compile Include="Destructure\DestructureListsTests.cs" />
+    <Compile Include="Destructure\DestructureTupleTests.cs" />
+    <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
     <Compile Include="Rubyfy\ZipTests.cs" />
     <Compile Include="With\Setting_several_properties_at_once.cs" />
     <Compile Include="Case\SwitchOnTypeTests.cs" />

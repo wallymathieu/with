@@ -9,13 +9,13 @@ using With.Rubyfy;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Tests.Deestructure
+namespace Tests.Destructure
 {
     public class DestructureStructTests
     {
-        public struct MyClass0
+        public struct MyStruct0
         {
-            public MyClass0(string a, string b, string c)
+            public MyStruct0(string a, string b, string c)
             {
                 A = a;
                 B = b;
@@ -26,9 +26,9 @@ namespace Tests.Deestructure
             public readonly string C;
         }
 
-        public struct MyClass1
+        public struct MyStruct1
         {
-            public MyClass1(string a, int b, string c)
+            public MyStruct1(string a, int b, string c)
             {
                 A = a;
                 B = b;
@@ -39,9 +39,9 @@ namespace Tests.Deestructure
             public readonly string C;
         }
 
-        public struct MyClass2
+        public struct MyStruct2
         {
-            public MyClass2(string a, int b, int c)
+            public MyStruct2(string a, int b, int c)
             {
                 A = a;
                 B = b;
@@ -66,25 +66,25 @@ namespace Tests.Deestructure
                 );
         }
 
-        //[Theory, AutoData]
+        [Theory, AutoData]
         public void Should_match_the_first_case(
-            MyClass0 instance)
+            MyStruct0 instance)
         {
             int result = Match(instance);
             Assert.Equal(1, result);
         }
 
-        //[Theory, AutoData]
+        [Theory, AutoData]
         public void Should_match_the_second_case(
-            MyClass1 instance)
+            MyStruct1 instance)
         {
             int result = Match(instance);
             Assert.Equal(2, result);
         }
 
-        //[Theory, AutoData]
+        [Theory, AutoData]
         public void Should_match_the_forth_case(
-            MyClass2 instance)
+            MyStruct2 instance)
         {
             int result = Match(instance);
             Assert.Equal(4, result);

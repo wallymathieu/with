@@ -9,7 +9,7 @@ using With.Rubyfy;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Tests.Deestructure
+namespace Tests.Destructure
 {
     public class DestructureClassTests
     {

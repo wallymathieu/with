@@ -4,7 +4,7 @@ using Xunit;
 using Xunit.Extensions;
 using With.Destructure;
 
-namespace Tests.Deestructure
+namespace Tests.Destructure
 {
     public class DestructureListsTests
     {
