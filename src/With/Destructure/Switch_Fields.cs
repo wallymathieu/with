@@ -12,11 +12,48 @@ namespace With.Destructure
         public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In,Out>> fields)
         {
             var m = new MatchFields<In, Out>();
+            m.Fields = true;
             fields(m);
             return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray());
         }
 
+        public static ISwitch<In, Out> Properties<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)
+        {
+            var m = new MatchFields<In, Out>();
+            m.Properties = true;
+            fields(m);
+            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray());
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static MatchFields<In, Out> IncludeAll<In, Out>(
+            this MatchFields<In, Out> that)
+        {
+            that.Methods = true;
+            that.Fields = true;
+            that.Properties = true;
+            return that;
+        }
+        public static MatchFields<In, Out> IncludeMethods<In, Out>(
+            this MatchFields<In, Out> that)
+        {
+            that.Methods = true;
+            return that;
+        }
+        public static MatchFields<In, Out> IncludeFields<In, Out>(
+            this MatchFields<In, Out> that)
+        {
+            that.Fields = true;
+            return that;
+        }
+        public static MatchFields<In, Out> IncludeProperties<In, Out>(
+            this MatchFields<In, Out> that)
+        {
+            that.Properties = true;
+            return that;
+        }
         public static MatchFields<In, Out> Fields<T, In, Out>(
             this MatchFields<In, Out> that, Func<T, Out> func)
         {
@@ -29,7 +66,7 @@ namespace With.Destructure
             that.Funcs.Add(func);
             return that;
         }
-        public static MatchFields<In, Out> Fields<T, T2, T3, In, Out>(
+        public static MatchFields<In, Out> Case<T, T2, T3, In, Out>(
             this MatchFields<In, Out> that, Func<T, T2, T3, Out> func)
         {
             that.Funcs.Add(func);

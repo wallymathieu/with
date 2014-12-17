@@ -12,5 +12,8 @@ namespace With.Destructure
             Funcs = new List<Delegate>();
         }
         internal IList<Delegate> Funcs { get; private set; }
+        public bool Fields { get; set; }
+        public bool Properties { get; set; }
+        public bool Methods { get; set; }
     }
 }

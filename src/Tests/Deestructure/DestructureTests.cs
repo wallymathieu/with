@@ -51,10 +51,11 @@ namespace Tests.Deestructure
         {
             int result = Switch.Match<object, int>(instance).Fields(
                f => f
-                    .Fields((string a, string b, string c) => 1)
-                    .Fields((string a, int b, string c) => 2)
-                    .Fields((string a, string b, int c) => 3)
-                    .Fields((string a, int b, int c) => 4)
+                    .IncludeAll()
+                    .Case((string a, string b, string c) => 1)
+                    .Case((string a, int b, string c) => 2)
+                    .Case((string a, string b, int c) => 3)
+                    .Case((string a, int b, int c) => 4)
                 );
             return result;
         }
