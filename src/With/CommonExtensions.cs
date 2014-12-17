@@ -26,6 +26,37 @@ namespace With
         {
             return String.Join(delimitor, that);
         }
+
+        public static IEnumerable<T[]> Zip<T>(this IEnumerable<T> self, params IEnumerable<T>[] arrays)
+        {
+            var i = 0;
+            foreach (var item in self)
+            {
+                var list = new List<T> { item };
+                list.AddRange(arrays.Select(array => array.ElementAtOrDefault(i)));
+                yield return list.ToArray();
+                i++;
+            }
+        }
+
+        private class GenericComparer<T> : IComparer<T>
+        {
+            private readonly Func<T, T, int> _compare;
+            public GenericComparer(Func<T, T, int> compare)
+            {
+                _compare = compare;
+            }
+
+            public int Compare(T x, T y)
+            {
+                return _compare(x, y);
+            }
+        }
+
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> self, Func<T, T, int> compare)
+        {
+            return self.OrderBy(t => t, new GenericComparer<T>(compare));
+        }
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using With;
 using With.Rubyfy;
 namespace Tests.Rubyfy
 {
@@ -17,6 +18,7 @@ namespace Tests.Rubyfy
             Assert.Equal(new[] { new int?[] { 1, 4, 7 }, new int?[] { 2, 5, 8 }, new int?[] { 3, 6, 9 } },
                 new int?[] { 1, 2, 3 }.Zip(a, b).ToA());
         }
+
         [Fact]
         public void test_zip_smaller_array()
         {
