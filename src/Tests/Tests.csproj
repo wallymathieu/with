@@ -64,8 +64,6 @@
     <Compile Include="With\A_new_instance_of_a_class_that_inherits_from_the_other.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="With\Another_instance_gets_created_without_the_need_for_inheritance.cs" />
-    <Compile Include="Let\LetFieldVariableBeTest.cs" />
-    <Compile Include="Let\LetPropertyVariableBeTest.cs" />
     <Compile Include="RangeTests.cs" />
     <Compile Include="Case\MatchActionTests.cs" />
     <Compile Include="Case\MatchFuncTests.cs" />

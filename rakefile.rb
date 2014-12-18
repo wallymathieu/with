@@ -29,6 +29,14 @@ task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
   end
 end
 
+task :nugetpush => [:nugetpack] do |nuget|
+  cd File.join(dir,"nuget") do
+    last = Dir.glob("With.*.nupkg").last
+    NuGet::exec "push #{last}"
+  end
+end
+
+
 desc "Install missing NuGet packages."
 task :install_packages do
   package_paths = FileList["src/**/packages.config"]+["src/.nuget/packages.config"]
