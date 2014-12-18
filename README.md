@@ -56,14 +56,6 @@ var result = Switch.Match<string,string>(instance)
     .Case("s", _ => FoundS())
     .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => ParseMatch(m));
 ```
-###Temporarily set value
-```
-using (myClass.SetTemporary(obj => obj.Value, temporaryValue))
-{
-    // myClass.Value will return temporaryValue
-}
-// but not here
-```
 
 ##Nuget
 <https://www.nuget.org/packages/With>
