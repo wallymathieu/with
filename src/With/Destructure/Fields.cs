@@ -41,10 +41,12 @@ namespace With.Destructure
         }
 
         private static Regex _getNotUnderscore = new Regex("^get[^_]", RegexOptions.IgnoreCase);
+        private static Regex _hashcode = new Regex("^gethashcode", RegexOptions.IgnoreCase);
         private static IEnumerable<MethodInfo> GetPublicGetMethods(Type type)
         {
             return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(m => m.DeclaringType != typeof(Object) && m.DeclaringType.IsValueType
+                .Where(m => m.DeclaringType != typeof(Object)
+                    && ! m.Name.Match(_hashcode).Success
                     && m.Name.Match(_getNotUnderscore).Success);
         }
 
