@@ -8,6 +8,7 @@ GEM
       semver2 (~> 3.4)
     map (6.5.5)
     mini_portile (0.6.0)
+    minitest (5.4.3)
     nokogiri (1.6.3.1-x64-mingw32)
       mini_portile (= 0.6.0)
     nokogiri (1.6.3.1-x86-mingw32)
@@ -21,3 +22,4 @@ PLATFORMS
 
 DEPENDENCIES
   albacore
+  minitest

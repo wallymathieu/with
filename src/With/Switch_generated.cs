@@ -7,7 +7,6 @@ namespace With
 {
     public static partial class Switch
     {
-
         public static ISwitch<In, Out> Match
             <In, Out>(In value, 
                IEnumerable<In> i0, Func<In, Out> f0,
