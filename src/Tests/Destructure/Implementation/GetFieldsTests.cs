@@ -102,14 +102,6 @@ namespace Tests.Destructure.Implementation
             var result = new Fields(typeof(MyClassWithFIelds0), TypeOfFIelds.Fields).GetNames().ToArray();
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
-
-        [Fact]
-        public void Should_get_properties_of_class()
-        {
-            var result = new Fields(typeof(MyClassWithProperties1), TypeOfFIelds.Properties).GetNames().ToArray();
-            Assert.Equal(new[] { "A", "B", "C" }, result);
-        }
-
         [Fact]
         public void Should_get_fields_of_struct()
         {
@@ -117,13 +109,27 @@ namespace Tests.Destructure.Implementation
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
 
+
+        [Fact]
+        public void Should_get_properties_of_class()
+        {
+            var result = new Fields(typeof(MyClassWithProperties1), TypeOfFIelds.Properties).GetNames().ToArray();
+            Assert.Equal(new[] { "A", "B", "C" }, result);
+        }
+        [Fact]
+        public void Should_get_properties_of_struct()
+        {
+            var result = new Fields(typeof(MyStructWithProperties1), TypeOfFIelds.Properties).GetNames().ToArray();
+            Assert.Equal(new[] { "A", "B", "C" }, result);
+        }
+
+
         [Fact] 
         public void Should_get_methods_of_class()
         {
             var result = new Fields(typeof(MyClassWithMethods2), TypeOfFIelds.Methods).GetNames().ToArray();
             Assert.Equal(new[] { "A", "B", "C" }, result);
         }
-
         [Fact]
         public void Should_get_methods_of_struct()
         {
