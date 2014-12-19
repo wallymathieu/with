@@ -1,4 +1,7 @@
 class MatchSwitch
+    def initialize(num)
+        @num = num
+    end
     def get_array_to_func_pair(n)
 "               IEnumerable<In> i#{n}, Func<In, Out> f#{n}"
     end
@@ -37,5 +40,14 @@ class MatchSwitch
         return new MatchSwitch<In, Out>()
 #{cases};
     }"  
+    end
+    def to_s
+        matches = (1..@num).map do |n|
+            get_match_switch_tap(n)
+        end
+        matches += (1..@num).map do |n|
+            get_match_switch(n)
+        end
+        return matches.join("\n")
     end
 end

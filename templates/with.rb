@@ -1,11 +1,12 @@
 require_relative 'match_switch'
-
+require_relative 'tuple_extensions'
 class With
-    def initialize(num)
-        @num = num
-        @m = MatchSwitch.new
-    end
-    def header
+  def initialize(num)
+    @num = num
+    @m = MatchSwitch.new(num)
+    @t = TupleExtensions.new(num)
+  end
+  def header
           "
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,15 @@ namespace With
 {
     public static partial class Switch
     {"
-    end
-    def footer
+  end
+  def footer
 "
     }
 }"
-    end
+  end
 
-    def to_s
-        matches = (1..@num).map do |n|
-            @m.get_match_switch_tap(n)
-        end
-        matches += (1..@num).map do |n|
-            @m.get_match_switch(n)
-        end
-        n = "\n"
-        "#{header}\n#{matches.join(n)}\n#{footer}"
-    end
+  def to_s
+    matches = @m.to_s
+    "#{header}\n#{matches}\n#{footer}"
+  end
 end
