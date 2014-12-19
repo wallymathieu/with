@@ -7,7 +7,7 @@ using With.SwitchPlumbing;
 
 namespace With.Destructure
 {
-    public static class Switch_Fields
+    public static partial class Switch_Fields
     {
         public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In,Out>> fields)
         {

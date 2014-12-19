@@ -7,24 +7,13 @@ class With
     @t = TupleExtensions.new(num)
   end
   def header
-          "
-using System;
-using System.Collections.Generic;
-using With.SwitchPlumbing;
-
-namespace With
-{
-    public static partial class Switch
-    {"
+    ""
   end
   def footer
-"
-    }
-}"
+    ""
   end
 
   def to_s
-    matches = @m.to_s
-    "#{header}\n#{matches}\n#{footer}"
+    "#{header}\n#{@m}\n#{@t}\n#{footer}"
   end
 end
