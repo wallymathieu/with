@@ -58,6 +58,6 @@ desc "Generate switch extensions"
 task :generate do |t|
   file = File.join(File.dirname(__FILE__),"src","With","Switch_generated.cs")
   File.open(file,"w") do |f|
-    f<<With.new(6).to_s
+    f<<With.new().to_s
   end
 end

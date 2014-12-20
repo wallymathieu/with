@@ -1,10 +1,9 @@
 require_relative 'match_switch'
 require_relative 'tuple_extensions'
 class With
-  def initialize(num)
-    @num = num
-    @m = MatchSwitch.new(num)
-    @t = TupleExtensions.new(num)
+  def initialize()
+    @m = MatchSwitch.new(6)
+    @t = TupleExtensions.new(6)
   end
   def header
     ""
