@@ -13,7 +13,7 @@ namespace Tests
                 .Case(1, () => "One!")
                 .Case(new[] { 2, 3, 5, 7, 11 }, p => "This is a prime!")
                 .Case(13.To(19), t => "A teen")
-                .Case(i => i == 42, (i) => "Meaning of life")
+                .Case(i => i == 42, i => "Meaning of life")
                 .Case(i => i == 52, () => "Some other number")
                 .Else(_ => "Ain't special");
         }
@@ -32,36 +32,36 @@ namespace Tests
         [Fact]
         public void Test_one()
         {
-            Assert.Equal(DoMatch(1), "One!");
+            Assert.Equal("One!", DoMatch(1));
         }
         [Fact]
         public void Test_prime()
         {
-            Assert.Equal(DoMatch(7), "This is a prime!");
+            Assert.Equal("This is a prime!", DoMatch(7));
         }
         [Fact]
         public void Test_teen()
         {
-            Assert.Equal(DoMatch(17), "A teen");
+            Assert.Equal("A teen", DoMatch(17));
         }
         [Fact]
         public void Test_other()
         {
-            Assert.Equal(DoMatch(200), "Ain't special");
-            Assert.Equal(DoMatch(29), "Ain't special");
+            Assert.Equal("Ain't special", DoMatch(200));
+            Assert.Equal("Ain't special", DoMatch(29));
         }
         [Fact]
         public void Test_meaning_of_life()
         {
-            Assert.Equal(DoMatch(42), "Meaning of life");
+            Assert.Equal("Meaning of life", DoMatch(42));
         }
         [Fact]
         public void Test_does_not_match()
         {
             Assert.Throws<NoMatchFoundException>(() =>
             {
-                string one = Switch.Match<int, string>(2)
-                    .Case(1, () => "One!");
+                Switch.Match<int, string>(2)
+                    .Case(1, () => "One!").Value();
             });
         }
 
@@ -74,7 +74,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.Equal(result, 1);
+            Assert.Equal(1, result);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
-            Assert.Equal(result, 3);
+            Assert.Equal(3, result);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[A-Z]{1}[a-z]{2}(\\d{1,})", m => Int32.Parse(m.Groups[1].Value));
-            Assert.Equal(result, 3);
+            Assert.Equal(3, result);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace Tests
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3)
                 .Case("m", m => 1)
                 .Case("s", m => 2);
-            Assert.Equal(result, 3);
+            Assert.Equal(3, result);
         }
 
         [Fact]
@@ -122,7 +122,20 @@ namespace Tests
                 .Case("m", m => 1)
                 .Case("s", m => 2)
                 .Regex("[a-z]{1}[a-z]{2}\\d{1,}", RegexOptions.IgnoreCase, m => 3);
-            Assert.Equal(result.ValueOf(instance), 3);
+            Assert.Equal(3, result.ValueOf(instance));
+        }
+
+        [Fact]
+        public void Can_write_fib_in_a_different_way()
+        {
+            Func<int,int> fib=null;
+
+            fib = i => Switch.Match<int, int>(i)
+                .Case(1.To(2), _=>1)
+                .Else(n=>fib(n-1) + fib(n-2));
+
+            Assert.Equal(2, fib(3));
+            Assert.Equal(8, fib(6));
         }
 
     }
