@@ -125,17 +125,18 @@ namespace Tests
             Assert.Equal(3, result.ValueOf(instance));
         }
 
+        private int Fib(int i)
+        {
+            return Switch.Match<int, int>(i)
+                .Case(1.To(2), _=>1)
+                .Else(n=>Fib(n-1) + Fib(n-2));
+        }
+
         [Fact]
         public void Can_write_fib_in_a_different_way()
         {
-            Func<int,int> fib=null;
-
-            fib = i => Switch.Match<int, int>(i)
-                .Case(1.To(2), _=>1)
-                .Else(n=>fib(n-1) + fib(n-2));
-
-            Assert.Equal(2, fib(3));
-            Assert.Equal(8, fib(6));
+            Assert.Equal(2, Fib(3));
+            Assert.Equal(8, Fib(6));
         }
 
     }
