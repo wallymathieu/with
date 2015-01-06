@@ -122,6 +122,15 @@ namespace With.Rubyfy
             return regex.Match(self ?? String.Empty);
         }
 
+        public static bool Even(this int self)
+        {
+            return self%2==0;
+        }
+        public static bool Odd(this int self)
+        {
+            return self%2!=0;
+        }
+
         public static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
         {
             return self.Select(map);
@@ -282,6 +291,7 @@ namespace With.Rubyfy
         {
             return Enumerable.All(self,predicate);
         }
+
         public static int Count<T>(this IEnumerable<T> self, Func<T,bool> predicate)
         {
             return Enumerable.Count(self,predicate);
@@ -294,23 +304,66 @@ namespace With.Rubyfy
         {
             return Enumerable.Count(self, e=> e.Equals(value));
         }
-        /*public static IEnumerable<IGrouping<TKey,T>> Chunk<TKey,T>(this IEnumerable<T> self, Func<T,TKey> keySelector)
+
+        internal class Chunks<TKey,T>:IGrouping<TKey,T>
         {
-            return self.GroupBy(keySelector);
+            public Chunks (TKey key)
+            {
+                Key = key;
+                Enumerable = new List<T>();
+            }
+            public Chunks (TKey key, T firstItem)
+            {
+                Key = key;
+                Enumerable = new List<T>(){ { firstItem } };
+            }
+
+            public IList<T> Enumerable;
+            public IEnumerator<T> GetEnumerator()
+            {
+                return Enumerable.GetEnumerator();
+            }
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return Enumerable.GetEnumerator();
+            }
+            public TKey Key
+            {
+                get;
+                private set;
+            }
         }
 
-[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5].chunk { |n|
-  n.even?
-}.each { |even, ary|
-  p [even, ary]
-}
-#=> [false, [3, 1]]
-#   [true, [4]]
-#   [false, [1, 5, 9]]
-#   [true, [2, 6]]
-#   [false, [5, 3, 5]]
+        public static IEnumerable<IGrouping<TKey,T>> Chunk<TKey,T>(this IEnumerable<T> self, Func<T,TKey> keySelector)
+        {
+            Chunks<TKey,T> currentChunk= null;
+            foreach (var item in self)
+            {
+                var currentKey = keySelector(item);
+                if (null == currentKey)
+                {
+                    continue;
+                }
 
-        */
+                if (currentChunk == null)// first element
+                {
+                    currentChunk = new Chunks<TKey,T>(currentKey, item);
+                }
+                else
+                {
+                    if (currentChunk.Key.Equals(currentKey))
+                    {
+                        currentChunk.Enumerable.Add(item);
+                    }
+                    else
+                    {
+                        yield return currentChunk;
+                        currentChunk = new Chunks<TKey,T>(currentKey, item);
+                    }
+                }
+            }
+            yield return currentChunk;
+        }
 
         /*public static IEnumerable<T> CollectConcat<T>(this IEnumerable<T> self, Func<T, T> map)
         {
@@ -333,6 +386,31 @@ namespace With.Rubyfy
         DropWhile
         */
         
+        public static IEnumerable<T> Each<T>(this IEnumerable<T> self, Action<T> action)
+        {
+            foreach (var elem in self)
+            {
+                action(elem);
+            }
+            return self;
+        }
+        public static IEnumerable<Tuple<T1,T2>> Each<T1,T2>(this IEnumerable<Tuple<T1,T2>> self, Action<T1,T2> action)
+        {
+            foreach (var elem in self)
+            {
+                action(elem.Item1, elem.Item2);
+            }
+            return self;
+        }
+        public static IEnumerable<IGrouping<T1,T2>> Each<T1,T2>(this IEnumerable<IGrouping<T1,T2>> self, Action<T1,IEnumerable<T2>> action)
+        {
+            foreach (var elem in self)
+            {
+                action(elem.Key, elem);
+            }
+            return self;
+        }
+
         /*
         EachCons
         */
@@ -382,6 +460,11 @@ namespace With.Rubyfy
         /*Take*/
 
         /*TakeWhile*/
+
+        public static IDictionary<TKey,TValue> ToHash<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> self)
+        {
+            return self.ToDictionary(kv=>kv.Key,kv=>kv.Value);
+        }
 
         /*Zip*/
     }
