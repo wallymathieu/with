@@ -90,6 +90,7 @@
     <Compile Include="Rubyfy\SubExtensions.cs" />
     <Compile Include="Rubyfy\FlattenExtension.cs" />
     <Compile Include="Rubyfy\Partition.cs" />
+    <Compile Include="Rubyfy\MaxMinExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

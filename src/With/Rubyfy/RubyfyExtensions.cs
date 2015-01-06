@@ -51,30 +51,6 @@ namespace With.Rubyfy
             return null == self || !self.Any();
         }
 
-        /// <summary>
-        /// split the string into length large pieces
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
-        public static string[] SplitN(this string self, int length)
-        {
-            var result = new string[self.Length / length];
-            var index = 0;
-            for (int i = 0; i < self.Length; i += length)
-            {
-                result[index++] = self.Substring(i, length);
-            }
-            return result;
-        }
-        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TValue> getvalue)
-        {
-            if (!self.ContainsKey(key))
-            {
-                self[key] = getvalue();
-            }
-            return self[key];
-        }
         public static T Detect<T>(this IEnumerable<T> self, Func<T, bool> predicate)
         {
             return self.FirstOrDefault(predicate);
@@ -272,89 +248,6 @@ namespace With.Rubyfy
         {
             return Enumerable.Contains(self, member);
         }
-
-        public static long Max(this IEnumerable<long> self)
-        {
-            return Enumerable.Max(self);
-        }
-        public static decimal Max(this IEnumerable<decimal> self)
-        {
-            return Enumerable.Max(self);
-        }
-        public static T Max<T>(this IEnumerable<T> self)
-            where T:IComparable
-        {
-            return self.GetMaxBy(e => e);
-        }
-        public static IEnumerable<T> MaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
-        {
-            var array = self.ToArray();
-            var min = array.GetMaxBy(map);
-            return array.Where(a => min.Equals( map(a) ));
-        }
-        private static TComparable GetMaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
-        {
-            var enumerator = self.GetEnumerator();
-            if (!enumerator.MoveNext())
-            {
-                return default(TComparable);
-            }
-
-            var current = Tuple.Create(enumerator.Current,map(enumerator.Current));
-            while (enumerator.MoveNext())
-            {
-                var item = Tuple.Create(enumerator.Current, map(enumerator.Current));
-                if (current.Item2.CompareTo(item.Item2) < 0)
-                {
-                    current = item;
-                }
-            }
-            return current.Item2;
-        }
-
-        public static long Min(this IEnumerable<long> self)
-        {
-            return Enumerable.Min(self);
-        }
-        public static decimal Min(this IEnumerable<decimal> self)
-        {
-            return Enumerable.Min(self);
-        }
-        public static T Min<T>(this IEnumerable<T> self)
-            where T:IComparable
-        {
-            return self.MinBy(e=>e).SingleOrDefault();
-        }
-        public static IEnumerable<T> MinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
-        {
-            var array = self.ToArray();
-            var min = array.GetMinBy(map);
-            return array.Where(a => min.Equals(map(a)));
-        }
-        private static TComparable GetMinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
-        {
-            var enumerator = self.GetEnumerator();
-            if (!enumerator.MoveNext())
-            {
-                return default(TComparable);
-            }
-
-            var current = Tuple.Create(enumerator.Current,map(enumerator.Current));
-            while (enumerator.MoveNext())
-            {
-                var item = Tuple.Create(enumerator.Current, map(enumerator.Current));
-                if (current.Item2.CompareTo(item.Item2) > 0)
-                {
-                    current = item;
-                }
-            }
-            return current.Item2;
-        }
-        /*MinMax, MinMaxBy*/
 
         public static bool None<T>(this IEnumerable<T> self, Func<T,bool> predicate)
         {
