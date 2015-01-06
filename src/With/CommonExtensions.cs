@@ -38,25 +38,12 @@ namespace With
                 i++;
             }
         }
-
-        private class GenericComparer<T> : IComparer<T>
-        {
-            private readonly Func<T, T, int> _compare;
-            public GenericComparer(Func<T, T, int> compare)
-            {
-                _compare = compare;
-            }
-
-            public int Compare(T x, T y)
-            {
-                return _compare(x, y);
-            }
-        }
-
+            
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
-            return self.OrderBy(t => t, new GenericComparer<T>(compare));
+            return self.OrderBy(t => t, new ComparerFromFunc<T>(compare));
         }
     }
+
 }
 
