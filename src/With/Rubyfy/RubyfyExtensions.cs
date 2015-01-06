@@ -365,14 +365,22 @@ namespace With.Rubyfy
             yield return currentChunk;
         }
 
-        /*public static IEnumerable<T> CollectConcat<T>(this IEnumerable<T> self, Func<T, T> map)
+        public static IEnumerable<T> CollectConcat<T>(this IEnumerable<T> self, Func<T, IEnumerable<T>> map)
         {
             return self.FlatMap(map);
         }
-        public static IEnumerable<T> FlatMap<T>(this IEnumerable<T> self, Func<T, T> map)
+        public static IEnumerable<T> FlatMap<T>(this IEnumerable<T> self, Func<T, IEnumerable<T>> map)
         {
             return self.Map(map).Flatten<T>();
-        }*/
+        }
+        public static IEnumerable<T> CollectConcat<T>(this IEnumerable self, Func<Object, IEnumerable> map)
+        {
+            return self.FlatMap<T>(map);
+        }
+        public static IEnumerable<T> FlatMap<T>(this IEnumerable self, Func<Object, IEnumerable> map)
+        {
+            return self.Cast<Object>().Map(map).Flatten<T>();
+        }
 
         /*
         Cycle

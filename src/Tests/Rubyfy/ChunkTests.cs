@@ -34,7 +34,6 @@ namespace Tests.Rubyfy
             var chunked = new List<object[]>();
 
             array.Chunk(Drop9And6).Each((even, ary)=>chunked.Add(new object[]{even, ary.ToA()}));
-            //throw new Exception(Newtonsoft.Json.JsonConvert.SerializeObject(chunked));
             Assert.Equal(new []{
                 new object[]{false, new []{3, 1}},
                 new object[]{true, new []{4}},
