@@ -86,6 +86,10 @@
     <Compile Include="Xml\Extensions.cs" />
     <Compile Include="Xml\XmlDoc.cs" />
     <Compile Include="Xml\Node.cs" />
+    <Compile Include="Rubyfy\ChunkExtension.cs" />
+    <Compile Include="Rubyfy\SubExtensions.cs" />
+    <Compile Include="Rubyfy\FlattenExtension.cs" />
+    <Compile Include="Rubyfy\Partition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

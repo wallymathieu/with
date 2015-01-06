@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
 using With.Rubyfy;
@@ -39,7 +38,7 @@ namespace With.Xml
             get
             {
                 return String.Join("", _node.ChildNodes.Cast<XmlNode>()
-                    .Select(node => node.InnerText));
+                    .Map(node => node.InnerText));
             }
         }
         /// <summary>
@@ -51,15 +50,15 @@ namespace With.Xml
         {
             if (Regex.IsMatch(selector, @"[\/\.\\]"))
             {
-                return _node.SelectNodes(selector).Cast<XmlNode>().Select(node => new Node(node)).ToArray(); 
+                return _node.SelectNodes(selector).Cast<XmlNode>().Map(node => new Node(node)).ToA(); 
             }
             else
             {
                 var split = selector.Split(new[] {' '});
                 var first = split.First();
-                var rest = string.Join(" ",split.Skip(1).ToArray());
+                var rest = string.Join(" ",split.Drop(1).ToA());
                 return
-                    GetNodesWithName(_node, first).Select(node => NodeOrNodes(node, rest)).Flatten<Node>().ToArray();
+                    GetNodesWithName(_node, first).Map(node => NodeOrNodes(node, rest)).Flatten<Node>().ToA();
             }
         }
 
@@ -75,7 +74,7 @@ namespace With.Xml
         {
             if (xmlNode.Name == selector) return new[] {xmlNode};
             var list = new List<XmlNode>(xmlNode.ChildNodes.Cast<XmlNode>()
-                .Select(node => GetNodesWithName(node, selector))
+                .Map(node => GetNodesWithName(node, selector))
                 .Flatten<XmlNode>());
             return list.ToArray();
         }

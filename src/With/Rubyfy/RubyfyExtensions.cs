@@ -8,120 +8,6 @@ namespace With.Rubyfy
 {
     public static class RubyfyExtensions
     {
-        private static Regex BackReference = new Regex(@"
-(?: # not really needed, just grouping
-    (?<slash>\\)? # an optional first slash
-    (?<slash_and_digits>\\ # this construct matches \2
-        (?<digits>\d+)
-    )
-)", RegexOptions.IgnorePatternWhitespace);
-
-        private static MatchEvaluator Evaluate(string evaluator)
-        {
-            return match =>
-                       {
-                           var refs = GetBackReferences(match);
-                           return BackReference.Replace(evaluator, m =>
-                           {
-                               var digits = m.Groups["digits"];
-                               return !m.Groups["slash"].Success && refs.ContainsKey(digits.Value)
-                                   ? refs[digits.Value].Value
-                                   : m.Groups["slash_and_digits"].Value;
-                           });
-                       };
-        }
-
-        private static Dictionary<string, Group> GetBackReferences(Match match)
-        {
-            var backReferences = new Dictionary<string, Group>();
-            for (int i = 1; i < match.Groups.Count; i++)
-            {
-                var g = match.Groups[i];
-                if (g.Success)
-                {
-                    backReferences.Add(i.ToString(), g);
-                }
-            }
-            return backReferences;
-        }
-
-        private static Regex AsRegex(string regex)
-        {
-            return FirstSlash.IsMatch(regex)
-                ? new Regex(RemoveSlashes(regex), ParseOptions(regex))
-                : new Regex(Regex.Escape(regex));
-        }
-
-        private static Regex FirstSlash = new Regex("^/", RegexOptions.Multiline);
-        private static Regex TrailingSlash = new Regex("/([ixm]*)$", RegexOptions.Multiline);
-
-        private static string RemoveSlashes(string regex)
-        {
-            return FirstSlash.Replace(regex, "")
-                .Yield(s => TrailingSlash.Replace(s, ""));
-        }
-
-        private static RegexOptions ParseOptions(string regex)
-        {
-            var trailingSlash = TrailingSlash.Match(regex).Groups[1];
-
-            if (trailingSlash.Success && trailingSlash.Length > 0)
-            {
-                return trailingSlash.Value
-                    .ToA()
-                    .Map(token => ParseOption(token))
-                    .Reduce((memo, opt) => memo | opt);
-            }
-            return RegexOptions.None;
-        }
-
-        private static RegexOptions ParseOption(char token)
-        {
-            switch (token)
-            {
-                case 'i':
-                    return RegexOptions.IgnoreCase;
-                case 'x':
-                    return RegexOptions.IgnorePatternWhitespace;
-                case 'm':
-                    return RegexOptions.Singleline | RegexOptions.Multiline;
-                default:
-                    throw new Exception("Regex option unknown: "+token);
-            }
-        }
-
-        public static string Gsub(this string self, Regex regex, string evaluator)
-        {
-            return regex.Replace(self, Evaluate(evaluator));
-        }
-        public static string Gsub(this string self, string regex, string evaluator)
-        {
-            return AsRegex(regex).Replace(self ?? String.Empty, Evaluate(evaluator));
-        }
-        public static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
-        {
-            return regex.Replace(self ?? String.Empty, evaluator);
-        }
-
-        public static string Sub(this string self, Regex regex, string evaluator)
-        {
-            return regex.Replace(self ?? String.Empty, Evaluate(evaluator), 1);
-        }
-        public static string Sub(this string self, string regex, string evaluator)
-        {
-            return AsRegex(regex).Replace(self ?? String.Empty, Evaluate(evaluator), 1);
-        }
-        public static string Sub(this string self, Regex regex, MatchEvaluator evaluator)
-        {
-            return regex.Replace(self ?? String.Empty, evaluator, 1);
-        }
-
-
-        public static Match Match(this string self, Regex regex)
-        {
-            return regex.Match(self ?? String.Empty);
-        }
-
         public static bool Even(this int self)
         {
             return self%2==0;
@@ -150,59 +36,14 @@ namespace With.Rubyfy
             return self.Aggregate(initial, map);
         }
 
-        /// <summary>
-        /// Returns a new array that is a one-dimensional flattening of self (recursively).
-        ///
-        ///That is, for every element that is an array, extract its elements into the new array.
-        /// </summary>
-        public static IEnumerable<T> Flatten<T>(this IEnumerable self)
+        public static T Inject<T>(this IEnumerable<T> self, Func<T, T, T> map)
         {
-            foreach (var variable in self)
-            {
-                if (variable is T)
-                {
-                    yield return (T)variable;
-                }
-                else
-                {
-                    foreach (var result in Flatten<T>((IEnumerable)variable))
-                    {
-                        yield return result;
-                    }
-                }
-            }
+            return self.Aggregate(map);
         }
 
-        /// <summary>
-        /// Returns a new array that is a one-dimensional flattening of self (recursively).
-        ///
-        ///That is, for every element that is an array, extract its elements into the new array.
-        ///
-        ///The optional level argument determines the level of recursion to flatten.
-        /// </summary>
-        public static IEnumerable Flatten(this IEnumerable self, int? order = null)
+        public static T Inject<T>(this IEnumerable<T> self, T initial, Func<T, T, T> map)
         {
-            if (order == null || order >= 0)
-            {
-                foreach (var variable in self)
-                {
-                    if (variable is IEnumerable && !(variable is string))
-                    {
-                        foreach (var result in Flatten((IEnumerable)variable, order != null ? order - 1 : null))
-                        {
-                            yield return result;
-                        }
-                    }
-                    else
-                    {
-                        yield return variable;
-                    }
-                }
-            }
-            else
-            {
-                yield return self;
-            }
+            return self.Aggregate(initial, map);
         }
 
         public static bool IsEmpty<T>(this IEnumerable<T> self)
@@ -235,6 +76,11 @@ namespace With.Rubyfy
             return self[key];
         }
         public static T Detect<T>(this IEnumerable<T> self, Func<T, bool> predicate)
+        {
+            return self.FirstOrDefault(predicate);
+        }
+
+        public static T Find<T>(this IEnumerable<T> self, Func<T, bool> predicate)
         {
             return self.FirstOrDefault(predicate);
         }
@@ -282,6 +128,11 @@ namespace With.Rubyfy
             return self.Where(predicate);
         }
 
+        public static IEnumerable<T> FindAll<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return self.Where(predicate);
+        }
+
         public static bool Any<T>(this IEnumerable<T> self, Func<T,bool> predicate)
         {
             return Enumerable.Any(self,predicate);
@@ -303,66 +154,6 @@ namespace With.Rubyfy
         public static int Count<T>(this IEnumerable<T> self, T value)
         {
             return Enumerable.Count(self, e=> e.Equals(value));
-        }
-
-        internal class Chunks<TKey,T>:IGrouping<TKey,T>
-        {
-            public Chunks (TKey key)
-            {
-                Key = key;
-                Enumerable = new List<T>();
-            }
-            public Chunks (TKey key, T firstItem)
-            {
-                Key = key;
-                Enumerable = new List<T>(){ { firstItem } };
-            }
-
-            public IList<T> Enumerable;
-            public IEnumerator<T> GetEnumerator()
-            {
-                return Enumerable.GetEnumerator();
-            }
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return Enumerable.GetEnumerator();
-            }
-            public TKey Key
-            {
-                get;
-                private set;
-            }
-        }
-
-        public static IEnumerable<IGrouping<TKey,T>> Chunk<TKey,T>(this IEnumerable<T> self, Func<T,TKey> keySelector)
-        {
-            Chunks<TKey,T> currentChunk= null;
-            foreach (var item in self)
-            {
-                var currentKey = keySelector(item);
-                if (null == currentKey)
-                {
-                    continue;
-                }
-
-                if (currentChunk == null)// first element
-                {
-                    currentChunk = new Chunks<TKey,T>(currentKey, item);
-                }
-                else
-                {
-                    if (currentChunk.Key.Equals(currentKey))
-                    {
-                        currentChunk.Enumerable.Add(item);
-                    }
-                    else
-                    {
-                        yield return currentChunk;
-                        currentChunk = new Chunks<TKey,T>(currentKey, item);
-                    }
-                }
-            }
-            yield return currentChunk;
         }
 
         public static IEnumerable<T> CollectConcat<T>(this IEnumerable<T> self, Func<T, IEnumerable<T>> map)
@@ -392,18 +183,16 @@ namespace With.Rubyfy
                 }
             }
         }
-        /*
-        Cycle
-        */
 
-        /*
-        Drop
-        */
+        public static IEnumerable<T> Drop<T>(this IEnumerable<T> self, int count)
+        {
+            return Enumerable.Skip<T>(self, count);
+        }
+        public static IEnumerable<T> DropWhile<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.SkipWhile<T>(self, predicate);
+        }
 
-        /*
-        DropWhile
-        */
-        
         public static IEnumerable<T> Each<T>(this IEnumerable<T> self, Action<T> action)
         {
             foreach (var elem in self)
@@ -441,33 +230,162 @@ namespace With.Rubyfy
 
         /*EachSlice*/
 
-        /*Find == Detect*/
 
-        /*FindAll == Select*/
+        public static int FindIndex<T>(this IEnumerable<T> self, T item)
+        {
+            return self.FindIndex(elem => item.Equals(elem));
+        }
+        public static int FindIndex<T>(this IList<T> self, T item)
+        {
+            return self.IndexOf(item);
+        }
+        public static int FindIndex<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            var index = 0;
+            foreach (var item in self)
+            {
+                if (predicate(item))
+                {
+                    return index;
+                }
 
-        /*FindIndex*/
+                index++;
+            }
+            return -1;
+        }
 
-        /*First*/
-
+        public static T First<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.First(self);
+        }
+        public static IEnumerable<T> Cast<T>(this IEnumerable self)
+        {
+            return Enumerable.Cast<T>(self);
+        }
         /*Grep(array)*/
 
-        /*Include == Member*/
+        public static bool Include<T>(this IEnumerable<T> self, T member)
+        {
+            return Enumerable.Contains(self, member);
+        }
+        public static bool Member<T>(this IEnumerable<T> self, T member)
+        {
+            return Enumerable.Contains(self, member);
+        }
 
-        /*Inject == Reduce*/
+        public static long Max(this IEnumerable<long> self)
+        {
+            return Enumerable.Max(self);
+        }
+        public static decimal Max(this IEnumerable<decimal> self)
+        {
+            return Enumerable.Max(self);
+        }
+        public static T Max<T>(this IEnumerable<T> self)
+            where T:IComparable
+        {
+            return self.GetMaxBy(e => e);
+        }
+        public static IEnumerable<T> MaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            var array = self.ToArray();
+            var min = array.GetMaxBy(map);
+            return array.Where(a => min.Equals( map(a) ));
+        }
+        private static TComparable GetMaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            var enumerator = self.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                return default(TComparable);
+            }
 
-        /*Max, MaxBy?*/
+            var current = Tuple.Create(enumerator.Current,map(enumerator.Current));
+            while (enumerator.MoveNext())
+            {
+                var item = Tuple.Create(enumerator.Current, map(enumerator.Current));
+                if (current.Item2.CompareTo(item.Item2) < 0)
+                {
+                    current = item;
+                }
+            }
+            return current.Item2;
+        }
 
-        /*Min, MinBy*/
+        public static long Min(this IEnumerable<long> self)
+        {
+            return Enumerable.Min(self);
+        }
+        public static decimal Min(this IEnumerable<decimal> self)
+        {
+            return Enumerable.Min(self);
+        }
+        public static T Min<T>(this IEnumerable<T> self)
+            where T:IComparable
+        {
+            return self.MinBy(e=>e).SingleOrDefault();
+        }
+        public static IEnumerable<T> MinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            var array = self.ToArray();
+            var min = array.GetMinBy(map);
+            return array.Where(a => min.Equals(map(a)));
+        }
+        private static TComparable GetMinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            var enumerator = self.GetEnumerator();
+            if (!enumerator.MoveNext())
+            {
+                return default(TComparable);
+            }
 
+            var current = Tuple.Create(enumerator.Current,map(enumerator.Current));
+            while (enumerator.MoveNext())
+            {
+                var item = Tuple.Create(enumerator.Current, map(enumerator.Current));
+                if (current.Item2.CompareTo(item.Item2) > 0)
+                {
+                    current = item;
+                }
+            }
+            return current.Item2;
+        }
         /*MinMax, MinMaxBy*/
 
-        /*None*/
+        public static bool None<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return ! Enumerable.Any(self, predicate);
+        }
+        public static bool None<T>(this IEnumerable<T> self)
+        {
+            return ! Enumerable.Any(self);
+        }
 
-        /*One*/
+        public static bool One<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.Count(self, predicate) == 1;
+        }
+        public static bool One<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.Count(self) == 1;
+        }
 
-        /*Partition*/
+        public static Partition<T> Partition<T>(this IEnumerable<T> self, Func<T,bool> partition)
+        {
+            var groups = self.GroupBy(partition);
+            var trueArray = groups.SingleOrDefault(g => g.Key.Equals(true));
+            var falseArray = groups.SingleOrDefault(g => g.Key.Equals(false));
+            return new With.Rubyfy.Partition<T>(trueArray.ToArray(), falseArray.ToArray());
+        }
 
-        /*Reject*/
+        public static IEnumerable<T> Reject<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return self.Where(elem=> ! predicate(elem));
+        }
 
         /*SliceAfter*/
 
@@ -488,6 +406,10 @@ namespace With.Rubyfy
         public static IDictionary<TKey,TValue> ToHash<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> self)
         {
             return self.ToDictionary(kv=>kv.Key,kv=>kv.Value);
+        }
+        public static IDictionary<TKey,TValue> ToHash<T, TKey,TValue>(this IEnumerable<T> self, Func<T,TKey> keySelector, Func<T,TValue> valueSelector)
+        {
+            return self.ToDictionary(keySelector, valueSelector);
         }
 
         /*Zip*/
