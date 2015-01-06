@@ -382,6 +382,16 @@ namespace With.Rubyfy
             return self.Cast<Object>().Map(map).Flatten<T>();
         }
 
+        public static IEnumerable<T> Cycle<T>(this IEnumerable<T> self, int? n=null)
+        {
+            while (n==null || n-- >0)
+            {
+                foreach (var item in self)
+                {
+                    yield return item;
+                }
+            }
+        }
         /*
         Cycle
         */
@@ -465,9 +475,15 @@ namespace With.Rubyfy
 
         /*SliceWhen*/
 
-        /*Take*/
+        public static IEnumerable<T> Take<T>(this IEnumerable<T> self, int count)
+        {
+            return Enumerable.Take(self,count);
+        }
 
-        /*TakeWhile*/
+        public static IEnumerable<T> TakeWhile<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.TakeWhile(self,predicate);
+        }
 
         public static IDictionary<TKey,TValue> ToHash<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> self)
         {

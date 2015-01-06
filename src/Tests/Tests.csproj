@@ -76,6 +76,7 @@
     <Compile Include="Rubyfy\CountTests.cs" />
     <Compile Include="Rubyfy\ChunkTests.cs" />
     <Compile Include="Rubyfy\FlatMapTests.cs" />
+    <Compile Include="Rubyfy\CycleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
