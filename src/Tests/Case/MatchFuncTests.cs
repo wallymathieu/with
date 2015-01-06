@@ -125,9 +125,20 @@ namespace Tests
             Assert.Equal(3, result.ValueOf(instance));
         }
 
+        private int FibR(int i)
+        {
+            switch(i){
+                case 1:
+                case 2:
+                    return 1;
+                default:
+                    return FibR(i-1)+FibR(i-2);
+            }
+        }
+
         private int Fib(int i)
         {
-            return Switch.Match<int, int>(i)
+            return Switch.Match<int, int>(i) // Could be better if it could be written as "Switch(i)" 
                 .Case(1.To(2), _=>1)
                 .Else(n=>Fib(n-1) + Fib(n-2));
         }
@@ -136,7 +147,9 @@ namespace Tests
         public void Can_write_fib_in_a_different_way()
         {
             Assert.Equal(2, Fib(3));
+            Assert.Equal(2, FibR(3));
             Assert.Equal(8, Fib(6));
+            Assert.Equal(8, FibR(6));
         }
 
     }
