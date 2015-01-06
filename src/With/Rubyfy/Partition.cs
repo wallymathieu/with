@@ -6,7 +6,7 @@ namespace With.Rubyfy
     {
         public IEnumerable<T> True{ get; private set;}
         public IEnumerable<T> False{ get; private set;}
-        public Partition( IEnumerable<T> trueArray, IEnumerable<T> falseArray)
+        internal Partition( IEnumerable<T> trueArray, IEnumerable<T> falseArray)
         {
             True = trueArray;
             False = falseArray;
