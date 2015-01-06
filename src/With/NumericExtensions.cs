@@ -3,7 +3,7 @@ using With.RangePlumbing;
 
 namespace With
 {
-    public static class NumbericExtensions
+    public static class NumericExtensions
     {
         public static IStep<Int32> To(this Int32 @from, Int32 @to)
         {

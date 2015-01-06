@@ -48,7 +48,6 @@
     <Compile Include="IMatchSwitchExtensions.cs" />
     <Compile Include="Destructure\SwitchMatchFields.cs" />
     <Compile Include="MissingValueException.cs" />
-    <Compile Include="NumbericExtensions.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
     <Compile Include="Rubyfy\Json\Json.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
@@ -92,8 +91,10 @@
     <Compile Include="Rubyfy\Partition.cs" />
     <Compile Include="Rubyfy\MaxMinExtensions.cs" />
     <Compile Include="Rubyfy\MinMaxPartition.cs" />
-    <Compile Include="MapComparer.cs" />
-    <Compile Include="ComparerFromFunc.cs" />
+    <Compile Include="Collections\ComparerFromFunc.cs" />
+    <Compile Include="Rubyfy\ZipExtensions.cs" />
+    <Compile Include="Collections\ComparerFromSelect.cs" />
+    <Compile Include="NumericExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -105,4 +106,7 @@
   -->
   <ItemGroup />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Collections\" />
+  </ItemGroup>
 </Project>

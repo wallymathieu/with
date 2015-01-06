@@ -202,10 +202,27 @@ namespace With.Rubyfy
         each_entry?
         */
 
-        /*EachSlice*/
-
-        /*EachSlice*/
-
+        public static IEnumerable<IEnumerable<T>> EachSlice<T>(this IEnumerable<T> self, int count, Action<IEnumerable<T>> slice)
+        {
+            return self.EachSlice(count).Each(slice);
+        }
+        public static IEnumerable<IEnumerable<T>> EachSlice<T>(this IEnumerable<T> self, int count)
+        {
+            var l = new List<T>();
+            foreach (var elem in self)
+            {
+                l.Add(elem);
+                if (l.Count >= count)
+                {
+                    yield return l.ToArray();
+                    l.Clear();
+                }
+            }
+            if (l.Count > 0)
+            {
+                yield return l.ToArray();
+            }
+        }
 
         public static int FindIndex<T>(this IEnumerable<T> self, T item)
         {
@@ -304,7 +321,5 @@ namespace With.Rubyfy
         {
             return self.ToDictionary(keySelector, valueSelector);
         }
-
-        /*Zip*/
     }
 }

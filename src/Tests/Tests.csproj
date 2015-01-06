@@ -48,9 +48,6 @@
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\packages\AutoFixture.3.21.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Destructure\DestructureStructTests.cs" />
@@ -79,6 +76,7 @@
     <Compile Include="Rubyfy\CycleTests.cs" />
     <Compile Include="Rubyfy\MinMaxTests.cs" />
     <Compile Include="Rubyfy\FindTests.cs" />
+    <Compile Include="Rubyfy\EachSliceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

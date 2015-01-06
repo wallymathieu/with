@@ -1,9 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace With
+namespace With.Collections
 {
-    internal class ComparerFromFunc<T> : IComparer<T>
+    public partial class Comparer
+    {
+        public static ComparerFromFunc<T> Create<T>(Func<T,T,int> compare)
+        {
+            return new ComparerFromFunc<T>(compare);
+        }
+    }
+
+    public class ComparerFromFunc<T> : IComparer<T>
     {
         private readonly Func<T, T, int> _compare;
         public ComparerFromFunc(Func<T, T, int> compare)

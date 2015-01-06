@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using With.Collections;
 namespace With
 {
     public static class CommonExtensions
@@ -26,22 +27,10 @@ namespace With
         {
             return String.Join(delimitor, that);
         }
-
-        public static IEnumerable<T[]> Zip<T>(this IEnumerable<T> self, params IEnumerable<T>[] arrays)
-        {
-            var i = 0;
-            foreach (var item in self)
-            {
-                var list = new List<T> { item };
-                list.AddRange(arrays.Select(array => array.ElementAtOrDefault(i)));
-                yield return list.ToArray();
-                i++;
-            }
-        }
             
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
-            return self.OrderBy(t => t, new ComparerFromFunc<T>(compare));
+            return self.OrderBy(t => t, Comparer.Create(compare));
         }
     }
 
