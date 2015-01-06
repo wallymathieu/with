@@ -20,7 +20,6 @@ namespace With.Rubyfy
         {
             return match =>
                        {
-                           var eval = evaluator;
                            var refs = GetBackReferences(match);
                            return BackReference.Replace(evaluator, m =>
                            {
@@ -32,7 +31,7 @@ namespace With.Rubyfy
                        };
         }
 
-        private static Dictionary<string, Group> GetBackReferences(System.Text.RegularExpressions.Match match)
+        private static Dictionary<string, Group> GetBackReferences(Match match)
         {
             var backReferences = new Dictionary<string, Group>();
             for (int i = 1; i < match.Groups.Count; i++)
@@ -87,7 +86,7 @@ namespace With.Rubyfy
                 case 'm':
                     return RegexOptions.Singleline | RegexOptions.Multiline;
                 default:
-                    throw new NotImplementedException(token.ToString());
+                    throw new Exception("Regex option unknown: "+token);
             }
         }
 
@@ -124,6 +123,10 @@ namespace With.Rubyfy
         }
 
         public static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
+        {
+            return self.Select(map);
+        }
+        public static IEnumerable<TRet> Collect<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
         {
             return self.Select(map);
         }
@@ -264,5 +267,122 @@ namespace With.Rubyfy
         {
             return self.OrderBy(compare);
         }
+
+        public static IEnumerable<T> Select<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return self.Where(predicate);
+        }
+
+        public static bool Any<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.Any(self,predicate);
+        }
+
+        public static bool All<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.All(self,predicate);
+        }
+        public static int Count<T>(this IEnumerable<T> self, Func<T,bool> predicate)
+        {
+            return Enumerable.Count(self,predicate);
+        }
+        public static int Count<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.Count(self);
+        }
+        public static int Count<T>(this IEnumerable<T> self, T value)
+        {
+            return Enumerable.Count(self, e=> e.Equals(value));
+        }
+        /*public static IEnumerable<IGrouping<TKey,T>> Chunk<TKey,T>(this IEnumerable<T> self, Func<T,TKey> keySelector)
+        {
+            return self.GroupBy(keySelector);
+        }
+
+[3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5].chunk { |n|
+  n.even?
+}.each { |even, ary|
+  p [even, ary]
+}
+#=> [false, [3, 1]]
+#   [true, [4]]
+#   [false, [1, 5, 9]]
+#   [true, [2, 6]]
+#   [false, [5, 3, 5]]
+
+        */
+
+        /*public static IEnumerable<T> CollectConcat<T>(this IEnumerable<T> self, Func<T, T> map)
+        {
+            return self.FlatMap(map);
+        }
+        public static IEnumerable<T> FlatMap<T>(this IEnumerable<T> self, Func<T, T> map)
+        {
+            return self.Map(map).Flatten<T>();
+        }*/
+
+        /*
+        Cycle
+        */
+
+        /*
+        Drop
+        */
+
+        /*
+        DropWhile
+        */
+        
+        /*
+        EachCons
+        */
+
+        /*
+        each_entry?
+        */
+
+        /*EachSlice*/
+
+        /*EachSlice*/
+
+        /*Find == Detect*/
+
+        /*FindAll == Select*/
+
+        /*FindIndex*/
+
+        /*First*/
+
+        /*Grep(array)*/
+
+        /*Include == Member*/
+
+        /*Inject == Reduce*/
+
+        /*Max, MaxBy?*/
+
+        /*Min, MinBy*/
+
+        /*MinMax, MinMaxBy*/
+
+        /*None*/
+
+        /*One*/
+
+        /*Partition*/
+
+        /*Reject*/
+
+        /*SliceAfter*/
+
+        /*SliceBefore*/
+
+        /*SliceWhen*/
+
+        /*Take*/
+
+        /*TakeWhile*/
+
+        /*Zip*/
     }
 }
