@@ -35,7 +35,6 @@ namespace Tests
         public void Int_range_doesn_not_have()
         {
             var range = 0.To(4).Step(2);
-            var expected = new[] { 0, 2, 4 };
             Assert.Equal(range.Contain(-1), false);
             Assert.Equal(range.Contain(1), false);
             Assert.Equal(range.Contain(5), false);

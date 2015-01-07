@@ -43,7 +43,7 @@ namespace With.Rubyfy
             return backReferences;
         }
 
-        private static Regex AsRegex(string regex)
+        internal static Regex AsRegex(this string regex)
         {
             return FirstSlash.IsMatch(regex)
                 ? new Regex(RemoveSlashes(regex), ParseOptions(regex))
@@ -94,7 +94,7 @@ namespace With.Rubyfy
         }
         public static string Gsub(this string self, string regex, string evaluator)
         {
-            return AsRegex(regex).Replace(self ?? String.Empty, Evaluate(evaluator));
+            return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator));
         }
         public static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
@@ -107,7 +107,7 @@ namespace With.Rubyfy
         }
         public static string Sub(this string self, string regex, string evaluator)
         {
-            return AsRegex(regex).Replace(self ?? String.Empty, Evaluate(evaluator), 1);
+            return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator), 1);
         }
         public static string Sub(this string self, Regex regex, MatchEvaluator evaluator)
         {
@@ -119,7 +119,6 @@ namespace With.Rubyfy
         {
             return regex.Match(self ?? String.Empty);
         }
-
     }
 }
 

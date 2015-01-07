@@ -17,6 +17,48 @@ namespace With.Rubyfy
             }
         }
 
+        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count)
+            where T:IComparable
+        {
+            throw new NotImplementedException();
+            //return self.OrderBy(Comparer<T>.Default).Take(count);
+        }
+        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count, Func<T,T,int> compare)
+        {
+            throw new NotImplementedException();
+
+            //return self.OrderBy(Comparer.Create(compare)).Take(count);
+        }
+        internal static IEnumerable<T> MaxBy<T,TComparable>(this IEnumerable<T> self, int count, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            throw new NotImplementedException();
+
+            //return self.OrderBy(Comparer.Create(map)).Take(count);
+        }
+
+        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count)
+            where T:IComparable
+        {
+            throw new NotImplementedException();
+
+            //return self.OrderBy(Comparer<T>.Default).Take(count);
+        }
+        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count, Func<T,T,int> compare)
+        {
+            throw new NotImplementedException();
+
+            //return self.OrderBy(Comparer.Create(compare)).Take(count);
+        }
+        internal static IEnumerable<T> MinBy<T,TComparable>(this IEnumerable<T> self, int count, Func<T,TComparable> map)
+            where TComparable:IComparable
+        {
+            throw new NotImplementedException();
+
+            //return self.OrderBy( Comparer.Create(map) ).Take(count);
+        }
+
+
         public static long Max(this IEnumerable<long> self)
         {
             return Enumerable.Max(self);
@@ -30,15 +72,18 @@ namespace With.Rubyfy
         {
             return self.GetMax(Comparer<T>.Default).FirstOrDefault();
         }
-        public static IEnumerable<T> Max<T>(this IEnumerable<T> self, Func<T,T,int> compare)
+
+        public static T Max<T>(this IEnumerable<T> self, Func<T,T,int> compare)
         {
-            return self.GetMax(Comparer.Create(compare));
+            return self.GetMax(Comparer.Create(compare)).FirstOrDefault();
         }
-        public static IEnumerable<T> MaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+      
+        public static T MaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
             where TComparable:IComparable
         {
-            return self.GetMax(Comparer.Create(map));
+            return self.GetMax(Comparer.Create(map)).FirstOrDefault();
         }
+      
         private static IEnumerable<T> GetMax<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
             var enumerator = self.GetEnumerator();
@@ -73,18 +118,21 @@ namespace With.Rubyfy
         {
             return self.GetMin(Comparer<T>.Default).FirstOrDefault();
         }
-        public static IEnumerable<T> Min<T>(this IEnumerable<T> self, Func<T,T,int> compare)
+
+        public static T Min<T>(this IEnumerable<T> self, Func<T,T,int> compare)
         {
-            return self.GetMin(Comparer.Create(compare));
+            return self.GetMin(Comparer.Create(compare)).FirstOrDefault();
         }
-        public static IEnumerable<T> MinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
+
+        public static T MinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
             where TComparable:IComparable
         {
-            return self.GetMin( Comparer.Create(map) );
+            return self.GetMin( Comparer.Create(map) ).FirstOrDefault();
         }
 
         private static IEnumerable<T> GetMin<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
+            //var list = self.ToList(compare).Min(); does not work when using comparer
             var enumerator = self.GetEnumerator();
             if (!enumerator.MoveNext())
             {

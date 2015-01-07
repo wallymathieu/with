@@ -26,7 +26,7 @@ namespace With
 			} else if (typeof(T) == typeof(Decimal)) {
 				inner = new DecimalRange (@from, @to, @step);
 			} else {
-				throw new Exception (String.Format("There is implementation for type {0}",typeof(T).Name));
+				throw new Exception (String.Format("There is no implementation for type {0}",typeof(T).Name));
 			}
 		}
 

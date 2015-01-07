@@ -77,6 +77,8 @@
     <Compile Include="Rubyfy\MinMaxTests.cs" />
     <Compile Include="Rubyfy\FindTests.cs" />
     <Compile Include="Rubyfy\EachSliceTests.cs" />
+    <Compile Include="Rubyfy\GrepTests.cs" />
+    <Compile Include="Rubyfy\ToHTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

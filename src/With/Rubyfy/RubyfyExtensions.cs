@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using With.Linq;
 namespace With.Rubyfy
 {
     public static class RubyfyExtensions
@@ -16,6 +16,16 @@ namespace With.Rubyfy
         {
             return self%2!=0;
         }
+
+        public static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, int, TRet> map)
+        {
+            return self.Select(map);
+        }
+        public static IEnumerable<TRet> Collect<T, TRet>(this IEnumerable<T> self, Func<T, int, TRet> map)
+        {
+            return self.Select(map);
+        }
+
 
         public static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
         {
@@ -48,7 +58,7 @@ namespace With.Rubyfy
 
         public static bool IsEmpty<T>(this IEnumerable<T> self)
         {
-            return null == self || !self.Any();
+            return !self.Any();
         }
 
         public static T Detect<T>(this IEnumerable<T> self, Func<T, bool> predicate)
@@ -82,6 +92,16 @@ namespace With.Rubyfy
         public static object[] ToA(this IEnumerable enumerable)
         {
             return enumerable.Cast<Object>().ToArray();
+        }
+
+        public static List<T> ToL<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToList();
+        }
+
+        public static List<object> ToL(this IEnumerable enumerable)
+        {
+            return enumerable.Cast<Object>().ToList();
         }
 
         public static IEnumerable<T> SortBy<T, TValue>(this IEnumerable<T> self, Func<T, TValue> sortby)
@@ -255,7 +275,6 @@ namespace With.Rubyfy
         {
             return Enumerable.Cast<T>(self);
         }
-        /*Grep(array)*/
 
         public static bool Include<T>(this IEnumerable<T> self, T member)
         {
@@ -313,11 +332,20 @@ namespace With.Rubyfy
             return Enumerable.TakeWhile(self,predicate);
         }
 
-        public static IDictionary<TKey,TValue> ToHash<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> self)
+        public static IDictionary<TKey,TValue> ToH<TKey,TValue>(this IEnumerable<KeyValuePair<TKey,TValue>> self)
         {
-            return self.ToDictionary(kv=>kv.Key,kv=>kv.Value);
+            return self.ToDictionary();
         }
-        public static IDictionary<TKey,TValue> ToHash<T, TKey,TValue>(this IEnumerable<T> self, Func<T,TKey> keySelector, Func<T,TValue> valueSelector)
+        public static IDictionary<TKey,TValue> ToH<TKey,TValue>(this IEnumerable<Tuple<TKey,TValue>> self)
+        {
+            return self.ToDictionary();
+        }
+        public static IDictionary<T,T> ToH<T>(this IEnumerable<T[]> self)
+        {
+            return self.ToDictionary();
+        }
+
+        public static IDictionary<TKey,TValue> ToH<T, TKey,TValue>(this IEnumerable<T> self, Func<T,TKey> keySelector, Func<T,TValue> valueSelector)
         {
             return self.ToDictionary(keySelector, valueSelector);
         }

@@ -95,6 +95,11 @@
     <Compile Include="Rubyfy\ZipExtensions.cs" />
     <Compile Include="Collections\ComparerFromSelect.cs" />
     <Compile Include="NumericExtensions.cs" />
+    <Compile Include="Rubyfy\GrepExtensions.cs" />
+    <Compile Include="IContainer.cs" />
+    <Compile Include="Linq\ToDictionaryExtensions.cs" />
+    <Compile Include="Linq\WrongArrayLengthException.cs" />
+    <Compile Include="Rubyfy\GroupByExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -108,5 +113,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Collections\" />
+    <Folder Include="Linq\" />
   </ItemGroup>
 </Project>
