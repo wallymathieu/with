@@ -100,6 +100,7 @@
     <Compile Include="Linq\ToDictionaryExtensions.cs" />
     <Compile Include="Linq\WrongArrayLengthException.cs" />
     <Compile Include="Rubyfy\GroupByExtensions.cs" />
+    <Compile Include="BatchExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

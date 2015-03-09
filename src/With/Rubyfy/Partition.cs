@@ -12,7 +12,6 @@ namespace With.Rubyfy
             False = falseArray;
         }
 
-
         public IEnumerator<IEnumerable<T>> GetEnumerator()
         {
             return new List<IEnumerable<T>>{ True, False }.GetEnumerator();

@@ -134,6 +134,11 @@ namespace With.Rubyfy
             return Enumerable.Any(self,predicate);
         }
 
+        public static bool Any<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.Any(self);
+        }
+
         public static bool All<T>(this IEnumerable<T> self, Func<T,bool> predicate)
         {
             return Enumerable.All(self,predicate);
@@ -228,20 +233,7 @@ namespace With.Rubyfy
         }
         public static IEnumerable<IEnumerable<T>> EachSlice<T>(this IEnumerable<T> self, int count)
         {
-            var l = new List<T>();
-            foreach (var elem in self)
-            {
-                l.Add(elem);
-                if (l.Count >= count)
-                {
-                    yield return l.ToArray();
-                    l.Clear();
-                }
-            }
-            if (l.Count > 0)
-            {
-                yield return l.ToArray();
-            }
+            return self.BatchesOf(count);
         }
 
         public static int FindIndex<T>(this IEnumerable<T> self, T item)
