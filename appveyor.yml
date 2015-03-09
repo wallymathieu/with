@@ -1,8 +1,12 @@
 version: 1.0.{build}
+install:
+  - choco install ruby
+  - gem install bundler
 before_build:
+  - bundle install
   - cd src
   - nuget restore With.sln
   - cd ..
-build:
-  project: src\With.sln
-  verbosity: minimal
+build: off
+test_script:
+  - rake test
