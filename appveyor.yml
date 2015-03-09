@@ -1,0 +1,8 @@
+version: 1.0.{build}
+before_build:
+  - cd src
+  - nuget restore With.sln
+  - cd ..
+build:
+  project: src\With.sln
+  verbosity: minimal
