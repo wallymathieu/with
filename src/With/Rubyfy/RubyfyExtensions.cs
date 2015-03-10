@@ -259,10 +259,6 @@ namespace With.Rubyfy
             return -1;
         }
 
-        public static T First<T>(this IEnumerable<T> self)
-        {
-            return Enumerable.First(self);
-        }
         public static IEnumerable<T> Cast<T>(this IEnumerable self)
         {
             return Enumerable.Cast<T>(self);
@@ -340,6 +336,16 @@ namespace With.Rubyfy
         public static IDictionary<TKey,TValue> ToH<T, TKey,TValue>(this IEnumerable<T> self, Func<T,TKey> keySelector, Func<T,TValue> valueSelector)
         {
             return self.ToDictionary(keySelector, valueSelector);
+        }
+
+        public static T First<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.First(self);
+        }
+
+        public static T Last<T>(this IEnumerable<T> self)
+        {
+            return Enumerable.Last(self);
         }
     }
 }

@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using With.Rubyfy;
 
 namespace With.WithPlumbing
 {
-    internal class ExpressionWithEqualEqual<TRet>
+    internal class ExpressionWithEqualEqualOrCall<TRet>
     {
-        public ExpressionWithEqualEqual()
+        public ExpressionWithEqualEqualOrCall(Object entity)
         {
             _parsed=new List<NameAndValue>();
+            _object = entity;
         }
-
+        private object _object;
         private List<NameAndValue> _parsed;
         public IEnumerable<NameAndValue> Parsed
         {
@@ -29,13 +31,29 @@ namespace With.WithPlumbing
                         case ExpressionType.AndAlso://TODO: Fix, this is a bit sloppy
                             BinaryExpressionAndOrEqualOrMemberAccess((BinaryExpression)lambda.Body);
                             break;
+                        case ExpressionType.Call:
+                            UnaryResultExpression((MethodCallExpression)lambda.Body, lambda);
+                            break;
                         default:
-                            throw new ExpectedButGotException(new[] { ExpressionType.Equal, ExpressionType.AndAlso }, lambda.Body.NodeType);
+                            throw new ExpectedButGotException(
+                                new[] { ExpressionType.Equal, ExpressionType.AndAlso, ExpressionType.Call }, 
+                                lambda.Body.NodeType);
                     }
                     break;
                 default:
                     throw new ExpectedButGotException(new[] { ExpressionType.Lambda }, expr.NodeType);
             }
+        }
+
+        private void UnaryResultExpression(MethodCallExpression expr, LambdaExpression lambda)
+        {
+            var memberAccess = expr.Arguments.First();
+
+            _parsed.Add(new NameAndValue
+                {
+                    Name = MemberAccess((MemberExpression)memberAccess),
+                    Value = lambda.Compile().DynamicInvoke(_object)
+                });
         }
 
         /// <summary>

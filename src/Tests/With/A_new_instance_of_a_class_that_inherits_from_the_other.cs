@@ -12,13 +12,14 @@ namespace Tests
     {
         public class MyClass2 : MyClass
         {
-            private readonly DateTime myProperty3;
-            public MyClass2(int myProperty, string myProperty2, DateTime myProperty3)
-                : base(myProperty, myProperty2)
+            private readonly DateTime myProperty4;
+            public MyClass2(int myProperty, string myProperty2, IEnumerable<string> myProperty3, DateTime myProperty4)
+                : base(myProperty, myProperty2, myProperty3)
             {
-                this.myProperty3 = myProperty3;
+                this.myProperty4 = myProperty4;
             }
-            public DateTime MyProperty3 { get { return myProperty3; } private set { throw new Exception(); } }
+
+            public DateTime MyProperty4 { get { return myProperty4; } private set { throw new Exception(); } }
 
         }
 
@@ -27,7 +28,7 @@ namespace Tests
             MyClass myClass, DateTime time)
         {
             var ret = myClass.As<MyClass2>(time);
-            Assert.Equal(time, ret.MyProperty3);
+            Assert.Equal(time, ret.MyProperty4);
 
             Assert.Equal(myClass.MyProperty, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
@@ -37,8 +38,8 @@ namespace Tests
         public void A_class_should_be_able_to_use_lambda(
             MyClass myClass, DateTime time)
         {
-            var ret = myClass.As<MyClass2>(m => m.MyProperty3 == time);
-            Assert.Equal(ret.MyProperty3, time);
+            var ret = myClass.As<MyClass2>(m => m.MyProperty4 == time);
+            Assert.Equal(ret.MyProperty4, time);
 
             Assert.Equal(myClass.MyProperty, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
@@ -49,8 +50,8 @@ namespace Tests
             MyClass myClass, DateTime time)
         {
             Object _time = (Object)time;
-            var ret = myClass.As<MyClass2>(m => m.MyProperty3 == (DateTime)_time);
-            Assert.Equal(ret.MyProperty3, time);
+            var ret = myClass.As<MyClass2>(m => m.MyProperty4 == (DateTime)_time);
+            Assert.Equal(ret.MyProperty4, time);
 
             Assert.Equal(myClass.MyProperty, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
@@ -61,10 +62,35 @@ namespace Tests
             MyClass myClass, DateTime time)
         {
             MyClass2 ret = myClass.As<MyClass2>()
-                .Eql(p => p.MyProperty3, time);
+                .Eql(p => p.MyProperty4, time);
             Assert.Equal(myClass.MyProperty, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
-            Assert.Equal(time, ret.MyProperty3);
+            Assert.Equal(time, ret.MyProperty4);
         }
+
+        public class MyClassWithDifferentOrder : MyClass
+        {
+            private readonly DateTime myProperty4;
+            public MyClassWithDifferentOrder(DateTime myProperty4, int myProperty, IEnumerable<string> myProperty3, string myProperty2)
+                : base(myProperty, myProperty2, myProperty3)
+            {
+                this.myProperty4 = myProperty4;
+            }
+
+            public DateTime MyProperty4 { get { return myProperty4; } private set { throw new Exception(); } }
+        }
+
+        [Theory, AutoData]
+        public void A_class_with_different_order_of_constructor_parameters(
+            MyClass myClass, DateTime time)
+        {
+            MyClassWithDifferentOrder ret = myClass.As<MyClassWithDifferentOrder>()
+                .Eql(p => p.MyProperty4, time);
+            Assert.Equal(time, ret.MyProperty4);
+
+            Assert.Equal(myClass.MyProperty, ret.MyProperty);
+            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+        }
+
     }
 }

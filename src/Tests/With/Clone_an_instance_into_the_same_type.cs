@@ -3,6 +3,8 @@ using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
 using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 using Assert = Xunit.Assert;
 using System;
+using With.Collections;
+using With.Rubyfy;
 namespace Tests
 {
     public class Clone_an_instance_into_the_same_type
@@ -23,6 +25,15 @@ namespace Tests
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
         }
+
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_update_enumerable(
+            MyClass myClass, int newValue)
+        {
+            var ret = myClass.With(m => m.MyProperty3.Add("Test"));
+            Assert.Equal("Test", ret.MyProperty3.Last());
+        }
+
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(
             MyClass myClass, int newIntValue, string newStrValue)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using With.WithPlumbing;
+using System.Collections;
 
 namespace With
 {
@@ -14,44 +15,59 @@ namespace With
 			return new WithPlumbing.ValuesForConstructor<T>(t);
 		}
 
-        public static TRet With<TRet, TVal>(this TRet t, Expression<Func<TRet, TVal>> expr, TVal val)
+        public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr, TVal val)
         {
-            var props = typeof(TRet).GetProperties();
-            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var props = typeof(T).GetProperties();
+            var ctors = typeof(T).GetConstructors().ToArray();
             var ctor = ctors.Single();
-            var memberAccess = new ExpressionWithMemberAccess<TRet, TVal>();
+            var memberAccess = new ExpressionWithMemberAccess<T, TVal>();
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
 
 			var values = new GetConstructorParamterValues().GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
 
-            return (TRet)ctor.Invoke(values);
+            return (T)ctor.Invoke(values);
         }
 
-        public static TRet With<TRet>(this TRet t, IDictionary<string, object> parameters)
+        public static T With<T>(this T t, IDictionary<string, object> parameters)
         {
-            var props = typeof(TRet).GetProperties();
-            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var props = typeof(T).GetProperties();
+            var ctors = typeof(T).GetConstructors().ToArray();
             var ctor = ctors.Single();
 
 			var values = new GetConstructorParamterValues().GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
 
-            return (TRet)ctor.Invoke(values);
+            return (T)ctor.Invoke(values);
         }
 
-        public static TRet With<TRet>(this TRet t, Expression<Func<TRet, bool>> expr)
+        public static T With<T>(this T t, Expression<Func<T, bool>> expr)
         {
-            var props = typeof(TRet).GetProperties();
-            var ctors = typeof(TRet).GetConstructors().ToArray();
+            var props = typeof(T).GetProperties();
+            var ctors = typeof(T).GetConstructors().ToArray();
             var ctor = ctors.Single();
-            var eqeq = new ExpressionWithEqualEqual<TRet>();
+            var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
 			var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
 
-            return (TRet)ctor.Invoke(values);
+            return (T)ctor.Invoke(values);
         }
+
+        public static T With<T,TVal>(this T t, Expression<Func<T, TVal>> expr)
+        {
+            var props = typeof(T).GetProperties();
+            var ctors = typeof(T).GetConstructors().ToArray();
+            var ctor = ctors.Single();
+            var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
+            eqeq.Lambda(expr);
+            var propertyNameAndValues = eqeq.Parsed.ToArray();
+
+            var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+
+            return (T)ctor.Invoke(values);
+        }
+
 		public static ValuesForConstructor<TRet> As<TRet>(this Object t)
 		{
 			return new WithPlumbing.ValuesForConstructor<TRet> (t);
@@ -97,7 +113,7 @@ namespace With
 
         public static TRet As<TRet>(this Object t, Expression<Func<TRet, bool>> expr)
         {
-            var eqeq = new ExpressionWithEqualEqual<TRet>();
+            var eqeq = new ExpressionWithEqualEqualOrCall<TRet>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
