@@ -28,7 +28,7 @@ namespace Tests.Destructure
         public void Yield_range()
         {
             var range = 0.To(4);
-            var yielded = range.EachConsequtivePair( (a,b) => a+b ).ToA();
+            var yielded = range.Stitch( (a,b) => a+b ).ToA();
             Assert.Equal(new[]{1, 3, 5, 7}, yielded);
         }
     }

@@ -32,6 +32,18 @@ namespace With
         {
             return self.OrderBy(t => t, Comparer.Create(compare));
         }
+
+        public static T GetNext<T>(this IEnumerator<T> self)
+        {
+            self.MoveNext();
+            return self.Current;
+        }
+        public static IEnumerable<T> Yield<T>(this IEnumerator<T> self)
+        {
+            while(self.MoveNext()){
+              yield return self.Current;
+            }
+        }
     }
 
 }

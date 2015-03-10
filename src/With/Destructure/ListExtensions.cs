@@ -10,27 +10,31 @@ namespace With.Destructure
         public static void Let<T>(
 this IEnumerable<T> that, Action<T, IEnumerable<T>> action)
         {
-            action(that.First(), that.Skip(1));
+            var e = that.GetEnumerator();
+            action(e.GetNext(), e.Yield());
         }
         public static TRet Let<T, TRet>(
-this IEnumerable<T> that, Func<T, IEnumerable<T>, TRet> action)
+this IEnumerable<T> that, Func<T, IEnumerable<T>, TRet> func)
         {
-            return action(that.First(), that.Skip(1));
+            var e = that.GetEnumerator();
+            return func(e.GetNext(), e.Yield());
         }
 
 
         public static void Let<T>(
 this IEnumerable<T> that, Action<T, T, IEnumerable<T>> action)
         {
-            action(that.First(), that.Skip(1).First(), that.Skip(2));
+            var e = that.GetEnumerator();
+            action(e.GetNext(), e.GetNext(), e.Yield());
         }
         public static TRet Let<T, TRet>(
-this IEnumerable<T> that, Func<T, T, IEnumerable<T>, TRet> action)
+this IEnumerable<T> that, Func<T, T, IEnumerable<T>, TRet> func)
         {
-            return action(that.First(), that.Skip(1).First(), that.Skip(2));
+            var e = that.GetEnumerator();
+            return func(e.GetNext(), e.GetNext(), e.Yield());
         }
 
-        public static void EachConsequtivePair<T>(
+        public static void Stitch<T>(
 this IEnumerable<T> self, Action<T,T> action)
         {
             var enumerator = self.GetEnumerator();
@@ -43,7 +47,7 @@ this IEnumerable<T> self, Action<T,T> action)
             }
         }
 
-        public static IEnumerable<TResult> EachConsequtivePair<T,TResult>(
+        public static IEnumerable<TResult> Stitch<T,TResult>(
 this IEnumerable<T> self, Func<T,T,TResult> func)
         {
             var enumerator = self.GetEnumerator();
