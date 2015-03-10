@@ -2,11 +2,8 @@ version: 1.0.{build}
 install:
   - choco install ruby
   - gem install bundler
-before_build:
-  - bundle install
-  - cd src
-  - nuget restore With.sln
-  - cd ..
 build: off
 test_script:
+  - bundle install
+  - rake install_packages
   - rake test
