@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>0.4.6</version>
+    <version>0.4.7</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Alternative constructions in c# to do things that may look clumsy in regular code</description>
     <copyright>Copyright 2013</copyright>
-    <releaseNotes>Negative Range. Stitch.</releaseNotes>
+    <releaseNotes>Fixed bug in stitch: The order of arguments was wrong.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
