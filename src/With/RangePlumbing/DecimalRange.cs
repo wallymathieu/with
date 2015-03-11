@@ -13,13 +13,11 @@ namespace With.RangePlumbing
 		{
 			this.@from = @from;
 			this.@to = @to;
-			this.@step = @step;
+            this.@step = Math.Abs(@step);
 		}
 		internal DecimalRange (object @from, object @to, object step)
+            :this((Decimal) @from,(Decimal)@to, (Decimal)@step)
 		{
-			this.@from =(Decimal) @from;
-			this.@to = (Decimal)@to;
-			this.@step = (Decimal)@step;
 		}
 
 		public IStep<Decimal> Step(Decimal step){
@@ -28,14 +26,26 @@ namespace With.RangePlumbing
 
 		public bool Contain (decimal value)
 		{
-			return @from <= value && value <= @to && (value-@from)%step==0; 
+            if (@from <= @to)
+            {
+                return @from <= value && value <= @to && (value - @from) % step == 0; 
+            }
+            return @to <= value && value <= @from && (value - @from) % step == 0;
 		}
 
 		public IEnumerator<Decimal> GetEnumerator ()
 		{
-			for (var i = @from; i<=@to; i+=step) {
-				yield return i;
-			}
+            if (@from <= @to)
+            {
+                for (var i = @from; i <= @to; i += step)
+                {
+                    yield return i;
+                }
+            }
+            for (var i = @from; i >= @to; i -= step)
+            {
+                yield return i;
+            }
 		}
 
 		IEnumerator IEnumerable.GetEnumerator ()

@@ -13,14 +13,12 @@ namespace With.RangePlumbing
 		{
 			this.@from = @from;
 			this.@to = @to;
-			this.@step = @step;
+            this.@step = Math.Abs(@step);
 		}
 
 		internal Int32Range (object @from, object @to, object step)
+            :this((Int32)@from,(Int32)@to,(Int32)@step)
 		{
-			this.@from = (Int32)@from;
-			this.@to = (Int32)@to;
-			this.@step = (Int32)@step;
 		}
 
 		public IStep<Int32> Step(Int32 step){
@@ -29,14 +27,26 @@ namespace With.RangePlumbing
 
 		public bool Contain (int value)
 		{
-			return @from <= value && value <= @to && (value-@from)%step==0; 
+            if (@from <= @to)
+            {
+                return @from <= value && value <= @to && (value - @from) % step == 0;
+            }
+            return @to <= value && value <= @from && (value - @from) % step == 0;
 		}
 
 		public IEnumerator<Int32> GetEnumerator ()
-		{
-			for (var i = @from; i<=@to; i+=step) {
-				yield return i;
-			}
+        {
+            if (@from <= @to)
+            {
+                for (var i = @from; i <= @to; i += step)
+                {
+                    yield return i;
+                }
+            }
+            for (var i = @from; i >= @to; i -= step)
+            {
+                yield return i;
+            }
 		}
 		IEnumerator IEnumerable.GetEnumerator ()
 		{

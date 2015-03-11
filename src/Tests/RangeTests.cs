@@ -13,6 +13,12 @@ namespace Tests
 		{
 			Assert.Equal (new Range<int> (0,2).ToArray(),new []{ 0, 1, 2 });
 		}
+        [Fact]
+        public void New_negative_Int_range()
+        {
+            Assert.Equal (new Range<int> (0,-2).ToArray(),new []{ 0, -1, -2 });
+        }
+
         [Theory, AutoData]
 		public void Int_range(int size)
 		{
@@ -26,11 +32,19 @@ namespace Tests
 		[Fact]
 		public void Int_range_have()
 		{
-			var range = 0.To (4).Step (2);
+			var range = 0.To(4).Step (2);
 			Assert.Equal (range.Contain(2), true);
             Assert.Equal(range.Contain(0), true);
             Assert.Equal(range.Contain(4), true);
 		}
+        [Fact]
+        public void Negative_int_range_have()
+        {
+            var range = 0.To(-4).Step(2);
+            Assert.Equal (range.Contain(-2), true);
+            Assert.Equal(range.Contain(0), true);
+            Assert.Equal(range.Contain(-4), true);
+        }
         [Fact]
         public void Int_range_doesn_not_have()
         {
@@ -39,6 +53,16 @@ namespace Tests
             Assert.Equal(range.Contain(1), false);
             Assert.Equal(range.Contain(5), false);
         }
+        [Fact]
+        public void Negative_int_range_does_not_have()
+        {
+            var range = 0.To(-4).Step(2);
+            Assert.Equal (range.Contain(1), false);
+            Assert.Equal(range.Contain(4), false);
+            Assert.Equal (range.Contain(-1), false);
+            Assert.Equal (range.Contain(-3), false);
+        }
+
 		[Fact]
 		public void New_Long_range()
 		{

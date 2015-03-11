@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-   <Reference Include="Ploeh.AutoFixture.Xunit">
+    <Reference Include="Ploeh.AutoFixture.Xunit">
       <HintPath>..\packages\AutoFixture.Xunit.3.21.0\lib\net40\Ploeh.AutoFixture.Xunit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -43,7 +43,7 @@
       <HintPath>..\packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions">
-        <HintPath>..\packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
+      <HintPath>..\packages\xunit.extensions.1.8.0.1549\lib\xunit.extensions.dll</HintPath>
     </Reference>
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\packages\AutoFixture.3.21.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
@@ -79,6 +79,7 @@
     <Compile Include="Rubyfy\EachSliceTests.cs" />
     <Compile Include="Rubyfy\GrepTests.cs" />
     <Compile Include="Rubyfy\ToHTests.cs" />
+    <Compile Include="Collections\IEnumerable_Add.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -103,4 +104,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Folder Include="Collections\" />
+  </ItemGroup>
 </Project>

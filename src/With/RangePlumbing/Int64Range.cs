@@ -13,7 +13,7 @@ namespace With.RangePlumbing
 		{
 			this.@from =(Int64) @from;
 			this.@to = (Int64)@to;
-			this.@step = (Int64)@step;
+            this.@step = Math.Abs((Int64)@step);
 		}
 		public Int64Range (Int64 @from, Int64 @to, Int64 step)
 		{
@@ -27,15 +27,28 @@ namespace With.RangePlumbing
 		}
 
 		public bool Contain (long value)
-		{
-			return @from <= value && value <= @to && (value-@from)%step==0; 
+        {   
+            if (@from <= @to)
+            {
+                return @from <= value && value <= @to && (value - @from) % step == 0; 
+            }
+            return @to <= value && value <= @from && (value - @from) % step == 0;
+
 		}
 
 		public IEnumerator<Int64> GetEnumerator ()
 		{
-			for (var i = @from; i<=@to; i+=step) {
-				yield return i;
-			}
+            if (@from <= @to)
+            {
+                for (var i = @from; i <= @to; i += step)
+                {
+                    yield return i;
+                }
+            }
+            for (var i = @from; i >= @to; i -= step)
+            {
+                yield return i;
+            }
 		}
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
