@@ -28,8 +28,8 @@ namespace Tests.Destructure
         public void Yield_range()
         {
             var range = 0.To(4);
-            var yielded = range.Stitch( (a,b) => a+b ).ToA();
-            Assert.Equal(new[]{1, 3, 5, 7}, yielded);
+            var yielded = range.Stitch( (a,b) => new []{a,b} ).ToA();
+            Assert.Equal(new[]{new []{0,1},new []{1,2}, new []{2,3}, new []{3,4}}, yielded);
         }
     }
 }

@@ -42,7 +42,7 @@ this IEnumerable<T> self, Action<T,T> action)
             var last = enumerator.Current;
             for (; enumerator.MoveNext(); )
             {
-                action(enumerator.Current, last);
+                action(last, enumerator.Current);
                 last = enumerator.Current;
             }
         }
@@ -55,7 +55,7 @@ this IEnumerable<T> self, Func<T,T,TResult> func)
             var last = enumerator.Current;
             for (; enumerator.MoveNext(); )
             {
-                yield return func(enumerator.Current, last);
+                yield return func(last, enumerator.Current);
                 last = enumerator.Current;
             }
         }
