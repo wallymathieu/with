@@ -82,7 +82,6 @@
     <Compile Include="Rubyfy\GrepTests.cs" />
     <Compile Include="Rubyfy\ToHTests.cs" />
     <Compile Include="Collections\IEnumerable_Add.cs" />
-    <Compile Include="Xml\SimpleXml.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,7 +106,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Folder Include="Collections\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

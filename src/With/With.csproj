@@ -99,8 +99,6 @@
     <Compile Include="BatchExtensions.cs" />
     <Compile Include="Collections\Extensions.cs" />
     <Compile Include="WithPlumbing\ExpressionWithEqualEqualOrCall.cs" />
-    <Compile Include="Xml\XmlDoc.cs" />
-    <Compile Include="Xml\XmlExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -112,10 +110,5 @@
   -->
   <ItemGroup />
   <ItemGroup />
-  <ItemGroup>
-    <Folder Include="Collections\" />
-    <Folder Include="Linq\" />
-  </ItemGroup>
-</Project>
   <ItemGroup />
 </Project>
