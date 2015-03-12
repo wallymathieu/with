@@ -81,9 +81,6 @@
     <Compile Include="SwitchPlumbing\Prepared.cs" />
     <Compile Include="SwitchPlumbing\Match.cs" />
     <Compile Include="Rubyfy\RubyfyExtensions.cs" />
-    <Compile Include="Xml\Extensions.cs" />
-    <Compile Include="Xml\XmlDoc.cs" />
-    <Compile Include="Xml\Node.cs" />
     <Compile Include="Rubyfy\ChunkExtension.cs" />
     <Compile Include="Rubyfy\SubExtensions.cs" />
     <Compile Include="Rubyfy\FlattenExtension.cs" />
@@ -102,6 +99,8 @@
     <Compile Include="BatchExtensions.cs" />
     <Compile Include="Collections\Extensions.cs" />
     <Compile Include="WithPlumbing\ExpressionWithEqualEqualOrCall.cs" />
+    <Compile Include="Xml\XmlDoc.cs" />
+    <Compile Include="Xml\XmlExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -117,4 +116,6 @@
     <Folder Include="Collections\" />
     <Folder Include="Linq\" />
   </ItemGroup>
+</Project>
+  <ItemGroup />
 </Project>
