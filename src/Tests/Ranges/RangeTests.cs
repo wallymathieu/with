@@ -4,7 +4,8 @@ using Xunit;
 using System.Linq;
 using Ploeh.AutoFixture.Xunit;
 using Xunit.Extensions;
-namespace Tests
+
+namespace Tests.Ranges
 {
 	public class RangeTests
 	{

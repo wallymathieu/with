@@ -6,7 +6,7 @@ using With.RangePlumbing;
 
 namespace With
 {
-	public class Range<T>:IEnumerable<T>
+    public class Range<T>:IEnumerable<T>, IStep<T>
 		where T: IComparable, IComparable<T>
 	{
 
@@ -42,6 +42,17 @@ namespace With
 			return this.inner.GetEnumerator ();
 		}
 
+        public IStep<T> Step(T step)
+        {
+            dynamic i = inner;
+            return i.Step(step);
+        }
+
+        public bool Contain(T value)
+        {
+            dynamic i = inner;
+            return i.Contain(value);
+        }
 	}
 }
 
