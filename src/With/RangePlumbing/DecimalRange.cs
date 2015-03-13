@@ -35,16 +35,17 @@ namespace With.RangePlumbing
 
 		public IEnumerator<Decimal> GetEnumerator ()
 		{
-            if (@from <= @to)
+            if (@from <= @to) // documentation
             {
                 for (var i = @from; i <= @to; i += step)
                 {
                     yield return i;
                 }
-            }
-            for (var i = @from; i >= @to; i -= step)
-            {
-                yield return i;
+            }else{
+                for (var i = @from; i >= @to; i -= step)
+                {
+                    yield return i;
+                }
             }
 		}
 

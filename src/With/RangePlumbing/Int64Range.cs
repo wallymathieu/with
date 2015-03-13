@@ -44,10 +44,11 @@ namespace With.RangePlumbing
                 {
                     yield return i;
                 }
-            }
-            for (var i = @from; i >= @to; i -= step)
-            {
-                yield return i;
+            }else{
+                for (var i = @from; i >= @to; i -= step)
+                {
+                    yield return i;
+                }
             }
 		}
 		IEnumerator IEnumerable.GetEnumerator ()
