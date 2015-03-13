@@ -1,7 +1,7 @@
 using Xunit;
 using Xunit.Extensions;
 using Tests.Ranges.Adapters;
-
+using System.Linq;
 namespace Tests.Ranges
 {
 	public class RangeContract

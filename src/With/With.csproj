@@ -71,7 +71,6 @@
     <Compile Include="RangePlumbing\DecimalRange.cs" />
     <Compile Include="RangePlumbing\Int64Range.cs" />
     <Compile Include="RangePlumbing\Int32Range.cs" />
-    <Compile Include="RangePlumbing\IStep.cs" />
     <Compile Include="SwitchPlumbing\MatchType.cs" />
     <Compile Include="SwitchPlumbing\ISwitch.cs" />
     <Compile Include="SwitchPlumbing\Switch.cs" />
@@ -99,6 +98,7 @@
     <Compile Include="BatchExtensions.cs" />
     <Compile Include="Collections\Extensions.cs" />
     <Compile Include="WithPlumbing\ExpressionWithEqualEqualOrCall.cs" />
+    <Compile Include="IRange.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

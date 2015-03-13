@@ -28,8 +28,8 @@ namespace With.SwitchPlumbing
 		public Match (ISwitch<In,Out> inner, IEnumerable<In> expected, Func<In,Out> result)
 		{
 			this.inner = inner;
-			if (expected is IStep<In>) {
-				this.expected = ((IStep<In>)(expected)).Contains;
+            if (expected is IContainer<In>) {
+                this.expected = ((IContainer<In>)(expected)).Contains;
 			} else {
 				this.expected = expected.Contains;
 			}

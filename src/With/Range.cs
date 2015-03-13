@@ -5,10 +5,11 @@ using With.RangePlumbing;
 
 namespace With
 {
-    public class Range<T>:IEnumerable<T>, IStep<T>
+
+    public class Range<T>:IEnumerable<T>, IRange<T>
 		where T: IComparable, IComparable<T>
 	{
-		private readonly IStep<T> inner;
+		private readonly IRange<T> inner;
 		public Range (T @from,T @to)
 			:this(@from,@to, (T)Convert.ChangeType(1,typeof (T)))
 		{
@@ -17,11 +18,11 @@ namespace With
 		public Range (T @from,T @to, T step)
 		{
 			if (typeof(T) == typeof(Int32)) {
-				inner = (IStep<T>)new Int32Range (@from, @to, @step);
+                inner = (IRange<T>)new Int32Range (@from, @to, @step);
 			} else if (typeof(T) == typeof(Int64)) {
-				inner = (IStep<T>)new Int64Range (@from, @to, @step);
+                inner = (IRange<T>)new Int64Range (@from, @to, @step);
 			} else if (typeof(T) == typeof(Decimal)) {
-				inner = (IStep<T>)new DecimalRange (@from, @to, @step);
+                inner = (IRange<T>)new DecimalRange (@from, @to, @step);
 			} else {
 				throw new Exception (String.Format("There is no implementation for type {0}",typeof(T).Name));
 			}
@@ -39,7 +40,7 @@ namespace With
 			return inner.GetEnumerator ();
 		}
 
-        public IStep<T> Step(T step)
+        public IRange<T> Step(T step)
         {
             return inner.Step(step);
         }
