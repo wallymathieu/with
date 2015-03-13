@@ -1,6 +1,7 @@
 using System;
 using With;
 using System.Linq;
+using System.Collections;
 
 namespace Tests.Ranges.Adapters
 {
@@ -26,13 +27,18 @@ namespace Tests.Ranges.Adapters
         {
             range = new Range<T>(C(@from), C(to));
         }
-        public bool Contain(object o)
+        public bool Contains(object o)
         {
-            return range.Contain(C(o));
+            return range.Contains(C(o));
         }
         public object[] ToArray()
         {
             return range.Cast<object>().ToArray();
         }
-    }
+
+		public IEnumerator GetEnumerator()
+		{
+			return range.GetEnumerator();
+		}
+	}
 }

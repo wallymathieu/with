@@ -25,7 +25,7 @@ namespace With.RangePlumbing
 			return new Int32Range (@from,@to,step);
 		}
 
-		public bool Contain (int value)
+		public bool Contains (int value)
 		{
             if (@from <= @to)
             {

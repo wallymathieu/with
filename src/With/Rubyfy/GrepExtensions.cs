@@ -31,7 +31,7 @@ namespace With.Rubyfy
 
         public static IEnumerable<T> Grep<T>(this IEnumerable<T> self, IContainer<T> pattern)
         {
-            return self.Select(s=>pattern.Contain(s));
+            return self.Select(s=>pattern.Contains(s));
         }
 
         public static IEnumerable<TRet> Grep<T, TValue, TRet>(this IEnumerable<T> self, IDictionary<T,TValue> pattern, Func<T,TRet> map)

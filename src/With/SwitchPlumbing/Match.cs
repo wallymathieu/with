@@ -29,7 +29,7 @@ namespace With.SwitchPlumbing
 		{
 			this.inner = inner;
 			if (expected is IStep<In>) {
-				this.expected = ((IStep<In>)(expected)).Contain;
+				this.expected = ((IStep<In>)(expected)).Contains;
 			} else {
 				this.expected = expected.Contains;
 			}

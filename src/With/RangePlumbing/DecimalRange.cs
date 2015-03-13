@@ -24,7 +24,7 @@ namespace With.RangePlumbing
 			return new DecimalRange (@from,@to,step);
 		}
 
-		public bool Contain (decimal value)
+		public bool Contains (decimal value)
 		{
             if (@from <= @to)
             {

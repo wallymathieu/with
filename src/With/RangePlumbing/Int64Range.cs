@@ -26,7 +26,7 @@ namespace With.RangePlumbing
 			return new Int64Range (@from,@to,step);
 		}
 
-		public bool Contain (long value)
+		public bool Contains (long value)
         {   
             if (@from <= @to)
             {

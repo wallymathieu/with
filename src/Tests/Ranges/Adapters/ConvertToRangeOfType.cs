@@ -5,7 +5,7 @@ namespace Tests.Ranges.Adapters
 {
     public class ConvertToRangeOfType<T>: IRangeConverter where T:IComparable,IComparable<T>
     {
-        private static T C(object o)
+		private static T C(object o)
         {
             return (T)Convert.ChangeType(o, typeof(T));
         }

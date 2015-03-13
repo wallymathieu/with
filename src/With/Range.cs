@@ -44,9 +44,9 @@ namespace With
             return inner.Step(step);
         }
 
-        public bool Contain(T value)
+        public bool Contains(T value)
         {
-            return inner.Contain(value);
+            return inner.Contains(value);
         }
 	}
 }
