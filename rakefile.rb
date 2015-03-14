@@ -1,5 +1,5 @@
 require 'albacore'
-require_relative './src/.nuget/nuget'
+require 'nuget_helper'
 
 dir = File.dirname(__FILE__)
 
@@ -25,30 +25,26 @@ task :nugetpack => [:core_nugetpack]
 
 task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
   cd File.join(dir,"nuget") do
-    NuGet::exec "pack With.nuspec"
+    NugetHelper.exec "pack With.nuspec"
   end
 end
 
 task :nugetpush => [:nugetpack] do |nuget|
   cd File.join(dir,"nuget") do
     last = Dir.glob("With.*.nupkg").last
-    NuGet::exec "push #{last}"
+    NugetHelper.exec "push #{last}"
   end
 end
 
 
 desc "Install missing NuGet packages."
 task :install_packages do
-  package_paths = FileList["src/**/packages.config"]+["src/.nuget/packages.config"]
-
-  package_paths.each.each do |filepath|
-      NuGet::exec("i #{filepath} -o ./src/packages -source http://www.nuget.org/api/v2/")
-  end
+    NugetHelper.exec("restore ./src/with.sln -source http://www.nuget.org/api/v2/")
 end
 
 desc "test using console"
 test_runner :test => [:build] do |runner|
-  runner.exe = NuGet::xunit_path
+  runner.exe = NugetHelper.xunit_path
   files = [File.join(File.dirname(__FILE__),"src","Tests","bin","Debug","Tests.dll")]
   runner.files = files 
 end
