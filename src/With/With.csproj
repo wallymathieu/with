@@ -48,6 +48,7 @@
     <Compile Include="IMatchSwitchExtensions.cs" />
     <Compile Include="Destructure\SwitchMatchFields.cs" />
     <Compile Include="MissingValueException.cs" />
+    <Compile Include="OutOfRangeException.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
     <Compile Include="Rubyfy\Json\Json.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
