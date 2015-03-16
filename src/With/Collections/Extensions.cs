@@ -1,28 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using With.Rubyfy;
+using System.Linq;
 namespace With.Collections
 {
 	public static class Extensions
 	{
-		public static IEnumerable<T> Add<T>(this IEnumerable<T> self, T value)
+        /// <summary>
+        /// Returns a new enumerable containing value. Does not modify the existing enumerable.
+        /// Should be used when you want immutable enumerables.
+        /// </summary>
+        /// <returns>A copy of the original IEnumerable with the value appended in the end.</returns>
+        /// <param name="enumerable">The IEnumerable that will be the base for the new IEnumerable.</param>
+        /// <param name="value">The object to be added to the end of the copy of the IEnumerable.</param>
+        public static IEnumerable<T> Add<T>(this IEnumerable<T> enumerable, T value)
 		{
-			var array = self.ToA();
+			var array = enumerable.ToArray();
 			var retval = new T[array.Length + 1];
 			array.CopyTo(retval, 0);
 			retval[array.Length] = value;
 			return retval;
 		}
 
-		public static IEnumerable<T> AddRange<T>(this IEnumerable<T> self, IEnumerable<T> value)
+        /// <summary>
+        /// Returns a new enumerable containing values. Does not modify the existing enumerable.
+        /// Should be used when you want immutable enumerables.
+        /// </summary>
+        /// <returns>A copy of the original IEnumerable with the appended values in the end.</returns>
+        /// <param name="enumerable">The IEnumerable that will be the base for the new IEnumerable.</param>
+        /// <param name="values">The objects to be added to the end of the copy of the IEnumerable.</param>
+		public static IEnumerable<T> AddRange<T>(this IEnumerable<T> enumerable, IEnumerable<T> values)
 		{
-			var array = self.ToA();
-			var toBeAdded = value.ToA();
+			var array = enumerable.ToArray();
+			var toBeAdded = values.ToArray();
 			var retval = new T[array.Length + toBeAdded.Length];
 			array.CopyTo(retval, 0);
 			toBeAdded.CopyTo(retval, array.Length);
 			return retval;
 		}
+
+        public static IEnumerable<T> Insert<T>(this IEnumerable<T> enumerable, int index, T value)
+        {
+            var l = enumerable.ToList();
+            l.Insert(index, value);
+            return l;
+        }
+
+        public static IEnumerable<T> InsertRange<T>(this IEnumerable<T> enumerable, int index, IEnumerable<T> values)
+        {
+            var l = enumerable.ToList();
+            l.InsertRange(index, values);
+            return l;
+        }
 
 		private static bool ReturnsTrue<T>(T element) { return true; }
 		public static T Next<T>(this IList<T> that, int index, Func<T, bool> filter = null, Func<int, T> valueWhenOutOfRange = null)
