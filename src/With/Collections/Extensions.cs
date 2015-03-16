@@ -33,6 +33,20 @@ namespace With.Collections
             return l;
 		}
 
+        /// <summary>
+        /// Returns a new enumerable without the value. Does not modify the existing enumerable.
+        /// Should be used when you want immutable enumerables.
+        /// </summary>
+        /// <returns>A copy of the original IEnumerable with the value removed.</returns>
+        /// <param name="enumerable">The IEnumerable that will be the base for the new IEnumerable.</param>
+        /// <param name="value">The object to be removed from the copy of the IEnumerable.</param>
+        public static IEnumerable<T> Remove<T>(this IEnumerable<T> enumerable, T value)
+        {
+            var l = enumerable.ToList();
+            l.Remove(value);
+            return l;
+        }
+
 		private static bool ReturnsTrue<T>(T element) { return true; }
 		public static T Next<T>(this IList<T> that, int index, Func<T, bool> filter = null, Func<int, T> valueWhenOutOfRange = null)
 		{
