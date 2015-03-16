@@ -14,11 +14,9 @@ namespace With.Collections
         /// <param name="value">The object to be added to the end of the copy of the IEnumerable.</param>
         public static IEnumerable<T> Add<T>(this IEnumerable<T> enumerable, T value)
 		{
-			var array = enumerable.ToArray();
-			var retval = new T[array.Length + 1];
-			array.CopyTo(retval, 0);
-			retval[array.Length] = value;
-			return retval;
+            var l = enumerable.ToList();
+            l.Add(value);
+            return l;
 		}
 
         /// <summary>
@@ -30,27 +28,10 @@ namespace With.Collections
         /// <param name="values">The objects to be added to the end of the copy of the IEnumerable.</param>
 		public static IEnumerable<T> AddRange<T>(this IEnumerable<T> enumerable, IEnumerable<T> values)
 		{
-			var array = enumerable.ToArray();
-			var toBeAdded = values.ToArray();
-			var retval = new T[array.Length + toBeAdded.Length];
-			array.CopyTo(retval, 0);
-			toBeAdded.CopyTo(retval, array.Length);
-			return retval;
+            var l = enumerable.ToList();
+            l.AddRange(values);
+            return l;
 		}
-
-        public static IEnumerable<T> Insert<T>(this IEnumerable<T> enumerable, int index, T value)
-        {
-            var l = enumerable.ToList();
-            l.Insert(index, value);
-            return l;
-        }
-
-        public static IEnumerable<T> InsertRange<T>(this IEnumerable<T> enumerable, int index, IEnumerable<T> values)
-        {
-            var l = enumerable.ToList();
-            l.InsertRange(index, values);
-            return l;
-        }
 
 		private static bool ReturnsTrue<T>(T element) { return true; }
 		public static T Next<T>(this IList<T> that, int index, Func<T, bool> filter = null, Func<int, T> valueWhenOutOfRange = null)
