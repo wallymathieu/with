@@ -10,8 +10,10 @@ namespace With.Reflection
 	{
 		public static FieldOrProperty[] GetFieldOrProperties(this Type t)
 		{
-			return t.GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new FieldOrProperty(p))
+			return
+				new FieldOrProperty[0]
 				.Concat(t.GetFields(BindingFlags.Instance | BindingFlags.Public).Select(p => new FieldOrProperty(p)))
+				.Concat(t.GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new FieldOrProperty(p)))
 				.ToArray();
 		}
 	}
