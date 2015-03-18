@@ -56,7 +56,7 @@ namespace With.WithPlumbing
 			else
 			{
 				var memberValue = GetMemberValue(memberAccess);
-				var paramValue = GetExpressionValue(expr.Arguments.Drop(1).First());
+				var paramValue = ExpressionValue.GetExpressionValue(expr.Arguments.Drop(1).First());
 				value = ApplyOperation(expr, memberValue, paramValue);
 			}
 			_parsed.Add(new NameAndValue
@@ -86,27 +86,6 @@ namespace With.WithPlumbing
 			}
 
 			return value;
-		}
-
-		private object GetExpressionValue(Expression expression)
-		{
-			switch (expression.NodeType)
-			{
-				case ExpressionType.Constant:
-					return ((ConstantExpression)expression).Value;
-				case ExpressionType.MemberAccess:
-					return MemberExpressionValue.GetValue((MemberExpression)expression);
-				case ExpressionType.NewArrayInit:
-					return GetValues((NewArrayExpression)expression);
-				default:
-					throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess },
-						expression.NodeType);
-			}
-		}
-
-		private object GetValues(NewArrayExpression expression)
-		{
-			return expression.Expressions.Map(e => GetExpressionValue(e)).ToA();
 		}
 
 		private object GetMemberValue(MemberExpression memberAccess)

@@ -30,7 +30,7 @@ namespace Tests.With
             Assert.Equal(newValue, ret.MyProperty3.Last());
         }
 
-        [Theory, AutoData]
+		[Theory, AutoData]
         public void Should_be_able_to_concat_add_to_enumerable(
             MyClass myClass, string newValue)
         {
@@ -41,6 +41,30 @@ namespace Tests.With
             ret = myClass.With(m => m.MyProperty3.Concat(array));
             Assert.Equal(newValue, ret.MyProperty3.Last());
         }
+		public class MyClassWithObject
+		{
+			public MyClassWithObject(MyClass myClass)
+			{
+				MyClass = myClass;
+			}
+			public readonly MyClass MyClass;
+		}
+
+		[Theory, AutoData]
+		public void Should_be_able_to_add_object_to_enumerable(
+			MyClassWithObject myClass, string newValue)
+		{
+			var ret = myClass.With(m => m.MyClass == new MyClass(1, newValue, new string[0]));
+			Assert.Equal(newValue, ret.MyClass.MyProperty2);
+		}
+
+		[Theory, AutoData]
+		public void Able_to_set_array_to_empty_array(
+			MyClass myClass, string newValue)
+		{
+			var ret = myClass.With(m => m.MyProperty3 == new string[0]);
+			Assert.Equal(new string[0], ret.MyProperty3);
+		}
 
 		[Theory, AutoData]
 		public void Should_be_able_to_add_const_to_enumerable(

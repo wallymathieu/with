@@ -93,25 +93,8 @@ namespace With.WithPlumbing
 			_parsed.Add(new NameAndValue
 			{
 				Name = MemberAccess((MemberExpression)eq.Left),
-				Value = ExpressionWithValue(eq.Right)
+				Value = ExpressionValue.GetExpressionValue(eq.Right)
 			});
-		}
-
-		private object ExpressionWithValue(Expression right)
-		{
-			switch (right.NodeType)
-			{
-				case ExpressionType.Constant:
-					return ((ConstantExpression)right).Value;
-				case ExpressionType.MemberAccess:
-					return MemberExpressionValue.GetValue((MemberExpression)right);
-				case ExpressionType.Convert:
-					return MemberExpressionValue.GetValue((MemberExpression)((UnaryExpression)right).Operand);
-
-				default:
-					throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess, ExpressionType.Convert },
-						right.NodeType);
-			}
 		}
 
 		private string MemberAccess(MemberExpression member)

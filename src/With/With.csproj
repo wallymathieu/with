@@ -65,10 +65,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommonExtensions.cs" />
     <Compile Include="WithPlumbing\ExpressionUnaryCall.cs" />
+    <Compile Include="WithPlumbing\ExpressionValue.cs" />
     <Compile Include="WithPlumbing\ExpressionWithMemberAccess.cs" />
+    <Compile Include="WithPlumbing\FindMatchingCtor.cs" />
     <Compile Include="WithPlumbing\MemberExpressionValue.cs" />
     <Compile Include="WithPlumbing\NameAndValue.cs" />
     <Compile Include="WithPlumbing\GetConstructorParamterValues.cs" />
+    <Compile Include="WithPlumbing\NewArrayFromBoundsExpression.cs" />
+    <Compile Include="WithPlumbing\NewArrayFromExpression.cs" />
+    <Compile Include="WithPlumbing\NewExpressionToObject.cs" />
     <Compile Include="WithPlumbing\ValuesForConstructor.cs" />
     <Compile Include="WithPlumbing\GetParameterValuesUsingOrdinal.cs" />
     <Compile Include="Range.cs" />

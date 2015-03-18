@@ -10,7 +10,6 @@ namespace With.WithPlumbing
 	{
 		private readonly Object parent;
 		private readonly PropertyInfo[] props;
-		private readonly ConstructorInfo[] ctors;
 		private readonly ConstructorInfo ctor;
 		private readonly IList<NameAndValue> values;
 
@@ -18,8 +17,7 @@ namespace With.WithPlumbing
 		{
 			this.parent = parent;
 			this.props = typeof(T).GetProperties();
-			this.ctors = typeof(T).GetConstructors().ToArray();
-			this.ctor = ctors.Single();
+			this.ctor = new FindMatchingCtor<T>().Get();
 			values = new List<NameAndValue> ();
 		}
 		public ValuesForConstructor<T> Eql<TValue> (Expression<Func<T, TValue>> expr, TValue val)
