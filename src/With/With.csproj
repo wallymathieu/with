@@ -50,6 +50,8 @@
     <Compile Include="MissingValueException.cs" />
     <Compile Include="OutOfRangeException.cs" />
     <Compile Include="ReadonlyEnumerable\Extensions.cs" />
+    <Compile Include="Reflection\Extensions.cs" />
+    <Compile Include="Reflection\MethodInfoOrProperty.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
     <Compile Include="Rubyfy\Json\Json.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />

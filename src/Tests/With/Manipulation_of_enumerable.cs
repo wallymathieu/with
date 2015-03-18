@@ -18,29 +18,29 @@ namespace Tests.With
 			Assert.Equal(newValue, ret.MyProperty3.Last());
 		}
 
-        [Theory, AutoData]
-        public void Should_be_able_to_union_add_to_enumerable(
-            MyClass myClass, string newValue)
-        {
-            var ret = myClass.With(m => m.MyProperty3.Union(new []{newValue}));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+		[Theory, AutoData]
+		public void Should_be_able_to_union_add_to_enumerable(
+			MyClass myClass, string newValue)
+		{
+			var ret = myClass.With(m => m.MyProperty3.Union(new[] { newValue }));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
 
-            var array = new []{ newValue };
-            ret = myClass.With(m => m.MyProperty3.Union(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
-        }
+			var array = new[] { newValue };
+			ret = myClass.With(m => m.MyProperty3.Union(array));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
+		}
 
 		[Theory, AutoData]
-        public void Should_be_able_to_concat_add_to_enumerable(
-            MyClass myClass, string newValue)
-        {
-            var ret = myClass.With(m => m.MyProperty3.Concat(new []{newValue}));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+		public void Should_be_able_to_concat_add_to_enumerable(
+			MyClass myClass, string newValue)
+		{
+			var ret = myClass.With(m => m.MyProperty3.Concat(new[] { newValue }));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
 
-            var array = new []{ newValue };
-            ret = myClass.With(m => m.MyProperty3.Concat(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
-        }
+			var array = new[] { newValue };
+			ret = myClass.With(m => m.MyProperty3.Concat(array));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
+		}
 		public class MyClassWithObject
 		{
 			public MyClassWithObject(MyClass myClass)
@@ -68,23 +68,23 @@ namespace Tests.With
 
 		[Theory, AutoData]
 		public void Should_be_able_to_add_const_to_enumerable(
-            MyClass myClass)
+			MyClass myClass)
 		{
 			const string newValue = "const";
 			var ret = myClass.With(m => m.MyProperty3.Add(newValue));
 			Assert.Equal(newValue, ret.MyProperty3.Last());
 
-            ret = myClass.With(m => m.MyProperty3.Concat(new []{newValue}));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+			ret = myClass.With(m => m.MyProperty3.Concat(new[] { newValue }));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
 
-            var array = new []{ newValue };
-            ret = myClass.With(m => m.MyProperty3.Concat(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+			var array = new[] { newValue };
+			ret = myClass.With(m => m.MyProperty3.Concat(array));
+			Assert.Equal(newValue, ret.MyProperty3.Last());
 		}
 
 		[Theory, AutoData]
 		public void Should_be_able_to_add_range_with_new_array_to_enumerable(
-            MyClass myClass, string newValue)
+			MyClass myClass, string newValue)
 		{
 			var ret = myClass.With(m => m.MyProperty3.AddRange(new[] { newValue }));
 			Assert.Equal(newValue, ret.MyProperty3.Last());
@@ -92,7 +92,7 @@ namespace Tests.With
 
 		[Theory, AutoData]
 		public void Should_be_able_to_add_range_to_enumerable(
-            MyClass myClass, IEnumerable<string> newValue)
+			MyClass myClass, IEnumerable<string> newValue)
 		{
 			var ret = myClass.With(m => m.MyProperty3.AddRange(newValue));
 			Assert.Equal(newValue.Last(), ret.MyProperty3.Last());
@@ -100,20 +100,45 @@ namespace Tests.With
 
 		[Theory, AutoData]
 		public void Should_be_able_to_remove_from_enumerable(
-            MyClass myClass)
+			MyClass myClass)
 		{
 			var first = myClass.MyProperty3.First();
 			var ret = myClass.With(m => m.MyProperty3.Remove(first));
 			Assert.NotEqual(first, ret.MyProperty3.First());
 		}
 
-        [Theory, AutoData]
-        public void Should_be_able_to_where_remove_from_enumerable(
-            MyClass myClass)
-        {
-            var first = myClass.MyProperty3.First();
-            var ret = myClass.With(m => m.MyProperty3.Where(p=>p!=first));
-            Assert.NotEqual(first, ret.MyProperty3.First());
-        }
+		[Theory, AutoData]
+		public void Should_be_able_to_where_remove_from_enumerable(
+			MyClass myClass)
+		{
+			var first = myClass.MyProperty3.First();
+			var ret = myClass.With(m => m.MyProperty3.Where(p => p != first));
+			Assert.NotEqual(first, ret.MyProperty3.First());
+		}
+
+		public class ClassWithFields
+		{
+			public ClassWithFields()
+				: this(new MyClass[0], new MyClassWithObject[0])
+			{
+			}
+			public ClassWithFields(IEnumerable<MyClass> myClasses, IEnumerable<MyClassWithObject> myClassWIthObjects)
+			{
+				MyClasses = myClasses;
+				MyClassWIthObjects = myClassWIthObjects;
+			}
+
+			public readonly IEnumerable<MyClass> MyClasses;
+			public readonly IEnumerable<MyClassWithObject> MyClassWIthObjects;
+		}
+
+		[Theory, AutoData]
+		public void Should_be_able_to_set_enumerable_on_model_with_empty_constructor(
+			ClassWithFields models)
+		{
+			var myClass = new MyClass(-1, string.Empty, new string[0]);
+			var ret = models.With(m => m.MyClasses.Add(myClass));
+			Assert.Equal(myClass, ret.MyClasses.First());
+		}
 	}
 }

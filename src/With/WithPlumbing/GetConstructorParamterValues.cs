@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using With.Reflection;
 
 namespace With.WithPlumbing
 {
 	internal class GetConstructorParamterValues
 	{
-		public object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, PropertyInfo[] props, ConstructorInfo ctor)
+		public object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
 		{
 			var ctorParams = ctor.GetParameters();
 			var values = new object[ctorParams.Length];
@@ -24,7 +25,7 @@ namespace With.WithPlumbing
 				var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
 				if (p != null)
 				{
-					values[i] = p.GetValue(t, null);
+					values[i] = p.GetValue(t);
 				}
 				else
 				{
