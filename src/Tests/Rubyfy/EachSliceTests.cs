@@ -1,5 +1,4 @@
-﻿using System;
-using With.Rubyfy;
+﻿using With.Rubyfy;
 using Xunit;
 using With;
 using With.Rubyfy.Json;
@@ -9,7 +8,7 @@ using Ploeh.AutoFixture.Xunit;
 
 namespace Tests
 {
-    public class EachSliceTests
+	public class EachSliceTests
     {
         [Fact]
         public void Test()

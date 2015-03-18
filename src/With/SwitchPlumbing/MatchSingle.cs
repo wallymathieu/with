@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 namespace With.SwitchPlumbing
 {
 	public class MatchSingle<In,Out>:ISwitch<In,Out>{

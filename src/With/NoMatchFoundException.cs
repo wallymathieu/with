@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 namespace With
 {
-    [Serializable]
+	[Serializable]
     public class NoMatchFoundException : Exception
     {
         public NoMatchFoundException() : base("Could not find a match. Are you missing a case or an else?") { }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 namespace With.SwitchPlumbing
 {
 	public abstract class ISwitch<In,Out>

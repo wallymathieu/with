@@ -1,11 +1,10 @@
-﻿using System;
-using With.Rubyfy;
+﻿using With.Rubyfy;
 using Xunit;
 using System.Collections.Generic;
 
 namespace Tests
 {
-    public class FindTests
+	public class FindTests
     {
         [Fact]
         public void Can_find_index_of(){

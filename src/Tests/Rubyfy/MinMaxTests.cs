@@ -1,10 +1,9 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using With.Rubyfy;
 
 namespace Tests
 {
-    public class MinMaxTests
+	public class MinMaxTests
     {
         [Fact]
         public void StringCompare(){

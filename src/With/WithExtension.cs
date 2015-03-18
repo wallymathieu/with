@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using With.WithPlumbing;
-using System.Collections;
 
 namespace With
 {
-    public static class WithExtensions
+	public static class WithExtensions
     {
 		public static ValuesForConstructor<T> With<T>(this T t)
 		{
@@ -67,6 +65,20 @@ namespace With
 
             return (T)ctor.Invoke(values);
         }
+
+		public static T With<T>(this T t, Expression<Action<T>> expr)
+		{
+			var props = typeof(T).GetProperties();
+			var ctors = typeof(T).GetConstructors().ToArray();
+			var ctor = ctors.Single();
+			var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
+			eqeq.Lambda(expr);
+			var propertyNameAndValues = eqeq.Parsed.ToArray();
+
+			var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+
+			return (T)ctor.Invoke(values);
+		}
 
 		public static ValuesForConstructor<TRet> As<TRet>(this Object t)
 		{

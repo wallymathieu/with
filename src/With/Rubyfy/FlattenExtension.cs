@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace With.Rubyfy
 {
-    public static class FlattenExtension
+	public static class FlattenExtension
     {
         /// <summary>
         /// Returns a new array that is a one-dimensional flattening of self (recursively).

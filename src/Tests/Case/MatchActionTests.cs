@@ -1,8 +1,7 @@
-using System;
 using With;
 using Xunit;
 namespace Tests
-{	
+{
 	public class MatchActionTests
 	{
 		private string DoMatch(int v){

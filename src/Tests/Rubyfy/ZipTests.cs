@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using With;
+﻿using Xunit;
 using With.Rubyfy;
 namespace Tests.Rubyfy
 {
-    public class ZipTests
+	public class ZipTests
     {
         private readonly int?[] a = new int?[] { 4, 5, 6 };
         private readonly int?[] b = new int?[] { 7, 8, 9 };

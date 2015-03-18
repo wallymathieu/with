@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 namespace With.Rubyfy
 {
-    public class Partition<T>:IEnumerable<IEnumerable<T>>
+	public class Partition<T>:IEnumerable<IEnumerable<T>>
     {
         public IEnumerable<T> True{ get; private set;}
         public IEnumerable<T> False{ get; private set;}

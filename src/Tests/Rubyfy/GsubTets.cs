@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 using With.Rubyfy;
 namespace With.Tests.Rubyfy
 {
-    public class GsubTests
+	public class GsubTests
     {
         [Fact]
         public void test_some_back_reference()

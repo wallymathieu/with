@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using With.Linq;
 namespace With.Rubyfy
 {
-    public static class RubyfyExtensions
+	public static class RubyfyExtensions
     {
         public static bool Even(this int self)
         {

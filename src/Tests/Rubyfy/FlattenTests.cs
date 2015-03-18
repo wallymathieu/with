@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using Xunit;
 using With.Rubyfy;
 namespace With.Tests.Rubyfy
 {
-    public class FlattenTests
+	public class FlattenTests
     {
         [Fact]
         public void test_flatten()

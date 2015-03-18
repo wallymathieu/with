@@ -1,15 +1,9 @@
-﻿using Ploeh.AutoFixture.Xunit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Xunit;
-using Xunit.Extensions;
-using With;
 using With.Destructure;
 namespace Tests.Destructure.Implementation
 {
-    public class GetFieldsTests
+	public class GetFieldsTests
     {
         public struct MyStructWithFields0
         {

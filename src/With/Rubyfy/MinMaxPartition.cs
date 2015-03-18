@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 namespace With.Rubyfy
 {
-    public class MinMaxPartition<T>:IEnumerable<IEnumerable<T>>
+	public class MinMaxPartition<T>:IEnumerable<IEnumerable<T>>
     {
         public IEnumerable<T> Min{ get; private set;}
         public IEnumerable<T> Max{ get; private set;}

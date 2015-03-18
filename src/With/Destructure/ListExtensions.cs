@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace With.Destructure
 {
-    public static class ListExtensions
+	public static class ListExtensions
     {
         public static void Let<T>(
 this IEnumerable<T> that, Action<T, IEnumerable<T>> action)

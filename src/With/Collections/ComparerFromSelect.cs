@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 namespace With.Collections
 {
-    public partial class Comparer
+	public partial class Comparer
     {
         public static ComparerFromSelect<T,TComparable> Create<T,TComparable>(Func<T,TComparable> select)
             where TComparable: IComparable

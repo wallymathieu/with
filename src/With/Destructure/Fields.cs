@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using With.Rubyfy;
 
 namespace With.Destructure
 {
-    internal class Fields
+	internal class Fields
     {
         GetMethodInfoOrFieldOrProperty[] fields;
 

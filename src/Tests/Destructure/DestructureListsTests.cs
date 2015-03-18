@@ -1,5 +1,4 @@
 ﻿using Ploeh.AutoFixture.Xunit;
-using System;
 using Xunit;
 using Xunit.Extensions;
 using With.Destructure;
@@ -8,7 +7,7 @@ using With.Rubyfy;
 
 namespace Tests.Destructure
 {
-    public class DestructureListsTests
+	public class DestructureListsTests
     {
         [Theory, AutoData]
         public void First_variable(

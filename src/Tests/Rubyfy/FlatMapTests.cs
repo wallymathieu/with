@@ -1,12 +1,10 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using With.Rubyfy;
-using System.Collections.Generic;
 
 
 namespace Tests
 {
-    public class FlatMapTests
+	public class FlatMapTests
     {
         [Fact]
         public void SimpleReturn(){

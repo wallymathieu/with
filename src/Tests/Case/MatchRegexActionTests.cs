@@ -1,4 +1,3 @@
-using System;
 using With;
 using Xunit;
 namespace Tests

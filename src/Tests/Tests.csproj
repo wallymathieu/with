@@ -61,6 +61,7 @@
     <Compile Include="Destructure\DestructureTupleTests.cs" />
     <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
     <Compile Include="Rubyfy\ZipTests.cs" />
+    <Compile Include="With\Manipulation_of_enumerable.cs" />
     <Compile Include="With\Setting_several_properties_at_once.cs" />
     <Compile Include="Case\SwitchOnTypeTests.cs" />
     <Compile Include="With\Clone_an_instance_into_the_same_type.cs" />

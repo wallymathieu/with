@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace With.SwitchPlumbing
 {
-    internal class F
+	internal class F
     {
         protected internal static Func<Input, Return> ReturnDefault<Input, Return>(Action<Input> action)
         {

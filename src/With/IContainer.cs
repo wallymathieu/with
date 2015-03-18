@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace With
+﻿namespace With
 {
-    public interface IContainer<T>
+	public interface IContainer<T>
     {
         bool Contains (T value);
     }

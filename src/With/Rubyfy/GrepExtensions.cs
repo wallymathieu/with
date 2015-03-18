@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Collections;
 
 namespace With.Rubyfy
 {
-    public static class GrepExtensions
+	public static class GrepExtensions
     {
         public static IEnumerable<TRet> Grep<TRet>(this IEnumerable<string> self, Regex regex, Func<string,TRet> map)
         {

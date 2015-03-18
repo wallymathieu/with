@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using With.Destructure;
 using With.SwitchPlumbing;
 
 namespace With.Destructure
 {
-    public static partial class Switch_Fields
+	public static partial class Switch_Fields
     {
         public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In,Out>> fields)
         {

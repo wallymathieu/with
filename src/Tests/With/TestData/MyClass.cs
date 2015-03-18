@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Tests
 {
-    public class MyClass
+	public class MyClass
     {
         private readonly int myProperty;
         private readonly string myProperty2;

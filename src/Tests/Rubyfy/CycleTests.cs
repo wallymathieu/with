@@ -1,10 +1,9 @@
-﻿using System;
-using With.Rubyfy;
+﻿using With.Rubyfy;
 using Xunit;
 
 namespace Tests
 {
-    public class CycleTests
+	public class CycleTests
     {
         [Fact]
         public void Example1()

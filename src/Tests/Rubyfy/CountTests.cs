@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 using With.Rubyfy;
 namespace Tests.Rubyfy
 {
-    public class CountTests
+	public class CountTests
     {
         private readonly int[] ary = new []{1, 2, 4, 2};
 	    [Fact]

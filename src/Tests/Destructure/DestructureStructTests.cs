@@ -1,17 +1,12 @@
 ﻿using Ploeh.AutoFixture.Xunit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using With;
 using With.Destructure;
-using With.Rubyfy;
 using Xunit;
 using Xunit.Extensions;
 
 namespace Tests.Destructure
 {
-    public class DestructureStructTests
+	public class DestructureStructTests
     {
         public struct MyStruct0
         {

@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 using With.Rubyfy;
 using With;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Tests
 {
-    public class GrepTests
+	public class GrepTests
     {
         [Fact]
         public void GrepString(){

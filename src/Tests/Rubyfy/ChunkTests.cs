@@ -1,10 +1,9 @@
-using System;
 using Xunit;
 using With.Rubyfy;
 using System.Collections.Generic;
 namespace Tests.Rubyfy
 {
-    public class ChunkTests
+	public class ChunkTests
     {
 	    [Fact]
         public void Example1()

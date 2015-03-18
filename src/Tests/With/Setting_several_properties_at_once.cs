@@ -1,11 +1,10 @@
-﻿using System;
-using With;
+﻿using With;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
 using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
 using Assert = Xunit.Assert;
 namespace Tests
 {
-    public class Setting_several_properties_at_once
+	public class Setting_several_properties_at_once
     {
         public class AClassWithManyProperties
         {
