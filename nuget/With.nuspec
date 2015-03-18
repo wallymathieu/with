@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>0.4.9</version>
+    <version>0.4.10</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Alternative constructions in c# to do things that may look clumsy in regular code</description>
     <copyright>Copyright 2013</copyright>
-    <releaseNotes>Possible to get clones with collections manipulated in the With-expression.</releaseNotes>
+    <releaseNotes>Fixed bugs in With expression where you could not do new Object, new array[0], e.tc..</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
