@@ -27,8 +27,14 @@ namespace With.Reflection
 
 		internal object GetValue(object t)
 		{
-			if (FieldInfo != null) { return FieldInfo.GetValue(t); }
-			else { return Property.GetValue(t, null); }
+			if (Property != null)
+			{
+				return Property.GetValue(t, null);
+			}
+			else
+			{
+				return FieldInfo.GetValue(t);
+			}
 		}
 	}
 }

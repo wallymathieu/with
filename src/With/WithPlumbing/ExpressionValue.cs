@@ -25,7 +25,7 @@ namespace With.WithPlumbing
 				case ExpressionType.New:
 					return NewExpressionToObject.GetNew((NewExpression)expression);
 				default:
-					throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess, ExpressionType.NewArrayInit, ExpressionType.Convert, ExpressionType.New },
+					throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess, ExpressionType.NewArrayBounds, ExpressionType.NewArrayInit, ExpressionType.Convert, ExpressionType.New },
 						expression.NodeType);
 			}
 		}

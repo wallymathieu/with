@@ -63,7 +63,7 @@ namespace Tests.With
 			MyClass myClass, string newValue)
 		{
 			var ret = myClass.With(m => m.MyProperty3 == new string[0]);
-			Assert.Equal(new string[0], ret.MyProperty3);
+			Assert.Equal(new string[0], ret.MyProperty3.ToArray());
 		}
 
 		[Theory, AutoData]

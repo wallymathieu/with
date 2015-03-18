@@ -7,6 +7,8 @@ namespace With.WithPlumbing
 	{
 		internal static object GetValue(NewArrayExpression expression)
 		{
+			if (expression.NodeType != ExpressionType.NewArrayBounds)
+				throw new System.Exception();
 			var bounds = expression.Expressions.Map(e => ExpressionValue.GetExpressionValue(e)).ToA();
 			return expression.Type.GetConstructors().First().Invoke(bounds);
 		}

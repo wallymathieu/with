@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
+using With.Reflection;
+
 namespace With.Collections
 {
 	public static class Extensions
@@ -44,9 +46,7 @@ namespace With.Collections
 		/// </summary>
 		internal static IList ToListT(this IEnumerable that)
 		{
-			var t = that.GetType().GetInterfaces()
-				.Single(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-				.GetGenericArguments().Single();
+			var t = that.GetType().GetIEnumerableTypeParameter();
             return (IList)typeof(Enumerable)
 				.GetMethod("ToList")
 				.MakeGenericMethod(t)

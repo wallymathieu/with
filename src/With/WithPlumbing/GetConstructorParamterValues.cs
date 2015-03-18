@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using With.Reflection;
+using System.Collections;
 
 namespace With.WithPlumbing
 {
@@ -19,13 +20,14 @@ namespace With.WithPlumbing
 				var param = ctorParams[i];
 				if (propertyNameAndValues.ContainsKey(param.Name))
 				{
-					values[i] = propertyNameAndValues[param.Name].Value;
+					values[i] = Coerce(param.ParameterType, propertyNameAndValues[param.Name].Value);
 					continue;
 				}
-				var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
+				var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name,
+					StringComparison.InvariantCultureIgnoreCase));
 				if (p != null)
 				{
-					values[i] = p.GetValue(t);
+					values[i] = Coerce(param.ParameterType, p.GetValue(t));
 				}
 				else
 				{
@@ -33,6 +35,22 @@ namespace With.WithPlumbing
 				}
 			}
 			return values;
+		}
+
+		public object Coerce(Type parameterType, object v)
+		{
+			if (v != null && typeof(IEnumerable).IsAssignableFrom(parameterType) && !parameterType.IsAssignableFrom(v.GetType()))
+			{
+				var typeParam = parameterType.GetIEnumerableTypeParameter();
+				if (typeParam != null)
+				{
+					return typeof(Enumerable)
+						.GetMethod("Cast")
+						.MakeGenericMethod(typeParam)
+						.Invoke(null, new[] { v });
+				}
+			}
+			return v;
 		}
 	}
 }
