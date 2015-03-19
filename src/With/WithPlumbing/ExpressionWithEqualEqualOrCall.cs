@@ -92,20 +92,14 @@ namespace With.WithPlumbing
 		{
 			_parsed.Add(new NameAndValue
 			{
-				Name = MemberAccess((MemberExpression)eq.Left),
+				Name = MemberName((MemberExpression)eq.Left),
 				Value = ExpressionValue.GetExpressionValue(eq.Right)
 			});
 		}
 
-		private string MemberAccess(MemberExpression member)
+		private string MemberName(MemberExpression member)
 		{
-			var name = member.Member.Name;
-			if (member.Member.DeclaringType != typeof(TRet) 
-				&& !typeof(TRet).IsSubclassOf(member.Member.DeclaringType))
-			{
-				throw new ShouldBeAnExpressionLeftToRightException("The type indicates that the member expression is invalid");
-			}
-			return name;
+			return member.Member.Name;
 		}
 	}
 }
