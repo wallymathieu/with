@@ -140,5 +140,13 @@ namespace Tests.With
 			var ret = models.With(m => m.MyClasses.Add(myClass));
 			Assert.Equal(myClass, ret.MyClasses.First());
 		}
-	}
+
+        [Theory, AutoData]
+        public void Should_be_able_to_set_enumerablewith_new(
+    ClassWithFields models)
+        {
+            var ret = models.With(m => m.MyClasses.Add(new MyClass(-1, string.Empty, new string[0])));
+            Assert.Equal(-1, ret.MyClasses.First().MyProperty);
+        }
+    }
 }
