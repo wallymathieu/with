@@ -4,9 +4,9 @@ using With.SwitchPlumbing;
 
 namespace With.Destructure
 {
-	public static partial class Switch_Fields
+    public static partial class Switch_Fields
     {
-        public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In,Out>> fields)
+        public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)
         {
             var m = new MatchFields<In, Out>();
             m.Fields = true;

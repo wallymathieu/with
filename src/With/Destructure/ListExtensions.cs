@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace With.Destructure
 {
-	public static class ListExtensions
+    public static class ListExtensions
     {
         public static void Let<T>(
 this IEnumerable<T> that, Action<T, IEnumerable<T>> action)
@@ -33,25 +33,25 @@ this IEnumerable<T> that, Func<T, T, IEnumerable<T>, TRet> func)
         }
 
         public static void Stitch<T>(
-this IEnumerable<T> self, Action<T,T> action)
+this IEnumerable<T> self, Action<T, T> action)
         {
             var enumerator = self.GetEnumerator();
             enumerator.MoveNext();
             var last = enumerator.Current;
-            for (; enumerator.MoveNext(); )
+            for (; enumerator.MoveNext();)
             {
                 action(last, enumerator.Current);
                 last = enumerator.Current;
             }
         }
 
-        public static IEnumerable<TResult> Stitch<T,TResult>(
-this IEnumerable<T> self, Func<T,T,TResult> func)
+        public static IEnumerable<TResult> Stitch<T, TResult>(
+this IEnumerable<T> self, Func<T, T, TResult> func)
         {
             var enumerator = self.GetEnumerator();
             enumerator.MoveNext();
             var last = enumerator.Current;
-            for (; enumerator.MoveNext(); )
+            for (; enumerator.MoveNext();)
             {
                 yield return func(last, enumerator.Current);
                 last = enumerator.Current;

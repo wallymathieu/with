@@ -1,6 +1,6 @@
 namespace With.SwitchPlumbing
 {
-	public enum Nothing
-	{
-	}
+    public enum Nothing
+    {
+    }
 }

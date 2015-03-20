@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 namespace With.Collections
 {
-	public partial class Comparer
+    public partial class Comparer
     {
-        public static ComparerFromFunc<T> Create<T>(Func<T,T,int> compare)
+        public static ComparerFromFunc<T> Create<T>(Func<T, T, int> compare)
         {
             return new ComparerFromFunc<T>(compare);
         }

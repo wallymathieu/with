@@ -84,7 +84,7 @@ namespace With.Rubyfy
                 case 'm':
                     return RegexOptions.Singleline | RegexOptions.Multiline;
                 default:
-                    throw new Exception("Regex option unknown: "+token);
+                    throw new Exception("Regex option unknown: " + token);
             }
         }
 

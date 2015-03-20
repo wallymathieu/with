@@ -3,14 +3,14 @@
 namespace With.SwitchPlumbing
 {
     public class MatchType<On, In, Out> : ISwitch<In, Out>
-        where On:In
+        where On : In
     {
         private readonly ISwitch<In, Out> inner;
         private readonly Func<On, Out> _func;
         public MatchType(ISwitch<In, Out> inner, Func<On, Out> @case)
         {
             this.inner = inner;
-			_func = @case;
+            _func = @case;
         }
 
         public override In Instance

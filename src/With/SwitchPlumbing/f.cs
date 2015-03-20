@@ -2,7 +2,7 @@
 
 namespace With.SwitchPlumbing
 {
-	internal class F
+    internal class F
     {
         protected internal static Func<Input, Return> ReturnDefault<Input, Return>(Action<Input> action)
         {

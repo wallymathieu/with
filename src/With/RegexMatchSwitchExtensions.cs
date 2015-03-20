@@ -15,14 +15,14 @@ namespace With
                 F.ReturnDefault<string, NothingOrPrepared>(i => result(expected.Match(i))));
         }
         public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
-            string expected, 
+            string expected,
             Action<Match> result)
         {
             var regex = new Regex(expected);
             return that.Regex(regex, result);
         }
         public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
-            string expected, 
+            string expected,
             RegexOptions options,
             Action<Match> result)
         {
@@ -38,15 +38,15 @@ namespace With
                 expected.IsMatch,
                 F.ReturnDefault<string, NothingOrPrepared>(F.IgnoreInput<string>(result)));
         }
-        public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that, 
-            string expected, 
+        public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
+            string expected,
             Action result)
         {
             var regex = new Regex(expected);
             return that.Regex(regex, result);
         }
-        public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that, 
-            string expected, 
+        public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
+            string expected,
             RegexOptions options,
             Action result)
         {
@@ -62,15 +62,15 @@ namespace With
                 expected.IsMatch,
                 F.IgnoreInput<string, Out>(result));
         }
-        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that, 
-            string expected, 
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            string expected,
             Func<Out> result)
         {
             var regex = new Regex(expected);
             return that.Regex(regex, result);
         }
-        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that, 
-            string expected, 
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            string expected,
             RegexOptions options,
             Func<Out> result)
         {
@@ -84,15 +84,15 @@ namespace With
         {
             return new Match<string, Out>(that, expected.IsMatch, i => result(expected.Match(i)));
         }
-        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that, 
-            string expected, 
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            string expected,
             Func<Match, Out> result)
         {
             var regex = new Regex(expected);
             return that.Regex(regex, result);
         }
-        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that, 
-            string expected, 
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            string expected,
             RegexOptions options,
             Func<Match, Out> result)
         {

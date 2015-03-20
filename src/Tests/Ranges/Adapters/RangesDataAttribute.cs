@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Tests.Ranges.Adapters
 {
-    public class RangesDataAttribute:DataAttribute
+    public class RangesDataAttribute : DataAttribute
     {
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {

@@ -7,7 +7,7 @@ using With.Rubyfy;
 
 namespace Tests.Destructure
 {
-	public class DestructureListsTests
+    public class DestructureListsTests
     {
         [Theory, AutoData]
         public void First_variable(
@@ -27,8 +27,8 @@ namespace Tests.Destructure
         public void Yield_range()
         {
             var range = 0.To(4);
-            var yielded = range.Stitch( (a,b) => new []{a,b} ).ToA();
-            Assert.Equal(new[]{new []{0,1},new []{1,2}, new []{2,3}, new []{3,4}}, yielded);
+            var yielded = range.Stitch((a, b) => new[] { a, b }).ToA();
+            Assert.Equal(new[] { new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 }, new[] { 3, 4 } }, yielded);
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace With.SwitchPlumbing
 {
-	public enum Prepared
-	{
-	}
+    public enum Prepared
+    {
+    }
 }

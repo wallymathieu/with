@@ -3,7 +3,7 @@ using Xunit;
 using With.Destructure;
 namespace Tests.Destructure.Implementation
 {
-	public class GetFieldsTests
+    public class GetFieldsTests
     {
         public struct MyStructWithFields0
         {
@@ -46,7 +46,7 @@ namespace Tests.Destructure.Implementation
 
         public struct MyStructWithProperties1
         {
-            public MyStructWithProperties1(string a, int b, string c):this()
+            public MyStructWithProperties1(string a, int b, string c) : this()
             {
                 A = a;
                 B = b;
@@ -118,7 +118,7 @@ namespace Tests.Destructure.Implementation
         }
 
 
-        [Fact] 
+        [Fact]
         public void Should_get_methods_of_class()
         {
             var result = new Fields(typeof(MyClassWithMethods2), TypeOfFIelds.Methods).GetNames().ToArray();

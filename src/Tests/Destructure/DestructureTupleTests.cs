@@ -26,8 +26,8 @@ namespace Tests.Destructure
         public void Action(
             Tuple<int, int> instance)
         {
-            int? item=null;
-            instance.Let((a, b) => {item=a;});
+            int? item = null;
+            instance.Let((a, b) => { item = a; });
             Assert.Equal(instance.Item1, item);
         }
     }

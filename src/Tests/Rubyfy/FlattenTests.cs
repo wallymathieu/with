@@ -3,7 +3,7 @@ using Xunit;
 using With.Rubyfy;
 namespace With.Tests.Rubyfy
 {
-	public class FlattenTests
+    public class FlattenTests
     {
         [Fact]
         public void test_flatten()
@@ -48,10 +48,10 @@ namespace With.Tests.Rubyfy
             var a9 = a8.Flatten(0);
             assert_equal(a8, a9);
 
-            assert_equal(new object[] { "abc" }, 
+            assert_equal(new object[] { "abc" },
                 new object[] { new object[] { new string[0] }, new[] { "abc" } }.Flatten());
             assert_equal(new object[] { "abc" },
-                new object[] { new[] { "abc" } , new object[] { new string[0] }}.Flatten());
+                new object[] { new[] { "abc" }, new object[] { new string[0] } }.Flatten());
 
         }
 

@@ -7,7 +7,7 @@ using With.Rubyfy;
 
 namespace With.Destructure
 {
-	internal class Fields
+    internal class Fields
     {
         GetMethodInfoOrFieldOrProperty[] fields;
 
@@ -45,7 +45,7 @@ namespace With.Destructure
         {
             return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
                 .Where(m => m.DeclaringType != typeof(Object)
-                    && ! m.Name.Match(_hashcode).Success
+                    && !m.Name.Match(_hashcode).Success
                     && m.Name.Match(_getNotUnderscore).Success);
         }
 

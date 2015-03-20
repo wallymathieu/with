@@ -22,7 +22,7 @@ namespace Tests
         public void Test_one_using_different_syntax()
         {
             string result = Switch.Match<int, string>(1,
-                new []{ 1 }, _ => "One!",
+                new[] { 1 }, _ => "One!",
                 new[] { 2, 3, 5, 7, 11 }, _ => "This is a prime!",
                 13.To(19), _ => "A teen")
                 .Else(_ => "Ain't special");
@@ -127,20 +127,21 @@ namespace Tests
 
         private int FibR(int i)
         {
-            switch(i){
+            switch (i)
+            {
                 case 1:
                 case 2:
                     return 1;
                 default:
-                    return FibR(i-1)+FibR(i-2);
+                    return FibR(i - 1) + FibR(i - 2);
             }
         }
 
         private int Fib(int i)
         {
             return Switch.Match<int, int>(i) // Could be better if it could be written as "Switch(i)" 
-                .Case(1.To(2), _=>1)
-                .Else(n=>Fib(n-1) + Fib(n-2));
+                .Case(1.To(2), _ => 1)
+                .Else(n => Fib(n - 1) + Fib(n - 2));
         }
 
         [Fact]

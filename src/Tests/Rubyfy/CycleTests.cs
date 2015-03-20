@@ -3,17 +3,17 @@ using Xunit;
 
 namespace Tests
 {
-	public class CycleTests
+    public class CycleTests
     {
         [Fact]
         public void Example1()
         {
-            var array = new []{"a", "b", "c"};
+            var array = new[] { "a", "b", "c" };
 
-            Assert.Equal(new []{
+            Assert.Equal(new[]{
                 "a", "b", "c"
             }, array.Cycle(1).ToA());
-            Assert.Equal(new []{
+            Assert.Equal(new[]{
                 "a", "b", "c",
                 "a", "b", "c"
             }, array.Cycle(2).ToA());
@@ -22,9 +22,9 @@ namespace Tests
         [Fact]
         public void Example2()
         {
-            var array = new []{"a", "b", "c"};
+            var array = new[] { "a", "b", "c" };
 
-            Assert.Equal(new []{
+            Assert.Equal(new[]{
                 "a", "b", "c",
                 "a", "b", "c",
                 "a"

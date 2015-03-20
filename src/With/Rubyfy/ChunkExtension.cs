@@ -6,17 +6,17 @@ namespace With.Rubyfy
 {
     public static class ChunkExtension
     {
-        internal class Chunks<TKey,T>:IGrouping<TKey,T>
+        internal class Chunks<TKey, T> : IGrouping<TKey, T>
         {
-            public Chunks (TKey key)
+            public Chunks(TKey key)
             {
                 Key = key;
                 Enumerable = new List<T>();
             }
-            public Chunks (TKey key, T firstItem)
+            public Chunks(TKey key, T firstItem)
             {
                 Key = key;
-                Enumerable = new List<T>(){ { firstItem } };
+                Enumerable = new List<T>() { { firstItem } };
             }
 
             public IList<T> Enumerable;
@@ -35,9 +35,9 @@ namespace With.Rubyfy
             }
         }
 
-        public static IEnumerable<IGrouping<TKey,T>> Chunk<TKey,T>(this IEnumerable<T> self, Func<T,TKey> keySelector)
+        public static IEnumerable<IGrouping<TKey, T>> Chunk<TKey, T>(this IEnumerable<T> self, Func<T, TKey> keySelector)
         {
-            Chunks<TKey,T> currentChunk= null;
+            Chunks<TKey, T> currentChunk = null;
             foreach (var item in self)
             {
                 var currentKey = keySelector(item);
@@ -48,7 +48,7 @@ namespace With.Rubyfy
 
                 if (currentChunk == null)// first element
                 {
-                    currentChunk = new Chunks<TKey,T>(currentKey, item);
+                    currentChunk = new Chunks<TKey, T>(currentKey, item);
                 }
                 else
                 {
@@ -59,13 +59,12 @@ namespace With.Rubyfy
                     else
                     {
                         yield return currentChunk;
-                        currentChunk = new Chunks<TKey,T>(currentKey, item);
+                        currentChunk = new Chunks<TKey, T>(currentKey, item);
                     }
                 }
             }
             yield return currentChunk;
-        }    
+        }
     }
 }
-    
-    
+

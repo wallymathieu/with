@@ -6,7 +6,7 @@ using Xunit.Extensions;
 
 namespace Tests.Destructure
 {
-	public class DestructureStructTests
+    public class DestructureStructTests
     {
         public struct MyStruct0
         {

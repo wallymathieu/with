@@ -5,8 +5,8 @@ namespace Tests.Ranges.Adapters
     /// </summary>
     public interface IRangeConverter
     {
-		IRange Range(object @from,object @to,object @step);
-        IRange Range(object @from,object @to);
+        IRange Range(object @from, object @to, object @step);
+        IRange Range(object @from, object @to);
         object[] ToArrayOf<T>(T[] array);
     }
 }

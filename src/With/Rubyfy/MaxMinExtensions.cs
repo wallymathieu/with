@@ -18,19 +18,19 @@ namespace With.Rubyfy
         }
 
         internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count)
-            where T:IComparable
+            where T : IComparable
         {
             throw new NotImplementedException();
             //return self.OrderBy(Comparer<T>.Default).Take(count);
         }
-        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count, Func<T,T,int> compare)
+        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count, Func<T, T, int> compare)
         {
             throw new NotImplementedException();
 
             //return self.OrderBy(Comparer.Create(compare)).Take(count);
         }
-        internal static IEnumerable<T> MaxBy<T,TComparable>(this IEnumerable<T> self, int count, Func<T,TComparable> map)
-            where TComparable:IComparable
+        internal static IEnumerable<T> MaxBy<T, TComparable>(this IEnumerable<T> self, int count, Func<T, TComparable> map)
+            where TComparable : IComparable
         {
             throw new NotImplementedException();
 
@@ -38,20 +38,20 @@ namespace With.Rubyfy
         }
 
         internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count)
-            where T:IComparable
+            where T : IComparable
         {
             throw new NotImplementedException();
 
             //return self.OrderBy(Comparer<T>.Default).Take(count);
         }
-        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count, Func<T,T,int> compare)
+        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count, Func<T, T, int> compare)
         {
             throw new NotImplementedException();
 
             //return self.OrderBy(Comparer.Create(compare)).Take(count);
         }
-        internal static IEnumerable<T> MinBy<T,TComparable>(this IEnumerable<T> self, int count, Func<T,TComparable> map)
-            where TComparable:IComparable
+        internal static IEnumerable<T> MinBy<T, TComparable>(this IEnumerable<T> self, int count, Func<T, TComparable> map)
+            where TComparable : IComparable
         {
             throw new NotImplementedException();
 
@@ -68,22 +68,22 @@ namespace With.Rubyfy
             return Enumerable.Max(self);
         }
         public static T Max<T>(this IEnumerable<T> self)
-            where T:IComparable
+            where T : IComparable
         {
             return self.GetMax(Comparer<T>.Default).FirstOrDefault();
         }
 
-        public static T Max<T>(this IEnumerable<T> self, Func<T,T,int> compare)
+        public static T Max<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMax(Comparer.Create(compare)).FirstOrDefault();
         }
-      
-        public static T MaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
+
+        public static T MaxBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+            where TComparable : IComparable
         {
             return self.GetMax(Comparer.Create(map)).FirstOrDefault();
         }
-      
+
         private static IEnumerable<T> GetMax<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
             var enumerator = self.GetEnumerator();
@@ -96,7 +96,7 @@ namespace With.Rubyfy
             while (enumerator.MoveNext())
             {
                 var item = enumerator.Current;
-                if (compare.Compare(current,item) < 0)
+                if (compare.Compare(current, item) < 0)
                 {
                     current = item;
                 }
@@ -114,20 +114,20 @@ namespace With.Rubyfy
         }
 
         public static T Min<T>(this IEnumerable<T> self)
-            where T:IComparable
+            where T : IComparable
         {
             return self.GetMin(Comparer<T>.Default).FirstOrDefault();
         }
 
-        public static T Min<T>(this IEnumerable<T> self, Func<T,T,int> compare)
+        public static T Min<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMin(Comparer.Create(compare)).FirstOrDefault();
         }
 
-        public static T MinBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
+        public static T MinBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+            where TComparable : IComparable
         {
-            return self.GetMin( Comparer.Create(map) ).FirstOrDefault();
+            return self.GetMin(Comparer.Create(map)).FirstOrDefault();
         }
 
         private static IEnumerable<T> GetMin<T>(this IEnumerable<T> self, IComparer<T> compare)
@@ -143,35 +143,35 @@ namespace With.Rubyfy
             while (enumerator.MoveNext())
             {
                 var item = enumerator.Current;
-                if (compare.Compare(current,item) > 0)
+                if (compare.Compare(current, item) > 0)
                 {
                     current = item;
                 }
             }
             return self.GetEquivalentBy(current, compare);
         }
-      
+
         public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self)
-            where T:IComparable
+            where T : IComparable
         {
             var array = self.ToArray();
             var comparer = Comparer<T>.Default;
             return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
         }
-        public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self, Func<T,T,int> compare)
+        public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             var array = self.ToArray();
             var comparer = Comparer.Create(compare);
             return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
         }
-        public static MinMaxPartition<T> MinMaxBy<T,TComparable>(this IEnumerable<T> self, Func<T,TComparable> map)
-            where TComparable:IComparable
+        public static MinMaxPartition<T> MinMaxBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+            where TComparable : IComparable
         {
             var array = self.ToArray();
             var comparer = Comparer.Create(map);
             return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
         }
-       
+
         /*MinMax, MinMaxBy*/
     }
 }

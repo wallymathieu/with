@@ -50,9 +50,9 @@ task :install_packages do
 end
 
 def get_last_version(files)
-  files.sort_by do |l|
+  files.max_by do |l|
      NugetHelper.version_of(l)
-  end.last
+  end
 end
 
 desc "Install missing NuGet package."

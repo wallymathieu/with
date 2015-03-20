@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace With
 {
-	public static class BatchExtensions
+    public static class BatchExtensions
     {
         /// <summary>
         /// Returns sub lists of at most 'count' elements from the IEnumerable

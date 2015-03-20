@@ -7,17 +7,17 @@ namespace Tests
 {
     public class SwitchOnTypeTests
     {
-        public class MyClass{}
+        public class MyClass { }
 
-        public class MyClass2{}
+        public class MyClass2 { }
 
-        public class MyClass3{}
+        public class MyClass3 { }
 
         [Theory, AutoData]
         public void Single_case(
             MyClass instance)
         {
-            int result = Switch.Match<object,int>(instance)
+            int result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1);
 
             Assert.Equal(1, result);
@@ -37,13 +37,13 @@ namespace Tests
         [Theory, AutoData]
         public void Should_match_the_last_case(
             MyClass3 instance)
-		{
+        {
             int result = Switch.Match<object, int>(instance)
-				.Case((MyClass c) => 1)
-				.Case((MyClass2 c) => 2)
-				.Case((MyClass3 c) => 3);
-			Assert.Equal(3, result);
-		}
+                .Case((MyClass c) => 1)
+                .Case((MyClass2 c) => 2)
+                .Case((MyClass3 c) => 3);
+            Assert.Equal(3, result);
+        }
 
         [Theory, AutoData]
         public void Should_match_else_when_an_unknown_type_is_switched_on(
@@ -53,7 +53,7 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
-                .Else(_=>4);
+                .Else(_ => 4);
             Assert.Equal(4, result);
         }
 
@@ -65,7 +65,7 @@ namespace Tests
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
                 .Case((MyClass c) => 1);
-			Assert.Equal(1, result.Value());
+            Assert.Equal(1, result.Value());
         }
 
         [Theory, AutoData]
@@ -87,7 +87,7 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
-            Assert.Throws<NoMatchFoundException>(()=>result.Value());
+            Assert.Throws<NoMatchFoundException>(() => result.Value());
         }
         [Theory, AutoData]
         public void Should_throw_when_fails_to_match_prepared(
@@ -99,15 +99,15 @@ namespace Tests
                 .Case((MyClass3 c) => 3);
             Assert.Throws<NoMatchFoundException>(() => result.ValueOf(instance));
         }
-        [Theory,AutoData]
+        [Theory, AutoData]
         public void Should_exec_else_when_fails_to_match_prepared(
             int instance)
         {
-            var result = Switch.Match<object,int>()
+            var result = Switch.Match<object, int>()
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
-                .Else(_=>4);
+                .Else(_ => 4);
             Assert.Equal(4, result.ValueOf(instance));
         }
 

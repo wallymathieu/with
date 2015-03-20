@@ -5,7 +5,7 @@ using With.Rubyfy;
 using System.Collections.Generic;
 namespace With.Destructure
 {
-	internal class SwitchMatchFields<In, Out> : ISwitch<In, Out>
+    internal class SwitchMatchFields<In, Out> : ISwitch<In, Out>
     {
         private readonly ISwitch<In, Out> inner;
         private readonly IEnumerable<Tuple<Type[], Delegate>> matches;

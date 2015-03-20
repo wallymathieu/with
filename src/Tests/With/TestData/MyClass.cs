@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Tests
 {
-	public class MyClass
+    public class MyClass
     {
         private readonly int myProperty;
         private readonly string myProperty2;
@@ -16,6 +16,6 @@ namespace Tests
         }
         public int MyProperty { get { return myProperty; } private set { throw new Exception(); } }
         public string MyProperty2 { get { return myProperty2; } private set { throw new Exception(); } }
-        public IEnumerable<string> MyProperty3{ get { return myProperty3; } private set { throw new Exception(); } }
+        public IEnumerable<string> MyProperty3 { get { return myProperty3; } private set { throw new Exception(); } }
     }
 }

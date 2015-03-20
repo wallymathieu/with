@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace With.Destructure
 {
-	public class MatchFields<In,Out>
+    public class MatchFields<In, Out>
     {
         internal MatchFields()
         {
@@ -19,6 +19,6 @@ namespace With.Destructure
         {
             Funcs.Add(f);
         }
- 
+
     }
 }

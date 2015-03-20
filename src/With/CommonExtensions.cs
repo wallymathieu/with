@@ -14,7 +14,7 @@ namespace With
             tapaction(that);
             return that;
         }
-        
+
         /// <summary>
         /// Execute a func on the object. Return value is the result from the func.
         /// </summary>
@@ -27,7 +27,7 @@ namespace With
         {
             return String.Join(delimitor, that);
         }
-            
+
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.OrderBy(t => t, Comparer.Create(compare));
@@ -40,8 +40,9 @@ namespace With
         }
         public static IEnumerable<T> Yield<T>(this IEnumerator<T> self)
         {
-            while(self.MoveNext()){
-              yield return self.Current;
+            while (self.MoveNext())
+            {
+                yield return self.Current;
             }
         }
     }
