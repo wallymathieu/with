@@ -28,7 +28,7 @@ task :core_copy_to_nuspec => [:build_release] do
 end
 
 desc "create the nuget package"
-task :nugetpack => [:core_nugetpack]
+task :pack => [:core_nugetpack]
 
 task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
   cd File.join(dir,"nuget") do
@@ -46,7 +46,19 @@ end
 
 desc "Install missing NuGet packages."
 task :install_packages do
-    NugetHelper.exec("restore ./src/with.sln -source http://www.nuget.org/api/v2/")
+  NugetHelper.exec("restore ./src/with.sln -source http://www.nuget.org/api/v2/")
+end
+
+def get_last_version(files)
+  files.sort_by do |l|
+     NugetHelper.version_of(l)
+  end.last
+end
+
+desc "Install missing NuGet package."
+task :publish do
+  latest = get_last_version(Dir.glob('./nuget/With*.nupkg')).inspect
+  NugetHelper.exec("push #{latest}")
 end
 
 desc "test using console"
