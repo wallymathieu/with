@@ -5,6 +5,7 @@ using Ploeh.AutoFixture.Xunit;
 using With;
 using With.ReadonlyEnumerable;
 using System.Collections.Generic;
+using System;
 
 namespace Tests.With
 {
@@ -147,6 +148,29 @@ namespace Tests.With
         {
             var ret = models.With(m => m.MyClasses.Add(new MyClass(-1, string.Empty, new string[0])));
             Assert.Equal(-1, ret.MyClasses.First().MyProperty);
+        }
+
+        [Theory, AutoData]
+        public void Should_be_able_to_use_call_in_expression(ClassWithFields models, IEnumerable<MyClass> myclasses)
+        {
+            var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
+            Assert.Equal(myclasses.First(), newModels.MyClasses.Last());
+        }
+
+        [Theory, AutoData]
+        public void Should_be_able_to_use_invoke_in_expression(ClassWithFields models, IEnumerable<MyClass> myclasses)
+        {
+            Func<MyClass> getMyClass = () => myclasses.First();
+            var newModels = models.With(o => o.MyClasses.Add(getMyClass()));
+            Assert.Equal(getMyClass(), newModels.MyClasses.Last());
+        }
+
+        //Not implemented [Theory, AutoData]
+        public void Should_be_able_to_use_coalesce_in_expression(IEnumerable<MyClass> myclasses)
+        {
+            var models = new ClassWithFields(null, null);
+            var newModels = models.With(o => o.MyClasses ?? myclasses);
+            Assert.Equal(myclasses, newModels.MyClasses);
         }
     }
 }

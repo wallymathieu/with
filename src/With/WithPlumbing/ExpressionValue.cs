@@ -8,23 +8,28 @@ namespace With.WithPlumbing
 {
     class ExpressionValue
     {
+        private static ExpressionType[] expected = new[] {
+            ExpressionType.Constant, ExpressionType.Convert,
+            ExpressionType.MemberAccess, ExpressionType.NewArrayBounds, ExpressionType.NewArrayInit,  ExpressionType.New,
+            ExpressionType.Call, ExpressionType.Invoke,
+        };
+
         public static object GetExpressionValue(Expression expression)
         {
+            if (!expected.Contains(expression.NodeType))
+            {
+                throw new ExpectedButGotException(expected, expression.NodeType);
+            }
             switch (expression.NodeType)
             {
                 case ExpressionType.Constant:
                     return ((ConstantExpression)expression).Value;
-                case ExpressionType.MemberAccess:
-                case ExpressionType.NewArrayBounds:
-                case ExpressionType.NewArrayInit:
-                case ExpressionType.New:
-                    return GetValue(expression);
                 case ExpressionType.Convert:
                     return GetValue(((UnaryExpression)expression).Operand);
                 default:
-                    throw new ExpectedButGotException(new[] { ExpressionType.Constant, ExpressionType.MemberAccess, ExpressionType.NewArrayBounds, ExpressionType.NewArrayInit, ExpressionType.Convert, ExpressionType.New },
-                        expression.NodeType);
+                    return GetValue(expression);
             }
+
         }
         /// <summary>
         /// NOTE: Lots of time spent here!
