@@ -13,5 +13,5 @@ install:
 
 script: 
   - bundle install 
-  - rake install_packages
+  - rake restore
   - rake test

@@ -24,28 +24,17 @@ task :core_copy_to_nuspec => [:build_release] do
   ['With'].each{ |project|
     cp Dir.glob("./src/#{project}/bin/Release/With.*"), output_directory_lib
   }
-  
 end
 
 desc "create the nuget package"
-task :pack => [:core_nugetpack]
-
-task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
+task :pack => [:core_copy_to_nuspec] do |nuget|
   cd File.join(dir,"nuget") do
     NugetHelper.exec "pack With.nuspec"
   end
 end
 
-task :nugetpush => [:nugetpack] do |nuget|
-  cd File.join(dir,"nuget") do
-    last = Dir.glob("With.*.nupkg").last
-    NugetHelper.exec "push #{last}"
-  end
-end
-
-
 desc "Install missing NuGet packages."
-task :install_packages do
+task :restore do
   NugetHelper.exec("restore ./src/with.sln -source http://www.nuget.org/api/v2/")
 end
 
@@ -56,7 +45,7 @@ def get_last_version(files)
 end
 
 desc "Install missing NuGet package."
-task :publish do
+task :push do
   latest = get_last_version(Dir.glob('./nuget/With*.nupkg')).inspect
   NugetHelper.exec("push #{latest}")
 end
