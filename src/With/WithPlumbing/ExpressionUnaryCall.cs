@@ -57,13 +57,13 @@ namespace With.WithPlumbing
             {
                 var memberValue = GetMemberValue(memberAccess);
                 var paramValue = expr.Arguments.Drop(1).Map(arg=>ExpressionValue.GetExpressionValue(arg)).ToA();
-                value = new ApplyOperation().Apply(expr, memberValue, paramValue);
+                value = ApplyOperation.Apply(expr, memberValue, paramValue);
             }
             _parsed.Add(new NameAndValue
-            {
-                Name = memberAccess.Member.Name,
-                Value = value
-            });
+            (
+                name : memberAccess.Member.Name,
+                value : value
+            ));
         }
 
         private object GetMemberValue(MemberExpression memberAccess)

@@ -9,7 +9,7 @@ namespace With.WithPlumbing
 {
     internal class GetConstructorParamterValues
     {
-        public object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
+        public static object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
         {
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];

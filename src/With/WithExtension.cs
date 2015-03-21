@@ -23,7 +23,7 @@ namespace With
 
             var ctor = typeof(T).GetConstructorWithMostParameters();
 
-            var values = new GetConstructorParamterValues().GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
 
             return (T)ctor.Invoke(values);
         }
@@ -34,7 +34,7 @@ namespace With
             var ctors = typeof(T).GetConstructors().ToArray();
             var ctor = ctors.Single();
 
-            var values = new GetConstructorParamterValues().GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
 
             return (T)ctor.Invoke(values);
         }
@@ -47,7 +47,7 @@ namespace With
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
-            var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
 
             return (T)ctor.Invoke(values);
         }
@@ -60,7 +60,7 @@ namespace With
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
-            var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
 
             return (T)ctor.Invoke(values);
         }
@@ -73,7 +73,7 @@ namespace With
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
-            var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
 
             return (T)ctor.Invoke(values);
         }
@@ -99,7 +99,7 @@ namespace With
         {
             var props = t.GetType().GetFieldOrProperties();
             var ctor = typeof(TRet).GetConstructorWithMostParameters();
-            var values = new GetConstructorParamterValues().GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
 
             return (TRet)ctor.Invoke(values);
         }
@@ -112,7 +112,7 @@ namespace With
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
 
-            var values = new GetConstructorParamterValues().GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
 
             return (TRet)ctor.Invoke(values);
         }
@@ -125,7 +125,7 @@ namespace With
 
             var props = t.GetType().GetFieldOrProperties();
             var ctor = typeof(TRet).GetConstructorWithMostParameters();
-            var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
+            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
             return (TRet)ctor.Invoke(values);
         }
     }

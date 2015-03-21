@@ -91,10 +91,10 @@ namespace With.WithPlumbing
         private void BinaryExpressionWithMemberAccess(BinaryExpression eq)
         {
             _parsed.Add(new NameAndValue
-            {
-                Name = MemberName((MemberExpression)eq.Left),
-                Value = ExpressionValue.GetExpressionValue(eq.Right)
-            });
+            (
+                name: MemberName((MemberExpression)eq.Left),
+                value: ExpressionValue.GetExpressionValue(eq.Right)
+            ));
         }
 
         private string MemberName(MemberExpression member)

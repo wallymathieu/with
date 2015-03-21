@@ -32,7 +32,7 @@ namespace With.WithPlumbing
 
         public T To()
         {
-            return (T)ctor.Invoke(new GetConstructorParamterValues().GetValues(parent, values, props, ctor));
+            return (T)ctor.Invoke(GetConstructorParamterValues.GetValues(parent, values, props, ctor));
         }
 
         public static implicit operator T(ValuesForConstructor<T> d)

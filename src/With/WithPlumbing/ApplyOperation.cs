@@ -10,7 +10,7 @@ namespace With.WithPlumbing
 {
     class ApplyOperation
     {
-        Dictionary<string, Func<object, object[], object>> operations = new Dictionary<string, Func<object, object[], object>>()
+        static Dictionary<string, Func<object, object[], object>> operations = new Dictionary<string, Func<object, object[], object>>()
         {
             { "Add", DoAdd },
             { "AddRange", DoAddRange },
@@ -18,7 +18,7 @@ namespace With.WithPlumbing
             { "Replace", DoReplace }
         };
 
-        public object Apply(MethodCallExpression expr, object memberValue, object[] paramValues)
+        public static object Apply(MethodCallExpression expr, object memberValue, object[] paramValues)
         {
             var name = expr.Method.Name;
             if (!operations.ContainsKey(name))
