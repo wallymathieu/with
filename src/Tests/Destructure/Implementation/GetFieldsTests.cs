@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Xunit;
 using With.Destructure;
+using With.Reflection;
 namespace Tests.Destructure.Implementation
 {
     public class GetFieldsTests

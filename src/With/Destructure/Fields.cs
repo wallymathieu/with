@@ -3,55 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using With.Rubyfy;
 
 namespace With.Destructure
 {
+    using Rubyfy;
+    using Reflection;
     internal class Fields
     {
-        GetMethodInfoOrFieldOrProperty[] fields;
+        FieldOrPropertyOrGetMethod[] fields;
 
         public Fields(Type type, TypeOfFIelds typeOfFIelds)
         {
-            var list = new List<GetMethodInfoOrFieldOrProperty>();
-            if (typeOfFIelds.HasFlag(TypeOfFIelds.Methods))
-            {
-                list.AddRange(GetPublicGetMethods(type)
-                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
-            }
-
-            if (typeOfFIelds.HasFlag(TypeOfFIelds.Properties))
-            {
-                list.AddRange(GetPublicProperties(type)
-                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
-            }
-
-            if (typeOfFIelds.HasFlag(TypeOfFIelds.Fields))
-            {
-                list.AddRange(GetPublicFields(type)
-                 .Map(m => new GetMethodInfoOrFieldOrProperty(m)));
-            }
-            fields = list.ToA();
-        }
-
-        private IEnumerable<PropertyInfo> GetPublicProperties(Type type)
-        {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        }
-
-        private static Regex _getNotUnderscore = new Regex("^get[^_]", RegexOptions.IgnoreCase);
-        private static Regex _hashcode = new Regex("^gethashcode", RegexOptions.IgnoreCase);
-        private static IEnumerable<MethodInfo> GetPublicGetMethods(Type type)
-        {
-            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(m => m.DeclaringType != typeof(Object)
-                    && !m.Name.Match(_hashcode).Success
-                    && m.Name.Match(_getNotUnderscore).Success);
-        }
-
-        private static IEnumerable<FieldInfo> GetPublicFields(Type type)
-        {
-            return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+            fields = type.GetFieldsOrPropertiesOrGetMethods(typeOfFIelds).ToA();
         }
 
         public IEnumerable<string> GetNames()

@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using With.Collections;
-using With.Reflection;
 
 namespace With.WithPlumbing
 {
+    using Collections;
+    using Reflection;
+
     class ApplyOperation
     {
         static Dictionary<string, Func<object, object[], object>> operations = new Dictionary<string, Func<object, object[], object>>()

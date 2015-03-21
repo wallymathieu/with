@@ -1,10 +1,12 @@
 ﻿using System;
-using With.SwitchPlumbing;
 using System.Linq;
-using With.Rubyfy;
 using System.Collections.Generic;
 namespace With.Destructure
 {
+    using Rubyfy;
+    using Reflection;
+    using SwitchPlumbing;
+
     internal class SwitchMatchFields<In, Out> : ISwitch<In, Out>
     {
         private readonly ISwitch<In, Out> inner;

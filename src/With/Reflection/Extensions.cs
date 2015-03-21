@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace With.Reflection
 {
+    using Rubyfy;
     internal static class Extensions
     {
         private static MethodInfo EnumerableToList = typeof(Enumerable)
@@ -39,14 +41,55 @@ namespace With.Reflection
 
         private static ConditionalWeakTable<Type, FieldOrProperty[]> fieldOrProperties = new ConditionalWeakTable<Type, FieldOrProperty[]>();
 
-        internal static FieldOrProperty[] GetFieldOrProperties(this Type t)
+        internal static FieldOrProperty[] GetFieldsOrProperties(this Type t)
         {
             return fieldOrProperties.WeakMemoize(t,
                 type => new FieldOrProperty[0]
-                    .Concat(t.GetFields(BindingFlags.Instance | BindingFlags.Public).Select(p => new FieldOrProperty(p)))
-                    .Concat(t.GetProperties(BindingFlags.Instance | BindingFlags.Public).Select(p => new FieldOrProperty(p)))
-                    .ToArray());
+                .Concat(GetPublicFields(type).Select(p => new FieldOrProperty(p)))
+                .Concat(GetPublicProperties(type).Select(p => new FieldOrProperty(p)))
+                .ToArray()
+            );
         }
+
+        private static ConditionalWeakTable<Type, FieldOrPropertyOrGetMethod[]> fieldOrPropertyOrMethods = new ConditionalWeakTable<Type, FieldOrPropertyOrGetMethod[]>();
+
+        internal static FieldOrPropertyOrGetMethod[] GetFieldsOrPropertiesOrGetMethods(this Type t, TypeOfFIelds typeOfFIelds)
+        {
+            return fieldOrPropertyOrMethods.WeakMemoize(t,
+                type => new FieldOrPropertyOrGetMethod[0]
+                .Concat(typeOfFIelds.HasFlag(TypeOfFIelds.Fields)
+                    ? GetPublicFields(type).Select(p => new FieldOrPropertyOrGetMethod(p))
+                    : new FieldOrPropertyOrGetMethod[0])
+                .Concat(typeOfFIelds.HasFlag(TypeOfFIelds.Properties)
+                    ? GetPublicProperties(type).Select(p => new FieldOrPropertyOrGetMethod(p))
+                    : new FieldOrPropertyOrGetMethod[0])
+                .Concat(typeOfFIelds.HasFlag(TypeOfFIelds.Methods)
+                    ? GetPublicGetMethods(type).Select(p => new FieldOrPropertyOrGetMethod(p))
+                    : new FieldOrPropertyOrGetMethod[0])
+                .ToArray()
+            );
+        }
+
+        private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
+        {
+            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        }
+
+        private static Regex _getNotUnderscore = new Regex("^get[^_]", RegexOptions.IgnoreCase);
+        private static Regex _hashcode = new Regex("^gethashcode", RegexOptions.IgnoreCase);
+        private static IEnumerable<MethodInfo> GetPublicGetMethods(Type type)
+        {
+            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                .Where(m => m.DeclaringType != typeof(Object)
+                    && !m.Name.Match(_hashcode).Success
+                    && m.Name.Match(_getNotUnderscore).Success);
+        }
+
+        private static IEnumerable<FieldInfo> GetPublicFields(Type type)
+        {
+            return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+        }
+
 
         private static MethodInfo EnumerableCast = typeof(Enumerable).GetMethod("Cast");
 

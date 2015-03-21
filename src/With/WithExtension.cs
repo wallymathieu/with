@@ -16,7 +16,7 @@ namespace With
 
         public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr, TVal val)
         {
-            var props = typeof(T).GetFieldOrProperties();
+            var props = typeof(T).GetFieldsOrProperties();
             var memberAccess = new ExpressionWithMemberAccess<T, TVal>();
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
@@ -30,7 +30,7 @@ namespace With
 
         public static T With<T>(this T t, IDictionary<string, object> parameters)
         {
-            var props = typeof(T).GetFieldOrProperties();
+            var props = typeof(T).GetFieldsOrProperties();
             var ctors = typeof(T).GetConstructors().ToArray();
             var ctor = ctors.Single();
 
@@ -41,7 +41,7 @@ namespace With
 
         public static T With<T>(this T t, Expression<Func<T, bool>> expr)
         {
-            var props = typeof(T).GetFieldOrProperties();
+            var props = typeof(T).GetFieldsOrProperties();
             var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
@@ -54,7 +54,7 @@ namespace With
 
         public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr)
         {
-            var props = typeof(T).GetFieldOrProperties();
+            var props = typeof(T).GetFieldsOrProperties();
             var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
@@ -67,7 +67,7 @@ namespace With
 
         public static T With<T>(this T t, Expression<Action<T>> expr)
         {
-            var props = typeof(T).GetFieldOrProperties();
+            var props = typeof(T).GetFieldsOrProperties();
             var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
@@ -97,7 +97,7 @@ namespace With
 
         public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
         {
-            var props = t.GetType().GetFieldOrProperties();
+            var props = t.GetType().GetFieldsOrProperties();
             var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var values = GetConstructorParamterValues.GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
 
@@ -106,7 +106,7 @@ namespace With
 
         public static TRet As<TRet>(this Object t, Expression<Func<TRet, object>> expr, object val)
         {
-            var props = typeof(TRet).GetFieldOrProperties();
+            var props = typeof(TRet).GetFieldsOrProperties();
             var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var memberAccess = new ExpressionWithMemberAccess<TRet, object>();
             memberAccess.Lambda(expr);
@@ -123,7 +123,7 @@ namespace With
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
-            var props = t.GetType().GetFieldOrProperties();
+            var props = t.GetType().GetFieldsOrProperties();
             var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
             return (TRet)ctor.Invoke(values);

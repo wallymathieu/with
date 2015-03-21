@@ -40,12 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Reflection\DictionaryTypeExtensions.cs" />
-    <Compile Include="Reflection\DictionaryWrapper.cs" />
     <Compile Include="Destructure\ListExtensions.cs" />
     <Compile Include="Destructure\MatchFields.cs" />
-    <Compile Include="Destructure\MethodInfoOrProperty.cs" />
     <Compile Include="Destructure\Fields.cs" />
-    <Compile Include="Destructure\TypeOfFIelds.cs" />
     <Compile Include="ExpectedButGotException.cs" />
     <Compile Include="IMatchSwitchExtensions.cs" />
     <Compile Include="Destructure\SwitchMatchFields.cs" />
@@ -54,7 +51,6 @@
     <Compile Include="ReadonlyEnumerable\Extensions.cs" />
     <Compile Include="Reflection\EnumerableTypeExtensions.cs" />
     <Compile Include="Reflection\Extensions.cs" />
-    <Compile Include="Reflection\MethodInfoOrProperty.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
     <Compile Include="Rubyfy\Json\Json.cs" />
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
@@ -110,6 +106,10 @@
     <Compile Include="Collections\Extensions.cs" />
     <Compile Include="WithPlumbing\ExpressionWithEqualEqualOrCall.cs" />
     <Compile Include="IRange.cs" />
+    <Compile Include="Reflection\FieldOrProperty.cs" />
+    <Compile Include="Reflection\TypeOfFIelds.cs" />
+    <Compile Include="Reflection\FieldOrPropertyOrGetMethod.cs" />
+    <Compile Include="Reflection\DictionaryAdapter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

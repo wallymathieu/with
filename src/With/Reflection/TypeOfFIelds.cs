@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace With.Destructure
+namespace With.Reflection
 {
     [Flags]
     internal enum TypeOfFIelds

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace With.Destructure
 {
+    using Reflection;
     public class MatchFields<In, Out>
     {
         internal MatchFields()

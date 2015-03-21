@@ -17,7 +17,7 @@ namespace With.WithPlumbing
         public ValuesForConstructor(Object parent)
         {
             this.parent = parent;
-            this.props = typeof(T).GetFieldOrProperties();
+            this.props = typeof(T).GetFieldsOrProperties();
             ctor = typeof(T).GetConstructorWithMostParameters();
             values = new List<NameAndValue>();
         }

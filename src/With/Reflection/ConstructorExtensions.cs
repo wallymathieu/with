@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
+using System;
+using System.Runtime.CompilerServices;
 
 namespace With.Reflection
 {
     using Rubyfy;
-    using System;
-    using System.Runtime.CompilerServices;
 
     static class ConstructorExtensions 
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
 
-namespace With.Destructure
+namespace With.Reflection
 {
-    internal class GetMethodInfoOrFieldOrProperty
+    internal class FieldOrPropertyOrGetMethod
     {
         public FieldInfo Field { get; private set; }
 
@@ -30,15 +30,15 @@ namespace With.Destructure
         }
 
 
-        public GetMethodInfoOrFieldOrProperty(MethodInfo methodInfo)
+        public FieldOrPropertyOrGetMethod(MethodInfo methodInfo)
         {
             MethodInfo = methodInfo;
         }
-        public GetMethodInfoOrFieldOrProperty(FieldInfo fieldInfo)
+        public FieldOrPropertyOrGetMethod(FieldInfo fieldInfo)
         {
             Field = fieldInfo;
         }
-        public GetMethodInfoOrFieldOrProperty(PropertyInfo property)
+        public FieldOrPropertyOrGetMethod(PropertyInfo property)
         {
             Property = property;
         }

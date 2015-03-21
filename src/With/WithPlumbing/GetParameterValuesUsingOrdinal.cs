@@ -5,13 +5,14 @@ using System.Reflection;
 
 namespace With.WithPlumbing
 {
+    using Reflection;
     internal class GetParameterValuesUsingOrdinal
     {
         public object[] GetValues(Object t, Type tret, Object[] parameters)
         {
-            var props = t.GetType().GetProperties();
-            var ctors = tret.GetConstructors().ToArray();
-            var ctor = ctors.Single();
+            var type = t.GetType();
+            var props = type.GetFieldsOrProperties();
+            var ctor = tret.GetConstructorWithMostParameters();
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
             for (int i = 0; i < values.Length - parameters.Length; i++)
@@ -26,13 +27,13 @@ namespace With.WithPlumbing
             return values;
         }
 
-        static object GetValue(object t, IEnumerable<PropertyInfo> props, ParameterInfo param)
+        static object GetValue(object t, IEnumerable<FieldOrProperty> props, ParameterInfo param)
         {
             object val;
             var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name, StringComparison.InvariantCultureIgnoreCase));
             if (p != null)
             {
-                val = p.GetValue(t, null);
+                val = p.GetValue(t);
             }
             else
             {

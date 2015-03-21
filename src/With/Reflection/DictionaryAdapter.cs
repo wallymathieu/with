@@ -4,16 +4,23 @@ using System.Collections.Generic;
 
 namespace With.Reflection
 {
-    class DictionaryWrapper : IDictionary
+    /// <summary>
+    /// A wrapper around a stronly typed dictionary in order to be able to write code where we do not have the static type.
+    /// </summary>
+    class DictionaryAdapter : IDictionary
     {
         private Type[] t;
         private dynamic dic;
 
-        public DictionaryWrapper(dynamic that)
+        public DictionaryAdapter(dynamic that)
         {
             Type type = that.GetType();
             this.t = type.GetIDictionaryTypeParameters();
-            dic = typeof(Dictionary<,>).MakeGenericType(t).GetConstructor(new Type[0]).Invoke(new object[0]);
+            dic = typeof(Dictionary<,>)
+                .MakeGenericType(t)
+                .GetConstructor(new Type[0])
+                .Invoke(new object[0]);
+            
             foreach (var item in that.Keys)
             {
                 dic[item] = that[item];

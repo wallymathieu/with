@@ -2,11 +2,12 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using With.Reflection;
 using System.Collections;
 
 namespace With.WithPlumbing
 {
+    using Reflection;
+
     internal class GetConstructorParamterValues
     {
         public static object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)

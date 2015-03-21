@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using With.SwitchPlumbing;
 
 namespace With.Destructure
 {
+    using SwitchPlumbing;
+
     public static partial class Switch_Fields
     {
         public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)

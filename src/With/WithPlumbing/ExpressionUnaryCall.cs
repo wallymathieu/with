@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using With.Collections;
-using With.Rubyfy;
 
 namespace With.WithPlumbing
 {
+    using Collections;
+    using Rubyfy;
+
     internal class ExpressionUnaryCall
     {
         private object _object;
