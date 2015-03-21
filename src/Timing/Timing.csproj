@@ -29,7 +29,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MarkdownLog">
-      <HintPath>..\packages\MarkdownLog.0.9.3\lib\portable-windows8+net40\MarkdownLog.dll</HintPath>
+      <HintPath>..\packages\MarkdownLog.0.9.4\lib\portable-windows8+net40\MarkdownLog.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
