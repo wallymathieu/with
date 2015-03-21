@@ -1,6 +1,9 @@
 ﻿using System;
 using With;
 using System.Linq;
+using System.Collections.Generic;
+using MarkdownLog;
+
 namespace Timing
 {
 
@@ -12,30 +15,31 @@ namespace Timing
             {
                 Console.WriteLine("Starting: Class with additional property");
                 var m = new TimingsNewClass();
-                Console.WriteLine(Format("Name", "Elapsed\t\t", "Elapsed / Fastest"));
                 var timings = m.Get().OrderBy(t => t.Value).ToArray();
                 var low = timings.Min(t => t.Value);
-                foreach (var method in timings)
-                {
-                    Console.WriteLine(Format(method.Key, method.Value.ToString(), (method.Value.Ticks / low.Ticks).ToString()+"\t\t"));
-                }
+                Console.WriteLine(timings.Select(t => Stat.Map(t, low)).ToMarkdownTable());
             }
             {
                 Console.WriteLine("Starting: Same Class");
                 var m = new TimingsClone();
-                Console.WriteLine(Format("Name", "Elapsed\t\t", "Elapsed / Fastest"));
                 var timings2 = m.Get().OrderBy(t => t.Value).ToArray();
                 var low = timings2.Min(t => t.Value);
-                foreach (var method in timings2)
-                {
-                    Console.WriteLine(Format(method.Key, method.Value.ToString(), (method.Value.Ticks / low.Ticks).ToString() + "\t\t"));
-                }
+                Console.WriteLine(timings2.Select(t => Stat.Map(t, low)).ToMarkdownTable());
             }
         }
-
-        private static string Format(string name, params string[] columns)
+            
+        class Stat
         {
-            return string.Format("{0}\t|\t{1}", string.Join("\t|\t", columns), name);
+            public static Stat Map(KeyValuePair<string,TimeSpan> method, TimeSpan low){
+                return new Stat
+                {   Name = String.Join(" ",method.Key.Split('_')),
+                    Elapsed = method.Value.ToString(), 
+                    Quotient = (method.Value.Ticks / low.Ticks).ToString()
+                };
+            }
+            public string Name { get; set;}
+            public string Elapsed { get; set;}
+            public string Quotient { get; set;}
         }
     }
 }
