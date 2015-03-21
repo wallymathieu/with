@@ -35,7 +35,7 @@ end
 
 desc "Install missing NuGet packages."
 task :restore do
-  NugetHelper.exec("restore ./src/with.sln -source http://www.nuget.org/api/v2/")
+  NugetHelper.exec("restore ./src/with.sln")
 end
 
 def get_last_version(files)
