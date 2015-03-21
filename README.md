@@ -4,6 +4,7 @@ With is a small library written in c# intended for alternative constructions in 
 
 ##Examples
 ###With readonly value set in a new instance of the same class, but with all the other values from the old instance
+
 ```
 new MyClass(1, "2").With(m => m.MyProperty, 3)
 
@@ -12,6 +13,7 @@ new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "value")
 ```
 
 Or to change the type of MyClass to MyClass2 (where MyClass2 inherits from MyClass)
+
 ```
 new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3, 3)
 
@@ -20,6 +22,18 @@ new MyClass(1, "2").As<MyClass2>(valueOnlyInMyClass2)
 // NOTE: this is relatively expensive since it compiles expression at runtime
 new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == 3 && m.MyProperty2 == "value")
 ```
+
+Sample usage to add product to a copy of order
+
+```
+var order = _repository.GetOrder(command.OrderId);
+_repository.Save(order.With(o =>
+    o.Products.Add(_repository.GetProduct(command.ProductId))));
+```
+This creates a clone of the original order (that we assume is a readonly instance) and adds a product
+to its list of products. After we got our new instance, we tell our repository that this is the instance
+that it's supposed to hold on to.
+
 ###Switch on type
 You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generally self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
 ```
