@@ -1,12 +1,9 @@
 using System;
 using With;
-using System.Reflection;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
 namespace Timing
 {
-    class TimingsNewClass
+    class TimingsNewClass : TimingsBase
     {
 
         public class MyClass
@@ -18,6 +15,11 @@ namespace Timing
             }
             public int MyProperty { get; private set; }
             public string MyProperty2 { get; private set; }
+
+            internal MyClass2 AddMinutes(DateTime time)
+            {
+                return new MyClass2(MyProperty, MyProperty2, time);
+            }
         }
 
         public class MyClass2 : MyClass
@@ -75,21 +77,13 @@ namespace Timing
             }
         }
 
-        public IEnumerable<KeyValuePair<string, TimeSpan>> Get()
+        public void Timing_by_hand()
         {
-            var methods = GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(method => !method.GetParameters().Any())
-                .Where(method => method.Name.StartsWith("Timing", StringComparison.InvariantCultureIgnoreCase));
-            foreach (var method in methods)
+            for (int i = 0; i < 1000; i++)
             {
-                Stopwatch stopwatch = new Stopwatch();
-
-                stopwatch.Start();
-                method.Invoke(this, null);
-                stopwatch.Stop();
-                yield return new KeyValuePair<string, TimeSpan>(method.Name, stopwatch.Elapsed);
+                var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                new MyClass(1, "2").AddMinutes(time);
             }
-
         }
     }
 
