@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using With.Reflection;
 
-namespace With.Collections
+namespace With.Reflection
 {
     class DictionaryWrapper : IDictionary
     {

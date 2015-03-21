@@ -20,14 +20,14 @@ namespace With.WithPlumbing
                 var param = ctorParams[i];
                 if (propertyNameAndValues.ContainsKey(param.Name))
                 {
-                    values[i] = Coerce(param.ParameterType, propertyNameAndValues[param.Name].Value);
+                    values[i] = propertyNameAndValues[param.Name].Value.Coerce(param.ParameterType);
                     continue;
                 }
                 var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name,
                     StringComparison.InvariantCultureIgnoreCase));
                 if (p != null)
                 {
-                    values[i] = Coerce(param.ParameterType, p.GetValue(t));
+                    values[i] = p.GetValue(t).Coerce(param.ParameterType);
                 }
                 else
                 {
@@ -35,22 +35,6 @@ namespace With.WithPlumbing
                 }
             }
             return values;
-        }
-
-        public object Coerce(Type parameterType, object v)
-        {
-            if (v != null && typeof(IEnumerable).IsAssignableFrom(parameterType) && !parameterType.IsAssignableFrom(v.GetType()))
-            {
-                var typeParam = parameterType.GetIEnumerableTypeParameter();
-                if (typeParam != null)
-                {
-                    return typeof(Enumerable)
-                        .GetMethod("Cast")
-                        .MakeGenericMethod(typeParam)
-                        .Invoke(null, new[] { v });
-                }
-            }
-            return v;
         }
     }
 }

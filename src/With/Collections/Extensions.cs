@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using With.Reflection;
 
 namespace With.Collections
 {
@@ -39,23 +36,6 @@ namespace With.Collections
                 return valueWhenOutOfRange(index);
             }
             throw new OutOfRangeException();
-        }
-
-        /// <summary>
-        /// To list of T where T is the IEnumerable T 
-        /// </summary>
-        internal static IList ToListT(this IEnumerable that)
-        {
-            var t = that.GetType().GetIEnumerableTypeParameter();
-            return (IList)typeof(Enumerable)
-                .GetMethod("ToList")
-                .MakeGenericMethod(t)
-                .Invoke(null, new[] { that });
-        }
-
-        internal static DictionaryWrapper ToDictionaryT(this object that)
-        {
-            return new DictionaryWrapper(that);
         }
     }
 
