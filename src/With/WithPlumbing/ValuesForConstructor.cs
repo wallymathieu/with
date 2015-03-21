@@ -18,7 +18,7 @@ namespace With.WithPlumbing
         {
             this.parent = parent;
             this.props = typeof(T).GetFieldOrProperties();
-            this.ctor = new FindMatchingCtor<T>().Get();
+            ctor = typeof(T).GetConstructorWithMostParameters();
             values = new List<NameAndValue>();
         }
         public ValuesForConstructor<T> Eql<TValue>(Expression<Func<T, TValue>> expr, TValue val)

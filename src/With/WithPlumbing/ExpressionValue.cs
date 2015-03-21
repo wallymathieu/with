@@ -38,9 +38,9 @@ namespace With.WithPlumbing
         /// <returns></returns>
         private static object GetValue(Expression member)
         {
-            var objectMember = Expression.Convert(member, typeof(object));
-
-            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+            var getterLambda = Expression.Lambda<Func<object>>(
+                Expression.Convert(member, typeof(object))
+                );
             Func<object> getter;
             try
             {

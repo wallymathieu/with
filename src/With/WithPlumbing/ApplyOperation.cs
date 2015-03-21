@@ -52,7 +52,7 @@ namespace With.WithPlumbing
             switch (paramValues.Length)
             {
                 case 1:
-                    value = ((IEnumerable)memberValue).ToListT().Tap(l => 
+                    value = ((IEnumerable)memberValue).ToListOfTypeT().Tap(l => 
                         l.Add(paramValues[0]));
                     break;
                 case 2:
@@ -67,7 +67,7 @@ namespace With.WithPlumbing
         }
         private static object DoAddRange(object memberValue, object[] paramValues)
         {
-            var l = ((IEnumerable)memberValue).ToListT();
+            var l = ((IEnumerable)memberValue).ToListOfTypeT();
             foreach (var item in (IEnumerable)paramValues.Single())
             {
                 l.Add(item);
@@ -87,7 +87,7 @@ namespace With.WithPlumbing
                     }
                     else
                     {
-                        return ((IEnumerable)memberValue).ToListT().Tap(l =>
+                        return ((IEnumerable)memberValue).ToListOfTypeT().Tap(l =>
                             l.Remove(paramValues[0])
                         );
                     }

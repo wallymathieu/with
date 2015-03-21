@@ -39,6 +39,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Reflection\DictionaryTypeExtensions.cs" />
     <Compile Include="Reflection\DictionaryWrapper.cs" />
     <Compile Include="Destructure\ListExtensions.cs" />
     <Compile Include="Destructure\MatchFields.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="MissingValueException.cs" />
     <Compile Include="OutOfRangeException.cs" />
     <Compile Include="ReadonlyEnumerable\Extensions.cs" />
+    <Compile Include="Reflection\EnumerableTypeExtensions.cs" />
     <Compile Include="Reflection\Extensions.cs" />
     <Compile Include="Reflection\MethodInfoOrProperty.cs" />
     <Compile Include="RegexMatchSwitchExtensions.cs" />
@@ -71,7 +73,7 @@
     <Compile Include="WithPlumbing\ExpressionUnaryCall.cs" />
     <Compile Include="WithPlumbing\ExpressionValue.cs" />
     <Compile Include="WithPlumbing\ExpressionWithMemberAccess.cs" />
-    <Compile Include="WithPlumbing\FindMatchingCtor.cs" />
+    <Compile Include="Reflection\ConstructorExtensions.cs" />
     <Compile Include="WithPlumbing\NameAndValue.cs" />
     <Compile Include="WithPlumbing\GetConstructorParamterValues.cs" />
     <Compile Include="WithPlumbing\ValuesForConstructor.cs" />

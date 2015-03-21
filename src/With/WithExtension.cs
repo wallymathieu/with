@@ -21,7 +21,7 @@ namespace With
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
 
-            var ctor = new FindMatchingCtor<T>().Get();
+            var ctor = typeof(T).GetConstructorWithMostParameters();
 
             var values = new GetConstructorParamterValues().GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
 
@@ -42,7 +42,7 @@ namespace With
         public static T With<T>(this T t, Expression<Func<T, bool>> expr)
         {
             var props = typeof(T).GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<T>().Get();
+            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
@@ -55,7 +55,7 @@ namespace With
         public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr)
         {
             var props = typeof(T).GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<T>().Get();
+            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
@@ -68,7 +68,7 @@ namespace With
         public static T With<T>(this T t, Expression<Action<T>> expr)
         {
             var props = typeof(T).GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<T>().Get();
+            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
@@ -90,7 +90,7 @@ namespace With
             parameters.CopyTo(allParameters, 1);
 
             var values = new GetParameterValuesUsingOrdinal().GetValues(t, typeof(TRet), allParameters);
-            var ctor = new FindMatchingCtor<TRet>().Get();
+            var ctor = typeof(TRet).GetConstructorWithMostParameters();
             return (TRet)ctor.Invoke(values);
         }
 
@@ -98,7 +98,7 @@ namespace With
         public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
         {
             var props = t.GetType().GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<TRet>().Get();
+            var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var values = new GetConstructorParamterValues().GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
 
             return (TRet)ctor.Invoke(values);
@@ -107,7 +107,7 @@ namespace With
         public static TRet As<TRet>(this Object t, Expression<Func<TRet, object>> expr, object val)
         {
             var props = typeof(TRet).GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<TRet>().Get();
+            var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var memberAccess = new ExpressionWithMemberAccess<TRet, object>();
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
@@ -124,7 +124,7 @@ namespace With
             var propertyNameAndValues = eqeq.Parsed.ToArray();
 
             var props = t.GetType().GetFieldOrProperties();
-            var ctor = new FindMatchingCtor<TRet>().Get();
+            var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var values = new GetConstructorParamterValues().GetValues(t, propertyNameAndValues, props, ctor);
             return (TRet)ctor.Invoke(values);
         }
