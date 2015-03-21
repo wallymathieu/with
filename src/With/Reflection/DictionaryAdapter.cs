@@ -9,18 +9,12 @@ namespace With.Reflection
     /// </summary>
     class DictionaryAdapter : IDictionary
     {
-        private Type[] t;
         private dynamic dic;
 
-        public DictionaryAdapter(dynamic that)
+        public DictionaryAdapter(dynamic that, object dictionary)
         {
-            Type type = that.GetType();
-            this.t = type.GetIDictionaryTypeParameters();
-            dic = typeof(Dictionary<,>)
-                .MakeGenericType(t)
-                .GetConstructor(new Type[0])
-                .Invoke(new object[0]);
-            
+            dic = dictionary;
+
             foreach (var item in that.Keys)
             {
                 dic[item] = that[item];

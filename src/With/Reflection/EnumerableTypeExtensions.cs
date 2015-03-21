@@ -29,10 +29,5 @@ namespace With.Reflection
         {
             return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>);
         }
-
-        internal static DictionaryAdapter ToDictionaryT(this object that)
-        {
-            return new DictionaryAdapter(that);
-        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace With.Reflection
 {
@@ -33,5 +34,18 @@ namespace With.Reflection
             return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IDictionary<,>);
         }
 
+        private static ConditionalWeakTable<Type, ConstructorInfo> dictionaryTypeCtor = new ConditionalWeakTable<Type, ConstructorInfo>();
+
+        internal static DictionaryAdapter ToDictionaryOfTypeT(this object that)
+        {
+            Type type = that.GetType();
+            var dic = dictionaryTypeCtor.WeakMemoize(type,t=>
+                typeof(Dictionary<,>)
+                    .MakeGenericType(t.GetIDictionaryTypeParameters())
+                    .GetConstructor(new Type[0])
+            ).Invoke(new object[0]);
+
+            return new DictionaryAdapter(that, dic);
+        }
     }
 }
