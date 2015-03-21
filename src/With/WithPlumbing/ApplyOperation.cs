@@ -36,7 +36,7 @@ namespace With.WithPlumbing
             switch (paramValues.Length)
             {
                 case 2:
-                    value = memberValue.ToDictionaryT().Tap(d =>
+                    value = memberValue.ToDictionaryOfTypeT().Tap(d =>
                     {
                         d[paramValues[0]] = paramValues[1];
                     }).ToDictionary();
@@ -57,7 +57,7 @@ namespace With.WithPlumbing
                         l.Add(paramValues[0]));
                     break;
                 case 2:
-                    value = memberValue.ToDictionaryT().Tap(d =>
+                    value = memberValue.ToDictionaryOfTypeT().Tap(d =>
                         d.Add(paramValues[0], paramValues[1])
                     ).ToDictionary();
                     break;
@@ -82,7 +82,7 @@ namespace With.WithPlumbing
                 case 1:
                     if (memberValue.GetType().IsDictionaryType())
                     {
-                        return memberValue.ToDictionaryT().Tap(d =>
+                        return memberValue.ToDictionaryOfTypeT().Tap(d =>
                             d.Remove(paramValues[0])
                         ).ToDictionary();
                     }

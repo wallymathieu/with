@@ -6,24 +6,21 @@ namespace With.Reflection
 {
     internal class FieldOrProperty
     {
-        public PropertyInfo Property { get; private set; }
-
-        public string Name
-        {
-            get; private set;
-        }
+        public readonly PropertyInfo Property;
+        public readonly FieldInfo FieldInfo;
+        public readonly string Name;
 
         public FieldOrProperty(PropertyInfo Property)
         {
             this.Property = Property;
             Name = Property.Name;
         }
+
         public FieldOrProperty(FieldInfo fieldInfo)
         {
             this.FieldInfo = fieldInfo;
             Name = fieldInfo.Name;
         }
-        public FieldInfo FieldInfo { get; private set; }
 
         internal object GetValue(object t)
         {
