@@ -28,9 +28,36 @@ namespace With.Reflection
                     .Select(i => i.GetGenericArguments().Single())
                     .ToArray();
         }
+
+        public static Type[] GetIDictionaryTypeParameters(this Type iDictionaryType)
+        {
+            if (IsExactlyDictionaryType(iDictionaryType))
+            {
+                return iDictionaryType.GetGenericArguments();
+            }
+            return iDictionaryType.GetInterfaces()
+                    .Where(i => IsExactlyDictionaryType(i))
+                    .Single()
+                    .GetGenericArguments();
+        }
+
         private static bool IsIEnumerableT(Type t)
         {
             return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+        }
+
+        public static bool IsDictionaryType(this Type t)
+        {
+            if (IsExactlyDictionaryType(t))
+            {
+                return true;
+            }
+            return t.GetInterfaces()
+                .Any(i => IsExactlyDictionaryType(i));
+        }
+        private static bool IsExactlyDictionaryType(Type t)
+        {
+            return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IDictionary<,>);
         }
     }
 }

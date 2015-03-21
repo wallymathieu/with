@@ -52,6 +52,13 @@ namespace With.Collections
                 .MakeGenericMethod(t)
                 .Invoke(null, new[] { that });
         }
+
+        internal static DictionaryWrapper ToDictionaryT(this object that)
+        {
+            return new DictionaryWrapper(that);
+        }
     }
+
+    
 }
 

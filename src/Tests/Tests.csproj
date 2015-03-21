@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ploeh.AutoFixture.Xunit">
@@ -62,9 +64,11 @@
     <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
     <Compile Include="Rubyfy\ZipTests.cs" />
     <Compile Include="With\Manipulation_of_enumerable.cs" />
+    <Compile Include="With\Manipulation_of_readonly_dictionary.cs" />
     <Compile Include="With\Setting_several_properties_at_once.cs" />
     <Compile Include="Case\SwitchOnTypeTests.cs" />
     <Compile Include="With\Clone_an_instance_into_the_same_type.cs" />
+    <Compile Include="With\TestData\ReadonlyDictionaryDataAttribute.cs" />
     <Compile Include="With\TestData\MyClass.cs" />
     <Compile Include="With\A_new_instance_of_a_class_that_inherits_from_the_other.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

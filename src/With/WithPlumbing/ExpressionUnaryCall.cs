@@ -56,36 +56,14 @@ namespace With.WithPlumbing
             else
             {
                 var memberValue = GetMemberValue(memberAccess);
-                var paramValue = ExpressionValue.GetExpressionValue(expr.Arguments.Drop(1).First());
-                value = ApplyOperation(expr, memberValue, paramValue);
+                var paramValue = expr.Arguments.Drop(1).Map(arg=>ExpressionValue.GetExpressionValue(arg)).ToA();
+                value = new ApplyOperation().Apply(expr, memberValue, paramValue);
             }
             _parsed.Add(new NameAndValue
             {
                 Name = memberAccess.Member.Name,
                 Value = value
             });
-        }
-
-        private object ApplyOperation(MethodCallExpression expr, object memberValue, object paramValue)
-        {
-            object value;
-            switch (expr.Method.Name)
-            {
-                case "Add":
-                    value = Add(memberValue, paramValue);
-                    break;
-                case "AddRange":
-                    value = AddRange(memberValue, (IEnumerable)paramValue);
-                    break;
-                case "Remove":
-                    value = Remove(memberValue, paramValue);
-                    break;
-                default:
-                    throw new ExpectedButGotException(new[] { "Add", "AddRange", "Remove" },
-                        expr.Method.Name);
-            }
-
-            return value;
         }
 
         private object GetMemberValue(MemberExpression memberAccess)
@@ -103,27 +81,5 @@ namespace With.WithPlumbing
             }
         }
 
-        private object Add(object v, object p)
-        {
-            var l = ((IEnumerable)v).ToListT();
-            l.Add(p);
-            return l;
-        }
-
-        private object AddRange(object v, IEnumerable p)
-        {
-            var l = ((IEnumerable)v).ToListT();
-            foreach (var item in p)
-            {
-                l.Add(item);
-            }
-            return l;
-        }
-        private object Remove(object v, object p)
-        {
-            var l = ((IEnumerable)v).ToListT();
-            l.Remove(p);
-            return l;
-        }
     }
 }
