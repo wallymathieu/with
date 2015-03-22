@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using With.Collections;
 namespace With
 {
+    using Collections;
+
     public static class CommonExtensions
     {
         /// <summary>
@@ -38,6 +39,7 @@ namespace With
             self.MoveNext();
             return self.Current;
         }
+
         public static IEnumerable<T> Yield<T>(this IEnumerator<T> self)
         {
             while (self.MoveNext())
