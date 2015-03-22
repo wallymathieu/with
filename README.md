@@ -6,21 +6,23 @@ With is a small library written in c# intended for alternative constructions in 
 ###With readonly value set in a new instance of the same class, but with all the other values from the old instance
 
 ```
-new MyClass(1, "2").With(m => m.MyProperty, 3)
+var customer = new Customer(id:1, name:"Johan Testsson");
 
-// NOTE: this is relatively expensive since it compiles expression at runtime
-new MyClass(1, "2").With(m => m.MyProperty == 3 && m.MyProperty2 == "value")
+var changedNameToErik = customer.With(c => c.Name, "Erik Testsson")
+
+var changedNameToErik = customer.With(c => c.Name == "Erik Testsson")
 ```
 
-Or to change the type of MyClass to MyClass2 (where MyClass2 inherits from MyClass)
+Or to change the type of Customer to VipCustomer (where VipCustomer inherits from Customer).
 
 ```
-new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3, 3)
+var customer = new Customer(id:1, name:"Johan Testsson");
 
-new MyClass(1, "2").As<MyClass2>(valueOnlyInMyClass2)
+var vipCustomer = customer.As<VipCustomer>(m => m.Since, DateTime.Now);
 
-// NOTE: this is relatively expensive since it compiles expression at runtime
-new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == 3 && m.MyProperty2 == "value")
+var vipCustomer = customer.As<VipCustomer>(DateTime.Now);
+
+var vipCustomer = customer.As<VipCustomer>(m => m.Since == DateTime.Now)
 ```
 
 Sample usage to add product to a copy of order
@@ -37,10 +39,10 @@ that it's supposed to hold on to.
 ###Switch on type
 You can use this library to switch on type. This is generally considered bad practise. An object (i.e. in c# a type) should generally self determine what to do in most cases. Sometimes you might not want to introduce a dependency, thus want to react to an interface or type in a separete assembly.
 ```
-var result = Switch.Match<object,object>(instance)
-    .Case((ClassWithMethodX c) => c.X)
-    .Case((ClassWithMethodY c) => c.Y)
-    .Case((ClassWithMethodZ c) => c.Z);
+var result = Switch.Match<Customer,DateTime?>(instance)
+    .Case((VipCustomer c) => c.Since)
+    .Case((RegularCustomer c) => c.Since)
+    .Else(_=>null);
 ```
 ###Switch on range, func, etc
 Note that switch statements should generally be short to avoid confusing logic jumps. A switch is very similar to a goto (in parser code where goto is missing, it's implemented by switch).
