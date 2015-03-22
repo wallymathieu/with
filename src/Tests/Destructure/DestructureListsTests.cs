@@ -4,6 +4,9 @@ using Xunit.Extensions;
 using With.Destructure;
 using With;
 using With.Rubyfy;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Tests.Destructure
 {
@@ -38,5 +41,38 @@ namespace Tests.Destructure
             var yielded = range.Stitch((a, b) => new[] { a, b }).ToA();
             Assert.Equal(new[] { new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 }, new[] { 3, 4 } }, yielded);
         }
+
+        [Fact]
+        public void GetNext()
+        {
+            var range = 0.To(1).GetEnumerator();
+            Assert.Equal(0, range.GetNext());
+            Assert.Equal(1, range.GetNext());
+            Assert.Throws<OutOfRangeException>(()=> range.GetNext());
+        }
+
+        [Fact]
+        public void Using_let_multiple_times_on_ienumerable()
+        {
+            var range = 0.To(5);
+            var tuples = new List<Tuple<int, int>>();
+            tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
+            tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
+            tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
+            Assert.Equal(Enumerable.Repeat(Tuple.Create(0, 1), 3).ToA(), tuples.ToA());
+        }
+
+        [Fact]
+        public void Using_let_multiple_times_on_ienumerator()
+        {
+            var range = 0.To(5).GetEnumerator();
+            var tuples = new List<Tuple<int, int>>();
+            tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
+            tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
+            tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
+            Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(2, 3), Tuple.Create(4,5) }, tuples.ToA());
+
+        }
+
     }
 }

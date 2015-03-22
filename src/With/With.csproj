@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Reflection\DictionaryTypeExtensions.cs" />
-    <Compile Include="Destructure\ListExtensions.cs" />
+    <Compile Include="Destructure\IEnumerableExtensions.cs" />
     <Compile Include="Destructure\MatchFields.cs" />
     <Compile Include="Destructure\Fields.cs" />
     <Compile Include="ExpectedButGotException.cs" />
