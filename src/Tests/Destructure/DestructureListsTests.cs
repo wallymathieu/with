@@ -14,6 +14,10 @@ namespace Tests.Destructure
             int a, int b, int c)
         {
             Assert.Equal(a, new[] { a, b, c }.Let((x, _) => x));
+
+            int result = -1;
+            new[] { a, b, c }.Let((x, _) => result = x);
+            Assert.Equal(a, result);
         }
 
         [Theory, AutoData]
@@ -21,6 +25,10 @@ namespace Tests.Destructure
             int a, int b, int c)
         {
             Assert.Equal(b, new[] { a, b, c }.Let((x, y, _) => y));
+
+            int result = -1;
+            new[] { a, b, c }.Let((x, y, _) => result = y);
+            Assert.Equal(b, result);
         }
 
         [Fact]

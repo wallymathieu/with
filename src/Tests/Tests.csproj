@@ -62,6 +62,7 @@
     <Compile Include="Destructure\DestructureListsTests.cs" />
     <Compile Include="Destructure\DestructureTupleTests.cs" />
     <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
+    <Compile Include="Destructure\StitchTests.cs" />
     <Compile Include="Rubyfy\ZipTests.cs" />
     <Compile Include="With\Manipulation_of_enumerable.cs" />
     <Compile Include="With\Manipulation_of_readonly_dictionary.cs" />

@@ -18,13 +18,13 @@ this IEnumerable<T> that, Func<T, IEnumerable<T>, TRet> func)
             return func(e.GetNext(), e.Yield());
         }
 
-
         public static void Let<T>(
 this IEnumerable<T> that, Action<T, T, IEnumerable<T>> action)
         {
             var e = that.GetEnumerator();
             action(e.GetNext(), e.GetNext(), e.Yield());
         }
+
         public static TRet Let<T, TRet>(
 this IEnumerable<T> that, Func<T, T, IEnumerable<T>, TRet> func)
         {

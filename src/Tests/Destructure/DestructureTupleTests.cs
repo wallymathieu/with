@@ -6,7 +6,7 @@ using With.Destructure;
 
 namespace Tests.Destructure
 {
-    class DestructureTupleTests
+    public class DestructureTupleTests
     {
         [Theory, AutoData]
         public void Second_variable(
