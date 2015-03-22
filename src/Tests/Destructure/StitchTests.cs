@@ -18,7 +18,9 @@ namespace Tests.Destructure
         {
             var r = 0.To(4);
             var result = new List<Tuple<int, int>>();
-            r.Stitch((i, j) => result.Add(Tuple.Create(i, j)));
+            r.Stitch((i, j) => {
+                result.Add(Tuple.Create(i, j));
+            });
             Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3), Tuple.Create(3, 4) },
                 result.ToArray());
         }
