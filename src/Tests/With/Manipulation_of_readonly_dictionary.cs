@@ -11,7 +11,7 @@ namespace Tests.With
     public class Manipulation_of_readonly_dictionary
     {
         [Theory, ReadonlyDictionaryData]
-        public void Should_be_able_to_add_and_remove_from_dictionary(ClassWithFields models, MyClass myclass, int key)
+        public void Should_be_able_to_add_and_remove_from_dictionary(ClassWithFields models, Customer myclass, int key)
         {
             var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
             Assert.Equal(myclass, newModels.MyDictionary[key]);
@@ -20,7 +20,7 @@ namespace Tests.With
         }
 
         [Theory, ReadonlyDictionaryData]
-        public void Should_be_able_to_add_and_replace_for_dictionary(ClassWithFields models, MyClass myclass, int key, MyClass replacement)
+        public void Should_be_able_to_add_and_replace_for_dictionary(ClassWithFields models, Customer myclass, int key, Customer replacement)
         {
             var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
             Assert.Equal(myclass, newModels.MyDictionary[key]);
@@ -30,12 +30,12 @@ namespace Tests.With
 
         public class ClassWithFields
         {
-            public ClassWithFields(IReadOnlyDictionary<int, MyClass> myDictionary)
+            public ClassWithFields(IReadOnlyDictionary<int, Customer> myDictionary)
             {
                 MyDictionary = myDictionary;
             }
 
-            public readonly IReadOnlyDictionary<int, MyClass> MyDictionary;
+            public readonly IReadOnlyDictionary<int, Customer> MyDictionary;
         }
     }
 }

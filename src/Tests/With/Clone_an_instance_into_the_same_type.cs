@@ -10,87 +10,87 @@ namespace Tests
     {
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set(
-            MyClass myClass, int newValue)
+            Customer myClass, int newValue)
         {
-            var ret = myClass.With(m => m.MyProperty, newValue);
-            Assert.Equal(newValue, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            var ret = myClass.With(m => m.Id, newValue);
+            Assert.Equal(newValue, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(
-            MyClass myClass, int newValue)
+            Customer myClass, int newValue)
         {
-            var ret = myClass.With(m => m.MyProperty == newValue);
-            Assert.Equal(newValue, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            var ret = myClass.With(m => m.Id == newValue);
+            Assert.Equal(newValue, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(
-            MyClass myClass, int newIntValue, string newStrValue)
+            Customer myClass, int newIntValue, string newStrValue)
         {
-            var ret = myClass.With(m => m.MyProperty == newIntValue && m.MyProperty2 == newStrValue);
-            Assert.Equal(newIntValue, ret.MyProperty);
-            Assert.Equal(newStrValue, ret.MyProperty2);
+            var ret = myClass.With(m => m.Id == newIntValue && m.Name == newStrValue);
+            Assert.Equal(newIntValue, ret.Id);
+            Assert.Equal(newStrValue, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal_and_another_propertyvalue(
-            MyClass anInstance, MyClass anotherInstance)
+            Customer anInstance, Customer anotherInstance)
         {
-            var ret = anotherInstance.With(m => m.MyProperty == anInstance.MyProperty);
-            Assert.Equal(anInstance.MyProperty, ret.MyProperty);
-            Assert.Equal(anotherInstance.MyProperty2, ret.MyProperty2);
+            var ret = anotherInstance.With(m => m.Id == anInstance.Id);
+            Assert.Equal(anInstance.Id, ret.Id);
+            Assert.Equal(anotherInstance.Name, ret.Name);
         }
         [Theory, AutoData]
         public void A_class_should_throw_a_decent_exception_when_changing_the_order(
-            MyClass anInstance, MyClass anotherInstance)
+            Customer anInstance, Customer anotherInstance)
         {
             Assert.Throws<ShouldBeAnExpressionLeftToRightException>(() =>
             {
-                anInstance.With(m => anotherInstance.MyProperty == m.MyProperty);
+                anInstance.With(m => anotherInstance.Id == m.Id);
             });
         }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_eql(
-            MyClass instance, int newInt)
+            Customer instance, int newInt)
         {
-            MyClass ret = instance.With()
-                .Eql(m => m.MyProperty, newInt);
-            Assert.Equal(newInt, ret.MyProperty);
-            Assert.Equal(instance.MyProperty2, ret.MyProperty2);
+            Customer ret = instance.With()
+                .Eql(m => m.Id, newInt);
+            Assert.Equal(newInt, ret.Id);
+            Assert.Equal(instance.Name, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_eql(
-            MyClass instance, int newInt, string newString)
+            Customer instance, int newInt, string newString)
         {
-            MyClass ret = instance.With()
-                .Eql(m => m.MyProperty, newInt)
-                .Eql(m => m.MyProperty2, newString);
-            Assert.Equal(newInt, ret.MyProperty);
-            Assert.Equal(newString, ret.MyProperty2);
+            Customer ret = instance.With()
+                .Eql(m => m.Id, newInt)
+                .Eql(m => m.Name, newString);
+            Assert.Equal(newInt, ret.Id);
+            Assert.Equal(newString, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_with_empty_ctor(
-            MyClassWithEmptyCtor instance, int newInt, string newString)
+            CustomerWithEmptyCtor instance, int newInt, string newString)
         {
-            MyClass ret = instance.With()
-                .Eql(m => m.MyProperty, newInt)
-                .Eql(m => m.MyProperty2, newString);
-            Assert.Equal(newInt, ret.MyProperty);
-            Assert.Equal(newString, ret.MyProperty2);
+            Customer ret = instance.With()
+                .Eql(m => m.Id, newInt)
+                .Eql(m => m.Name, newString);
+            Assert.Equal(newInt, ret.Id);
+            Assert.Equal(newString, ret.Name);
         }
-        public class MyClassWithEmptyCtor : MyClass
+        public class CustomerWithEmptyCtor : Customer
         {
-            public MyClassWithEmptyCtor()
+            public CustomerWithEmptyCtor()
                 : this(-1, null, new string[0])
             {
             }
-            public MyClassWithEmptyCtor(int myProperty, string myProperty2, IEnumerable<string> myProperty3)
-                : base(myProperty, myProperty2, myProperty3)
+            public CustomerWithEmptyCtor(int id, string name, IEnumerable<string> preferences)
+                : base(id, name, preferences)
             {
             }
         }

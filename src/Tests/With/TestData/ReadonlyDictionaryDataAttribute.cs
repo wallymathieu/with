@@ -15,8 +15,8 @@ namespace Tests.With.TestData
         {
             public void Customize(IFixture fixture)
             {
-                var dic2 = fixture.Create<Dictionary<int, MyClass>>();
-                fixture.Inject<IReadOnlyDictionary<int,MyClass>>(new ReadOnlyDictionary<int, MyClass>(dic2));
+                var dic2 = fixture.Create<Dictionary<int, Customer>>();
+                fixture.Inject<IReadOnlyDictionary<int,Customer>>(new ReadOnlyDictionary<int, Customer>(dic2));
             }
         }
     }

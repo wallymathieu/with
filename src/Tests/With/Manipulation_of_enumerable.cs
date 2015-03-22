@@ -13,162 +13,163 @@ namespace Tests.With
     {
         [Theory, AutoData]
         public void Should_be_able_to_add_to_enumerable(
-    MyClass myClass, string newValue)
+    Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3.Add(newValue));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.Add(newValue));
+            Assert.Equal(newValue, ret.Preferences.Last());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_union_add_to_enumerable(
-            MyClass myClass, string newValue)
+            Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3.Union(new[] { newValue }));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.Union(new[] { newValue }));
+            Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] { newValue };
-            ret = myClass.With(m => m.MyProperty3.Union(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            ret = myClass.With(m => m.Preferences.Union(array));
+            Assert.Equal(newValue, ret.Preferences.Last());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_concat_add_to_enumerable(
-            MyClass myClass, string newValue)
+            Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3.Concat(new[] { newValue }));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.Concat(new[] { newValue }));
+            Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] { newValue };
-            ret = myClass.With(m => m.MyProperty3.Concat(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            ret = myClass.With(m => m.Preferences.Concat(array));
+            Assert.Equal(newValue, ret.Preferences.Last());
         }
-        public class MyClassWithObject
+        public class FlyFishingBuddyCustomer
         {
-            public MyClassWithObject(MyClass myClass)
+            public FlyFishingBuddyCustomer(Customer customer, DateTime whenToGoFishing)
             {
-                MyClass = myClass;
+                Customer = customer;
+                WhenToGoFishing = whenToGoFishing;
             }
-            public readonly MyClass MyClass;
+            public readonly Customer Customer;
+            public readonly DateTime WhenToGoFishing;
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_object_to_enumerable(
-            MyClassWithObject myClass, string newValue)
+            FlyFishingBuddyCustomer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyClass == new MyClass(1, newValue, new string[0]));
-            Assert.Equal(newValue, ret.MyClass.MyProperty2);
+            var ret = myClass.With(m => m.Customer == new Customer(1, newValue, new string[0]));
+            Assert.Equal(newValue, ret.Customer.Name);
         }
 
         [Theory, AutoData]
         public void Able_to_set_array_to_empty_array(
-            MyClass myClass, string newValue)
+            Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3 == new string[0]);
-            Assert.Equal(new string[0], ret.MyProperty3.ToArray());
+            var ret = myClass.With(m => m.Preferences == new string[0]);
+            Assert.Equal(new string[0], ret.Preferences.ToArray());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_const_to_enumerable(
-            MyClass myClass)
+            Customer myClass)
         {
             const string newValue = "const";
-            var ret = myClass.With(m => m.MyProperty3.Add(newValue));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.Add(newValue));
+            Assert.Equal(newValue, ret.Preferences.Last());
 
-            ret = myClass.With(m => m.MyProperty3.Concat(new[] { newValue }));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            ret = myClass.With(m => m.Preferences.Concat(new[] { newValue }));
+            Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] { newValue };
-            ret = myClass.With(m => m.MyProperty3.Concat(array));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            ret = myClass.With(m => m.Preferences.Concat(array));
+            Assert.Equal(newValue, ret.Preferences.Last());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_range_with_new_array_to_enumerable(
-            MyClass myClass, string newValue)
+            Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3.AddRange(new[] { newValue }));
-            Assert.Equal(newValue, ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.AddRange(new[] { newValue }));
+            Assert.Equal(newValue, ret.Preferences.Last());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_range_to_enumerable(
-            MyClass myClass, IEnumerable<string> newValue)
+            Customer myClass, IEnumerable<string> newValue)
         {
-            var ret = myClass.With(m => m.MyProperty3.AddRange(newValue));
-            Assert.Equal(newValue.Last(), ret.MyProperty3.Last());
+            var ret = myClass.With(m => m.Preferences.AddRange(newValue));
+            Assert.Equal(newValue.Last(), ret.Preferences.Last());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_remove_from_enumerable(
-            MyClass myClass)
+            Customer myClass)
         {
-            var first = myClass.MyProperty3.First();
-            var ret = myClass.With(m => m.MyProperty3.Remove(first));
-            Assert.NotEqual(first, ret.MyProperty3.First());
+            var first = myClass.Preferences.First();
+            var ret = myClass.With(m => m.Preferences.Remove(first));
+            Assert.NotEqual(first, ret.Preferences.First());
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_where_remove_from_enumerable(
-            MyClass myClass)
+            Customer myClass)
         {
-            var first = myClass.MyProperty3.First();
-            var ret = myClass.With(m => m.MyProperty3.Where(p => p != first));
-            Assert.NotEqual(first, ret.MyProperty3.First());
+            var first = myClass.Preferences.First();
+            var ret = myClass.With(m => m.Preferences.Where(p => p != first));
+            Assert.NotEqual(first, ret.Preferences.First());
         }
 
-        public class ClassWithFields
+        public class AllOurCustomers
         {
-            public ClassWithFields()
-                : this(new MyClass[0], new MyClassWithObject[0])
+            public AllOurCustomers()
+                : this(new Customer[0], new FlyFishingBuddyCustomer[0])
             {
             }
-            public ClassWithFields(IEnumerable<MyClass> myClasses, IEnumerable<MyClassWithObject> myClassWIthObjects)
+            public AllOurCustomers(IEnumerable<Customer> myClasses, IEnumerable<FlyFishingBuddyCustomer> myClassWIthObjects)
             {
                 MyClasses = myClasses;
                 MyClassWIthObjects = myClassWIthObjects;
             }
 
-            public readonly IEnumerable<MyClass> MyClasses;
-            public readonly IEnumerable<MyClassWithObject> MyClassWIthObjects;
+            public readonly IEnumerable<Customer> MyClasses;
+            public readonly IEnumerable<FlyFishingBuddyCustomer> MyClassWIthObjects;
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_set_enumerable_on_model_with_empty_constructor(
-            ClassWithFields models)
+            AllOurCustomers models)
         {
-            var myClass = new MyClass(-1, string.Empty, new string[0]);
+            var myClass = new Customer(-1, string.Empty, new string[0]);
             var ret = models.With(m => m.MyClasses.Add(myClass));
             Assert.Equal(myClass, ret.MyClasses.First());
         }
 
         [Theory, AutoData]
-        public void Should_be_able_to_set_enumerable_with_new(
-    ClassWithFields models)
+        public void Should_be_able_to_set_enumerable_with_new(AllOurCustomers models)
         {
-            var ret = models.With(m => m.MyClasses.Add(new MyClass(-1, string.Empty, new string[0])));
-            Assert.Equal(-1, ret.MyClasses.First().MyProperty);
+            var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, new string[0])));
+            Assert.Equal(-1, ret.MyClasses.First().Id);
         }
 
         [Theory, AutoData]
-        public void Should_be_able_to_use_call_in_expression(ClassWithFields models, IEnumerable<MyClass> myclasses)
+        public void Should_be_able_to_use_call_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
             var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
             Assert.Equal(myclasses.First(), newModels.MyClasses.Last());
         }
 
         [Theory, AutoData]
-        public void Should_be_able_to_use_invoke_in_expression(ClassWithFields models, IEnumerable<MyClass> myclasses)
+        public void Should_be_able_to_use_invoke_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
-            Func<MyClass> getMyClass = () => myclasses.First();
+            Func<Customer> getMyClass = () => myclasses.First();
             var newModels = models.With(o => o.MyClasses.Add(getMyClass()));
             Assert.Equal(getMyClass(), newModels.MyClasses.Last());
         }
 
         //Not implemented [Theory, AutoData]
-        public void Should_be_able_to_use_coalesce_in_expression(IEnumerable<MyClass> myclasses)
+        public void Should_be_able_to_use_coalesce_in_expression(IEnumerable<Customer> myclasses)
         {
-            var models = new ClassWithFields(null, null);
+            var models = new AllOurCustomers(null, null);
             var newModels = models.With(o => o.MyClasses ?? myclasses);
             Assert.Equal(myclasses, newModels.MyClasses);
         }

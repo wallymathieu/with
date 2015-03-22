@@ -9,95 +9,95 @@ namespace Tests
 {
     public class A_new_instance_of_a_class_that_inherits_from_the_other
     {
-        public class MyClass2 : MyClass
+        public class VipCustomer : Customer
         {
-            private readonly DateTime myProperty4;
-            public MyClass2(int myProperty, string myProperty2, IEnumerable<string> myProperty3, DateTime myProperty4)
-                : base(myProperty, myProperty2, myProperty3)
+            private readonly DateTime since;
+            public VipCustomer(int id, string name, IEnumerable<string> preferences, DateTime since)
+                : base(id, name, preferences)
             {
-                this.myProperty4 = myProperty4;
+                this.since = since;
             }
 
-            public DateTime MyProperty4 { get { return myProperty4; } private set { throw new Exception(); } }
+            public DateTime Since { get { return since; } private set { throw new Exception(); } }
 
         }
 
         [Theory, AutoData]
         public void A_class_should_map_its_parents_properties(
-            MyClass myClass, DateTime time)
+            Customer myClass, DateTime time)
         {
-            var ret = myClass.As<MyClass2>(time);
-            Assert.Equal(time, ret.MyProperty4);
+            var ret = myClass.As<VipCustomer>(time);
+            Assert.Equal(time, ret.Since);
 
-            Assert.Equal(myClass.MyProperty, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            Assert.Equal(myClass.Id, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_use_lambda(
-            MyClass myClass, DateTime time)
+            Customer myClass, DateTime time)
         {
-            var ret = myClass.As<MyClass2>(m => m.MyProperty4 == time);
-            Assert.Equal(ret.MyProperty4, time);
+            var ret = myClass.As<VipCustomer>(m => m.Since == time);
+            Assert.Equal(ret.Since, time);
 
-            Assert.Equal(myClass.MyProperty, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            Assert.Equal(myClass.Id, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_using_cast(
-            MyClass myClass, DateTime time)
+            Customer myClass, DateTime time)
         {
             Object _time = (Object)time;
-            var ret = myClass.As<MyClass2>(m => m.MyProperty4 == (DateTime)_time);
-            Assert.Equal(ret.MyProperty4, time);
+            var ret = myClass.As<VipCustomer>(m => m.Since == (DateTime)_time);
+            Assert.Equal(ret.Since, time);
 
-            Assert.Equal(myClass.MyProperty, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            Assert.Equal(myClass.Id, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
 
         [Theory, AutoData]
         public void A_class_using_const(
-    MyClass myClass, DateTime time)
+    Customer myClass, DateTime time)
         {
             const string _time = "253654365";
-            var ret = myClass.As<MyClass2>(m => m.MyProperty2 == _time && m.MyProperty4 == time);
-            Assert.Equal(ret.MyProperty2, _time);
+            var ret = myClass.As<VipCustomer>(m => m.Name == _time && m.Since == time);
+            Assert.Equal(ret.Name, _time);
         }
 
         [Theory, AutoData]
         public void A_class_should_map_its_parents_properties_and_get_the_new_value(
-            MyClass myClass, DateTime time)
+            Customer myClass, DateTime time)
         {
-            MyClass2 ret = myClass.As<MyClass2>()
-                .Eql(p => p.MyProperty4, time);
-            Assert.Equal(myClass.MyProperty, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
-            Assert.Equal(time, ret.MyProperty4);
+            VipCustomer ret = myClass.As<VipCustomer>()
+                .Eql(p => p.Since, time);
+            Assert.Equal(myClass.Id, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
+            Assert.Equal(time, ret.Since);
         }
 
-        public class MyClassWithDifferentOrder : MyClass
+        public class MyCustomerWithDifferentParameterOrder : Customer
         {
-            private readonly DateTime myProperty4;
-            public MyClassWithDifferentOrder(DateTime myProperty4, int myProperty, IEnumerable<string> myProperty3, string myProperty2)
-                : base(myProperty, myProperty2, myProperty3)
+            private readonly DateTime since;
+            public MyCustomerWithDifferentParameterOrder(DateTime since, int id, IEnumerable<string> preferences, string name)
+                : base(id, name, preferences)
             {
-                this.myProperty4 = myProperty4;
+                this.since = since;
             }
 
-            public DateTime MyProperty4 { get { return myProperty4; } private set { throw new Exception(); } }
+            public DateTime Since { get { return since; } private set { throw new Exception(); } }
         }
 
         [Theory, AutoData]
         public void A_class_with_different_order_of_constructor_parameters(
-            MyClass myClass, DateTime time)
+            Customer myClass, DateTime time)
         {
-            MyClassWithDifferentOrder ret = myClass.As<MyClassWithDifferentOrder>()
-                .Eql(p => p.MyProperty4, time);
-            Assert.Equal(time, ret.MyProperty4);
+            MyCustomerWithDifferentParameterOrder ret = myClass.As<MyCustomerWithDifferentParameterOrder>()
+                .Eql(p => p.Since, time);
+            Assert.Equal(time, ret.Since);
 
-            Assert.Equal(myClass.MyProperty, ret.MyProperty);
-            Assert.Equal(myClass.MyProperty2, ret.MyProperty2);
+            Assert.Equal(myClass.Id, ret.Id);
+            Assert.Equal(myClass.Name, ret.Name);
         }
 
     }

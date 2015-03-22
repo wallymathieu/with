@@ -70,7 +70,7 @@
     <Compile Include="Case\SwitchOnTypeTests.cs" />
     <Compile Include="With\Clone_an_instance_into_the_same_type.cs" />
     <Compile Include="With\TestData\ReadonlyDictionaryDataAttribute.cs" />
-    <Compile Include="With\TestData\MyClass.cs" />
+    <Compile Include="With\TestData\Customer.cs" />
     <Compile Include="With\A_new_instance_of_a_class_that_inherits_from_the_other.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="With\Another_instance_gets_created_without_the_need_for_inheritance.cs" />
