@@ -12,16 +12,16 @@ namespace Tests
             return Switch.Match<int, string>(v)
                 .Case(1, () => "One!")
                 .Case(new[] { 2, 3, 5, 7, 11 }, p => "This is a prime!")
-                .Case(13.To(19), t => "A teen")
-                .Case(i => i == 42, i => "Meaning of life")
-                .Case(i => i == 52, () => "Some other number")
+                .Case(13.To(19), "A teen")
+                .Case(i => i == 42, "Meaning of life")
+                .Case(i => i == 52, i => "Some other number")
                 .Else(_ => "Ain't special");
         }
 
         [Fact]
         public void Test_one_using_different_syntax()
         {
-            string result = Switch.Match<int, string>(1,
+            string result = Switch.Match(1,
                 new[] { 1 }, _ => "One!",
                 new[] { 2, 3, 5, 7, 11 }, _ => "This is a prime!",
                 13.To(19), _ => "A teen")
@@ -107,6 +107,7 @@ namespace Tests
             var instance = "Rio1";
 
             int result = Switch.Match<string, int>(instance)
+                .Regex("X[a-z]{2}\\d{1,}", 4)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3)
                 .Case("m", m => 1)
                 .Case("s", m => 2);
@@ -116,13 +117,13 @@ namespace Tests
         [Fact]
         public void Regex_prepared_Find_complicated()
         {
-            var instance = "Rio1";
-
             var result = Switch.Match<string, int>()
                 .Case("m", m => 1)
                 .Case("s", m => 2)
+                .Regex("x[a-z]{2}\\d{1,}", RegexOptions.IgnoreCase, 4)
                 .Regex("[a-z]{1}[a-z]{2}\\d{1,}", RegexOptions.IgnoreCase, m => 3);
-            Assert.Equal(3, result.ValueOf(instance));
+            Assert.Equal(3, result.ValueOf("Rio1"));
+            Assert.Equal(4, result.ValueOf("Xio1"));
         }
 
         private int FibR(int i)

@@ -29,7 +29,21 @@ namespace With
             var regex = new Regex(expected, options);
             return that.Regex(regex, result);
         }
-
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            Regex expected,
+            Out result)
+        {
+            return new Match<string, Out>(that,
+                expected.IsMatch,
+                F.IgnoreInput<string,Out>(result));
+        }
+        public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
+            string expected,
+            NothingOrPrepared result)
+        {
+            var regex = new Regex(expected);
+            return that.Regex(regex, result);
+        }
         public static ISwitch<string, NothingOrPrepared> Regex<NothingOrPrepared>(this ISwitch<string, NothingOrPrepared> that,
             Regex expected,
             Action result)
@@ -95,6 +109,14 @@ namespace With
             string expected,
             RegexOptions options,
             Func<Match, Out> result)
+        {
+            var regex = new Regex(expected, options);
+            return that.Regex(regex, result);
+        }
+        public static ISwitch<string, Out> Regex<Out>(this ISwitch<string, Out> that,
+            string expected,
+            RegexOptions options,
+            Out result)
         {
             var regex = new Regex(expected, options);
             return that.Regex(regex, result);

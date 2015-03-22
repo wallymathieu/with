@@ -8,9 +8,10 @@ namespace Tests
         {
             return Switch.Match<string, string>(v)
                 .Case("1", () => "One!")
+                .Regex("X[a-z]{2}\\d{1,}", "Xapp!")
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", p => "Happ!")
-                .Case(i => i == "42", (i) => "Meaning of life")
-                .Case(i => i == "52", () => "Some other number")
+                .Case(i => i == "42", _ => "Meaning of life")
+                .Case(i => i == "52", "Some other number")
                 .Else(_ => "Ain't special");
         }
 
@@ -23,6 +24,7 @@ namespace Tests
         public void Test_complicated()
         {
             Assert.Equal(DoMatch("Rio1"), "Happ!");
+            Assert.Equal(DoMatch("Xio1"), "Xapp!");
         }
 
         [Fact]
