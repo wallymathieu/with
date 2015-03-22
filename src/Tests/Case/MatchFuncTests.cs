@@ -140,7 +140,7 @@ namespace Tests
         private int Fib(int i)
         {
             return Switch.Match<int, int>(i) // Could be better if it could be written as "Switch(i)" 
-                .Case(1.To(2), _ => 1)
+                .Case(1.To(2), 1)
                 .Else(n => Fib(n - 1) + Fib(n - 2));
         }
 
