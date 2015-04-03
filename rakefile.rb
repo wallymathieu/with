@@ -44,7 +44,7 @@ def get_last_version(files)
   end
 end
 
-desc "Install missing NuGet package."
+desc "Push to NuGet."
 task :push do
   latest = get_last_version(Dir.glob('./nuget/With*.nupkg')).inspect
   NugetHelper.exec("push #{latest}")
