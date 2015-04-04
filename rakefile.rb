@@ -2,20 +2,21 @@ require 'albacore'
 require 'nuget_helper'
 
 dir = File.dirname(__FILE__)
+sln = File.join(dir, "src", "With.sln")
 
 desc "build using msbuild"
 build :build do |msb|
   msb.prop :configuration, :Debug
   msb.target = [:Rebuild]
   msb.logging = 'minimal'
-  msb.sln =File.join(dir, "src", "With.sln")
+  msb.sln = sln
 end
 
 build :build_release do |msb|
   msb.prop :configuration, :Release
   msb.target = [:Rebuild]
   msb.logging = 'minimal'
-  msb.sln =File.join(dir, "src", "With.sln")
+  msb.sln = sln
 end
 
 task :core_copy_to_nuspec => [:build_release] do
@@ -28,39 +29,33 @@ end
 
 desc "create the nuget package"
 task :pack => [:core_copy_to_nuspec] do |nuget|
-  cd File.join(dir,"nuget") do
+  cd File.join(dir, "nuget") do
     NugetHelper.exec "pack With.nuspec"
   end
 end
 
 desc "Install missing NuGet packages."
 task :restore do
-  NugetHelper.exec("restore ./src/with.sln")
-end
-
-def get_last_version(files)
-  files.max_by do |l|
-     NugetHelper.version_of(l)
-  end
+  NugetHelper.exec("restore #{sln}")
 end
 
 desc "Push to NuGet."
 task :push do
-  latest = get_last_version(Dir.glob('./nuget/With*.nupkg')).inspect
+  latest = NugetHelper.last_version(Dir.glob('./nuget/With*.nupkg'))
   NugetHelper.exec("push #{latest}")
 end
 
 desc "test using console"
 test_runner :test => [:build] do |runner|
   runner.exe = NugetHelper.xunit_path
-  files = [File.join(File.dirname(__FILE__),"src","Tests","bin","Debug","Tests.dll")]
+  files = Dir.glob(File.join(dir, "**", "bin", "Debug", "Tests.dll"))
   runner.files = files 
 end
 
 require_relative 'templates/with'
 desc "Generate switch extensions"
 task :generate do |t|
-  file = File.join(File.dirname(__FILE__),"src","With","Switch_generated.cs")
+  file = File.join(dir,"src","With","Switch_generated.cs")
   File.open(file,"w") do |f|
     f<<With.new().to_s
   end

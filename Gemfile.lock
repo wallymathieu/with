@@ -1,7 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
-    albacore (2.3.16)
+    albacore (2.3.18)
       map (~> 6.5)
       nokogiri (~> 1.5)
       rake (~> 10)
@@ -18,7 +18,7 @@ GEM
     nuget_helper (0.0.3)
       nuget (~> 2.8.50126.400)
     rake (10.4.2)
-    semver2 (3.4.1)
+    semver2 (3.4.2)
 
 PLATFORMS
   ruby
