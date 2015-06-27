@@ -26,7 +26,7 @@ namespace Tests
         [Theory, AutoData]
         public void A_class_should_map_properties(Customer myClass, DateTime time)
         {
-            var ret = myClass.As<CustomerFromSomeOtherDll>(time);
+            var ret = myClass.As<CustomerFromSomeOtherDll>(c=>c.Since==time);
             Assert.Equal(ret.Id, myClass.Id);
             Assert.Equal(ret.Name, myClass.Name);
             Assert.Equal(ret.Since, time);

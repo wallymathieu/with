@@ -26,7 +26,7 @@ namespace Tests
         public void A_class_should_map_its_parents_properties(
             Customer myClass, DateTime time)
         {
-            var ret = myClass.As<VipCustomer>(time);
+            var ret = myClass.As<VipCustomer>(c=>c.Since, time);
             Assert.Equal(time, ret.Since);
 
             Assert.Equal(myClass.Id, ret.Id);

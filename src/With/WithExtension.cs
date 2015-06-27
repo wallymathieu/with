@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using With.Reflection;
 using With.WithPlumbing;
+using With.Collections;
+using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 
 namespace With
 {
@@ -16,66 +18,45 @@ namespace With
 
         public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr, TVal val)
         {
-            var props = typeof(T).GetFieldsOrProperties();
             var memberAccess = new ExpressionWithMemberAccess<T, TVal>();
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
 
-            var ctor = typeof(T).GetConstructorWithMostParameters();
-
-            var values = GetConstructorParamterValues.GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
-
-            return (T)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<T> ();
+            return  createInstance.Create(t,new[] { NameAndValues.Create(propertyName, val) });
         }
 
         public static T With<T>(this T t, IDictionary<string, object> parameters)
         {
-            var props = typeof(T).GetFieldsOrProperties();
-            var ctors = typeof(T).GetConstructors().ToArray();
-            var ctor = ctors.Single();
-
-            var values = GetConstructorParamterValues.GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
-
-            return (T)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<T> ();
+            return createInstance.Create(t,parameters);
         }
 
         public static T With<T>(this T t, Expression<Func<T, bool>> expr)
         {
-            var props = typeof(T).GetFieldsOrProperties();
-            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
-            var propertyNameAndValues = eqeq.Parsed.ToArray();
 
-            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
-
-            return (T)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<T> ();
+            return createInstance.Create(t, eqeq.Parsed.ToArray());
         }
 
         public static T With<T, TVal>(this T t, Expression<Func<T, TVal>> expr)
         {
-            var props = typeof(T).GetFieldsOrProperties();
-            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
-
-            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
-
-            return (T)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<T> ();
+            return createInstance.Create(t, propertyNameAndValues);
         }
 
         public static T With<T>(this T t, Expression<Action<T>> expr)
         {
-            var props = typeof(T).GetFieldsOrProperties();
-            var ctor = typeof(T).GetConstructorWithMostParameters();
             var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
-
-            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
-
-            return (T)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<T>();
+            return createInstance.Create(t,propertyNameAndValues);
         }
 
         public static ValuesForConstructor<TRet> As<TRet>(this Object t)
@@ -83,38 +64,19 @@ namespace With
             return new ValuesForConstructor<TRet>(t);
         }
 
-        public static TRet As<TRet>(this Object t, Object first, params Object[] parameters)
-        {
-            var allParameters = new Object[parameters.Length + 1];
-            allParameters[0] = first;
-            parameters.CopyTo(allParameters, 1);
-
-            var values = new GetParameterValuesUsingOrdinal().GetValues(t, typeof(TRet), allParameters);
-            var ctor = typeof(TRet).GetConstructorWithMostParameters();
-            return (TRet)ctor.Invoke(values);
-        }
-
-
         public static TRet As<TRet>(this Object t, IDictionary<string, object> parameters)
         {
-            var props = t.GetType().GetFieldsOrProperties();
-            var ctor = typeof(TRet).GetConstructorWithMostParameters();
-            var values = GetConstructorParamterValues.GetValues(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)), props, ctor);
-
-            return (TRet)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<TRet>(t.GetType());
+            return createInstance.Create(t, parameters.Select(v => new NameAndValue(v.Key, v.Value)));
         }
 
         public static TRet As<TRet>(this Object t, Expression<Func<TRet, object>> expr, object val)
         {
-            var props = typeof(TRet).GetFieldsOrProperties();
-            var ctor = typeof(TRet).GetConstructorWithMostParameters();
             var memberAccess = new ExpressionWithMemberAccess<TRet, object>();
             memberAccess.Lambda(expr);
             var propertyName = memberAccess.MemberName;
-
-            var values = GetConstructorParamterValues.GetValues(t, new[] { new NameAndValue(propertyName, val) }, props, ctor);
-
-            return (TRet)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<TRet>(t.GetType());
+            return createInstance.Create(t,new[] { new NameAndValue(propertyName, val) });
         }
 
         public static TRet As<TRet>(this Object t, Expression<Func<TRet, bool>> expr)
@@ -122,11 +84,8 @@ namespace With
             var eqeq = new ExpressionWithEqualEqualOrCall<TRet>(t);
             eqeq.Lambda(expr);
             var propertyNameAndValues = eqeq.Parsed.ToArray();
-
-            var props = t.GetType().GetFieldsOrProperties();
-            var ctor = typeof(TRet).GetConstructorWithMostParameters();
-            var values = GetConstructorParamterValues.GetValues(t, propertyNameAndValues, props, ctor);
-            return (TRet)ctor.Invoke(values);
+            var createInstance = new CreateInstanceFromValues<TRet>(t.GetType());
+            return createInstance.Create(t, propertyNameAndValues);
         }
     }
 }

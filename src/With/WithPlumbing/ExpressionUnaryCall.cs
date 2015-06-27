@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 
 namespace With.WithPlumbing
 {
@@ -60,7 +61,7 @@ namespace With.WithPlumbing
                 var paramValue = expr.Arguments.Drop(1).Map(arg=>ExpressionValue.GetExpressionValue(arg)).ToA();
                 value = ApplyOperation.Apply(expr, memberValue, paramValue);
             }
-            _parsed.Add(new NameAndValue
+            _parsed.Add(NameAndValues.Create
             (
                 name : memberAccess.Member.Name,
                 value : value

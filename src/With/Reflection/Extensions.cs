@@ -95,7 +95,9 @@ namespace With.Reflection
 
         internal static object Coerce(this object v, Type parameterType)
         {
-            if (v != null && typeof(IEnumerable).IsAssignableFrom(parameterType) && !parameterType.IsAssignableFrom(v.GetType()))
+            if (v != null
+                && typeof(IEnumerable).IsAssignableFrom(parameterType) 
+                && !parameterType.IsAssignableFrom(v.GetType()))
             {
                 var typeParam = parameterType.GetIEnumerableTypeParameter();
                 if (typeParam != null)
@@ -105,6 +107,15 @@ namespace With.Reflection
                         .Invoke(null, new[] { v });
                 }
             }
+#if DEBUG
+            if (v != null
+                && !parameterType.IsAssignableFrom(v.GetType()))
+            {
+                throw new Exception(string.Format("parameterType {0} is not assignable from {1}",
+                    parameterType.Name,
+                    v.GetType().Name));
+            }
+#endif
             return v;
         }
     }

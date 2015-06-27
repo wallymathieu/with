@@ -1,27 +1,26 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Collections;
+using With.Collections;
+using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 
 namespace With.WithPlumbing
 {
     using Reflection;
 
-    internal class GetConstructorParamterValues
+    internal class GetConstructorParameterValues
     {
-        public static object[] GetValues(Object t, IEnumerable<NameAndValue> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
+        public static object[] GetValues(Object t, IReadOnlyDictionary<string, object> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
         {
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
-            var propertyNameAndValues = specifiedValues.ToDictionary(nv => nv.Name,
-                StringComparer.InvariantCultureIgnoreCase);
             for (int i = 0; i < values.Length; i++)
             {
                 var param = ctorParams[i];
-                if (propertyNameAndValues.ContainsKey(param.Name))
+                if (specifiedValues.ContainsKey(param.Name))
                 {
-                    values[i] = propertyNameAndValues[param.Name].Value.Coerce(param.ParameterType);
+                    values[i] = specifiedValues[param.Name].Coerce(param.ParameterType);
                     continue;
                 }
                 var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name,

@@ -1,13 +1,14 @@
+using System.Collections.Generic;
+using System;
+using System.Linq;
+
 namespace With.WithPlumbing
 {
-    internal class NameAndValue
+    internal static class NameAndValues
     {
-        public NameAndValue(string name, object value)
+        public static KeyValuePair<string,object> Create(string name, object value)
         {
-            Name = name;
-            Value = value;
+            return new KeyValuePair<string,object> (name, value);
         }
-        public readonly string Name;
-        public readonly object Value;
     }
 }

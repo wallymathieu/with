@@ -63,7 +63,8 @@ namespace Timing
             for (int i = 0; i < 1000; i++)
             {
                 var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").As<MyClass2>(time);
+                var orig = new MyClass (1, "2");
+                new MyClass2(orig.MyProperty, orig.MyProperty2, time);
             }
         }
 
