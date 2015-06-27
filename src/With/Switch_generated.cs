@@ -1,11 +1,11 @@
 
 namespace With
 {
-	using System;
-	using System.Collections.Generic;
-	using With.SwitchPlumbing;
+using System;
+using System.Collections.Generic;
+using With.SwitchPlumbing;
 
-	public static partial class Switch
+    public static partial class Switch
     {
 
     public static ISwitch<In, Out> Match
@@ -192,8 +192,13 @@ namespace With
 }
 namespace With.Destructure
 {
-	using System;
-	public static partial class Switch_Tuples
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using With.Destructure;
+using With.SwitchPlumbing;
+    public static partial class Switch_Tuples
     {
         public static Tuple<T0> Let<T0>(
 this Tuple<T0> that, Action<T0> action)
