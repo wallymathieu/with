@@ -25,8 +25,6 @@ If you want to get a copy of your Customer but made into a VipCustomer (where Vi
 
 	var vipCustomer = customer.As<VipCustomer>(m => m.Since, DateTime.Now);
 
-	var vipCustomer = customer.As<VipCustomer>(DateTime.Now);
-
 	var vipCustomer = customer.As<VipCustomer>(m => m.Since == DateTime.Now)
 
 If your object that you want to copy and update has a readonly ienumerable as a property, you can use extension methods in the namespace _ReadonlyEnumerable_ inside the With expression:
