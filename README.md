@@ -16,6 +16,8 @@ If you need to get a copy of a readonly object but with some other value set in 
 
 	var changedNameToErik = customer.With(c => c.Name == "Erik Testsson")
 
+	var changedNameToErik = customer.With().Eql(c => c.Name, "Erik Testsson").To()
+
 
 If you want to get a copy of your Customer but made into a VipCustomer (where VipCustomer inherits from Customer).
 
@@ -26,6 +28,9 @@ If you want to get a copy of your Customer but made into a VipCustomer (where Vi
 	var vipCustomer = customer.As<VipCustomer>(m => m.Since, DateTime.Now);
 
 	var vipCustomer = customer.As<VipCustomer>(m => m.Since == DateTime.Now)
+
+	var vipCustomer = customer.As<VipCustomer>().Eql(m => m.Since, DateTime.Now).To()
+
 
 If your object that you want to copy and update has a readonly ienumerable as a property, you can use extension methods in the namespace _ReadonlyEnumerable_ inside the With expression:
 
