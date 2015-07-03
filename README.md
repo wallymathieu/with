@@ -108,7 +108,7 @@ The benefit of using this form is that you can give the tuple fields relevant na
 	enumerator.Let((customerName, customerCode) => { ... });
 
 
-### Performance impact of working with immutable types in c# [for version](https://github.com/wallymathieu/with/commit/c0a778017e77d8e6b36c148f675f467ee4c87b93)
+### Performance impact of working with immutable types (by using With) in c# [for version](https://github.com/wallymathieu/with/commit/c0a778017e77d8e6b36c148f675f467ee4c87b93)
 To generate use the Timings project.
 Sample times running it on windows 8.1 on .net 4.0 (with .net 4.5 installed)
 
