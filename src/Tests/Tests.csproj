@@ -97,6 +97,7 @@
     <Compile Include="Ranges\Adapters\ConvertToRangeOfType.cs" />
     <Compile Include="Ranges\Adapters\RangesDataAttribute.cs" />
     <Compile Include="Ranges\Adapters\RangeOfTypeAdapter.cs" />
+    <Compile Include="Case\WeirdUseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
