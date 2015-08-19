@@ -6,145 +6,145 @@ namespace With
 {
     public static class IMatchSwitchExtensions
     {
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             In expected, Action<In> result)
         {
-            return new MatchSingle<In, NothingOrPrepared>(that,
+            return that.Add(new MatchSingle<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(result));
+                F.ReturnDefault<In, NothingOrPrepared>(result)));
         }
 
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             In expected, Out result)
         {
-            return new MatchSingle<In, Out>(that,
+            return that.Add(new MatchSingle<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
 
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             In expected, Action result)
         {
-            return new MatchSingle<In, NothingOrPrepared>(that,
+            return that.Add(new MatchSingle<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result)));
+                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result))));
         }
 
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             IEnumerable<In> expected, Action<In> result)
         {
-            return new Match<In, NothingOrPrepared>(that,
+            return that.Add( new Match<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(result));
+                F.ReturnDefault<In, NothingOrPrepared>(result)));
         }
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             IEnumerable<In> expected, Action result)
         {
-            return new Match<In, NothingOrPrepared>(that,
+            return that.Add(new Match<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result)));
+                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result))));
         }
 
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             IEnumerable<In> expected, Out result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
 
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             Func<In, bool> expected, Action<In> result)
         {
-            return new Match<In, NothingOrPrepared>(that,
+            return that.Add(new Match<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(result));
+                F.ReturnDefault<In, NothingOrPrepared>(result)));
         }
-        public static ISwitch<In, NothingOrPrepared> Case<In, NothingOrPrepared>(this ISwitch<In, NothingOrPrepared> that,
+        public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             Func<In, bool> expected, Action result)
         {
-            return new Match<In, NothingOrPrepared>(that,
+            return that.Add(new Match<In, NothingOrPrepared>(
                 expected,
-                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result)));
+                F.ReturnDefault<In, NothingOrPrepared>(F.IgnoreInput<In>(result))));
         }
 
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             Func<In, bool> expected, Out result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
 
-        public static void Else<In>(this ISwitch<In, Nothing> that,
+        public static void Else<In>(this SwitchWithInstance<In, Nothing> that,
             Action<In> result)
         {
-            var els = new MatchElse<In, Nothing>(that,
-                F.ReturnDefault<In, Nothing>(result));
+            var els = that.Add(new MatchElse<In, Nothing>(
+                F.ReturnDefault<In, Nothing>(result)));
             Nothing value;
             els.TryMatch(out value);
         }
-        public static ISwitch<In, Prepared> Else<In>(this ISwitch<In, Prepared> that,
+        public static T Else<T, In>(this IMatchCollector<T, In, Prepared> that,
             Action<In> result)
         {
-            return new MatchElse<In, Prepared>(that,
-                F.ReturnDefault<In, Prepared>(result));
+            return that.Add(new MatchElse<In, Prepared>(
+                F.ReturnDefault<In, Prepared>(result)));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             In expected, Func<In, Out> result)
         {
-            return new MatchSingle<In, Out>(that,
-                expected, result);
+            return that.Add(new MatchSingle<In, Out>(
+                expected, result));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             In expected, Func<Out> result)
         {
-            return new MatchSingle<In, Out>(that,
+            return that.Add(new MatchSingle<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             IEnumerable<In> expected,
             Func<In, Out> result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                result);
+                result));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             IEnumerable<In> expected,
             Func<Out> result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             Func<In, bool> expected,
             Func<In, Out> result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                result);
+                result));
         }
-        public static ISwitch<In, Out> Case<In, Out>(this ISwitch<In, Out> that,
+        public static T Case<T, In, Out>(this IMatchCollector<T, In, Out> that,
             Func<In, bool> expected,
             Func<Out> result)
         {
-            return new Match<In, Out>(that,
+            return that.Add(new Match<In, Out>(
                 expected,
-                F.IgnoreInput<In, Out>(result));
+                F.IgnoreInput<In, Out>(result)));
         }
 
-        public static ISwitch<In, Out> Else<In, Out>(this ISwitch<In, Out> that,
+        public static T Else<T, In, Out>(this IMatchCollector<T, In, Out> that,
             Func<In, Out> result)
         {
-            return new MatchElse<In, Out>(that, result);
+            return that.Add(new MatchElse<In, Out>(result));
         }
 
-        public static Out Result<In, Out>(this ISwitch<In, Out> that)
+        public static Out Result<In, Out>(this SwitchWithInstance<In, Out> that)
         {
-            return that;
+            return that.Value();
         }
     }
 }

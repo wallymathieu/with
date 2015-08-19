@@ -56,6 +56,9 @@
     <Compile Include="ShouldBeAnExpressionLeftToRightException.cs" />
     <Compile Include="Switch.cs" />
     <Compile Include="NoMatchFoundException.cs" />
+    <Compile Include="SwitchPlumbing\SwitchWithInstance.cs">
+      <DependentUpon>Switch.cs</DependentUpon>
+    </Compile>
     <Compile Include="SwitchPlumbing\f.cs" />
     <Compile Include="Destructure\Switch_Fields.cs" />
     <Compile Include="Switch_generated.cs">
@@ -78,8 +81,6 @@
     <Compile Include="RangePlumbing\Int64Range.cs" />
     <Compile Include="RangePlumbing\Int32Range.cs" />
     <Compile Include="SwitchPlumbing\MatchType.cs" />
-    <Compile Include="SwitchPlumbing\ISwitch.cs" />
-    <Compile Include="SwitchPlumbing\Switch.cs" />
     <Compile Include="SwitchPlumbing\MatchSingle.cs" />
     <Compile Include="SwitchPlumbing\Nothing.cs" />
     <Compile Include="SwitchPlumbing\MatchElse.cs" />
@@ -113,6 +114,10 @@
     <Compile Include="Collections\IReadOnlyDictionary.cs" />
     <Compile Include="Collections\ReadOnlyDictionaryUsage.cs" />
     <Compile Include="WithPlumbing\CreateInstanceFromValues.cs" />
+    <Compile Include="SwitchPlumbing\IMatcher.cs" />
+    <Compile Include="SwitchPlumbing\Switch.cs">
+    </Compile>
+    <Compile Include="SwitchPlumbing\IMatchCollector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

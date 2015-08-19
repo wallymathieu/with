@@ -3,34 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.SwitchPlumbing
 {
-    public class Match<In, Out> : ISwitch<In, Out>
+    public class Match<In, Out> : IMatcher<In, Out>
     {
         private readonly Func<In, bool> expected;
         private readonly Func<In, Out> result;
-        private readonly ISwitch<In, Out> inner;
-        public override In Instance
-        {
-            get { return inner.Instance; }
-            set { inner.Instance = value; }
-        }
 
-        public override bool TryMatch(out Out value)
+        public bool TryMatch(In instance, out Out value)
         {
-            if (inner.TryMatch(out value))
+            if (expected(instance))
             {
+                value = result(instance);
                 return true;
             }
-            if (expected(Instance))
-            {
-                value = result(Instance);
-                return true;
-            }
+            value = default(Out);
             return false;
         }
 
-        public Match(ISwitch<In, Out> inner, IEnumerable<In> expected, Func<In, Out> result)
+        public Match(IEnumerable<In> expected, Func<In, Out> result)
         {
-            this.inner = inner;
             if (expected is IContainer<In>)
             {
                 this.expected = ((IContainer<In>)(expected)).Contains;
@@ -41,9 +31,9 @@ namespace With.SwitchPlumbing
             }
             this.result = result;
         }
-        public Match(ISwitch<In, Out> inner, Func<In, bool> expected, Func<In, Out> result)
+
+        public Match(Func<In, bool> expected, Func<In, Out> result)
         {
-            this.inner = inner;
             this.expected = expected;
             this.result = result;
         }

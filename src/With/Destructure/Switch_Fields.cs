@@ -7,20 +7,20 @@ namespace With.Destructure
 
     public static partial class Switch_Fields
     {
-        public static ISwitch<In, Out> Fields<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)
+        public static T Fields<T, In, Out>(this IMatchCollector<T, In, Out> that, Action<MatchFields<In, Out>> fields)
         {
             var m = new MatchFields<In, Out>();
             m.Fields = true;
             fields(m);
-            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray(), m.TypeOfFields);
+            return that.Add(new SwitchMatchFields<In, Out>(m.Funcs.ToArray(), m.TypeOfFields));
         }
 
-        public static ISwitch<In, Out> Properties<In, Out>(this ISwitch<In, Out> that, Action<MatchFields<In, Out>> fields)
+        public static T Properties<T, In, Out>(this IMatchCollector<T, In, Out> that, Action<MatchFields<In, Out>> fields)
         {
             var m = new MatchFields<In, Out>();
             m.Properties = true;
             fields(m);
-            return new SwitchMatchFields<In, Out>(that, m.Funcs.ToArray(), m.TypeOfFields);
+            return that.Add( new SwitchMatchFields<In, Out>(m.Funcs.ToArray(), m.TypeOfFields));
         }
 
         /// <summary>

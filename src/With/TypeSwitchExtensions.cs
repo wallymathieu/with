@@ -5,11 +5,11 @@ namespace With
 {
     public static class TypeSwitchExtensions
     {
-        public static ISwitch<In, Out> Case<On, In, Out>(
-            this ISwitch<In, Out> that, Func<On, Out> func)
+        public static T Case<T ,On, In, Out>(
+            this IMatchCollector<T, In, Out> that, Func<On, Out> func)
             where On : In
         {
-            return new MatchType<On, In, Out>(that, func);
+            return that.Add(new MatchType<On, In, Out>(func));
         }
     }
 }
