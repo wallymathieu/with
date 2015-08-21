@@ -26,6 +26,13 @@ namespace Timing
                 var low = timings2.Min(t => t.Value);
                 Console.WriteLine(timings2.Select(t => Stat.Map(t, low)).ToMarkdownTable());
             }
+            {
+                Console.WriteLine("Starting: Struct Equals");
+                var m = new TimingsEquals();
+                var timings2 = m.Get().OrderBy(t => t.Value).ToArray();
+                var low = timings2.Min(t => t.Value);
+                Console.WriteLine(timings2.Select(t => Stat.Map(t, low)).ToMarkdownTable());
+            }
         }
             
         class Stat

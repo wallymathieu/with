@@ -7,7 +7,7 @@ namespace Tests
 {
     public class Another_instance_gets_created_without_the_need_for_inheritance
     {
-        public class CustomerFromSomeOtherDll 
+        public struct CustomerFromSomeOtherDll 
         {
             private readonly int id;
             private readonly string name;

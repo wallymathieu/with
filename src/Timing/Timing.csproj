@@ -38,6 +38,7 @@
     <Compile Include="TimingsBase.cs" />
     <Compile Include="TimingsClone.cs" />
     <Compile Include="TimingsNewClass.cs" />
+    <Compile Include="TimingsEquals.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

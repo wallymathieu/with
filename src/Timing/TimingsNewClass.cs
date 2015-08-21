@@ -5,7 +5,10 @@ namespace Timing
 {
     class TimingsNewClass : TimingsBase
     {
-
+        public TimingsNewClass():base(1000)
+        {
+            
+        }
         public class MyClass
         {
             public MyClass(int myProperty, string myProperty2)
@@ -34,57 +37,57 @@ namespace Timing
 
         public void Timing_equalequal()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == time);
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3 == time);
+                });
         }
 
         public void Timing_propertyname_only()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3, time);
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    new MyClass(1, "2").As<MyClass2>(m => m.MyProperty3, time);
+                });
         }
         public void Timing_dictionary()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { { "MyProperty3", time } });
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    new MyClass(1, "2").As<MyClass2>(new Dictionary<String, object> { { "MyProperty3", time } });
+                });
         }
 
         public void Timing_ordinal()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                var orig = new MyClass (1, "2");
-                new MyClass2(orig.MyProperty, orig.MyProperty2, time);
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    var orig = new MyClass(1, "2");
+                    new MyClass2(orig.MyProperty, orig.MyProperty2, time);
+                });
         }
 
         public void Timing_fluent()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").As<MyClass2>().Eql(p => p.MyProperty3, time)
-                    .To(); // use to or cast to get the new instance
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    new MyClass(1, "2").As<MyClass2>().Eql(p => p.MyProperty3, time)
+                        .To(); // use to or cast to get the new instance
+                });
         }
 
         public void Timing_by_hand()
         {
-            for (int i = 0; i < 1000; i++)
-            {
-                var time = new DateTime(2001, 1, 1).AddMinutes(i);
-                new MyClass(1, "2").AddMinutes(time);
-            }
+            Do((i) =>
+                {
+                    var time = new DateTime(2001, 1, 1).AddMinutes(i);
+                    new MyClass(1, "2").AddMinutes(time);
+                });
         }
     }
 
