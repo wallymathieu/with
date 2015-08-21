@@ -127,7 +127,7 @@ namespace Timing
                 return Product.GetHashCode();
             }
         }
-        public void Timing_equals_and_get_has_code_plain()
+        public void Timing_equals_and_get_hash_code_plain()
         {
             var clone = new CustomerInfo("Test", 44);
             var oneFieldDifferent = new CustomerInfo("Test", 64);
@@ -139,7 +139,7 @@ namespace Timing
                 });
         }
 
-        public void Timing_equals_and_get_has_code_overridden()
+        public void Timing_equals_and_get_hash_code_overridden()
         {
             var clone = new ProductInfo("Test", 44);
             var oneFieldDifferent = new ProductInfo("Test", 64);
@@ -151,7 +151,7 @@ namespace Timing
                 });
         }
 
-        public void Timing_equals_and_get_has_code_overridden_in_class()
+        public void Timing_equals_and_get_hash_code_overridden_in_class()
         {
             var clone = new Product("Test", 44);
             var oneFieldDifferent = new Product("Test", 64);
