@@ -12,23 +12,23 @@ using With.SwitchPlumbing;
         <In, Out>(In value, 
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1)
-    {
-            return new SwitchWithInstance<In,Out>(value, new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
-                .Case(i1, f1));
-    }
+               .Case(i1, f1));
+        }
 
         public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
                IEnumerable<In> i2, Func<In, Out> f2)
-    {
-            return new SwitchWithInstance<In,Out>(value,new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
-                .Case(i2, f2));
-    }
+               .Case(i2, f2));
+        }
 
         public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
@@ -36,13 +36,13 @@ using With.SwitchPlumbing;
                IEnumerable<In> i1, Func<In, Out> f1,
                IEnumerable<In> i2, Func<In, Out> f2,
                IEnumerable<In> i3, Func<In, Out> f3)
-    {
-            return new SwitchWithInstance<In,Out>(value,new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
-                .Case(i3, f3));
-    }
+               .Case(i3, f3));
+        }
 
         public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
@@ -51,14 +51,14 @@ using With.SwitchPlumbing;
                IEnumerable<In> i2, Func<In, Out> f2,
                IEnumerable<In> i3, Func<In, Out> f3,
                IEnumerable<In> i4, Func<In, Out> f4)
-    {
-            return new SwitchWithInstance<In,Out>(value,new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3)
-                .Case(i4, f4));
-    }
+               .Case(i4, f4));
+        }
 
         public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
@@ -68,15 +68,15 @@ using With.SwitchPlumbing;
                IEnumerable<In> i3, Func<In, Out> f3,
                IEnumerable<In> i4, Func<In, Out> f4,
                IEnumerable<In> i5, Func<In, Out> f5)
-    {
-            return new SwitchWithInstance<In,Out>(value,new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3)
                .Case(i4, f4)
-                .Case(i5, f5));
-    }
+               .Case(i5, f5));
+        }
 
         public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
@@ -87,70 +87,70 @@ using With.SwitchPlumbing;
                IEnumerable<In> i4, Func<In, Out> f4,
                IEnumerable<In> i5, Func<In, Out> f5,
                IEnumerable<In> i6, Func<In, Out> f6)
-    {
-            return new SwitchWithInstance<In,Out>(value,new Switch<In, Out>()
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3)
                .Case(i4, f4)
                .Case(i5, f5)
-                .Case(i6, f6));
-    }
+               .Case(i6, f6));
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1);
-    }
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
                IEnumerable<In> i2, Func<In, Out> f2)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2);
-    }
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
                IEnumerable<In> i2, Func<In, Out> f2,
                IEnumerable<In> i3, Func<In, Out> f3)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3);
-    }
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
                IEnumerable<In> i2, Func<In, Out> f2,
                IEnumerable<In> i3, Func<In, Out> f3,
                IEnumerable<In> i4, Func<In, Out> f4)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3)
                .Case(i4, f4);
-    }
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
@@ -158,17 +158,17 @@ using With.SwitchPlumbing;
                IEnumerable<In> i3, Func<In, Out> f3,
                IEnumerable<In> i4, Func<In, Out> f4,
                IEnumerable<In> i5, Func<In, Out> f5)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
                .Case(i3, f3)
                .Case(i4, f4)
                .Case(i5, f5);
-    }
+        }
 
-    public static Switch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1,
@@ -177,8 +177,8 @@ using With.SwitchPlumbing;
                IEnumerable<In> i4, Func<In, Out> f4,
                IEnumerable<In> i5, Func<In, Out> f5,
                IEnumerable<In> i6, Func<In, Out> f6)
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
                .Case(i0, f0)
                .Case(i1, f1)
                .Case(i2, f2)
@@ -186,7 +186,7 @@ using With.SwitchPlumbing;
                .Case(i4, f4)
                .Case(i5, f5)
                .Case(i6, f6);
-    }
+        }
 
     }
 }

@@ -17,13 +17,13 @@ class MatchSwitch
       get_case(n)
     end.join("\n")
     "
-    public static ISwitch<In, Out> Match
+        public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
 #{input})
-    {
-        return new Switch<In, Out>().Tap(c => c.Instance = value)
-#{cases};
-    }"
+        {
+            return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
+#{cases});
+        }"
   end
   def get_match_switch(num)
     input = (0..num).map do |n|
@@ -33,13 +33,13 @@ class MatchSwitch
       get_case(n)
     end.join("\n")
     "
-    public static ISwitch<In, Out> Match
+        public static Switch<In, Out> Match
         <In, Out>(
 #{input})
-    {
-        return new Switch<In, Out>()
+        {
+            return new Switch<In, Out>()
 #{cases};
-    }"  
+        }"  
   end
   def header
           "namespace With

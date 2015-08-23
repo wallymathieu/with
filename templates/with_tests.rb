@@ -3,7 +3,7 @@ require "minitest/autorun"
 
 class TestWith < Minitest::Test
   def setup
-    @w=With.new(1)
+    @w=With.new()
   end
   def test_can_generate_match_switch_1
     v = @w.to_s()
@@ -28,17 +28,17 @@ using With.SwitchPlumbing;
     public static partial class Switch
     {
 
-    public static ISwitch<In, Out> Match
+    public static SwitchWithInstance<In, Out> Match
         <In, Out>(In value, 
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1)
     {
-        return new Switch<In, Out>().Tap(c => c.Instance = value)
+        return new SwitchWithInstance<In, Out>(value, new Switch<In, Out>()
                .Case(i0, f0)
-               .Case(i1, f1);
+               .Case(i1, f1));
     }
 
-    public static ISwitch<In, Out> Match
+    public static Switch<In, Out> Match
         <In, Out>(
                IEnumerable<In> i0, Func<In, Out> f0,
                IEnumerable<In> i1, Func<In, Out> f1)
