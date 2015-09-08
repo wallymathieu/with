@@ -43,7 +43,6 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="xunit">
       <HintPath>..\packages\xunit.1.8.0.1549\lib\xunit.dll</HintPath>
     </Reference>
@@ -53,7 +52,6 @@
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\packages\AutoFixture.3.21.0\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\IList_next_and_previous.cs" />
