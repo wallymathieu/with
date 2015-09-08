@@ -1,13 +1,12 @@
 ﻿using With.Rubyfy;
 using Xunit;
 using With;
-using With.Rubyfy.Json;
 using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
 
-
 namespace Tests
 {
+    using Json;
     public class EachSliceTests
     {
         [Fact]

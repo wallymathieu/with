@@ -1,5 +1,5 @@
 ﻿using System.Web.Script.Serialization;
-namespace With.Rubyfy.Json
+namespace Tests.Json
 {
     public static class Json
     {
