@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using With.SwitchPlumbing;
 
 namespace With
@@ -11,5 +11,12 @@ namespace With
         {
             return that.Add(new MatchType<On, In, Out>(func));
         }
+        public static T Case<T ,On, In>(
+            this IMatchCollector<T, In, Nothing> that, Action<On> func)
+            where On : In
+        {
+            return that.Add(new MatchType<On, In, Nothing>(F.ReturnDefault<On, Nothing>(func)));
+        }
+        
     }
 }

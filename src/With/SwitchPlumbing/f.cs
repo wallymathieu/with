@@ -27,5 +27,6 @@ namespace With.SwitchPlumbing
         {
             return ingoing => result();
         }
+
     }
 }

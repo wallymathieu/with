@@ -1,8 +1,8 @@
-﻿using Xunit;
+using Xunit;
 using With;
 using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
-
+using System;
 namespace Tests
 {
     public class SwitchOnTypeTests
@@ -31,6 +31,19 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3);
+            Assert.Equal(1, result);
+        }
+
+        [Theory, AutoData]
+        public void Should_match_the_first_case_when_void(
+            MyClass instance)
+        {
+            var result = 0;
+            Switch.Match<object>(instance)
+                .Case((MyClass c) => {result = 1;})
+                .Case((MyClass2 c) => {result = 2;})
+                .Case((MyClass3 c) => {result = 3;})
+                .ElseFail();
             Assert.Equal(1, result);
         }
 

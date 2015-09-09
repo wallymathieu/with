@@ -1,4 +1,4 @@
-﻿using With.SwitchPlumbing;
+using With.SwitchPlumbing;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +6,7 @@ namespace With
 {
     public static class IMatchSwitchExtensions
     {
+        // 
         public static T Case<T, In, NothingOrPrepared>(this IMatchCollector<T, In, NothingOrPrepared> that,
             In expected, Action<In> result)
         {
@@ -84,6 +85,20 @@ namespace With
             Nothing value;
             els.TryMatch(out value);
         }
+
+        public static void ElseFail<In>(this SwitchWithInstance<In, Nothing> that)
+        {
+            that.ElseFailWith(@in => new Exception("Failed to match"));
+        }
+
+        public static void ElseFailWith<In>(this SwitchWithInstance<In, Nothing> that, Func<In,Exception> generator)
+        {
+            var els = that.Add(new MatchElse<In, Nothing>(
+                F.ReturnDefault<In, Nothing>(@in=> { throw generator(@in); })));
+            Nothing value;
+            els.TryMatch(out value);
+        }
+
         public static T Else<T, In>(this IMatchCollector<T, In, Prepared> that,
             Action<In> result)
         {
