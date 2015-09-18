@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 namespace With.Destructure
 {
-    using Rubyfy;
+    using Linq;
     using Reflection;
     using SwitchPlumbing;
 
@@ -15,7 +15,7 @@ namespace With.Destructure
         public SwitchMatchFields(Delegate[] funcs, TypeOfFIelds typeOfFields)
         {
             this.typeOfFields = typeOfFields;
-            this.matches = funcs.Map(f => Tuple.Create(f.Method.GetParameters().Select(p => p.ParameterType).ToArray(), f)).ToA();
+            this.matches = funcs.Select(f => Tuple.Create(f.Method.GetParameters().Select(p => p.ParameterType).ToArray(), f)).ToArray();
         }
 
         public bool TryMatch(In instance, out Out value)

@@ -1,6 +1,6 @@
 using Xunit;
-using With.Rubyfy;
-namespace Tests.Rubyfy
+using System.Linq;
+namespace Tests.Linq
 {
     public class CountTests
     {
@@ -9,7 +9,7 @@ namespace Tests.Rubyfy
         public void Test_from_documentation()
         {
             Assert.Equal(4, ary.Count());
-            Assert.Equal(2, ary.Count(2));
+            Assert.Equal(2, ary.Count(x => x == 2));
             Assert.Equal(3, ary.Count(x => x % 2 == 0));
         }
     }

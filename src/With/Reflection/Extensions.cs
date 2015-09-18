@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace With.Reflection
 {
-    using Rubyfy;
+    using Linq;
     internal static class Extensions
     {
         private static MethodInfo EnumerableToList = typeof(Enumerable)

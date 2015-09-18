@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace With.Rubyfy
+namespace With.Linq
 {
     public static class FlattenExtension
     {

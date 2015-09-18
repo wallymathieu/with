@@ -1,7 +1,8 @@
 using Xunit;
-using With.Rubyfy;
+using With.Linq;
 using System.Collections.Generic;
-namespace Tests.Rubyfy
+using System.Linq;
+namespace Tests.Linq
 {
     public class ChunkTests
     {
@@ -11,14 +12,14 @@ namespace Tests.Rubyfy
             var array = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
             var chunked = new List<object[]>();
 
-            array.Chunk(n => n.Even()).Each((even, ary) => chunked.Add(new object[] { even, ary.ToA() }));
+            array.Chunk(n => n.Even()).Each((even, ary) => chunked.Add(new object[] { even, ary.ToArray() }));
             Assert.Equal(new[]{
                 new object[]{false, new []{3, 1}},
                 new object[]{true, new []{4}},
                 new object[]{false, new []{1, 5, 9}},
                 new object[]{true, new []{2, 6}},
                 new object[]{false, new []{5, 3, 5}}
-                }, chunked.ToA());
+                }, chunked.ToArray());
         }
 
         private bool? Drop9And6(int i)
@@ -32,14 +33,14 @@ namespace Tests.Rubyfy
             var array = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
             var chunked = new List<object[]>();
 
-            array.Chunk(Drop9And6).Each((even, ary) => chunked.Add(new object[] { even, ary.ToA() }));
+            array.Chunk(Drop9And6).Each((even, ary) => chunked.Add(new object[] { even, ary.ToArray() }));
             Assert.Equal(new[]{
                 new object[]{false, new []{3, 1}},
                 new object[]{true, new []{4}},
                 new object[]{false, new []{1, 5}},
                 new object[]{true, new []{2}},
                 new object[]{false, new []{5, 3, 5}}
-            }, chunked.ToA());
+            }, chunked.ToArray());
         }
 
     }

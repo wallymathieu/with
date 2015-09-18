@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using With.Collections;
-namespace With.Rubyfy
+namespace With.Linq
 {
     public static class MaxMinExtensions
     {
@@ -15,62 +15,6 @@ namespace With.Rubyfy
                     yield return item;
                 }
             }
-        }
-
-        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count)
-            where T : IComparable
-        {
-            throw new NotImplementedException();
-            //return self.OrderBy(Comparer<T>.Default).Take(count);
-        }
-        internal static IEnumerable<T> Max<T>(this IEnumerable<T> self, int count, Func<T, T, int> compare)
-        {
-            throw new NotImplementedException();
-
-            //return self.OrderBy(Comparer.Create(compare)).Take(count);
-        }
-        internal static IEnumerable<T> MaxBy<T, TComparable>(this IEnumerable<T> self, int count, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            throw new NotImplementedException();
-
-            //return self.OrderBy(Comparer.Create(map)).Take(count);
-        }
-
-        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count)
-            where T : IComparable
-        {
-            throw new NotImplementedException();
-
-            //return self.OrderBy(Comparer<T>.Default).Take(count);
-        }
-        internal static IEnumerable<T> Min<T>(this IEnumerable<T> self, int count, Func<T, T, int> compare)
-        {
-            throw new NotImplementedException();
-
-            //return self.OrderBy(Comparer.Create(compare)).Take(count);
-        }
-        internal static IEnumerable<T> MinBy<T, TComparable>(this IEnumerable<T> self, int count, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            throw new NotImplementedException();
-
-            //return self.OrderBy( Comparer.Create(map) ).Take(count);
-        }
-
-
-        public static long Max(this IEnumerable<long> self)
-        {
-            return Enumerable.Max(self);
-        }
-        public static decimal Max(this IEnumerable<decimal> self)
-        {
-            return Enumerable.Max(self);
-        }
-        public static T Max<T>(this IEnumerable<T> self)
-            where T : IComparable
-        {
-            return self.GetMax(Comparer<T>.Default).FirstOrDefault();
         }
 
         public static T Max<T>(this IEnumerable<T> self, Func<T, T, int> compare)
@@ -102,21 +46,6 @@ namespace With.Rubyfy
                 }
             }
             return self.GetEquivalentBy(current, compare);
-        }
-
-        public static long Min(this IEnumerable<long> self)
-        {
-            return Enumerable.Min(self);
-        }
-        public static decimal Min(this IEnumerable<decimal> self)
-        {
-            return Enumerable.Min(self);
-        }
-
-        public static T Min<T>(this IEnumerable<T> self)
-            where T : IComparable
-        {
-            return self.GetMin(Comparer<T>.Default).FirstOrDefault();
         }
 
         public static T Min<T>(this IEnumerable<T> self, Func<T, T, int> compare)

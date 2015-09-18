@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
 using System;
 using System.Runtime.CompilerServices;
-
+using System.Linq;
 namespace With.Reflection
 {
-    using Rubyfy;
+    using Linq;
 
     static class ConstructorExtensions 
     {
@@ -14,7 +14,7 @@ namespace With.Reflection
         {
             return constructorWithMostParameters.WeakMemoize(t, type =>
              {
-                 var ctors = type.GetConstructors().ToA();
+                 var ctors = type.GetConstructors().ToArray();
                  if (ctors.Length == 1)
                  {
                      return ctors.First();

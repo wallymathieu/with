@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using With.Rubyfy;
+using With.Linq;
 
 namespace With
 {
@@ -10,12 +11,12 @@ namespace With
     public class ExpectedButGotException : Exception
     {
         public ExpectedButGotException(ExpressionType[] expected, ExpressionType got)
-            : this(expected.Map(e => e.ToString()).ToA(), got.ToString())
+            : this(expected.Select(e => e.ToString()).ToArray(), got.ToString())
         {
         }
 
         public ExpectedButGotException(MemberTypes[] expected, MemberTypes got)
-            : this(expected.Map(e => e.ToString()).ToA(), got.ToString())
+            : this(expected.Select(e => e.ToString()).ToArray(), got.ToString())
         {
         }
 

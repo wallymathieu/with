@@ -1,6 +1,6 @@
-﻿using With.Rubyfy;
+﻿using With.Linq;
 using Xunit;
-
+using System.Linq;
 namespace Tests
 {
     public class CycleTests
@@ -12,11 +12,11 @@ namespace Tests
 
             Assert.Equal(new[]{
                 "a", "b", "c"
-            }, array.Cycle(1).ToA());
+            }, array.Cycle(1).ToArray());
             Assert.Equal(new[]{
                 "a", "b", "c",
                 "a", "b", "c"
-            }, array.Cycle(2).ToA());
+            }, array.Cycle(2).ToArray());
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Tests
                 "a", "b", "c",
                 "a", "b", "c",
                 "a"
-            }, array.Cycle(null).Take(7).ToA());
+            }, array.Cycle(null).Take(7).ToArray());
         }
 
     }

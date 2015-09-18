@@ -1,8 +1,9 @@
-﻿using With.Rubyfy;
+﻿using With.Linq;
 using Xunit;
 using With;
 using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
+using System.Linq;
 
 namespace Tests
 {

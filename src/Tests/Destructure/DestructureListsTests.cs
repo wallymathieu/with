@@ -3,7 +3,6 @@ using Xunit;
 using Xunit.Extensions;
 using With.Destructure;
 using With;
-using With.Rubyfy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +37,7 @@ namespace Tests.Destructure
         public void Yield_range()
         {
             var range = 0.To(4);
-            var yielded = range.Stitch((a, b) => new[] { a, b }).ToA();
+            var yielded = range.Stitch((a, b) => new[] { a, b }).ToArray();
             Assert.Equal(new[] { new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 }, new[] { 3, 4 } }, yielded);
         }
 
@@ -59,7 +58,7 @@ namespace Tests.Destructure
             tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
             tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
             tuples.Add(range.Let((i, j, rest) => Tuple.Create(i, j)));
-            Assert.Equal(Enumerable.Repeat(Tuple.Create(0, 1), 3).ToA(), tuples.ToA());
+            Assert.Equal(Enumerable.Repeat(Tuple.Create(0, 1), 3).ToArray(), tuples.ToArray());
         }
 
         [Fact]
@@ -70,7 +69,7 @@ namespace Tests.Destructure
             tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
             tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
             tuples.Add(range.Let((i, j) => Tuple.Create(i, j)));
-            Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(2, 3), Tuple.Create(4,5) }, tuples.ToA());
+            Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(2, 3), Tuple.Create(4,5) }, tuples.ToArray());
 
         }
 

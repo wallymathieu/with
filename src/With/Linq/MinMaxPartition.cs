@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace With.Rubyfy
+namespace With.Linq
 {
     public class MinMaxPartition<T> : IEnumerable<IEnumerable<T>>
     {

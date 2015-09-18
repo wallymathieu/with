@@ -1,6 +1,6 @@
 using Xunit;
-using With.Rubyfy;
-namespace With.Tests.Rubyfy
+using With.Linq;
+namespace With.Tests.Linq
 {
     public class GsubTests
     {

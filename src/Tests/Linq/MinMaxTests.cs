@@ -1,5 +1,6 @@
 ﻿using Xunit;
-using With.Rubyfy;
+using With.Linq;
+using System.Linq;
 
 namespace Tests
 {
@@ -10,17 +11,7 @@ namespace Tests
         {
             Assert.Equal("c", new[] { "a", "b", "c" }.Max());
             Assert.Equal("a", new[] { "a", "b", "c" }.Min());
-            Assert.Equal(new object[] { "a", "c" }, new[] { "a", "b", "c" }.MinMax().Flatten().ToA());
-        }
-
-        //[Fact]
-        public void NotImplemented()
-        {
-            Assert.Equal(new[] { "c", "b" }, new[] { "a", "b", "c" }.Max(2).ToA());
-            Assert.Equal(new[] { "a", "b" }, new[] { "a", "b", "c" }.Min(2).ToA());
-
-            Assert.Equal(new[] { "c", "b" }, new[] { new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MaxBy(2, e => e.i).Map(e => e.a));
-            Assert.Equal(new[] { "a", "b" }, new[] { new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MinBy(2, e => e.i).Map(e => e.a));
+            Assert.Equal(new object[] { "a", "c" }, new[] { "a", "b", "c" }.MinMax().Flatten().Cast<object>().ToArray());
         }
 
         [Fact]

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
-namespace With.Rubyfy
+namespace With.Linq
 {
     public static class SubExtensions
     {
@@ -66,9 +67,9 @@ namespace With.Rubyfy
             if (trailingSlash.Success && trailingSlash.Length > 0)
             {
                 return trailingSlash.Value
-                    .ToA()
-                    .Map(token => ParseOption(token))
-                    .Reduce((memo, opt) => memo | opt);
+                    .ToArray()
+                    .Select(token => ParseOption(token))
+                    .Aggregate((memo, opt) => memo | opt);
             }
             return RegexOptions.None;
         }

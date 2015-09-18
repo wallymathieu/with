@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
@@ -8,7 +9,7 @@ using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 namespace With.WithPlumbing
 {
     using Collections;
-    using Rubyfy;
+    using Linq;
 
     internal class ExpressionUnaryCall
     {
@@ -58,7 +59,7 @@ namespace With.WithPlumbing
             else
             {
                 var memberValue = GetMemberValue(memberAccess);
-                var paramValue = expr.Arguments.Drop(1).Map(arg=>ExpressionValue.GetExpressionValue(arg)).ToA();
+                var paramValue = expr.Arguments.Skip(1).Select(arg=>ExpressionValue.GetExpressionValue(arg)).ToArray();
                 value = ApplyOperation.Apply(expr, memberValue, paramValue);
             }
             _parsed.Add(NameAndValues.Create

@@ -1,6 +1,6 @@
 ﻿using Xunit;
-using With.Rubyfy;
-
+using With.Linq;
+using System.Linq;
 
 namespace Tests
 {
@@ -10,7 +10,7 @@ namespace Tests
         public void SimpleReturn()
         {
             var array = new[] { 1, 2, 3, 4 };
-            Assert.Equal(new[] { 1, -1, 2, -2, 3, -3, 4, -4 }, array.FlatMap(e => new[] { e, -e }).ToA());
+            Assert.Equal(new[] { 1, -1, 2, -2, 3, -3, 4, -4 }, array.FlatMap(e => new[] { e, -e }).ToArray());
         }
 
         [Fact]
@@ -18,7 +18,7 @@ namespace Tests
         {
             var array = new[] { new[] { 1, 2 }, new[] { 3, 4 } };
             //throw new Exception(Newtonsoft.Json.JsonConvert.SerializeObject(result));
-            Assert.Equal(new[] { 1, 2, 100, 3, 4, 100 }, array.FlatMap<int>(e => new[] { e, 100 }).ToA());
+            Assert.Equal(new[] { 1, 2, 100, 3, 4, 100 }, array.FlatMap<int>(e => new[] { e, 100 }).ToArray());
         }
 
     }

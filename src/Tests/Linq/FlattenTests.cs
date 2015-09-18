@@ -1,7 +1,9 @@
 using System.Collections;
 using Xunit;
-using With.Rubyfy;
-namespace With.Tests.Rubyfy
+using With.Linq;
+using System.Linq;
+
+namespace With.Tests.Linq
 {
     public class FlattenTests
     {
@@ -57,7 +59,7 @@ namespace With.Tests.Rubyfy
 
         private void assert_equal(IEnumerable expected, IEnumerable actual)
         {
-            Assert.Equal(expected.ToA(), actual.ToA());
+            Assert.Equal(expected.Cast<object>().ToArray(), actual.Cast<object>().ToArray());
         }
     }
 }

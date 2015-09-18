@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace With.Rubyfy
+namespace With.Linq
 {
     public static class ZipExtensions
     {
         public static IEnumerable<T[]> Zip<T>(this IEnumerable<T> self, params IEnumerable<T>[] others)
         {
             // ElementAtOrDefault: If the type of source implements IList<T>
-            var lists = others.Select(other => other.ToL()); 
+            var lists = others.Select(other => other.ToList()); 
             var i = 0;
             foreach (var item in self)
             {
@@ -22,7 +22,7 @@ namespace With.Rubyfy
         public static IEnumerable<Tuple<T, TOther>> Zip<T,TOther>(this IEnumerable<T> self, IEnumerable<TOther> other)
         {
             // ElementAtOrDefault: If the type of source implements IList<T>
-            var list = other.ToL();
+            var list = other.ToList();
             var i = 0;
             foreach (var item in self)
             {
