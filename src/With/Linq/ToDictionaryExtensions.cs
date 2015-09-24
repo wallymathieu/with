@@ -25,6 +25,14 @@ namespace With.Linq
             }
             return val[position];
         }
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
+        {
+            return self.ToLookup(kv => kv.Key, kv => kv.Value);
+        }
+        public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<Tuple<TKey, TValue>> self)
+        {
+            return self.ToLookup(kv => kv.Item1, kv => kv.Item2);
+        }
     }
 }
 
