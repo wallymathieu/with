@@ -3,15 +3,15 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/wallymathieu/with</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Alternative constructions in c# to do things that may look clumsy in regular code</description>
-    <copyright>Copyright 2013</copyright>
-    <releaseNotes>Added ToLookup and destructure KeyValuePair.</releaseNotes>
+    <description>Extensions to make c# easier to use when doing functional code</description>
+    <copyright>Copyright 2015</copyright>
+    <releaseNotes>Updated the description of the library</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
