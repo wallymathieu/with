@@ -97,6 +97,7 @@
     <Compile Include="Ranges\Adapters\RangesDataAttribute.cs" />
     <Compile Include="Ranges\Adapters\RangeOfTypeAdapter.cs" />
     <Compile Include="Case\WeirdUseTests.cs" />
+    <Compile Include="Destructure\DestructureKeyValuePairTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
