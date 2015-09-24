@@ -112,8 +112,8 @@
     <Compile Include="SwitchPlumbing\IMatcher.cs" />
     <Compile Include="SwitchPlumbing\Switch.cs">
     </Compile>
-    <Compile Include="SwitchPlumbing\IMatchCollector.cs" />
     <Compile Include="KeyValueExtensions.cs" />
+    <Compile Include="SwitchPlumbing\MatchCollector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

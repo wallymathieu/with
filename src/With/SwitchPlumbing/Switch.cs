@@ -4,7 +4,7 @@ using System;
 
 namespace With.SwitchPlumbing
 {
-    public class Switch<In, Out> : IMatchCollector<Switch<In,Out>, In,Out>
+    public class Switch<In, Out> : MatchCollector<Switch<In,Out>, In,Out>
     {
         private readonly IMatcher<In, Out>[] matchers=new IMatcher<In, Out>[0];
         public Switch()
@@ -36,7 +36,7 @@ namespace With.SwitchPlumbing
             return false;
         }
 
-        public Switch<In, Out> Add(IMatcher<In, Out> m)
+        public override Switch<In, Out> Add(IMatcher<In, Out> m)
         {
             return new Switch<In, Out>(m, this.matchers);
         }

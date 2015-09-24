@@ -2,7 +2,7 @@
 
 namespace With.SwitchPlumbing
 {
-    public class SwitchWithInstance<In, Out> : IMatchCollector<SwitchWithInstance<In, Out>, In, Out>
+    public class SwitchWithInstance<In, Out> : MatchCollector<SwitchWithInstance<In, Out>, In, Out>
     {
         private readonly Switch<In,Out> _switch;
         private readonly In _instance;
@@ -22,7 +22,7 @@ namespace With.SwitchPlumbing
             return _switch.ValueOf(_instance);
         }
 
-        public SwitchWithInstance<In, Out> Add(IMatcher<In, Out> m)
+        public override SwitchWithInstance<In, Out> Add(IMatcher<In, Out> m)
         {
             return new SwitchWithInstance<In, Out>(_instance, _switch.Add(m));
         }

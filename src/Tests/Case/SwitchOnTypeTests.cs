@@ -24,6 +24,16 @@ namespace Tests
         }
 
         [Theory, AutoData]
+        public void Can_use_more_csharpy_looking_syntax(
+            MyClass instance)
+        {
+            int result = Switch.Match<object, int>(instance)
+                .Case<MyClass>(c => 1);
+
+            Assert.Equal(1, result);
+        }
+
+        [Theory, AutoData]
         public void Should_match_the_first_case(
             MyClass instance)
         {
