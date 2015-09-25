@@ -13,6 +13,7 @@ namespace With.Linq
         {
             return self.ToDictionary(kv => kv.Item1, kv => kv.Item2);
         }
+        [Obsolete("It's better to use tuple or keyvaluepair")]
         public static IDictionary<T, T> ToDictionary<T>(this IEnumerable<T[]> self)
         {
             return self.ToDictionary(kv => Get(kv, 0), kv => Get(kv, 1));

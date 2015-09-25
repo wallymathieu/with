@@ -82,7 +82,7 @@
     <Compile Include="SwitchPlumbing\MatchElse.cs" />
     <Compile Include="SwitchPlumbing\Prepared.cs" />
     <Compile Include="SwitchPlumbing\Match.cs" />
-    <Compile Include="Linq\RubyfyExtensions.cs" />
+    <Compile Include="Linq\LinqExtensions.cs" />
     <Compile Include="Linq\ChunkExtension.cs" />
     <Compile Include="Linq\SubExtensions.cs" />
     <Compile Include="Linq\FlattenExtension.cs" />
