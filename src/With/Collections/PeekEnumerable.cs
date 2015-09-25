@@ -12,7 +12,7 @@ namespace With.Collections
     /// or
     /// <see cref="Destructure.IEnumerableExtensions.Stitch{T}(IEnumerable{T}, Action{T, T}, Action{T})"/>
     /// </summary>
-    public class PeekEnumerable<T> : IEnumerable<T>
+    internal class PeekEnumerable<T> : IEnumerable<T>
     {
         public PeekEnumerable(IEnumerable<T> enumerable)
         {
