@@ -61,6 +61,11 @@
     <Compile Include="Destructure\DestructureTupleTests.cs" />
     <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
     <Compile Include="Destructure\StitchTests.cs" />
+    <Compile Include="Intervals\Adapters\ConvertToIntervalOfType.cs" />
+    <Compile Include="Intervals\Adapters\IInterval.cs" />
+    <Compile Include="Intervals\Adapters\IIntervalConverter.cs" />
+    <Compile Include="Intervals\Adapters\IntervalDataAttribute.cs" />
+    <Compile Include="Intervals\IntervalContract.cs" />
     <Compile Include="Json\Json.cs" />
     <Compile Include="Linq\ZipTests.cs" />
     <Compile Include="With\Manipulation_of_enumerable.cs" />

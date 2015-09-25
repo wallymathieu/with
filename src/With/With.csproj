@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Collections\PeekEnumerable.cs" />
     <Compile Include="HashSet.cs" />
+    <Compile Include="Interval.cs" />
     <Compile Include="Reflection\DictionaryTypeExtensions.cs" />
     <Compile Include="Destructure\IEnumerableExtensions.cs" />
     <Compile Include="Destructure\MatchFields.cs" />

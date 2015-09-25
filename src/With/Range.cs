@@ -5,6 +5,13 @@ using With.RangePlumbing;
 
 namespace With
 {
+    public class Range
+    {
+        public static Range<T> Create<T>(T @from, T @to, T step) where T : IComparable, IComparable<T>
+        {
+            return new Range<T>(@from, @to, step);
+        }
+    }
 
     public class Range<T> : IEnumerable<T>, IRange<T>
         where T : IComparable, IComparable<T>
