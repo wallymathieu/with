@@ -15,6 +15,11 @@ namespace With
             To = @to;
         }
 
+        internal T Contains(IComparable comparable)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Contains(T value)
         {
             if ( From.CompareTo(To) <= 0)

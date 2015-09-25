@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
+using With;
 
-namespace Tests.Interval.Adapters
+namespace Tests.Intervals.Adapters
 {
     public class ConvertToIntervalOfType<T> : IIntervalConverter where T : IComparable, IComparable<T>
     {
@@ -15,9 +16,18 @@ namespace Tests.Interval.Adapters
             return array.Select(i => C(i)).Cast<object>().ToArray();
         }
 
-        public Interval Interval(IComparable from, IComparable to)
+        public Interval<WrapComparable> Interval(int from, int to)
         {
-            return new Interval(@from, to);
+            return new Interval<WrapComparable>(ToVal( @from), ToVal(to));
+        }
+
+        public WrapComparable ToVal(int v)
+        {
+            if (typeof(T) ==typeof( DateTime))
+            {
+                return new WrapComparable(new DateTime(2001,1,1).AddDays(v));
+            }
+            return new WrapComparable(C(v));
         }
     }
 

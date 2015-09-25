@@ -3,7 +3,7 @@ using Xunit.Extensions;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Tests.Interval.Adapters
+namespace Tests.Intervals.Adapters
 {
     public class IntervalDataAttribute : DataAttribute
     {
@@ -12,7 +12,8 @@ namespace Tests.Interval.Adapters
             return new List<object[]>{
                 new object[]{ new ConvertToIntervalOfType<int>() },
                 new object[]{ new ConvertToIntervalOfType<decimal>()},
-                new object[]{ new ConvertToIntervalOfType<long>()}
+                new object[]{ new ConvertToIntervalOfType<long>()},
+                new object[]{ new ConvertToIntervalOfType<DateTime>()}
             };
         }
     }

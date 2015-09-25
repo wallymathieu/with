@@ -1,23 +1,8 @@
 using System;
 using With;
 
-namespace Tests.Interval.Adapters
+namespace Tests.Intervals.Adapters
 {
-    /// <summary>
-    /// we want to test against an api that is simpler to write test code against. Objects instead of specific types.
-    /// </summary>
-    public class Interval : Interval<WrapComparable>
-    {
-        public Interval(IComparable @from, IComparable @to)
-            :base(new WrapComparable(@from), new WrapComparable(@to))
-        {
-        }
-
-        public bool Contains(IComparable v)
-        {
-            return base.Contains(new WrapComparable(v));
-        }
-    }
     public class WrapComparable : IComparable, IComparable<WrapComparable>
     {
         protected readonly IComparable self;
