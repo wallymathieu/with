@@ -64,7 +64,7 @@ namespace With.Destructure
         }
 
         public static void Stitch<T>(
-            this IEnumerable<T> self, Action<T, T> action)
+            this IEnumerable<T> self, Action<T, T> action, Action<T> onLast = null)
         {
             var enumerator = self.GetEnumerator();
             enumerator.MoveNext();
@@ -74,10 +74,14 @@ namespace With.Destructure
                 action(last, enumerator.Current);
                 last = enumerator.Current;
             }
+            if (onLast != null)
+            {
+                onLast(last);
+            }
         }
 
         public static IEnumerable<TResult> Stitch<T, TResult>(
-            this IEnumerable<T> self, Func<T, T, TResult> func)
+            this IEnumerable<T> self, Func<T, T, TResult> func, Func<T,TResult> onLast = null)
         {
             var enumerator = self.GetEnumerator();
             enumerator.MoveNext();
@@ -86,6 +90,10 @@ namespace With.Destructure
             {
                 yield return func(last, enumerator.Current);
                 last = enumerator.Current;
+            }
+            if (onLast != null)
+            {
+                yield return onLast(last);
             }
         }
     }

@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\PeekEnumerable.cs" />
     <Compile Include="HashSet.cs" />
     <Compile Include="Reflection\DictionaryTypeExtensions.cs" />
     <Compile Include="Destructure\IEnumerableExtensions.cs" />
