@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using With.Linq;
 
 namespace With.Destructure
 {
@@ -63,6 +65,7 @@ namespace With.Destructure
             return func(that.GetNext(), that.GetNext());
         }
 
+        [Obsolete("Use pairwise")]
         public static void Stitch<T>(
             this IEnumerable<T> self, Action<T, T> action, Action<T> onLast = null)
         {
@@ -80,20 +83,20 @@ namespace With.Destructure
             }
         }
 
+        [Obsolete("Use pairwise")]
         public static IEnumerable<TResult> Stitch<T, TResult>(
             this IEnumerable<T> self, Func<T, T, TResult> func, Func<T,TResult> onLast = null)
         {
-            var enumerator = self.GetEnumerator();
-            enumerator.MoveNext();
-            var last = enumerator.Current;
-            for (; enumerator.MoveNext();)
-            {
-                yield return func(last, enumerator.Current);
-                last = enumerator.Current;
-            }
             if (onLast != null)
             {
-                yield return onLast(last);
+                var list = self.ToList();
+                var res = list.Pairwise(func).ToList();
+                res.Add(onLast(list.Last()));
+                return res;
+            }
+            else
+            {
+                return self.Pairwise(func);
             }
         }
     }
