@@ -60,7 +60,7 @@
     <Compile Include="Destructure\DestructureListsTests.cs" />
     <Compile Include="Destructure\DestructureTupleTests.cs" />
     <Compile Include="Destructure\Implementation\GetFieldsTests.cs" />
-    <Compile Include="Destructure\StitchTests.cs" />
+    <Compile Include="Collections\PairwiseTests.cs" />
     <Compile Include="Intervals\Adapters\ConvertToIntervalOfType.cs" />
     <Compile Include="Intervals\Adapters\IInterval.cs" />
     <Compile Include="Intervals\Adapters\IIntervalConverter.cs" />

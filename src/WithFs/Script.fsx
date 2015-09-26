@@ -1,7 +1,7 @@
 ﻿// Learn more about F# at http://fsharp.net. See the 'F# Tutorial' project
 // for more guidance on F# programming.
-#I "../Tests/bin/Debug/"
-#r "With.dll"
+//#I "../Tests/bin/Debug/"
+//#r "With.dll"
 
 #load "With.fs"
 open With
