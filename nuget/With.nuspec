@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extensions to make c# easier to use when doing functional code</description>
     <copyright>Copyright 2015</copyright>
-    <releaseNotes>Stitch can now accept an additional func for the last element.</releaseNotes>
+    <releaseNotes>Stitch is obsolete.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
