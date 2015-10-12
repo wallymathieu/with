@@ -25,5 +25,13 @@ namespace Tests.Destructure
             Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },
                 result.ToArray());
         }
+
+        [Fact]
+        public void ShouldHandleEmptyCollection()
+        {
+            var emptyList = new string[0];
+            var result = emptyList.Pairwise(Tuple.Create).ToList();
+            Assert.Empty(result);
+        }
     }
 }

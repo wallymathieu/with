@@ -11,7 +11,12 @@ namespace With.Linq
        this IEnumerable<T> self, Func<T, T, TResult> func)
         {
             var enumerator = self.GetEnumerator();
-            enumerator.MoveNext();
+
+            if (!enumerator.MoveNext())
+            {
+                yield break;
+            }
+            
             var last = enumerator.Current;
             for (; enumerator.MoveNext();)
             {
