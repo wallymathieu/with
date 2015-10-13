@@ -28,3 +28,6 @@ PLATFORMS
 DEPENDENCIES
   albacore
   nuget_helper
+
+BUNDLED WITH
+   1.10.6

@@ -3,8 +3,8 @@ language: csharp
 
 solution: ./src/With.sln
 install:
-    - nuget restore ./src/With.sln
+    - bundle install
+    - rake bootstrap restore
 
 script: 
-  - bundle install 
   - rake test

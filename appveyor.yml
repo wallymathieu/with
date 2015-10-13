@@ -1,8 +1,7 @@
 version: 1.0.{build}
 before_build:
-  - cd src
-  - nuget restore With.sln
-  - cd ..
+  - .\.paket\paket.bootstrapper.exe
+  - .\.paket\paket.exe restore
 build:
   project: src\With.sln
   verbosity: minimal
