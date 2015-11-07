@@ -4,6 +4,9 @@ using System.Collections;
 
 namespace With.Collections
 {
+    /// <summary>
+    /// A readonly dictionary interface available in older .net versions.
+    /// </summary>
     public interface IReadOnlyDictionary<TKey,TValue> :
         IEnumerable<KeyValuePair<TKey, TValue>>, IEnumerable
     {

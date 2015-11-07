@@ -12,7 +12,7 @@ namespace Tests
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", p => "Happ!")
                 .Case(i => i == "42", _ => "Meaning of life")
                 .Case(i => i == "52", "Some other number")
-                .Else(_ => "Ain't special");
+                .Else(_ => "Ain't special").Value();
         }
 
         [Fact]

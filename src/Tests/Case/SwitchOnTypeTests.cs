@@ -18,7 +18,7 @@ namespace Tests
             MyClass instance)
         {
             int result = Switch.Match<object, int>(instance)
-                .Case((MyClass c) => 1);
+                .Case((MyClass c) => 1).Value();
 
             Assert.Equal(1, result);
         }
@@ -28,7 +28,7 @@ namespace Tests
             MyClass instance)
         {
             int result = Switch.Match<object, int>(instance)
-                .Case<MyClass>(c => 1);
+                .Case<MyClass>(c => 1).Value();
 
             Assert.Equal(1, result);
         }
@@ -40,7 +40,7 @@ namespace Tests
             int result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
-                .Case((MyClass3 c) => 3);
+                .Case((MyClass3 c) => 3).Value();
             Assert.Equal(1, result);
         }
 
@@ -64,7 +64,7 @@ namespace Tests
             int result = Switch.Match<object, int>(instance)
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
-                .Case((MyClass3 c) => 3);
+                .Case((MyClass3 c) => 3).Value();
             Assert.Equal(3, result);
         }
 
@@ -76,7 +76,7 @@ namespace Tests
                 .Case((MyClass c) => 1)
                 .Case((MyClass2 c) => 2)
                 .Case((MyClass3 c) => 3)
-                .Else(_ => 4);
+                .Else(_ => 4).Value();
             Assert.Equal(4, result);
         }
 

@@ -15,7 +15,7 @@ namespace Tests
                 .Case(13.To(19), "A teen")
                 .Case(i => i == 42, "Meaning of life")
                 .Case(i => i == 52, i => "Some other number")
-                .Else(_ => "Ain't special");
+                .Else(_ => "Ain't special").Value();
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace Tests
                 new[] { 1 }, _ => "One!",
                 new[] { 2, 3, 5, 7, 11 }, _ => "This is a prime!",
                 13.To(19), _ => "A teen")
-                .Else(_ => "Ain't special");
+                .Else(_ => "Ain't special").Value();
             Assert.Equal("One!", result);
         }
 
@@ -73,7 +73,7 @@ namespace Tests
             int result = Switch.Match<string, int>(instance)
                 .Case("m", m => 1)
                 .Case("s", m => 2)
-                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3).Value();
             Assert.Equal(1, result);
         }
 
@@ -85,7 +85,7 @@ namespace Tests
             int result = Switch.Match<string, int>(instance)
                 .Case("m", m => 1)
                 .Case("s", m => 2)
-                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3);
+                .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3).Value();
             Assert.Equal(3, result);
         }
 
@@ -97,7 +97,7 @@ namespace Tests
             int result = Switch.Match<string, int>(instance)
                 .Case("m", m => 1)
                 .Case("s", m => 2)
-                .Regex("[A-Z]{1}[a-z]{2}(\\d{1,})", m => Int32.Parse(m.Groups[1].Value));
+                .Regex("[A-Z]{1}[a-z]{2}(\\d{1,})", m => Int32.Parse(m.Groups[1].Value)).Value();
             Assert.Equal(3, result);
         }
 
@@ -110,7 +110,7 @@ namespace Tests
                 .Regex("X[a-z]{2}\\d{1,}", 4)
                 .Regex("[A-Z]{1}[a-z]{2}\\d{1,}", m => 3)
                 .Case("m", m => 1)
-                .Case("s", m => 2);
+                .Case("s", m => 2).Value();
             Assert.Equal(3, result);
         }
 
@@ -142,7 +142,7 @@ namespace Tests
         {
             return Switch.Match<int, int>(i) // Could be better if it could be written as "Switch(i)" 
                 .Case(1.To(2), 1)
-                .Else(n => Fib(n - 1) + Fib(n - 2));
+                .Else(n => Fib(n - 1) + Fib(n - 2)).Value();
         }
 
         [Fact]

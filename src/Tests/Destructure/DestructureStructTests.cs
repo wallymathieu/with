@@ -58,7 +58,7 @@ namespace Tests.Destructure
                     .Case((string a, int b, string c) => 2)
                     .Case((string a, string b, int c) => 3)
                     .Case((string a, int b, int c) => 4)
-                );
+                ).Value();
         }
 
         [Theory, AutoData]

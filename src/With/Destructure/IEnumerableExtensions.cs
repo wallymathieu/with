@@ -65,7 +65,7 @@ namespace With.Destructure
             return func(that.GetNext(), that.GetNext());
         }
 
-        [Obsolete("Use pairwise")]
+        [Obsolete("Use Pairwise")]
         public static void Stitch<T>(
             this IEnumerable<T> self, Action<T, T> action, Action<T> onLast = null)
         {
@@ -83,7 +83,7 @@ namespace With.Destructure
             }
         }
 
-        [Obsolete("Use pairwise")]
+        [Obsolete("Use Pairwise")]
         public static IEnumerable<TResult> Stitch<T, TResult>(
             this IEnumerable<T> self, Func<T, T, TResult> func, Func<T,TResult> onLast = null)
         {

@@ -6,6 +6,7 @@ using With;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using With.Linq;
 
 namespace Tests.Destructure
 {
@@ -37,7 +38,7 @@ namespace Tests.Destructure
         public void Yield_range()
         {
             var range = 0.To(4);
-            var yielded = range.Stitch((a, b) => new[] { a, b }).ToArray();
+            var yielded = range.Pairwise((a, b) => new[] { a, b }).ToArray();
             Assert.Equal(new[] { new[] { 0, 1 }, new[] { 1, 2 }, new[] { 2, 3 }, new[] { 3, 4 } }, yielded);
         }
 
