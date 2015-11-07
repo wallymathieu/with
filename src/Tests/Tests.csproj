@@ -41,6 +41,7 @@
     <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\DictionaryUsageTests.cs" />
     <Compile Include="Collections\IList_next_and_previous.cs" />
     <Compile Include="Destructure\DestructureStructTests.cs" />
     <Compile Include="Destructure\DestructureClassTests.cs" />
