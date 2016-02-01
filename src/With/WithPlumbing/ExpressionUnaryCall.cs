@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
+using NameAndValue = System.Collections.Generic.KeyValuePair<string, object>;
 
 namespace With.WithPlumbing
 {
-    using Collections;
-    using Linq;
-
     internal class ExpressionUnaryCall
     {
         private object _object;
@@ -62,10 +58,9 @@ namespace With.WithPlumbing
                 var paramValue = expr.Arguments.Skip(1).Select(arg=>ExpressionValue.GetExpressionValue(arg)).ToArray();
                 value = ApplyOperation.Apply(expr, memberValue, paramValue);
             }
-            _parsed.Add(NameAndValues.Create
-            (
-                name : memberAccess.Member.Name,
-                value : value
+            _parsed.Add(new NameAndValue(
+                memberAccess.Member.Name,
+                value
             ));
         }
 

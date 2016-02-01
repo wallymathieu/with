@@ -1,18 +1,37 @@
 using System;
 using System.Linq.Expressions;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace With.WithPlumbing
 {
-    internal class ExpressionWithMemberAccess<TRet, TVal>
+    internal class ExpressionWithMemberAccess
     {
-        public string MemberName { get; private set; }
+        public List<MemberInfo> Members = new List<MemberInfo>();
 
         private void GetNameFromMemberAccess(MemberExpression member)
         {
-            MemberName = member.Member.Name;
+            MemberAccess(member);
         }
 
-        public void Lambda(Expression<Func<TRet, TVal>> expr)
+        public void MemberAccess(Expression expr)
+        {
+            switch (expr.NodeType)
+            {
+                case ExpressionType.Parameter:
+                    break;
+                case ExpressionType.MemberAccess:
+                    var memberAccess = (MemberExpression)expr;
+                    MemberAccess(memberAccess.Expression);
+                    Members.Add(memberAccess.Member);
+                    break;
+                default:
+                    throw new ExpectedButGotException(
+                    new[] { ExpressionType.Parameter, ExpressionType.MemberAccess }, expr.NodeType);
+            }
+        }
+
+        public void Lambda<TRet, TVal>(Expression<Func<TRet, TVal>> expr)
         {
             switch (expr.NodeType)
             {

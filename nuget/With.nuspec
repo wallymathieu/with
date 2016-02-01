@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,10 +11,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extensions to make c# easier to use when doing functional code</description>
     <copyright>Copyright 2015</copyright>
-    <releaseNotes>Exception when doing Pairwise on empty collection.</releaseNotes>
+    <releaseNotes>Should be possible to copy and update property of property.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
+    <tags>Functional Immutable With Extension</tags>
   </metadata>
   <files>
     <file src="lib/40/With.dll" target="lib/net40" />

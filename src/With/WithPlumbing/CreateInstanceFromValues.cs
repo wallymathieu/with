@@ -10,22 +10,21 @@ namespace With.WithPlumbing
     using Reflection;
     using Collections;
    
-    internal class CreateInstanceFromValues<TDestination>
+    internal static class CreateInstanceFromValues
     {
-        private readonly FieldOrProperty[] props;
-        private readonly ConstructorInfo ctor;
-        public CreateInstanceFromValues()
-            :this(typeof(TDestination))
+        public static TDestination Create<TDestination>(Object parent, IEnumerable<NameAndValue> values)
         {
+            return (TDestination)Create(parent.GetType(), typeof(TDestination), parent, values);
         }
-        public CreateInstanceFromValues (Type tSource)
+        public static TDestination Create<TSource,TDestination>(TSource parent, IEnumerable<NameAndValue> values)
         {
-            this.props = tSource.GetFieldsOrProperties();
-            ctor = typeof(TDestination).GetConstructorWithMostParameters();
+            return (TDestination)Create(typeof(TSource), typeof(TDestination), parent, values);
         }
+        public static Object Create(Type tSource, Type tDest, Object parent, IEnumerable<NameAndValue> values)
+        {
+            var props = tSource.GetFieldsOrProperties();
+            var ctor = tDest.GetConstructorWithMostParameters();
 
-        public TDestination Create(Object parent, IEnumerable<NameAndValue> values)
-        {
             var usedKeys = new List<string> ();
 
             var dictionaryOfParameters = new ReadOnlyDictionaryUsage<string, object> (
@@ -43,9 +42,9 @@ namespace With.WithPlumbing
                 StringComparer.CurrentCultureIgnoreCase);
             if (unusedKeys.Any ()) 
             {
-                throw new Exception(string.Format("Missing constructor parameters for: [{0}]", string.Join(",", unusedKeys)));
+                throw new Exception(string.Format("Missing constructor parameters on '{1}' for: [{0}]", string.Join(",", unusedKeys), tDest.Name));
             }
-            return (TDestination)instance;
+            return instance;
         }
     }
 }

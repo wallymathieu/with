@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
-using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
+using NameAndValue = System.Collections.Generic.KeyValuePair<string, object>;
 namespace With.WithPlumbing
 {
     internal class ExpressionWithEqualEqualOrCall<TRet>
@@ -90,16 +91,11 @@ namespace With.WithPlumbing
 
         private void BinaryExpressionWithMemberAccess(BinaryExpression eq)
         {
-            _parsed.Add(NameAndValues.Create
-            (
-                name: MemberName((MemberExpression)eq.Left),
-                value: ExpressionValue.GetExpressionValue(eq.Right)
-            ));
+            var value = ExpressionValue.GetExpressionValue(eq.Right);
+            var exprWithMemberAccess = new ExpressionWithMemberAccess();
+            exprWithMemberAccess.MemberAccess((MemberExpression)eq.Left);
+            _parsed.Add(GetNameAndValue.Get(_object, exprWithMemberAccess.Members, value));
         }
-
-        private string MemberName(MemberExpression member)
-        {
-            return member.Member.Name;
-        }
+        
     }
 }

@@ -73,7 +73,7 @@
     <Compile Include="WithPlumbing\ExpressionValue.cs" />
     <Compile Include="WithPlumbing\ExpressionWithMemberAccess.cs" />
     <Compile Include="Reflection\ConstructorExtensions.cs" />
-    <Compile Include="WithPlumbing\NameAndValue.cs" />
+    <Compile Include="WithPlumbing\GetNameAndValue.cs" />
     <Compile Include="WithPlumbing\GetConstructorParameterValues.cs" />
     <Compile Include="WithPlumbing\ValuesForConstructor.cs" />
     <Compile Include="Range.cs" />

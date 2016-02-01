@@ -1,9 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Collections;
 using With.Collections;
-using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 
 namespace With.WithPlumbing
 {
