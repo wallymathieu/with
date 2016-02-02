@@ -6,6 +6,10 @@ namespace With
     [Serializable]
     public class WrongArrayLengthException : Exception
     {
+        public WrongArrayLengthException()
+        {
+        }
+
         public WrongArrayLengthException(int was, int expectedAtLeast)
         {
             this.Was= was;
@@ -22,6 +26,21 @@ namespace With
 
             base.GetObjectData(info, context);
         }
+        protected WrongArrayLengthException(
+    SerializationInfo info,
+    StreamingContext context)
+            : base(info, context)
+        {
+        }
+        public WrongArrayLengthException(string message, Exception exception)
+            : base(message, exception)
+        {
+        }
+        public WrongArrayLengthException(string message)
+            : base(message)
+        {
+        }
+
     }
 }
 

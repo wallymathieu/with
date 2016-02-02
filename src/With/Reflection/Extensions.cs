@@ -111,7 +111,7 @@ namespace With.Reflection
             if (v != null
                 && !parameterType.IsAssignableFrom(v.GetType()))
             {
-                throw new Exception(string.Format("parameterType {0} is not assignable from {1}",
+                throw new Exception(string.Format("parameter type {0} is not assignable from {1}",
                     parameterType.Name,
                     v.GetType().Name));
             }

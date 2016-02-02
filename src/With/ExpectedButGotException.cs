@@ -10,6 +10,10 @@ namespace With
     [Serializable]
     public class ExpectedButGotException : Exception
     {
+        public ExpectedButGotException()
+        {
+        }
+
         public ExpectedButGotException(ExpressionType[] expected, ExpressionType got)
             : this(expected.Select(e => e.ToString()).ToArray(), got.ToString())
         {
@@ -25,12 +29,12 @@ namespace With
         {
         }
 
-        private ExpectedButGotException(string message)
+        public ExpectedButGotException(string message)
             : base(message)
         {
         }
 
-        private ExpectedButGotException(string message, Exception inner)
+        public ExpectedButGotException(string message, Exception inner)
             : base(message, inner)
         {
         }
