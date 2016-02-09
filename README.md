@@ -115,25 +115,27 @@ The benefit of using this form is that you can give the tuple fields relevant na
 
 ### Performance impact of working with immutable types (by using With) in c# [for version](https://github.com/wallymathieu/with/commit/c0a778017e77d8e6b36c148f675f467ee4c87b93)
 To generate use the Timings project.
-Sample times running it on windows 8.1 on .net 4.0 (with .net 4.5 installed)
+Sample times running it on windows 10 on .net 4.5.2 (with .net 4.6.1 installed)
 
      Name                     | Elapsed          | Quotient
      ------------------------ | ---------------- | --------:
-     Timing by hand           | 00:00:00.0008733 |        1
-     Timing fluent            | 00:00:00.0107707 |       12
-     Timing propertyname only | 00:00:00.0151869 |       17
-     Timing dictionary        | 00:00:00.0316233 |       36
-     Timing equalequal        | 00:00:00.5359095 |      613
+     Timing by hand           | 00:00:00.0011304 |        1
+     Timing [immutable object graph](https://github.com/AArnott/ImmutableObjectGraph)| 00:00:00.0073137|   6
+     Timing dictionary        | 00:00:00.0088569 |        7
+     Timing fluent            | 00:00:00.0145144 |       12
+     Timing propertyname only | 00:00:00.0414962|       36
+     Timing equalequal        | 00:00:00.5723422|       506
 
 Sample times running it on mac os x with mono.
 
      Name                     | Elapsed          | Quotient
      ------------------------ | ---------------- | --------:
-     Timing by hand           | 00:00:00.0021484 |        1
-     Timing dictionary        | 00:00:00.0394724 |       18
-     Timing propertyname only | 00:00:00.0511035 |       23
-     Timing fluent            | 00:00:00.0537641 |       25
-     Timing equalequal        | 00:00:00.2248041 |      104
+     Timing by hand           | 00:00:00.0019968 |        1
+     Timing [immutable object graph](https://github.com/AArnott/ImmutableObjectGraph)| 00:00:00.0036995|   1
+     Timing dictionary        | 00:00:00.0269027 |       13
+     Timing propertyname only | 00:00:00.0379708 |       19
+     Timing fluent            | 00:00:00.0427954 |       21
+     Timing equalequal        | 00:00:00.1443597 |       72
 
 ### Reasoning about performance
 As can be seen there is a penalty to use the expression where you need to compile parts of the expression to get values.
