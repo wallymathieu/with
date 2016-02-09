@@ -1,16 +1,18 @@
 ﻿using Xunit;
 using Xunit.Extensions;
 using System.Linq;
-using Ploeh.AutoFixture.Xunit;
 using With;
 using With.ReadonlyEnumerable;
 using System.Collections.Generic;
 using System;
-using Tests.With.TestData;
+using Customer = Tests.With.TestData.CustomerWithImmutablePreferences;
+using FlyFishingBuddyCustomer = Tests.With.TestData.FlyFishingBuddy<Tests.With.TestData.CustomerWithImmutablePreferences>;
+using System.Collections.Immutable;
+using AutoDataAttribute = Tests.With.TestData.ImmutableAutoDataAttribute;
 
 namespace Tests.With
 {
-    public class Manipulation_of_enumerable
+    public class Manipulation_of_immutable_collections
     {
         [Theory, AutoData]
         public void Should_be_able_to_add_to_enumerable(
@@ -48,8 +50,8 @@ namespace Tests.With
         public void Able_to_set_array_to_empty_array(
             Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences == new string[0]);
-            Assert.Equal(new string[0], ret.Preferences.ToArray());
+            var ret = myClass.With(m => m.Preferences == ImmutableList<string>.Empty);
+            Assert.Equal(ImmutableList<string>.Empty, ret.Preferences);
         }
 
         [Theory, AutoData]
@@ -105,24 +107,24 @@ namespace Tests.With
         public class AllOurCustomers
         {
             public AllOurCustomers()
-                : this(new Customer[0], new FlyFishingBuddy<Customer>[0])
+                : this(ImmutableList<Customer>.Empty, ImmutableList<FlyFishingBuddyCustomer>.Empty)
             {
             }
-            public AllOurCustomers(IEnumerable<Customer> myClasses, IEnumerable<FlyFishingBuddy<Customer>> myClassWIthObjects)
+            public AllOurCustomers(IImmutableList<Customer> myClasses, IImmutableList<FlyFishingBuddyCustomer> myClassWIthObjects)
             {
                 MyClasses = myClasses;
                 MyClassWIthObjects = myClassWIthObjects;
             }
 
-            public readonly IEnumerable<Customer> MyClasses;
-            public readonly IEnumerable<FlyFishingBuddy<Customer>> MyClassWIthObjects;
+            public readonly IImmutableList<Customer> MyClasses;
+            public readonly IImmutableList<FlyFishingBuddyCustomer> MyClassWIthObjects;
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_set_enumerable_on_model_with_empty_constructor(
             AllOurCustomers models)
         {
-            var myClass = new Customer(-1, string.Empty, new string[0]);
+            var myClass = new Customer(-1, string.Empty, ImmutableList<string>.Empty);
             var ret = models.With(m => m.MyClasses.Add(myClass));
             Assert.Equal(myClass, ret.MyClasses.First());
         }
@@ -130,31 +132,8 @@ namespace Tests.With
         [Theory, AutoData]
         public void Should_be_able_to_set_enumerable_with_new(AllOurCustomers models)
         {
-            var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, new string[0])));
+            var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, ImmutableList<string>.Empty)));
             Assert.Equal(-1, ret.MyClasses.First().Id);
-        }
-
-        [Theory, AutoData]
-        public void Should_be_able_to_use_call_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
-        {
-            var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
-            Assert.Equal(myclasses.First(), newModels.MyClasses.Last());
-        }
-
-        [Theory, AutoData]
-        public void Should_be_able_to_use_invoke_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
-        {
-            Func<Customer> getMyClass = () => myclasses.First();
-            var newModels = models.With(o => o.MyClasses.Add(getMyClass()));
-            Assert.Equal(getMyClass(), newModels.MyClasses.Last());
-        }
-
-        //Not implemented [Theory, AutoData]
-        public void Should_be_able_to_use_coalesce_in_expression(IEnumerable<Customer> myclasses)
-        {
-            var models = new AllOurCustomers(null, null);
-            var newModels = models.With(o => o.MyClasses ?? myclasses);
-            Assert.Equal(myclasses, newModels.MyClasses);
         }
     }
 }

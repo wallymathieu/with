@@ -3,6 +3,8 @@ using Xunit;
 using With;
 using Xunit.Extensions;
 using Ploeh.AutoFixture.Xunit;
+using Tests.With.TestData;
+
 namespace Tests
 {
     public class Another_instance_gets_created_without_the_need_for_inheritance

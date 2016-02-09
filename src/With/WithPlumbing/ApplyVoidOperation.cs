@@ -9,7 +9,7 @@ namespace With.WithPlumbing
     using Collections;
     using Reflection;
 
-    class ApplyOperation
+    class ApplyVoidOperation
     {
         static Dictionary<string, Func<object, object[], object>> operations = new Dictionary<string, Func<object, object[], object>>()
         {

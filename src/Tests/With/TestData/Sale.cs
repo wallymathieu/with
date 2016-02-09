@@ -1,6 +1,6 @@
 using System;
 
-namespace Tests
+namespace Tests.With.TestData
 {
     public class Sale
     {
