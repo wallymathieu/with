@@ -3,33 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 namespace With.Linq
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ToDictionaryExtensions
     {
+        /// <summary>
+        /// Returns a dictionary from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value 
+        /// </summary>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
         {
             return self.ToDictionary(kv => kv.Key, kv => kv.Value);
         }
+        /// <summary>
+        /// Return a dictionary from a <see cref="System.Tuple{T1, T2}"/> where the first item in the tuple is the key, and the second is the value
+        /// </summary>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<Tuple<TKey, TValue>> self)
         {
             return self.ToDictionary(kv => kv.Item1, kv => kv.Item2);
         }
-        [Obsolete("It's better to use tuple or keyvaluepair")]
-        public static IDictionary<T, T> ToDictionary<T>(this IEnumerable<T[]> self)
-        {
-            return self.ToDictionary(kv => Get(kv, 0), kv => Get(kv, 1));
-        }
-        private static T Get<T>(T[] val, int position)
-        {
-            if (val.Length <= position)
-            {
-                throw new WrongArrayLengthException(val.Length, position - 1);
-            }
-            return val[position];
-        }
+        /// <summary>
+        /// Returns a lookup from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value 
+        /// </summary>
         public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
         {
             return self.ToLookup(kv => kv.Key, kv => kv.Value);
         }
+        /// <summary>
+        /// Return a lookup from a <see cref="System.Tuple{T1, T2}"/> where the first item in the tuple is the key, and the second is the value
+        /// </summary>
         public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<Tuple<TKey, TValue>> self)
         {
             return self.ToLookup(kv => kv.Item1, kv => kv.Item2);

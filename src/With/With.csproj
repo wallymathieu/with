@@ -101,7 +101,6 @@
     <Compile Include="Linq\GrepExtensions.cs" />
     <Compile Include="IContainer.cs" />
     <Compile Include="Linq\ToDictionaryExtensions.cs" />
-    <Compile Include="Linq\WrongArrayLengthException.cs" />
     <Compile Include="BatchExtensions.cs" />
     <Compile Include="Collections\Extensions.cs" />
     <Compile Include="WithPlumbing\ExpressionWithEqualEqualOrCall.cs" />
@@ -117,7 +116,7 @@
     <Compile Include="SwitchPlumbing\IMatcher.cs" />
     <Compile Include="SwitchPlumbing\Switch.cs">
     </Compile>
-    <Compile Include="KeyValueExtensions.cs" />
+    <Compile Include="KeyValuePair.cs" />
     <Compile Include="SwitchPlumbing\MatchCollector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

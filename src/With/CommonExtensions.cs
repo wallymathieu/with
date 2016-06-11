@@ -4,7 +4,9 @@ using System.Linq;
 namespace With
 {
     using Collections;
-
+    /// <summary>
+    /// Common extensions
+    /// </summary>
     public static class CommonExtensions
     {
         /// <summary>
@@ -24,11 +26,17 @@ namespace With
             return func(value);
         }
 
+        /// <summary>
+        /// Concatenates the enumerable collection using the separator between each element.
+        /// </summary>
         public static string Join(this IEnumerable<string> enumerable, string separator)
         {
-            return String.Join(separator, enumerable);
+            return string.Join(separator, enumerable);
         }
 
+        /// <summary>
+        /// Sorts the elements in ascending order by using a compare function
+        /// </summary>
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare)
         {
             return enumerable.OrderBy(t => t, Comparer.Create(compare));

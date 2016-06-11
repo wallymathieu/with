@@ -26,16 +26,6 @@ namespace With.SwitchPlumbing
         {
             return new SwitchWithInstance<In, Out>(_instance, _switch.Add(m));
         }
-
-        [Obsolete("Match execution in implicit operator can raise exception, better to use Value() to get the result")]
-        public static implicit operator Out(SwitchWithInstance<In, Out> d)
-        {
-            Out value;
-            if (d.TryMatch(out value))
-                return value;
-            throw new NoMatchFoundException();
-        }
-
     }
 }
 
