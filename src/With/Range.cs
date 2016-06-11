@@ -7,6 +7,14 @@ namespace With
 {
     public class Range
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T">need to be an int or decimal type</typeparam>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="step"></param>
+        /// <returns></returns>
         public static Range<T> Create<T>(T @from, T @to, T step) where T : IComparable, IComparable<T>
         {
             return new Range<T>(@from, @to, step);

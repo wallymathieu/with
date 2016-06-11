@@ -8,9 +8,7 @@ namespace With.Collections
 {
     /// <summary>
     /// not a functional construct, you might want to use
-    /// <see cref="Destructure.IEnumerableExtensions.Stitch{T, TResult}(IEnumerable{T}, Func{T, T, TResult}, Func{T, TResult})"/>
-    /// or
-    /// <see cref="Destructure.IEnumerableExtensions.Stitch{T}(IEnumerable{T}, Action{T, T}, Action{T})"/>
+    /// <see cref="With.Linq.EnumerableExtensions.Pairwise{T, TResult}(IEnumerable{T}, Func{T, T, TResult})"/>
     /// </summary>
     internal class PeekEnumerable<T> : IEnumerable<T>
     {

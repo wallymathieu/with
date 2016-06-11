@@ -7,6 +7,9 @@ using With.Linq;
 
 namespace With
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
     public class ExpectedButGotException : Exception
     {
