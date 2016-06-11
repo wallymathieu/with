@@ -7,7 +7,6 @@ using Xunit;
 
 namespace Tests
 {
-    [Trait("known","bug")]
     public class Clone_an_instance_with_property_of_property
     {
         [Theory, AutoData]
