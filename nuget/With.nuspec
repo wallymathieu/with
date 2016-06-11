@@ -3,7 +3,7 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>1.0.8</version>
+    <version>2.0.0</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extensions to make c# easier to use when doing functional code</description>
     <copyright>Copyright 2015</copyright>
-    <releaseNotes>Should be possible to copy and update property of property.</releaseNotes>
+    <releaseNotes>Removed obsolete methods. Added more xml comments.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
