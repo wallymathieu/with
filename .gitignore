@@ -111,3 +111,4 @@ UpgradeLog*.XML
 
 *.sublime-workspace
 
+.fake

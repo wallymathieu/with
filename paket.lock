@@ -173,6 +173,3 @@ NUGET
   remote: https://www.myget.org/F/wallymathieu/api/v2
   specs:
     MarkdownLog (0.9.4)
-  remote: https://www.nuget.org/api/v2
-  specs:
-    NuGet.CommandLine (2.8.6)

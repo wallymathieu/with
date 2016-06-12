@@ -2,7 +2,7 @@ source https://api.nuget.org/v3/index.json
 source https://www.nuget.org/api/v2/
 source https://www.myget.org/F/wallymathieu/api/v2
 
-nuget Nuget.CommandLine
+nuget FAKE
 nuget AutoFixture 
 nuget AutoFixture.Xunit2
 nuget xunit
