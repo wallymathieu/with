@@ -5,6 +5,7 @@ NUGET
     AutoFixture.Xunit2 (3.47.5)
       AutoFixture (>= 3.47.5)
       xunit.core (>= 2.0 < 3.0)
+    FAKE (4.28)
     FSharp.Core (4.0.0.1)
     System.Collections (4.0.10) - framework: dnxcore50
       System.Diagnostics.Debug (>= 4.0) - framework: dnxcore50
