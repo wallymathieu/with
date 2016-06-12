@@ -3,8 +3,7 @@ language: csharp
 
 solution: ./src/With.sln
 install:
-    - bundle install
-    - rake bootstrap restore
+    - bash build.sh build
 
 script: 
-  - rake test
+  - bash build.sh test_only
