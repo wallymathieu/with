@@ -1,6 +1,5 @@
-﻿using Ploeh.AutoFixture.Xunit;
+﻿using Ploeh.AutoFixture.Xunit2;
 using Xunit;
-using Xunit.Extensions;
 using With.Destructure;
 using With;
 using System;

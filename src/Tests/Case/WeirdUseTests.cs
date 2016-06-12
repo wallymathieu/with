@@ -1,8 +1,7 @@
 ﻿using System;
 using Xunit;
 using With;
-using Xunit.Extensions;
-using Ploeh.AutoFixture.Xunit;
+using Ploeh.AutoFixture.Xunit2;
 
 namespace Tests
 {

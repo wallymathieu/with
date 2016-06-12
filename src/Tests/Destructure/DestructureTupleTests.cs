@@ -1,7 +1,6 @@
-﻿using Ploeh.AutoFixture.Xunit;
+﻿using Ploeh.AutoFixture.Xunit2;
 using System;
 using Xunit;
-using Xunit.Extensions;
 using With.Destructure;
 
 namespace Tests.Destructure

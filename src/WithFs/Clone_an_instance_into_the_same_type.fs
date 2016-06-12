@@ -1,6 +1,5 @@
 ﻿namespace WithFs
-open Ploeh.AutoFixture.Xunit
-open Xunit.Extensions
+open Ploeh.AutoFixture.Xunit2
 open Xunit
 open With
 type ``Clone an instance into the same type``()=

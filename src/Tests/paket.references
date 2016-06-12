@@ -1,4 +1,3 @@
 AutoFixture
-AutoFixture.Xunit
+AutoFixture.Xunit2
 xunit
-xunit.extensions
