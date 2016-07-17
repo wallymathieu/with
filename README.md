@@ -2,6 +2,8 @@
 
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
+Some of the functionality here looks to be obsolete with c# 7. 
+
 ##Examples
 
 ### Working with immutable data
