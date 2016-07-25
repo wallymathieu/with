@@ -65,7 +65,7 @@ Target "test_only" (fun _ ->
         })
 )
 
-Target "test" (fun _ -> ())
+Target "test" DoNothing
 // --------------------------------------------------------------------------------------
 // Run all targets by default. Invoke 'build <Target>' to override
 
