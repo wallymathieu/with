@@ -2,7 +2,7 @@
 
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
-Some of the functionality here looks to be obsolete with c# 7. 
+Some of the functionality here looks to be obsolete with [c# 7 or later](https://github.com/dotnet/roslyn/blob/future/docs/features/patterns.md). A better way is to write your code in f# ;) and be able to use pattern matching and copy update expressions natively.
 
 ##Examples
 
