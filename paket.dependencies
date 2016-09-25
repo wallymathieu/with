@@ -6,7 +6,7 @@ source https://www.myget.org/F/wallymathieu/api/v2
 nuget FAKE
 nuget AutoFixture 
 nuget AutoFixture.Xunit2
-nuget xunit
-nuget xunit.runner.console
+nuget xunit 2.1
+nuget xunit.runner.console 2.1
 nuget MarkdownLog 0.9.4
 nuget FSharp.Core
