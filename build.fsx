@@ -70,13 +70,14 @@ Target "test" DoNothing
 // Run all targets by default. Invoke 'build <Target>' to override
 
 Target "all" DoNothing
-"test_only"
- ==> "test"
   
 "clean"
   ==> "build"
   ==> "CopyBinaries"
   ==> "test"
   ==> "all"
+
+"test_only"
+ ==> "test"
 
 RunTargetOrDefault "test"
