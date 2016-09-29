@@ -9,9 +9,9 @@ namespace With.Reflection
     /// </summary>
     class DictionaryAdapter : IDictionary
     {
-        private dynamic dic;
+        private IDictionary dic;
 
-        public DictionaryAdapter(dynamic that, object dictionary)
+        public DictionaryAdapter(IDictionary that, IDictionary dictionary)
         {
             dic = dictionary;
 
