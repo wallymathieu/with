@@ -14,7 +14,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{7DDC70FD-7DA6-473B-8779-528442DC497D}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "WithFs\WithFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WithFs", "WithFs\WithFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "WithCore", "With\WithCore.xproj", "{EDEBE135-652E-46B5-B40C-324667863DAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection

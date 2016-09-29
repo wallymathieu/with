@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+#if NOTCORE
 using System.Runtime.Serialization;
+#endif
 using With.Linq;
 
 namespace With
@@ -10,7 +12,9 @@ namespace With
     /// <summary>
     /// 
     /// </summary>
+#if NOTCORE
     [Serializable]
+#endif
     public class ExpectedButGotException : Exception
     {
         public ExpectedButGotException()
@@ -41,12 +45,13 @@ namespace With
             : base(message, inner)
         {
         }
-
+#if NOTCORE
         protected ExpectedButGotException(
             SerializationInfo info,
             StreamingContext context)
             : base(info, context)
         {
         }
+#endif
     }
 }
