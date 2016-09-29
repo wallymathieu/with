@@ -11,12 +11,18 @@ namespace With.Reflection
         public readonly string Name;
         public readonly Type ReturnType;
 
-
+        private static readonly StringComparison IgnoreCaseComparison=
+#if NOTCORE
+                StringComparison.InvariantCultureIgnoreCase
+#else
+                StringComparison.OrdinalIgnoreCase
+#endif
+            ;
         private static string RemoveGetFromBeginningOfString(string arg)
         {
-            if (arg.StartsWith("get_", StringComparison.InvariantCultureIgnoreCase))
+            if (arg.StartsWith("get_",IgnoreCaseComparison))
                 return arg.Substring(4);
-            if (arg.StartsWith("get", StringComparison.InvariantCultureIgnoreCase))
+            if (arg.StartsWith("get", IgnoreCaseComparison))
                 return arg.Substring(3);
             return arg;
         }
