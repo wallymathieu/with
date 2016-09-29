@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -9,7 +9,6 @@ namespace With.Reflection
     /// </summary>
     class DictionaryAdapter : IDictionary
     {
-
         private IDictionary dic;
 
         public DictionaryAdapter(IDictionary that, IDictionary dictionary)
