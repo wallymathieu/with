@@ -12,8 +12,9 @@ namespace With.Reflection
     using Linq;
     internal static class Extensions
     {
-        private static MethodInfo EnumerableToList = typeof(Enumerable)
-                .GetMethod("ToList");
+        private static readonly MethodInfo EnumerableToList = typeof(Enumerable)
+                .GetTypeInfo().GetMethod("ToList")
+;
 
         /// <summary>
         /// To list of T where T is the IEnumerable T 
@@ -72,14 +73,17 @@ namespace With.Reflection
 
         private static IEnumerable<PropertyInfo> GetPublicProperties(Type type)
         {
-            return type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            return type
+                .GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+;
         }
 
         private static Regex _getNotUnderscore = new Regex("^get[^_]", RegexOptions.IgnoreCase);
         private static Regex _hashcode = new Regex("^gethashcode", RegexOptions.IgnoreCase);
         private static IEnumerable<MethodInfo> GetPublicGetMethods(Type type)
         {
-            return type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+            return type
+                .GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance)
                 .Where(m => m.DeclaringType != typeof(Object)
                     && !m.Name.Match(_hashcode).Success
                     && m.Name.Match(_getNotUnderscore).Success);
@@ -87,17 +91,22 @@ namespace With.Reflection
 
         private static IEnumerable<FieldInfo> GetPublicFields(Type type)
         {
-            return type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+            return type
+                    .GetTypeInfo().GetFields(BindingFlags.Public | BindingFlags.Instance)
+                ;
         }
 
 
-        private static MethodInfo EnumerableCast = typeof(Enumerable).GetMethod("Cast");
+        private static MethodInfo EnumerableCast = typeof(Enumerable)
+                    .GetTypeInfo().GetMethod("Cast")
+            ;
 
         internal static object Coerce(this object v, Type parameterType)
         {
             if (v != null
-                && typeof(IEnumerable).IsAssignableFrom(parameterType) 
-                && !parameterType.IsAssignableFrom(v.GetType()))
+                && typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(parameterType)
+                && !parameterType.GetTypeInfo().IsAssignableFrom(v.GetType())
+            )
             {
                 var typeParam = parameterType.GetIEnumerableTypeParameter();
                 if (typeParam != null)
@@ -109,7 +118,8 @@ namespace With.Reflection
             }
 #if DEBUG
             if (v != null
-                && !parameterType.IsAssignableFrom(v.GetType()))
+                && !parameterType.GetTypeInfo().IsAssignableFrom(v.GetType())
+            )
             {
                 throw new Exception(string.Format("parameter type {0} is not assignable from {1}",
                     parameterType.Name,

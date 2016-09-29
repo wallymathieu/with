@@ -22,7 +22,12 @@ namespace With.WithPlumbing
                     continue;
                 }
                 var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name,
-                    StringComparison.InvariantCultureIgnoreCase));
+#if NOTCORE
+                    StringComparison.InvariantCultureIgnoreCase
+#else
+                    StringComparison.OrdinalIgnoreCase
+#endif
+                ));
                 if (p != null)
                 {
                     values[i] = p.GetValue(t).Coerce(param.ParameterType);

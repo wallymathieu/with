@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Reflection;
+
 namespace With.Destructure
 {
     using Linq;
@@ -15,7 +17,9 @@ namespace With.Destructure
         public SwitchMatchFields(Delegate[] funcs, TypeOfFIelds typeOfFields)
         {
             this.typeOfFields = typeOfFields;
-            this.matches = funcs.Select(f => Tuple.Create(f.Method.GetParameters().Select(p => p.ParameterType).ToArray(), f)).ToArray();
+            this.matches = funcs.Select(f => Tuple.Create(
+                f.GetMethodInfo().GetParameters()
+                    .Select(p => p.ParameterType).ToArray(), f)).ToArray();
         }
 
         public bool TryMatch(In instance, out Out value)
