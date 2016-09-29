@@ -28,8 +28,8 @@ namespace With.Reflection
             }
             set
             {
-                dynamic v = value;
-                dynamic k = key;
+                var v = value;
+                var k = key;
                 dic[k] = v;
             }
         }
@@ -92,8 +92,8 @@ namespace With.Reflection
 
         public void Add(object key, object value)
         {
-            dynamic k = key;
-            dynamic v = value;
+            var k = key;
+            var v = value;
             dic.Add(k, v);
         }
 
@@ -104,7 +104,7 @@ namespace With.Reflection
 
         public bool Contains(object key)
         {
-            dynamic k = key;
+            var k = key;
             return dic.Contains(k);
         }
 
@@ -120,7 +120,7 @@ namespace With.Reflection
 
         public void Remove(object key)
         {
-            dynamic k = key;
+            var k = key;
             dic.Remove(k);
         }
 

@@ -10,6 +10,5 @@
       "imports": "dnxcore50"
     },
     ".NETFramework,Version=v4.5":{}
-  },
-  "runtimes":{"win":{}}
+  }
 }
