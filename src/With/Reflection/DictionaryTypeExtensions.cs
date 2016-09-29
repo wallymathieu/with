@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -45,7 +46,7 @@ namespace With.Reflection
                     .GetConstructor(new Type[0])
             ).Invoke(new object[0]);
 
-            return new DictionaryAdapter(that, dic);
+            return new DictionaryAdapter((IDictionary)that, (IDictionary)dic);
         }
     }
 }
