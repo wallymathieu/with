@@ -37,7 +37,7 @@ namespace With.Reflection
 
         private static ConditionalWeakTable<Type, ConstructorInfo> dictionaryTypeCtor = new ConditionalWeakTable<Type, ConstructorInfo>();
 
-        internal static DictionaryAdapter ToDictionaryOfTypeT(this object that)
+        internal static IDictionary ToDictionaryOfTypeT(this object that)
         {
             Type type = that.GetType();
             var dic = dictionaryTypeCtor.WeakMemoize(type,t=>
@@ -45,8 +45,14 @@ namespace With.Reflection
                     .MakeGenericType(t.GetIDictionaryTypeParameters())
                     .GetTypeInfo().GetConstructor(new Type[0])
             ).Invoke(new object[0]);
+            var that_ = (IDictionary) that;
+            var dictionary = (IDictionary) dic;
 
-            return new DictionaryAdapter((IDictionary)that, (IDictionary)dic);
+            foreach (var item in that_.Keys)
+            {
+                dictionary[item] = that_[item];
+            }
+            return dictionary;
         }
     }
 }
