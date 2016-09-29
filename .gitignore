@@ -112,3 +112,6 @@ UpgradeLog*.XML
 *.sublime-workspace
 
 .fake
+
+# project rider
+.idea
