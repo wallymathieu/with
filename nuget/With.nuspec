@@ -3,22 +3,22 @@
   <metadata>
     <id>With</id>
     <title>With</title>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <authors>Oskar Gewalli</authors>
     <owners>Oskar Gewalli</owners>
     <licenseUrl>http://www.opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>https://github.com/wallymathieu/with</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Extensions to make c# easier to use when doing functional code</description>
-    <copyright>Copyright 2015</copyright>
-    <releaseNotes>Removed obsolete methods. Added more xml comments.</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <releaseNotes>The API is unchanged, but it now targets .net 4.5.</releaseNotes>
     <references>
       <reference file="With.dll" />
     </references>
     <tags>Functional Immutable With Extension</tags>
   </metadata>
   <files>
-    <file src="lib/40/With.dll" target="lib/net40" />
-    <file src="lib/40/With.xml" target="lib/net40" />
+    <file src="lib/45/With.dll" target="lib/net45" />
+    <file src="lib/45/With.xml" target="lib/net45" />
   </files>
 </package>
