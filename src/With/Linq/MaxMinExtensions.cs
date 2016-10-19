@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using With.Collections;
@@ -30,22 +30,24 @@ namespace With.Linq
 
         private static IEnumerable<T> GetMax<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
-            var enumerator = self.GetEnumerator();
-            if (!enumerator.MoveNext())
+            using (var enumerator = self.GetEnumerator())
             {
-                return new T[0];
-            }
-
-            var current = enumerator.Current;
-            while (enumerator.MoveNext())
-            {
-                var item = enumerator.Current;
-                if (compare.Compare(current, item) < 0)
+                if (!enumerator.MoveNext())
                 {
-                    current = item;
+                    return new T[0];
                 }
+
+                var current = enumerator.Current;
+                while (enumerator.MoveNext())
+                {
+                    var item = enumerator.Current;
+                    if (compare.Compare(current, item) < 0)
+                    {
+                        current = item;
+                    }
+                }
+                return self.GetEquivalentBy(current, compare);
             }
-            return self.GetEquivalentBy(current, compare);
         }
 
         public static T Min<T>(this IEnumerable<T> self, Func<T, T, int> compare)
@@ -62,22 +64,24 @@ namespace With.Linq
         private static IEnumerable<T> GetMin<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
             //var list = self.ToList(compare).Min(); does not work when using comparer
-            var enumerator = self.GetEnumerator();
-            if (!enumerator.MoveNext())
+            using (var enumerator = self.GetEnumerator())
             {
-                return new T[0];
-            }
-
-            var current = enumerator.Current;
-            while (enumerator.MoveNext())
-            {
-                var item = enumerator.Current;
-                if (compare.Compare(current, item) > 0)
+                if (!enumerator.MoveNext())
                 {
-                    current = item;
+                    return new T[0];
                 }
+
+                var current = enumerator.Current;
+                while (enumerator.MoveNext())
+                {
+                    var item = enumerator.Current;
+                    if (compare.Compare(current, item) > 0)
+                    {
+                        current = item;
+                    }
+                }
+                return self.GetEquivalentBy(current, compare);
             }
-            return self.GetEquivalentBy(current, compare);
         }
 
         public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self)
