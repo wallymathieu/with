@@ -2,7 +2,9 @@
 
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
-Some of the functionality here looks to be obsolete with [c# 7 or later](https://github.com/dotnet/roslyn/blob/future/docs/features/patterns.md). A better way is to write your code in f# ;) and be able to use pattern matching and copy update expressions natively.
+### What can we learn from "With"?
+
+Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) can help with doing extensions to a language in a relatively simple way.
 
 ##Examples
 
@@ -145,6 +147,12 @@ As can be seen there is a penalty to use the expression where you need to compil
 As always with performance. Many times, you need to be aware of the impact of different things. Writing in assembler is contraproductive since it's much harder to structure your code.
 
 The benefit of using immutable types and _With_ is that you can get started with multithreaded programming and pass your objects to different threads. Later on if you find that some part of your code is done very often, then that part can be rewritten to something more performant.
+
+## Why shouldn't you use this library?
+
+Some of the functionality here looks to be obsolete with [c# 7 or later](https://github.com/dotnet/roslyn/blob/future/docs/features/patterns.md).
+
+The immutable data support in this library is done as an extensions to the language using the [expression](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) support in c#. A better way to add these things to c# would be to write some sort of [roslyn](https://github.com/dotnet/roslyn/) extension in order to extend the language in a way that can be optimised during compile time. Problem is that using c# in this manner is that it's not idiomatic c#.  A better way is to write some of your code in [f#](http://fsharp.org/) and be able to use pattern matching, immutable data structures and copy update expressions in for a language designed with these things in mind.
 
 ##Nuget
 <https://www.nuget.org/packages/With>
