@@ -115,3 +115,5 @@ UpgradeLog*.XML
 
 # project rider
 .idea
+# project lock json
+project.lock.json
