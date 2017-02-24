@@ -20,7 +20,7 @@ build :build_release do |msb|
 end
 
 task :core_copy_to_nuspec => [:build_release] do
-  output_directory_lib = File.join($dir,"nuget/lib/40/")
+  output_directory_lib = File.join($dir,"nuget/lib/45/")
   mkdir_p output_directory_lib
   ['With'].each{ |project|
     cp Dir.glob("./src/#{project}/bin/Release/With.*"), output_directory_lib
