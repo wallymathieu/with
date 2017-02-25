@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "With\With.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{13DE9623-6D2D-45EA-B837-85D6729994BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\TestsCore.xproj", "{2118c243-7a03-458e-a4e9-c9131b5ff32d}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsCore", "Tests\TestsCore.xproj", "{2118c243-7a03-458e-a4e9-c9131b5ff32d}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{7DDC70FD-7DA6-473B-8779-528442DC497D}"
 EndProject
