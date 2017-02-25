@@ -1,0 +1,22 @@
+{
+  "version": "1.0.0-*",
+  "buildOptions": {
+    "debugType": "portable"
+  },
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "AutoFixture":"3.*",
+    "AutoFixture.Xunit2":"3.*",
+    "xunit":"2.1.*",
+    "With":{"target": "project"}
+  },
+
+ "testRunner": "xunit",
+  "frameworks": {
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Web.Extensions":"4.0.0.0"
+      }
+    }
+  }
+}
