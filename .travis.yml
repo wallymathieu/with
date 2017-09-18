@@ -1,9 +1,11 @@
 sudo: false
 language: csharp 
-
-solution: ./src/With.sln
-install:
-    - bash build.sh build
-
+dotnet: 2.0.0
 script: 
-  - bash build.sh test_only
+  - dotnet restore ./src
+  - dotnet build ./src
+  - dotnet test ./src/Tests
+  - dotnet test ./src/WithFs
+branches:
+  only: 
+    - master
