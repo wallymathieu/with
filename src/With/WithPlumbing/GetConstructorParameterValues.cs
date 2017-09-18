@@ -1,12 +1,11 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using With.Collections;
+using System.Collections.Generic;
 
 namespace With.WithPlumbing
 {
     using Reflection;
-
     internal class GetConstructorParameterValues
     {
         public static object[] GetValues(Object t, IReadOnlyDictionary<string, object> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
@@ -22,7 +21,12 @@ namespace With.WithPlumbing
                     continue;
                 }
                 var p = props.SingleOrDefault(prop => prop.Name.Equals(param.Name,
-                    StringComparison.InvariantCultureIgnoreCase));
+#if NOTCORE
+                    StringComparison.InvariantCultureIgnoreCase
+#else
+                    StringComparison.OrdinalIgnoreCase
+#endif
+                ));
                 if (p != null)
                 {
                     values[i] = p.GetValue(t).Coerce(param.ParameterType);

@@ -14,7 +14,7 @@ namespace With.Reflection
         {
             return constructorWithMostParameters.WeakMemoize(t, type =>
              {
-                 var ctors = type.GetConstructors().ToArray();
+                 var ctors = type.GetTypeInfo().GetConstructors().ToArray();
                  if (ctors.Length == 1)
                  {
                      return ctors.First();

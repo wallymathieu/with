@@ -1,4 +1,9 @@
 build_script:
-  - build.cmd build
+  - dotnet restore ./src
+  - dotnet build ./src
 test_script:
-  - cmd: build.cmd test_only
+  - dotnet test ./src/Tests
+  - dotnet test ./src/WithFs
+branches:
+  only: 
+    - master

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -16,18 +17,18 @@ namespace With.Reflection
             {
                 if (IsIEnumerableT(iEnumerableType))
                 {
-                    return iEnumerableType.GetGenericArguments();
+                    return iEnumerableType.GetTypeInfo().GetGenericArguments();
                 }
-                return iEnumerableType.GetInterfaces()
+                return iEnumerableType.GetTypeInfo().GetInterfaces()
                         .Where(i => IsIEnumerableT(i))
-                        .Select(i => i.GetGenericArguments().Single())
+                        .Select(i => i.GetTypeInfo().GetGenericArguments().Single())
                         .ToArray();
             });
         }
 
         private static bool IsIEnumerableT(Type t)
         {
-            return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+            return t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>);
         }
     }
 }
