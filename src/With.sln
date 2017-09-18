@@ -1,20 +1,15 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{43F527E5-F0C5-4B22-BADA-5D8B0665F851}"
-	ProjectSection(SolutionItems) = preProject
-		..\paket.dependencies = ..\paket.dependencies
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "With\With.csproj", "{EDEBE135-652E-46B5-B40C-324667863DAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "With\With.csproj", "{E0894165-7345-4AF4-B477-CA21AB0344F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{2118C243-7A03-458E-A4E9-C9131B5FF32D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{13DE9623-6D2D-45EA-B837-85D6729994BD}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "WithFs\WithFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{7DDC70FD-7DA6-473B-8779-528442DC497D}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WithFs", "WithFs\WithFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{CF92193A-521A-41A1-8C24-3DFF7F28EE81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,31 +17,31 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DE9623-6D2D-45EA-B837-85D6729994BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDEBE135-652E-46B5-B40C-324667863DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2118C243-7A03-458E-A4E9-C9131B5FF32D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2118C243-7A03-458E-A4E9-C9131B5FF32D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2118C243-7A03-458E-A4E9-C9131B5FF32D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2118C243-7A03-458E-A4E9-C9131B5FF32D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DDC70FD-7DA6-473B-8779-528442DC497D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0894165-7345-4AF4-B477-CA21AB0344F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.TextStylePolicy = $1
-		$1.inheritsSet = VisualStudio
-		$1.inheritsScope = text/plain
 		$1.scope = text/x-csharp
+		$1.FileWidth = 80
+		$1.TabsToSpaces = True
 		$0.CSharpFormattingPolicy = $2
 		$2.IndentSwitchBody = True
 		$2.IndentBlocksInsideExpressions = True
@@ -72,14 +67,25 @@ Global
 		$2.BeforeDelegateDeclarationParentheses = False
 		$2.NewParentheses = False
 		$2.SpacesBeforeBrackets = False
-		$2.inheritsSet = Mono
-		$2.inheritsScope = text/x-csharp
 		$2.scope = text/x-csharp
+		$2.IndentSwitchSection = False
+		$2.NewLinesForBracesInProperties = False
+		$2.NewLinesForBracesInAccessors = False
+		$2.NewLinesForBracesInAnonymousMethods = False
+		$2.NewLinesForBracesInControlBlocks = False
+		$2.NewLinesForBracesInAnonymousTypes = False
+		$2.NewLinesForBracesInObjectCollectionArrayInitializers = False
+		$2.NewLinesForBracesInLambdaExpressionBody = False
+		$2.NewLineForElse = False
+		$2.NewLineForCatch = False
+		$2.NewLineForFinally = False
+		$2.NewLineForMembersInObjectInit = False
+		$2.NewLineForMembersInAnonymousTypes = False
+		$2.NewLineForClausesInQuery = False
+		$2.SpacingAfterMethodDeclarationName = True
+		$2.SpaceAfterMethodCallName = True
+		$2.SpaceBeforeOpenSquareBracket = True
 		$0.TextStylePolicy = $3
-		$3.FileWidth = 120
-		$3.TabsToSpaces = False
-		$3.inheritsSet = VisualStudio
-		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
