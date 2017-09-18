@@ -9,10 +9,6 @@ namespace With.Collections
     {
         private readonly IReadOnlyDictionary<TKey, TValue> data;
         private readonly Action<TKey, TValue> onUsage;
-        public ReadOnlyDictionaryUsage(IDictionary<TKey, TValue> data, Action<TKey, TValue> onUsage)
-            : this(new ReadOnlyDictionary<TKey, TValue>(data), onUsage)
-        {
-        }
 
         public ReadOnlyDictionaryUsage(IReadOnlyDictionary<TKey, TValue> data, Action<TKey, TValue> onUsage)
         {
