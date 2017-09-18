@@ -27,14 +27,6 @@ namespace With
         }
 
         /// <summary>
-        /// Concatenates the enumerable collection using the separator between each element.
-        /// </summary>
-        public static string Join(this IEnumerable<string> enumerable, string separator)
-        {
-            return string.Join(separator, enumerable);
-        }
-
-        /// <summary>
         /// Sorts the elements in ascending order by using a compare function
         /// </summary>
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare)
