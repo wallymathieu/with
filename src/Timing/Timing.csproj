@@ -2,9 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;MARKDOWNLOG</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\With\With.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MarkdownLog" Version="0.9.4" />
   </ItemGroup>
 </Project>

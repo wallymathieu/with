@@ -11,6 +11,11 @@ Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "WithFs\WithFs.fsp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "Timing\Timing.csproj", "{CF92193A-521A-41A1-8C24-3DFF7F28EE81}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A8CDBEE-1992-4BFF-BC9D-62A570F424C0}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
