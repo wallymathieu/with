@@ -4,3 +4,6 @@ build_script:
 test_script:
   - dotnet test ./src/Tests
   - dotnet test ./src/WithFs
+branches:
+  only: 
+    - master
