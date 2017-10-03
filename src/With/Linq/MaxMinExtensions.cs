@@ -69,10 +69,10 @@ namespace With.Linq
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="map">A map from the element to a value used for calculating max.</param>
-        public static T MaximaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+        public static IEnumerable<T> MaximaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {
-            return self.GetMax(Comparer.Create(map)).FirstOrDefault();
+            return self.GetMax(Comparer.Create(map));
         }
         /// <summary>
         /// Returns maximums based on mapped values.
@@ -80,10 +80,10 @@ namespace With.Linq
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="map">A map from the element to a value used for calculating max.</param>
-        public static T MaximumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+        public static IEnumerable<T> MaximumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {
-            return self.GetMax(Comparer.Create(map)).FirstOrDefault();
+            return self.GetMax(Comparer.Create(map));
         }
         private static IEnumerable<T> GetMax<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
@@ -153,10 +153,10 @@ namespace With.Linq
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
         /// <param name="map">A map from the element to a value used for calculating min.</param>
-        public static T MinimaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+        public static IEnumerable<T> MinimaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {
-            return self.GetMin(Comparer.Create(map)).FirstOrDefault();
+            return self.GetMin(Comparer.Create(map));
         }
         /// <summary>
         /// Returns minimums based on the mapped values.
@@ -164,10 +164,10 @@ namespace With.Linq
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
         /// <param name="map">A map from the element to a value used for calculating min.</param>
-        public static T MinimumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
+        public static IEnumerable<T> MinimumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {
-            return self.GetMin(Comparer.Create(map)).FirstOrDefault();
+            return self.GetMin(Comparer.Create(map));
         }
         private static IEnumerable<T> GetMin<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
