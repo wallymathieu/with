@@ -14,7 +14,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <PackageVersion>4.1.1</PackageVersion>
+    <PackageVersion>4.1.2</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -22,7 +22,7 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2017</Copyright>
-    <PackageReleaseNotes>Removing net45 and targeting only netstandard1.6. Removing switch on type (since it's implemented in c# 7)</PackageReleaseNotes>
+    <PackageReleaseNotes>Tap should not throw an exception when func is null</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>

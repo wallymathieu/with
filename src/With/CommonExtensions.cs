@@ -14,7 +14,7 @@ namespace With
         /// </summary>
         public static T Tap<T>(this T value, Action<T> action)
         {
-            action(value);
+            action?.Invoke(value);
             return value;
         }
 
