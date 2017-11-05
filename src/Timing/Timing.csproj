@@ -6,12 +6,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0</DefineConstants>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;MARKDOWNLOG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\With\With.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MarkdownLog" Version="0.9.4" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.10.10" />
   </ItemGroup>
 </Project>
