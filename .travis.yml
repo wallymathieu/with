@@ -1,10 +1,11 @@
 sudo: false
 language: csharp 
-
-solution: ./src/With.sln
-install:
-    - bundle install
-    - rake bootstrap restore
-
+dotnet: 2.0.0
 script: 
-  - rake test
+  - dotnet restore ./src
+  - dotnet build ./src
+  - dotnet test ./src/Tests
+  - dotnet test ./src/WithFs
+branches:
+  only: 
+    - master

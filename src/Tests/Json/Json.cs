@@ -1,16 +1,9 @@
-﻿using System.Web.Script.Serialization;
+﻿using Newtonsoft.Json;
 namespace Tests.Json
 {
     public static class Json
     {
-        private static JavaScriptSerializer _serializer;
-        static Json()
-        {
-            _serializer = new JavaScriptSerializer();
-        }
-        public static string ToJson(this object self)
-        {
-            return _serializer.Serialize(self);
-        }
+        public static string ToJson(this object self)=>
+            JsonConvert.SerializeObject(self);
     }
 }

@@ -1,14 +1,11 @@
 using With;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit.AutoDataAttribute;
-using TheoryAttribute = Xunit.Extensions.TheoryAttribute;
+using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using Assert = Xunit.Assert;
-using System.Collections.Generic;
 using Xunit;
 using Tests.With.TestData;
 
 namespace Tests
 {
-    [Trait("known","bug")]
     public class Clone_an_instance_with_property_of_property
     {
         [Theory, AutoData]

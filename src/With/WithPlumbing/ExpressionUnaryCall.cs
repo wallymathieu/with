@@ -70,9 +70,9 @@ namespace With.WithPlumbing
             switch (m.MemberType)
             {
                 case MemberTypes.Field:
-                    return _object.GetType().GetField(m.Name).GetValue(_object);
+                    return _object.GetType().GetTypeInfo().GetField(m.Name).GetValue(_object);
                 case MemberTypes.Property:
-                    return _object.GetType().GetProperty(m.Name).GetValue(_object, null);
+                    return _object.GetType().GetTypeInfo().GetProperty(m.Name).GetValue(_object, null);
                 default:
                     throw new ExpectedButGotException(new[] { MemberTypes.Field, MemberTypes.Property },
                         m.MemberType);

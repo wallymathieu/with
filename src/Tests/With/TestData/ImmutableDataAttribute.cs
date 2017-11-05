@@ -1,11 +1,10 @@
 ﻿using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Xunit;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
+using Ploeh.AutoFixture.Xunit2;
 
 namespace Tests.With.TestData
 {

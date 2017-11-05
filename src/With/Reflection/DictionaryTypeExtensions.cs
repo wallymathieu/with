@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -16,12 +17,12 @@ namespace With.Reflection
             {
                 if (IsExactlyDictionaryType(iDictionaryType))
                 {
-                    return iDictionaryType.GetGenericArguments();
+                    return iDictionaryType.GetTypeInfo().GetGenericArguments();
                 }
-                var t = iDictionaryType.GetInterfaces()
+                var t = iDictionaryType.GetTypeInfo().GetInterfaces()
                         .Where(i => IsExactlyDictionaryType(i))
                         .FirstOrDefault();
-                return t != null ? t.GetGenericArguments() : new Type[0];
+                return t != null ? t.GetTypeInfo().GetGenericArguments() : new Type[0];
             });
         }
         internal static bool IsDictionaryType(this Type t)
@@ -31,21 +32,27 @@ namespace With.Reflection
 
         private static bool IsExactlyDictionaryType(Type t)
         {
-            return t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IDictionary<,>);
+            return t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == typeof(IDictionary<,>);
         }
 
         private static ConditionalWeakTable<Type, ConstructorInfo> dictionaryTypeCtor = new ConditionalWeakTable<Type, ConstructorInfo>();
 
-        internal static DictionaryAdapter ToDictionaryOfTypeT(this object that)
+        internal static IDictionary ToDictionaryOfTypeT(this object that)
         {
             Type type = that.GetType();
             var dic = dictionaryTypeCtor.WeakMemoize(type,t=>
                 typeof(Dictionary<,>)
                     .MakeGenericType(t.GetIDictionaryTypeParameters())
-                    .GetConstructor(new Type[0])
+                    .GetTypeInfo().GetConstructor(new Type[0])
             ).Invoke(new object[0]);
+            var that_ = (IDictionary) that;
+            var dictionary = (IDictionary) dic;
 
-            return new DictionaryAdapter(that, dic);
+            foreach (var item in that_.Keys)
+            {
+                dictionary[item] = that_[item];
+            }
+            return dictionary;
         }
     }
 }

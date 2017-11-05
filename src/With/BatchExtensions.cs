@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace With
@@ -13,19 +13,21 @@ namespace With
         /// <param name="count">The number of elements that should be at most found in each "batch".</param>
         public static IEnumerable<IEnumerable<T>> BatchesOf<T>(this IEnumerable<T> enumerable, int count)
         {
-            var enumerator = enumerable.GetEnumerator();
-            while (true)
+            using (var enumerator = enumerable.GetEnumerator())
             {
-                var list = new List<T>(count);
-                for (int i = 0; i < count && enumerator.MoveNext(); i++)
+                while (true)
                 {
-                    list.Add(enumerator.Current);
+                    var list = new List<T>(count);
+                    for (int i = 0; i < count && enumerator.MoveNext(); i++)
+                    {
+                        list.Add(enumerator.Current);
+                    }
+                    if (!list.Any())
+                    {
+                        break;
+                    }
+                    yield return list;
                 }
-                if (!list.Any())
-                {
-                    break;
-                }
-                yield return list;
             }
         }
     }

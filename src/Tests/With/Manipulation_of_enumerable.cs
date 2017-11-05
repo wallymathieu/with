@@ -1,7 +1,6 @@
 ﻿using Xunit;
-using Xunit.Extensions;
 using System.Linq;
-using Ploeh.AutoFixture.Xunit;
+using Ploeh.AutoFixture.Xunit2;
 using With;
 using With.ReadonlyEnumerable;
 using System.Collections.Generic;

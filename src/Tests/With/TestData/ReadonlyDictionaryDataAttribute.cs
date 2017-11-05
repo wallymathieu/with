@@ -1,12 +1,12 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using Ploeh.AutoFixture.Xunit;
+using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Xunit2;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Linq;
 using System.Globalization;
 using System;
+using Ploeh.AutoFixture.Kernel;
 
 namespace Tests.With.TestData
 {

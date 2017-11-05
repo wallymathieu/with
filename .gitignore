@@ -111,3 +111,9 @@ UpgradeLog*.XML
 
 *.sublime-workspace
 
+.fake
+
+# project rider
+.idea
+# project lock json
+project.lock.json
