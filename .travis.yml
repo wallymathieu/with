@@ -5,10 +5,10 @@ install:
   # workaround for missing .net 4.5 targing pack
   - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 script: 
-  - dotnet restore ./src
-  - dotnet build ./src
-  - dotnet test ./src/Tests
-  - dotnet test ./src/WithFs
+  - dotnet restore ./With.sln
+  - dotnet build ./With.sln
+  - dotnet test ./tests/Tests
+  - dotnet test ./tests/WithFs
 branches:
   only: 
     - master

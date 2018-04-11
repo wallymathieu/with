@@ -1,9 +1,9 @@
 build_script:
-  - dotnet restore ./src
-  - dotnet build ./src
+  - dotnet restore ./With.sln
+  - dotnet build ./With.sln
 test_script:
-  - dotnet test ./src/Tests
-  - dotnet test ./src/WithFs
+  - dotnet test ./tests/Tests
+  - dotnet test ./tests/WithFs
 branches:
   only: 
     - master
