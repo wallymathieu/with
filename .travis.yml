@@ -1,6 +1,9 @@
 sudo: false
 language: csharp 
 dotnet: 2.0.0
+install:
+  # workaround for missing .net 4.5 targing pack
+  - export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 script: 
   - dotnet restore ./src
   - dotnet build ./src

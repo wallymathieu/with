@@ -6,7 +6,7 @@ With is a small library written in c# intended for alternative constructions in 
 
 Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) can help with doing extensions to a language in a relatively simple way.
 
-##Examples
+## Examples
 
 ### Working with immutable data
 
@@ -49,30 +49,47 @@ If your object that you want to copy and update has a readonly ienumerable as a 
 This creates a clone of the original order (that we assume is a readonly instance) and adds a product to its list of products. After we got our new instance, we tell our repository that this is the instance it's supposed to hold on to.
 
 
-### Performance impact of working with immutable types (by using With) in c# [for version](https://github.com/wallymathieu/with/tree/immutable_object_graph)
+### Performance impact of working with immutable types (by using With) in c\#
 
 To generate use the Timings project.
-Sample times running it on windows 10 on .net 4.5.2 (with .net 4.6.1 installed)
 
-     Name                     | Elapsed          | Quotient
-     ------------------------ | ---------------- | --------:
-     Timing by hand           | 00:00:00.0011304 |        1
-     Timing [immutable object graph](https://github.com/AArnott/ImmutableObjectGraph)| 00:00:00.0073137|   6
-     Timing dictionary        | 00:00:00.0088569 |        7
-     Timing fluent            | 00:00:00.0145144 |       12
-     Timing propertyname only | 00:00:00.0414962|       36
-     Timing equalequal        | 00:00:00.5723422|       506
+``` ini
 
-Sample times running it on mac os x with mono.
+BenchmarkDotNet=v0.10.10, OS=Windows 10 Redstone 1 [1607, Anniversary Update] (10.0.14393.1770)
+Processor=Intel Core i7-4980HQ CPU 2.80GHz (Haswell), ProcessorCount=2
+.NET Core SDK=2.0.2
+  [Host]     : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
+  DefaultJob : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
 
-     Name                     | Elapsed          | Quotient
-     ------------------------ | ---------------- | --------:
-     Timing by hand           | 00:00:00.0019968 |        1
-     Timing [immutable object graph](https://github.com/AArnott/ImmutableObjectGraph)| 00:00:00.0036995|   1
-     Timing dictionary        | 00:00:00.0269027 |       13
-     Timing propertyname only | 00:00:00.0379708 |       19
-     Timing fluent            | 00:00:00.0427954 |       21
-     Timing equalequal        | 00:00:00.1443597 |       72
+
+```
+|                   Method |          Mean |         Error |       StdDev |        Median |
+|------------------------- |--------------:|--------------:|-------------:|--------------:|
+|        Timing_equalequal | 235,200.21 ns | 3,753.0161 ns | 3,133.938 ns | 235,118.21 ns |
+| Timing_propertyname_only |  10,929.76 ns |   193.5316 ns |   171.561 ns |  10,874.39 ns |
+|        Timing_dictionary |   5,567.59 ns |   113.4770 ns |   292.920 ns |   5,547.14 ns |
+|           Timing_ordinal |      32.13 ns |     0.6890 ns |     1.909 ns |      32.04 ns |
+|            Timing_fluent |  12,565.05 ns |   337.4210 ns |   962.681 ns |  12,229.30 ns |
+|           Timing_by_hand |      32.13 ns |     1.0674 ns |     3.114 ns |      31.12 ns |
+
+``` ini
+
+BenchmarkDotNet=v0.10.10, OS=Mac OS X 10.12
+Processor=Intel Core i7-4980HQ CPU 2.80GHz (Haswell), ProcessorCount=8
+.NET Core SDK=2.0.2
+  [Host]     : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
+  DefaultJob : .NET Core 2.0.0 (Framework 4.6.00001.0), 64bit RyuJIT
+
+
+```
+|                   Method |          Mean |         Error |        StdDev |
+|------------------------- |--------------:|--------------:|--------------:|
+|        Timing_equalequal | 261,939.94 ns | 5,348.8656 ns | 8,168.2827 ns |
+| Timing_propertyname_only |  19,542.39 ns |   388.6640 ns |   415.8661 ns |
+|        Timing_dictionary |   9,898.66 ns |   147.0804 ns |   137.5791 ns |
+|           Timing_ordinal |      29.01 ns |     0.4138 ns |     0.3668 ns |
+|            Timing_fluent |  18,668.42 ns |   365.5301 ns |   448.9038 ns |
+|           Timing_by_hand |      31.26 ns |     0.6543 ns |     1.1287 ns |
 
 ### Reasoning about performance
 

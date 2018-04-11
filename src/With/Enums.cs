@@ -5,6 +5,7 @@ namespace With
 {
     /// <summary>
     /// Helper methods for enums. Would be nice if this was in .net base classes instead.
+    /// There is an open issue for it: https://github.com/dotnet/corefx/issues/15453
     /// </summary>
     public static class Enums
     {
