@@ -21,7 +21,6 @@ namespace Tests
             public string Name { get { return name; } private set { throw new Exception(); } }
             public DateTime Since { get { return since; } private set { throw new Exception(); } }
         }
-
         [Theory, AutoData]
         public void A_class_should_map_properties(Customer myClass, DateTime time)
         {

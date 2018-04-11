@@ -10,6 +10,7 @@ namespace Tests.With
 {
     public class Manipulation_of_enumerable
     {
+
         [Theory, AutoData]
         public void Should_be_able_to_add_to_enumerable(
     Customer myClass, string newValue)

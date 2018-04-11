@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Xunit;
 using With;
 using Ploeh.AutoFixture.Xunit2;
+using With.Coercions;
 
 namespace Tests
 {
@@ -25,13 +26,12 @@ namespace Tests
         public void A_class_should_map_its_parents_properties(
             Customer myClass, DateTime time)
         {
-            var ret = myClass.As<VipCustomer>(c=>c.Since, time);
+            var ret = myClass.As<Customer,VipCustomer,DateTime>(c=>c.Since, time);
             Assert.Equal(time, ret.Since);
 
             Assert.Equal(myClass.Id, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
         }
-
         [Theory, AutoData]
         public void A_class_should_be_able_to_use_lambda(
             Customer myClass, DateTime time)
@@ -42,7 +42,6 @@ namespace Tests
             Assert.Equal(myClass.Id, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
         }
-
         [Theory, AutoData]
         public void A_class_using_cast(
             Customer myClass, DateTime time)
@@ -68,7 +67,7 @@ namespace Tests
         public void A_class_should_map_its_parents_properties_and_get_the_new_value(
             Customer myClass, DateTime time)
         {
-            VipCustomer ret = myClass.As<VipCustomer>()
+            VipCustomer ret = myClass.As<Customer,VipCustomer>()
                 .Eql(p => p.Since, time);
             Assert.Equal(myClass.Id, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
@@ -91,7 +90,7 @@ namespace Tests
         public void A_class_with_different_order_of_constructor_parameters(
             Customer myClass, DateTime time)
         {
-            MyCustomerWithDifferentParameterOrder ret = myClass.As<MyCustomerWithDifferentParameterOrder>()
+            MyCustomerWithDifferentParameterOrder ret = myClass.As<Customer,MyCustomerWithDifferentParameterOrder>()
                 .Eql(p => p.Since, time);
             Assert.Equal(time, ret.Since);
 

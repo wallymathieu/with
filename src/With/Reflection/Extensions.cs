@@ -27,7 +27,7 @@ namespace With.Reflection
         }
         private static object lockObj = new object ();
         internal static TValue WeakMemoize<TKey, TValue> (this ConditionalWeakTable<TKey, TValue> table, TKey key, Func<TKey, TValue> construct)
-             where TKey : class
+            where TKey : class
             where TValue : class
         {
             TValue value;
@@ -53,23 +53,6 @@ namespace With.Reflection
         }
 
         private static ConditionalWeakTable<Type, FieldOrPropertyOrGetMethod []> fieldOrPropertyOrMethods = new ConditionalWeakTable<Type, FieldOrPropertyOrGetMethod []> ();
-
-        internal static FieldOrPropertyOrGetMethod [] GetFieldsOrPropertiesOrGetMethods (this Type t, TypeOfFIelds typeOfFIelds)
-        {
-            return fieldOrPropertyOrMethods.WeakMemoize (t,
-                type => new FieldOrPropertyOrGetMethod [0]
-                .Concat (typeOfFIelds.HasFlag (TypeOfFIelds.Fields)
-                    ? GetPublicFields (type).Select (p => new FieldOrPropertyOrGetMethod (p))
-                    : new FieldOrPropertyOrGetMethod [0])
-                .Concat (typeOfFIelds.HasFlag (TypeOfFIelds.Properties)
-                    ? GetPublicProperties (type).Select (p => new FieldOrPropertyOrGetMethod (p))
-                    : new FieldOrPropertyOrGetMethod [0])
-                .Concat (typeOfFIelds.HasFlag (TypeOfFIelds.Methods)
-                    ? GetPublicGetMethods (type).Select (p => new FieldOrPropertyOrGetMethod (p))
-                    : new FieldOrPropertyOrGetMethod [0])
-                .ToArray ()
-            );
-        }
 
         private static IEnumerable<PropertyInfo> GetPublicProperties (Type type)
         {
