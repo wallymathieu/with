@@ -145,9 +145,9 @@ namespace With.Linq
         public static Partition<T> Partition<T>(this IEnumerable<T> self, Func<T, bool> partition)
         {
             var groups = self.GroupBy(partition);
-            var trueArray = groups.SingleOrDefault(g => g.Key.Equals(true));
-            var falseArray = groups.SingleOrDefault(g => g.Key.Equals(false));
-            return new With.Linq.Partition<T>(trueArray.ToArray(), falseArray.ToArray());
+            var trueArray = groups.SingleOrDefault(g => g.Key.Equals(true))?.ToArray() ?? new T[0];
+            var falseArray = groups.SingleOrDefault(g => g.Key.Equals(false))?.ToArray() ?? new T[0];
+            return new With.Linq.Partition<T>(trueArray, falseArray);
         }
 
         public static IEnumerable<T> Reject<T>(this IEnumerable<T> self, Func<T, bool> predicate)

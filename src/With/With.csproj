@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
     <AssemblyName>With</AssemblyName>
     <PackageId>With</PackageId>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -14,7 +14,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <PackageVersion>4.3.0</PackageVersion>
+    <PackageVersion>4.3.1</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -22,7 +22,7 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2017</Copyright>
-    <PackageReleaseNotes>Adding Uris helper class</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding net45 as target framework and fix for partition null reference exception bug</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
