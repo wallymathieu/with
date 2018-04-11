@@ -56,7 +56,7 @@ namespace With.WithPlumbing
             {
                 var memberValue = GetMemberValue(memberAccess);
                 var paramValue = expr.Arguments.Skip(1).Select(arg=>ExpressionValue.GetExpressionValue(arg)).ToArray();
-                value = ApplyOperation.Apply(expr, memberValue, paramValue);
+                value = ApplyVoidOperation.Apply(expr, memberValue, paramValue);
             }
             _parsed.Add(new NameAndValue(
                 memberAccess.Member.Name,

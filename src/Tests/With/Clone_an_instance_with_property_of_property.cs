@@ -2,6 +2,7 @@ using With;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using Assert = Xunit.Assert;
 using Xunit;
+using Tests.With.TestData;
 
 namespace Tests
 {
@@ -18,7 +19,7 @@ namespace Tests
 
         [Theory, AutoData]
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_equalequal(
-    Sale myClass, string newValue)
+            Sale myClass, string newValue)
         {
             var ret = myClass.With(sp => sp.Customer.Name == newValue);
             Assert.Equal(newValue, ret.Customer.Name);
@@ -27,7 +28,7 @@ namespace Tests
 
         [Theory, AutoData]
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_Eql(
-Sale myClass, string newValue)
+           Sale myClass, string newValue)
         {
             var ret = myClass.With().Eql(sp => sp.Customer.Name, newValue)
                 .To();

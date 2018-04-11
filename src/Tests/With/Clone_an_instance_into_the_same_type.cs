@@ -1,7 +1,8 @@
-﻿using With;
+using With;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using System.Collections.Generic;
 using Xunit;
+using Tests.With.TestData;
 
 namespace Tests
 {
@@ -92,6 +93,14 @@ namespace Tests
                 : base(id, name, preferences)
             {
             }
+        }
+
+        [Theory, AutoData]
+        public void Should_be_able_to_add_object_to_enumerable(
+            FlyFishingBuddy<Customer> myClass, string newValue)
+        {
+            var ret = myClass.With(m => m.Customer == new Customer(1, newValue, new string[0]));
+            Assert.Equal(newValue, ret.Customer.Name);
         }
     }
 }
