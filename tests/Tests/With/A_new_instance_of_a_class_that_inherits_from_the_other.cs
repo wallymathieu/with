@@ -36,22 +36,24 @@ namespace Tests
         public void A_class_should_be_able_to_use_lambda(
             Customer myClass, DateTime time)
         {
-            var ret = myClass.As<VipCustomer>(m => m.Since == time);
+            /*var ret = myClass.As<VipCustomer>(m => m.Since == time);
             Assert.Equal(ret.Since, time);
 
             Assert.Equal(myClass.Id, ret.Id);
-            Assert.Equal(myClass.Name, ret.Name);
+            Assert.Equal(myClass.Name, ret.Name);*/
+            throw new NotImplementedException();
         }
         [Theory, AutoData]
         public void A_class_using_cast(
             Customer myClass, DateTime time)
         {
             Object _time = (Object)time;
-            var ret = myClass.As<VipCustomer>(m => m.Since == (DateTime)_time);
+            /*var ret = myClass.As<Customer,VipCustomer>(m => m.Since == (DateTime)_time);
             Assert.Equal(ret.Since, time);
 
             Assert.Equal(myClass.Id, ret.Id);
-            Assert.Equal(myClass.Name, ret.Name);
+            Assert.Equal(myClass.Name, ret.Name);*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
@@ -59,8 +61,9 @@ namespace Tests
     Customer myClass, DateTime time)
         {
             const string _time = "253654365";
-            var ret = myClass.As<VipCustomer>(m => m.Name == _time && m.Since == time);
-            Assert.Equal(ret.Name, _time);
+            /*var ret = myClass.As<VipCustomer>(m => m.Name == _time && m.Since == time);
+            Assert.Equal(ret.Name, _time);*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]

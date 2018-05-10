@@ -10,12 +10,11 @@ namespace Tests.With
 {
     public class Manipulation_of_enumerable
     {
-
         [Theory, AutoData]
         public void Should_be_able_to_add_to_enumerable(
-    Customer myClass, string newValue)
+            Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences.Add(newValue));
+            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Add(v)).Copy(newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
@@ -23,11 +22,11 @@ namespace Tests.With
         public void Should_be_able_to_union_add_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences.Union(new[] { newValue }));
+            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Union(new[] {v})).Copy(newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
-            var array = new[] { newValue };
-            ret = myClass.With(m => m.Preferences.Union(array));
+            var array = new[] {newValue};
+            ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences.Union(v)).Copy(array);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
@@ -35,13 +34,14 @@ namespace Tests.With
         public void Should_be_able_to_concat_add_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences.Concat(new[] { newValue }));
+            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Concat(new[] {v})).Copy(newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
-            var array = new[] { newValue };
-            ret = myClass.With(m => m.Preferences.Concat(array));
+            var array = new[] {newValue};
+            ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences.Concat(v)).Copy(array);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
+
         public class FlyFishingBuddyCustomer
         {
             public FlyFishingBuddyCustomer(Customer customer, DateTime whenToGoFishing)
@@ -49,6 +49,7 @@ namespace Tests.With
                 Customer = customer;
                 WhenToGoFishing = whenToGoFishing;
             }
+
             public readonly Customer Customer;
             public readonly DateTime WhenToGoFishing;
         }
@@ -57,7 +58,8 @@ namespace Tests.With
         public void Should_be_able_to_add_object_to_enumerable(
             FlyFishingBuddyCustomer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Customer == new Customer(1, newValue, new string[0]));
+            var ret = myClass.PrepareWith<FlyFishingBuddyCustomer, Customer>((m, v) => m.Customer == v)
+                .Copy(new Customer(1, newValue, new string[0]));
             Assert.Equal(newValue, ret.Customer.Name);
         }
 
@@ -65,7 +67,7 @@ namespace Tests.With
         public void Able_to_set_array_to_empty_array(
             Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences == new string[0]);
+            var ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences == v).Copy(new string[0]);
             Assert.Equal(new string[0], ret.Preferences.ToArray());
         }
 
@@ -73,7 +75,7 @@ namespace Tests.With
         public void Should_be_able_to_add_const_to_enumerable(
             Customer myClass)
         {
-            const string newValue = "const";
+            /*const string newValue = "const";
             var ret = myClass.With(m => m.Preferences.Add(newValue));
             Assert.Equal(newValue, ret.Preferences.Last());
 
@@ -82,41 +84,46 @@ namespace Tests.With
 
             var array = new[] { newValue };
             ret = myClass.With(m => m.Preferences.Concat(array));
-            Assert.Equal(newValue, ret.Preferences.Last());
+            Assert.Equal(newValue, ret.Preferences.Last());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_range_with_new_array_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.With(m => m.Preferences.AddRange(new[] { newValue }));
-            Assert.Equal(newValue, ret.Preferences.Last());
+            /*var ret = myClass.With(m => m.Preferences.AddRange(new[] { newValue }));
+            Assert.Equal(newValue, ret.Preferences.Last());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_add_range_to_enumerable(
             Customer myClass, IEnumerable<string> newValue)
         {
-            var ret = myClass.With(m => m.Preferences.AddRange(newValue));
-            Assert.Equal(newValue.Last(), ret.Preferences.Last());
+/*var ret = myClass.With(m => m.Preferences.AddRange(newValue));
+Assert.Equal(newValue.Last(), ret.Preferences.Last());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_remove_from_enumerable(
             Customer myClass)
         {
-            var first = myClass.Preferences.First();
-            var ret = myClass.With(m => m.Preferences.Remove(first));
-            Assert.NotEqual(first, ret.Preferences.First());
+/*var first = myClass.Preferences.First();
+var ret = myClass.With(m => m.Preferences.Remove(first));
+Assert.NotEqual(first, ret.Preferences.First());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_where_remove_from_enumerable(
             Customer myClass)
         {
-            var first = myClass.Preferences.First();
-            var ret = myClass.With(m => m.Preferences.Where(p => p != first));
-            Assert.NotEqual(first, ret.Preferences.First());
+/*var first = myClass.Preferences.First();
+var ret = myClass.With(m => m.Preferences.Where(p => p != first));
+Assert.NotEqual(first, ret.Preferences.First());*/
+            throw new NotImplementedException();
         }
 
         public class AllOurCustomers
@@ -125,7 +132,9 @@ namespace Tests.With
                 : this(new Customer[0], new FlyFishingBuddyCustomer[0])
             {
             }
-            public AllOurCustomers(IEnumerable<Customer> myClasses, IEnumerable<FlyFishingBuddyCustomer> myClassWIthObjects)
+
+            public AllOurCustomers(IEnumerable<Customer> myClasses,
+                IEnumerable<FlyFishingBuddyCustomer> myClassWIthObjects)
             {
                 MyClasses = myClasses;
                 MyClassWIthObjects = myClassWIthObjects;
@@ -139,39 +148,35 @@ namespace Tests.With
         public void Should_be_able_to_set_enumerable_on_model_with_empty_constructor(
             AllOurCustomers models)
         {
-            var myClass = new Customer(-1, string.Empty, new string[0]);
+            /*var myClass = new Customer(-1, string.Empty, new string[0]);
             var ret = models.With(m => m.MyClasses.Add(myClass));
-            Assert.Equal(myClass, ret.MyClasses.First());
+            Assert.Equal(myClass, ret.MyClasses.First());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_set_enumerable_with_new(AllOurCustomers models)
         {
-            var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, new string[0])));
-            Assert.Equal(-1, ret.MyClasses.First().Id);
+            /*var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, new string[0])));
+            Assert.Equal(-1, ret.MyClasses.First().Id);*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_use_call_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
-            var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
-            Assert.Equal(myclasses.First(), newModels.MyClasses.Last());
+            /*var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
+            Assert.Equal(myclasses.First(), newModels.MyClasses.Last());*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]
         public void Should_be_able_to_use_invoke_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
-            Func<Customer> getMyClass = () => myclasses.First();
-            var newModels = models.With(o => o.MyClasses.Add(getMyClass()));
-            Assert.Equal(getMyClass(), newModels.MyClasses.Last());
-        }
-
-        //Not implemented [Theory, AutoData]
-        public void Should_be_able_to_use_coalesce_in_expression(IEnumerable<Customer> myclasses)
-        {
-            var models = new AllOurCustomers(null, null);
-            var newModels = models.With(o => o.MyClasses ?? myclasses);
-            Assert.Equal(myclasses, newModels.MyClasses);
+/*Func<Customer> getMyClass = () => myclasses.First();
+var newModels = models.With(o => o.MyClasses.Add(getMyClass()));
+Assert.Equal(getMyClass(), newModels.MyClasses.Last());*/
+            throw new NotImplementedException();
         }
     }
 }

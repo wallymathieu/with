@@ -1,4 +1,5 @@
-﻿using With;
+﻿using System;
+using With;
 using Xunit;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 namespace Tests
@@ -24,7 +25,7 @@ namespace Tests
         public void should_be_able_to_create_a_clone_using_equal_equal(
             AClassWithManyProperties instance, int newValue,string newValue2, string newValue3, string newValue4)
         {
-            var ret = instance.With(m =>
+            /*var ret = instance.With(m =>
                 m.MyProperty == newValue
                 && m.MyProperty2 == newValue2
                 && m.MyProperty3 == newValue3
@@ -32,7 +33,8 @@ namespace Tests
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);
-            Assert.Equal(newValue4, ret.MyProperty4);
+            Assert.Equal(newValue4, ret.MyProperty4);*/
+            throw new NotImplementedException();
         }
 
         [Theory, AutoData]

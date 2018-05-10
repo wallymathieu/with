@@ -1,5 +1,5 @@
 using System;
-using With;
+using With.Coercions;
 using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 
@@ -7,6 +7,8 @@ namespace Timing
 {
     public class TimingsNewClass : TimingsBase
     {
+        private static readonly MyClass _myClass = new MyClass (1, "2");
+
         public class MyClass
         {
             public MyClass (int myProperty, string myProperty2)
@@ -33,30 +35,30 @@ namespace Timing
             }
         }
 
-        [Benchmark]
+/*        [Benchmark]
         public void Timing_equalequal ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = new MyClass (1, "2").As<MyClass2> (m => m.MyProperty3 == time);
-        }
+            var ret = new MyClass (1, "2").As<MyClass, MyClass2,DateTime> (m => m.MyProperty3 == time);
+        }*/
         [Benchmark]
         public void Timing_propertyname_only ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = new MyClass (1, "2").As<MyClass2> (m => m.MyProperty3, time);
+            var ret = _myClass.As<MyClass, MyClass2,DateTime> (m => m.MyProperty3, time);
         }
         [Benchmark]
         public void Timing_dictionary ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = new MyClass (1, "2").As<MyClass2> (new Dictionary<String, object> { { "MyProperty3", time } });
+            var ret = _myClass.As<MyClass, MyClass2> (new Dictionary<String, object> { { "MyProperty3", time } });
         }
 
         [Benchmark]
         public void Timing_ordinal ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var orig = new MyClass (1, "2");
+            var orig = _myClass;
             var ret = new MyClass2 (orig.MyProperty, orig.MyProperty2, time);
         }
 
@@ -64,7 +66,7 @@ namespace Timing
         public void Timing_fluent ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = new MyClass (1, "2").As<MyClass2> ().Eql (p => p.MyProperty3, time)
+            var ret = _myClass.As<MyClass, MyClass2> ().Eql (p => p.MyProperty3, time)
                 .To (); // use to or cast to get the new instance
         }
 
@@ -72,7 +74,7 @@ namespace Timing
         public void Timing_by_hand ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = new MyClass (1, "2").AddMinutes (time);
+            var ret = _myClass.AddMinutes (time);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
     <AssemblyName>With</AssemblyName>
@@ -13,7 +12,6 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
     <PackageVersion>4.3.1</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
@@ -24,7 +22,6 @@
     <Copyright>Copyright 2017</Copyright>
     <PackageReleaseNotes>Adding net45 as target framework and fix for partition null reference exception bug</PackageReleaseNotes>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Coercions\" />
   </ItemGroup>

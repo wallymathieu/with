@@ -7,6 +7,9 @@ namespace Timing
 {
     public class TimingsClone : TimingsBase
     {
+        private static readonly MyClass _myClass = new MyClass (1, "2");
+        private static readonly Lazy<IPreparedCopy<MyClass, string>> _myClassPreparedCopy=new Lazy<IPreparedCopy<MyClass,string>>(()=>
+            _myClass.PrepareWith<MyClass,string>((m,v) => m.MyProperty2 == v));
 
         public class MyClass
         {
@@ -28,25 +31,25 @@ namespace Timing
         public void Timing_equalequal ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            new MyClass (1, "2").With (m => m.MyProperty2 == time.ToString ());
+            var res = _myClassPreparedCopy.Value.Copy (time.ToString ());
         }
         [Benchmark]
         public void Timing_propertyname_only ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            new MyClass (1, "2").With (m => m.MyProperty2, time.ToString ());
+            var res = _myClass.With (m => m.MyProperty2, time.ToString ());
         }
         [Benchmark]
         public void Timing_dictionary ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            new MyClass (1, "2").With (new Dictionary<String, object> { { "MyProperty2", time.ToString () } });
+            var res = _myClass.With (new Dictionary<String, object> { { "MyProperty2", time.ToString () } });
         }
         [Benchmark]
         public void Timing_fluent ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            new MyClass (1, "2").With ().Eql (p => p.MyProperty2, time.ToString ())
+            var res = _myClass.With ().Eql (p => p.MyProperty2, time.ToString ())
                 .To (); // use to or cast to get the new instance
         }
 
@@ -54,7 +57,7 @@ namespace Timing
         public void Timing_by_hand ()
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            new MyClass (1, "2").SetMyProperty2 (time.ToString ());
+            var res = _myClass.SetMyProperty2 (time.ToString ());
         }
     }
 

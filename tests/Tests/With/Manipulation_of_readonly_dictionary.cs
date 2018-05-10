@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 using System.Linq;
 using System.Collections.Generic;
 using Xunit.Extensions;
@@ -13,19 +14,21 @@ namespace Tests.With
         [Theory, ReadonlyDictionaryData]
         public void Should_be_able_to_add_and_remove_from_dictionary(ClassWithFields models, Customer myclass, int key)
         {
-            var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
+            /*var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
             Assert.Equal(myclass, newModels.MyDictionary[key]);
             var newNewModels = models.With(o => o.MyDictionary.Remove(key));
-            Assert.False(newNewModels.MyDictionary.ContainsKey(key));
+            Assert.False(newNewModels.MyDictionary.ContainsKey(key));*/
+            throw new NotImplementedException();
         }
 
         [Theory, ReadonlyDictionaryData]
         public void Should_be_able_to_add_and_replace_for_dictionary(ClassWithFields models, Customer myclass, int key, Customer replacement)
         {
-            var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
+            /*var newModels = models.With(o => o.MyDictionary.Add(key, myclass));
             Assert.Equal(myclass, newModels.MyDictionary[key]);
             var newNewModels = models.With(o => o.MyDictionary.Replace(key, replacement));
-            Assert.Equal(replacement, newNewModels.MyDictionary[key]);
+            Assert.Equal(replacement, newNewModels.MyDictionary[key]);*/
+            throw new NotImplementedException();
         }
 
         public class ClassWithFields

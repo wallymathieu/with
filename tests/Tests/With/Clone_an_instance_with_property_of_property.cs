@@ -20,7 +20,7 @@ namespace Tests
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_equalequal(
     Sale myClass, string newValue)
         {
-            var ret = myClass.With(sp => sp.Customer.Name == newValue);
+            var ret = myClass.PrepareWith<Sale,string>((sp,v) => sp.Customer.Name == v).Copy(newValue);
             Assert.Equal(newValue, ret.Customer.Name);
             Assert.Equal(myClass.Id, ret.Id);
         }
