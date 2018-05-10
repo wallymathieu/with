@@ -8,7 +8,7 @@ script:
   - dotnet restore ./With.sln
   - dotnet build ./With.sln
   - dotnet test ./tests/Tests
-  - dotnet test ./tests/WithFs
+  - dotnet test ./tests/TestsFs
 branches:
   only: 
     - master

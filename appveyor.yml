@@ -3,7 +3,7 @@ build_script:
   - dotnet build ./With.sln
 test_script:
   - dotnet test ./tests/Tests
-  - dotnet test ./tests/WithFs
+  - dotnet test ./tests/TestsFs
 branches:
   only: 
     - master
