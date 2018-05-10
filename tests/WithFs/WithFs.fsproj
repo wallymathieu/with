@@ -11,8 +11,7 @@
     <Compile Include="Clone_an_instance_into_the_same_type.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\With\With.csproj" />
-
+    <ProjectReference Include="../../src/With/With.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />

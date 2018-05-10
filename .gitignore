@@ -117,3 +117,6 @@ UpgradeLog*.XML
 .idea
 # project lock json
 project.lock.json
+
+.vs/
+
