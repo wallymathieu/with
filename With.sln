@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "src\With\With.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests\Tests.csproj", "{2118C243-7A03-458E-A4E9-C9131B5FF32D}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "tests\WithFs\WithFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "tests\TestsFs\TestsFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "src\Timing\Timing.csproj", "{CF92193A-521A-41A1-8C24-3DFF7F28EE81}"
 EndProject
