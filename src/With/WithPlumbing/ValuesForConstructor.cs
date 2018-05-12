@@ -37,14 +37,10 @@ namespace With.WithPlumbing
         /// <summary>
         /// Returns instance with values specified
         /// </summary>
-        public TDestination To()
+        public TDestination Copy()
         {
             return CreateInstanceFromValues.Create<TDestination> (parent, values);
         }
 
-        public static implicit operator TDestination(ValuesForConstructor<TDestination> d)
-        {
-            return d.To();
-        }
     }
 }

@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace With.WithPlumbing
 {
-    using Reflection;
+    using Reflections;
     internal class GetConstructorParameterValues
     {
-        public static object[] GetValues(Object t, IReadOnlyDictionary<string, object> specifiedValues, FieldOrProperty[] props, ConstructorInfo ctor)
+        public static object[] GetValues(Object t, IReadOnlyDictionary<string, object> specifiedValues, Internals.FieldOrProperty[] props, ConstructorInfo ctor)
         {
             var ctorParams = ctor.GetParameters();
             var values = new object[ctorParams.Length];
@@ -29,7 +29,7 @@ namespace With.WithPlumbing
                 ));
                 if (p != null)
                 {
-                    values[i] = p.GetValue(t).Coerce(param.ParameterType);
+                    values[i] = p.Value(t).Coerce(param.ParameterType);
                 }
                 else
                 {

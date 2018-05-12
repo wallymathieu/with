@@ -41,11 +41,11 @@ namespace Tests
         public void should_be_able_to_create_a_clone_using_builder(
             AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            AClassWithManyProperties ret = instance.With()
+            var ret = instance.With()
                 .Eql(m => m.MyProperty, newValue)
                 .Eql(m => m.MyProperty2, newValue2)
                 .Eql(m => m.MyProperty3, newValue3)
-                .Eql(m => m.MyProperty4, newValue4);
+                .Eql(m => m.MyProperty4, newValue4).Copy();
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);

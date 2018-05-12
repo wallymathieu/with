@@ -49,18 +49,24 @@ namespace With
         }
         
 
-        public static IPreparedCopy<T,TValue> PrepareWith<T,TValue>(this T t, Expression<Func<T, TValue,bool>> expr)
+      
+
+    }
+
+    public static class Prepare
+    {
+        public static IPreparedCopy<T,TValue> Copy<T,TValue>(Expression<Func<T, TValue,bool>> expr)
         {
-            var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
-            eqeq.Lambda(expr);
+            //var eqeq = ExpressionWithEqualEqualOrCall.t(t,expr);
+            //eqeq.Lambda(expr);
 
             //return CreateInstanceFromValues.Create<T,T>(t, eqeq.Parsed.ToArray());
             throw new NotImplementedException();
         }
-        public static IPreparedCopy<T,TValue1,TValue2> PrepareWith<T,TValue1,TValue2>(this T t, Expression<Func<T,TValue1,TValue2,bool>> expr)
+        public static IPreparedCopy<T,TValue1,TValue2> Copy<T,TValue1,TValue2>(Expression<Func<T,TValue1,TValue2,bool>> expr)
         {
-            var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
-            eqeq.Lambda(expr);
+            //var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
+            //eqeq.Lambda(expr);
 
             //return CreateInstanceFromValues.Create<T,T>(t, eqeq.Parsed.ToArray());
             throw new NotImplementedException();
@@ -75,14 +81,13 @@ namespace With
             throw new NotImplementedException();
         }*/
 
-        public static IPreparedCopy<T,TVal> PrepareWith<T,TVal>(this T t, Expression<Action<T,TVal>> expr)
+        public static IPreparedCopy<T,TVal> Copy<T,TVal>(Expression<Action<T,TVal>> expr)
         {
-            var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
-            eqeq.Lambda(expr);
-            var propertyNameAndValues = eqeq.Parsed.ToArray();
+            //var eqeq = new ExpressionWithEqualEqualOrCall<T>(t);
+            //eqeq.Lambda(expr);
+            //var propertyNameAndValues = eqeq.Parsed.ToArray();
             //return CreateInstanceFromValues.Create<T, T>(t,propertyNameAndValues);
             throw new NotImplementedException();
         }
-
     }
 }

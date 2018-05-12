@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Linq.Expressions;
 using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using NameAndValue = System.Collections.Generic.KeyValuePair<string,object>;
 
 namespace With.WithPlumbing
 {
-    using Reflection;
+    using Reflections;
     using Collections;
    
     internal static class CreateInstanceFromValues
@@ -23,7 +21,7 @@ namespace With.WithPlumbing
         public static Object Create(Type tSource, Type tDest, Object parent, IEnumerable<NameAndValue> values)
         {
             var props = tSource.GetFieldsOrProperties();
-            var ctor = tDest.GetConstructorWithMostParameters();
+            var ctor = Internals.Reflection.GetConstructorWithMostParameters.Invoke(tDest);
 
             var usedKeys = new List<string> ();
 
@@ -39,7 +37,7 @@ namespace With.WithPlumbing
                     dictionaryOfParameters, props, ctor)
             );
             var unusedKeys = dictionaryOfParameters.Keys.Except(usedKeys,
-                StringComparer.CurrentCultureIgnoreCase);
+                StringComparer.CurrentCultureIgnoreCase).ToArray();
             if (unusedKeys.Any ()) 
             {
                 throw new Exception(string.Format("Missing constructor parameters on '{1}' for: [{0}]", string.Join(",", unusedKeys), tDest.Name));

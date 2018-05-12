@@ -67,7 +67,7 @@ namespace Timing
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
             var ret = _myClass.As<MyClass, MyClass2> ().Eql (p => p.MyProperty3, time)
-                .To (); // use to or cast to get the new instance
+                .Copy (); // use to or cast to get the new instance
         }
 
         [Benchmark]

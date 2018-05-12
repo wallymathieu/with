@@ -23,6 +23,6 @@
     <PackageReleaseNotes>Adding net45 as target framework and fix for partition null reference exception bug</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Coercions\" />
+    <ProjectReference Include="..\WithFs\WithFs.fsproj" />
   </ItemGroup>
 </Project>

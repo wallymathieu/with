@@ -14,7 +14,7 @@ namespace Tests.With
         public void Should_be_able_to_add_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Add(v)).Copy(newValue);
+            var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Add(v)).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
@@ -22,11 +22,11 @@ namespace Tests.With
         public void Should_be_able_to_union_add_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Union(new[] {v})).Copy(newValue);
+            var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Union(new[] {v})).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] {newValue};
-            ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences.Union(v)).Copy(array);
+            ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences.Union(v)).Copy(myClass, array);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
@@ -34,11 +34,11 @@ namespace Tests.With
         public void Should_be_able_to_concat_add_to_enumerable(
             Customer myClass, string newValue)
         {
-            var ret = myClass.PrepareWith<Customer, string>((m, v) => m.Preferences.Concat(new[] {v})).Copy(newValue);
+            var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Concat(new[] {v})).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] {newValue};
-            ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences.Concat(v)).Copy(array);
+            ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences.Concat(v)).Copy(myClass, array);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
@@ -58,8 +58,8 @@ namespace Tests.With
         public void Should_be_able_to_add_object_to_enumerable(
             FlyFishingBuddyCustomer myClass, string newValue)
         {
-            var ret = myClass.PrepareWith<FlyFishingBuddyCustomer, Customer>((m, v) => m.Customer == v)
-                .Copy(new Customer(1, newValue, new string[0]));
+            var ret = Prepare.Copy<FlyFishingBuddyCustomer, Customer>((m, v) => m.Customer == v)
+                .Copy(myClass, new Customer(1, newValue, new string[0]));
             Assert.Equal(newValue, ret.Customer.Name);
         }
 
@@ -67,7 +67,7 @@ namespace Tests.With
         public void Able_to_set_array_to_empty_array(
             Customer myClass, string newValue)
         {
-            var ret = myClass.PrepareWith<Customer, string[]>((m, v) => m.Preferences == v).Copy(new string[0]);
+            var ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences == v).Copy(myClass, new string[0]);
             Assert.Equal(new string[0], ret.Preferences.ToArray());
         }
 

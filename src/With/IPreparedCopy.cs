@@ -5,10 +5,10 @@
     }
     public interface IPreparedCopy<TObj,TValue>:IPreparedCopy
     {
-        TObj Copy(TValue value);
+        TObj Copy(TObj from, TValue value);
     }
     public interface IPreparedCopy<TObj,TValue1,TValue2>:IPreparedCopy
     {
-        TObj Copy(TValue1 value1, TValue2 value2);
+        TObj Copy(TObj from, TValue1 value1, TValue2 value2);
     }
 }

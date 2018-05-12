@@ -2,7 +2,7 @@
 using System.Reflection;
 using NameAndValue = System.Collections.Generic.KeyValuePair<string, object>;
 using System.Linq;
-using With.Reflection;
+using With.Reflections;
 using System.Collections.Generic;
 
 namespace With.WithPlumbing
@@ -56,7 +56,7 @@ namespace With.WithPlumbing
             {
                 var ctype = c.GetType();
                 var field = ctype.GetFieldsOrProperties().Single(f => f.Name == members[i].Name);
-                values[i] = field.GetValue(c);
+                values[i] = field.Value(c);
             }
             // since we have the final value 'val', we don't need to do field.GetValue for it
             values[members.Length - 1] = val;

@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26114.2
@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "With", "src\With\With.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "tests\Tests\Tests.csproj", "{2118C243-7A03-458E-A4E9-C9131B5FF32D}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "WithFs", "tests\TestsFs\TestsFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WithFs", "tests\TestsFs\TestsFs.fsproj", "{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Timing", "src\Timing\Timing.csproj", "{CF92193A-521A-41A1-8C24-3DFF7F28EE81}"
 EndProject
@@ -19,6 +19,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{00404615-15CF-49D6-AC53-072389AFC6AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3C974E7D-2CB4-4C86-9283-85392D28A736}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WithFs", "src\WithFs\WithFs.fsproj", "{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,12 +44,17 @@ Global
 		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF92193A-521A-41A1-8C24-3DFF7F28EE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CF92193A-521A-41A1-8C24-3DFF7F28EE81} = {00404615-15CF-49D6-AC53-072389AFC6AF}
 		{EDEBE135-652E-46B5-B40C-324667863DAA} = {00404615-15CF-49D6-AC53-072389AFC6AF}
 		{2118C243-7A03-458E-A4E9-C9131B5FF32D} = {3C974E7D-2CB4-4C86-9283-85392D28A736}
 		{6D3E8E1E-AAD5-4842-90AC-234DD5FA221F} = {3C974E7D-2CB4-4C86-9283-85392D28A736}
+		{49A88B8D-5615-4A24-AE89-CCFD9EC7B7FF} = {00404615-15CF-49D6-AC53-072389AFC6AF}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0

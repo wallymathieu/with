@@ -70,8 +70,8 @@ namespace Tests
         public void A_class_should_map_its_parents_properties_and_get_the_new_value(
             Customer myClass, DateTime time)
         {
-            VipCustomer ret = myClass.As<Customer,VipCustomer>()
-                .Eql(p => p.Since, time);
+            var ret = myClass.As<Customer,VipCustomer>()
+                .Eql(p => p.Since, time).Copy();
             Assert.Equal(myClass.Id, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
             Assert.Equal(time, ret.Since);
@@ -93,8 +93,8 @@ namespace Tests
         public void A_class_with_different_order_of_constructor_parameters(
             Customer myClass, DateTime time)
         {
-            MyCustomerWithDifferentParameterOrder ret = myClass.As<Customer,MyCustomerWithDifferentParameterOrder>()
-                .Eql(p => p.Since, time);
+            var ret = myClass.As<Customer,MyCustomerWithDifferentParameterOrder>()
+                .Eql(p => p.Since, time).Copy();
             Assert.Equal(time, ret.Since);
 
             Assert.Equal(myClass.Id, ret.Id);

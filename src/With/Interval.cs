@@ -27,11 +27,6 @@ namespace With
             From = @from;
             To = @to;
         }
-
-        internal T Contains(IComparable comparable)
-        {
-            throw new NotImplementedException();
-        }
         /// <summary>
         /// 
         /// </summary>
