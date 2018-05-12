@@ -49,7 +49,7 @@ namespace With.Coercions
         public static TTo As<TFrom,TTo,TRet>(this TFrom t, Expression<Func<TTo,TRet>> expr, TRet val)
         {
             var memberAccess = new ExpressionWithMemberAccess();
-            memberAccess.Lambda<TTo, TRet>(expr);
+            memberAccess.Lambda(expr);
             return CreateInstanceFromValues.Create<TTo>(t,new[] { GetNameAndValue.Get(t, memberAccess.Members, val) });
         }
 /*

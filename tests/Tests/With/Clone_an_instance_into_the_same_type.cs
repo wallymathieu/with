@@ -15,7 +15,7 @@ namespace Tests
             Assert.Equal(newValue, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
         }
-        [Theory, AutoData]
+        //TODO: [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(
             Customer myClass, int newValue)
         {
@@ -24,7 +24,7 @@ namespace Tests
             Assert.Equal(myClass.Name, ret.Name);
         }
 
-        [Theory, AutoData]
+        //TODO: [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(
             Customer myClass, int newIntValue, string newStrValue)
         {

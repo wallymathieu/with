@@ -2,34 +2,14 @@ using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 using System.Reflection;
+using With.Internals;
 
 namespace With.WithPlumbing
 {
     internal class ExpressionWithMemberAccess
     {
-        public List<MemberInfo> Members = new List<MemberInfo>();
+        public List<FieldOrProperty> Members = new List<FieldOrProperty>();
 
-        private void GetNameFromMemberAccess(MemberExpression member)
-        {
-            MemberAccess(member);
-        }
-
-        public void MemberAccess(Expression expr)
-        {
-            switch (expr.NodeType)
-            {
-                case ExpressionType.Parameter:
-                    break;
-                case ExpressionType.MemberAccess:
-                    var memberAccess = (MemberExpression)expr;
-                    MemberAccess(memberAccess.Expression);
-                    Members.Add(memberAccess.Member);
-                    break;
-                default:
-                    throw new ExpectedButGotException(
-                    new[] { ExpressionType.Parameter, ExpressionType.MemberAccess }, expr.NodeType);
-            }
-        }
 
         public void Lambda<TRet, TVal>(Expression<Func<TRet, TVal>> expr)
         {
@@ -39,10 +19,10 @@ namespace With.WithPlumbing
                     switch (expr.Body.NodeType)
                     {
                         case ExpressionType.MemberAccess:
-                            GetNameFromMemberAccess((MemberExpression)expr.Body);
+                            Members.AddRange(Expressions.ExpressionWithMemberAccess((MemberExpression)expr.Body));
                             break;
                         case ExpressionType.Convert:
-                            GetNameFromMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand);
+                            Members.AddRange(Expressions.ExpressionWithMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand));
                             break;
                         default:
                             throw new ExpectedButGotException(

@@ -29,7 +29,7 @@ namespace With.WithPlumbing
         public ValuesForConstructor<TDestination> Eql<TValue>(Expression<Func<TDestination, TValue>> property, TValue value)
         {
             var memberAccess = new ExpressionWithMemberAccess();
-            memberAccess.Lambda<TDestination, TValue>(property);
+            memberAccess.Lambda(property);
             values.Add(GetNameAndValue.Get(parent, memberAccess.Members, value));
             return this;
         }
