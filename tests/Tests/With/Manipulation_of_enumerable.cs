@@ -10,7 +10,7 @@ namespace Tests.With
 {
     public class Manipulation_of_enumerable
     {
-        //TODO: [Theory, AutoData]
+       /* [Theory, AutoData]
         public void Should_be_able_to_add_to_enumerable(
             Customer myClass, string newValue)
         {
@@ -18,7 +18,7 @@ namespace Tests.With
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory, AutoData]
         public void Should_be_able_to_union_add_to_enumerable(
             Customer myClass, string newValue)
         {
@@ -30,7 +30,7 @@ namespace Tests.With
             Assert.Equal(newValue, ret.Preferences.Last());
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory, AutoData]
         public void Should_be_able_to_concat_add_to_enumerable(
             Customer myClass, string newValue)
         {
@@ -41,7 +41,7 @@ namespace Tests.With
             ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences.Concat(v)).Copy(myClass, array);
             Assert.Equal(newValue, ret.Preferences.Last());
         }
-
+*/
         public class FlyFishingBuddyCustomer
         {
             public FlyFishingBuddyCustomer(Customer customer, DateTime whenToGoFishing)
@@ -54,7 +54,7 @@ namespace Tests.With
             public readonly DateTime WhenToGoFishing;
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory, AutoData]
         public void Should_be_able_to_add_object_to_enumerable(
             FlyFishingBuddyCustomer myClass, string newValue)
         {
@@ -63,7 +63,7 @@ namespace Tests.With
             Assert.Equal(newValue, ret.Customer.Name);
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory, AutoData]
         public void Able_to_set_array_to_empty_array(
             Customer myClass, string newValue)
         {

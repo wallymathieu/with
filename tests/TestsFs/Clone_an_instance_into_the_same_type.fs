@@ -37,6 +37,6 @@ type ``Clone an instance into the same type``()=
     member this.``A class should be able to create a clone with a property set using eql`` (instance:Customer, newInt:int)=
         let ret = instance.With()
                     .Eql( (fun m -> m.id), newInt)
-                    .To();
+                    .Copy();
         Assert.Equal(newInt, ret.id);
         Assert.Equal(instance.name, ret.name);

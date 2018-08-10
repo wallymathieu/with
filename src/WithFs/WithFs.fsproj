@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\netfx.props" />
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <RootNamespace>With</RootNamespace>
@@ -6,7 +7,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Types.fs" />
+    <Compile Include="Collections.fs" />
     <Compile Include="Internals.fs" />
     <Compile Include="Library.fs" />
+    <Compile Include="Prepare.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="4.5.*" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ namespace With.WithPlumbing
 {
     class GetNameAndValue
     {
-        internal static NameAndValue Get(Object t, IEnumerable<FieldOrProperty> members, object val)
+        internal static NameAndValue Get(object t, IEnumerable<FieldOrProperty> members, object val)
         {
             var ms = members.ToArray();
             return new NameAndValue(ms[0].Name, ms.Length == 1
