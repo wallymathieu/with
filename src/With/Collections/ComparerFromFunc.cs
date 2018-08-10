@@ -5,7 +5,7 @@ namespace With.Collections
     /// <summary>
     /// Class that holds methods related to comparers
     /// </summary>
-    public partial class Comparer
+    internal partial class Comparer
     {
         /// <summary>
         /// Create a <see cref="System.Collections.Generic.IComparer{T}"/> from a comparison Func
@@ -22,7 +22,7 @@ namespace With.Collections
     /// An adapter class to let a compare func act as a <see cref="System.Collections.Generic.IComparer{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ComparerFromFunc<T> : IComparer<T>
+    internal class ComparerFromFunc<T> : IComparer<T>
     {
         private readonly Func<T, T, int> _compare;
         /// <summary>
