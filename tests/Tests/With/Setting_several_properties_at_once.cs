@@ -20,8 +20,7 @@ namespace Tests
             public string MyProperty3 { get; private set; }
             public string MyProperty4 { get; private set; }
         }
-
-        [Theory, AutoData]
+/*      [Theory, AutoData]
         public void should_be_able_to_create_a_clone_using_equal_equal(
             AClassWithManyProperties instance, int newValue,string newValue2, string newValue3, string newValue4)
         {
@@ -34,7 +33,7 @@ namespace Tests
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);
             Assert.Equal(newValue4, ret.MyProperty4);
-        }
+        }*/
 
         [Theory, AutoData]
         public void should_be_able_to_create_a_clone_using_builder(

@@ -12,9 +12,9 @@ module Expressions=
         let m = memberAccess.Member
         match m.MemberType with
         | MemberTypes.Field ->
-           FieldOrProperty.Create (m.DeclaringType.GetTypeInfo().GetField(m.Name))
+           FieldOrProperty.create (m.DeclaringType.GetTypeInfo().GetField(m.Name))
         | MemberTypes.Property ->
-           FieldOrProperty.Create (m.DeclaringType.GetTypeInfo().GetProperty(m.Name))
+           FieldOrProperty.create (m.DeclaringType.GetTypeInfo().GetProperty(m.Name))
         | _ -> 
            raise (ExpectedButGotException<MemberTypes>([| MemberTypes.Field; MemberTypes.Property |], m.MemberType))
     [<CompiledName("ExpressionWithMemberAccess")>]
@@ -33,57 +33,53 @@ module Expressions=
     module private rec EqEq=
 
         type Context = { Source:ParameterExpression; Parameters: ParameterExpression list }
-        let expressionWithMemberAccess (expr:Expression): FieldOrProperty =
+        let rec expressionWithMemberAccess (expr:Expression) =
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
-                getMember(memberAccess)
+                if memberAccess.Expression.NodeType = ExpressionType.Parameter then
+                    DataLens.fieldOrPropertyToLens <| getMember memberAccess
+                else
+                    let inner = expressionWithMemberAccess memberAccess.Expression
+                    let current = DataLens.fieldOrPropertyToLens <| getMember memberAccess
+                    DataLens.compose inner current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
             
-        let unaryResultExpression (lambda:LambdaExpression) (c:Context) = 
-            //let memberAccess = expr.Arguments |> Seq.head :?> MemberExpression 
-            failwithf "! %A Not implemented" lambda
-        let binaryExpressionWithMemberAccess (expr:BinaryExpression) (c:Context) : (int*FieldOrProperty) seq=seq { 
-            match List.tryFindIndex (Object.equals expr.Right) c.Parameters with
-            | Some index->
-                yield (index, expressionWithMemberAccess expr.Left)
-            | None -> 
+        let binaryExpressionWithMemberAccess<'T,'U> (expr:BinaryExpression) (c:Context): DataLens<'T,'U>=
+            let tryFind e = List.tryFind (Object.equals e) c.Parameters
+            match tryFind expr.Right, tryFind expr.Left with
+            | Some right,None ->
+                expressionWithMemberAccess expr.Left
+                //yield (index, )
+            | None, Some left->
+                expressionWithMemberAccess expr.Right
+                //yield (index, )
+            | _ -> 
                 failwithf "! %A %A !" expr c
-        }
 
-        let binaryExpressionAndOrEqualOrMemberAccess (expr:BinaryExpression) (c:Context): (int*FieldOrProperty) seq=
-            match expr.Left.NodeType with
-            | ExpressionType.AndAlso
-            | ExpressionType.Equal ->
-                binaryExpressionAndOrEqual expr c
-            | ExpressionType.MemberAccess ->
-                binaryExpressionWithMemberAccess expr c
-            | _ ->
-               raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; ExpressionType.AndAlso; ExpressionType.MemberAccess |], expr.Left.NodeType))
-    
-        let binaryExpressionAndOrEqual (expr:BinaryExpression) (c:Context): (int*FieldOrProperty) seq=seq{
-            yield! binaryExpressionAndOrEqualOrMemberAccess (expr.Left :?> BinaryExpression) c
-            match expr.Right.NodeType with
-            | ExpressionType.AndAlso
-            | ExpressionType.Equal ->
-                yield! binaryExpressionAndOrEqualOrMemberAccess (expr.Right :?> BinaryExpression) c
-            | _ ->
-               raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; ExpressionType.AndAlso |], expr.Right.NodeType))
-        }
     [<CompiledName("ExpressionWithEqualEqualOrCall")>]
-    let expressionWithEqualEqualOrCall (lambda:LambdaExpression) : Map<int,FieldOrProperty>=
+    let expressionWithEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = {
             EqEq.Source=lambda.Parameters |> Seq.head
             EqEq.Parameters=lambda.Parameters |> Seq.tail |> Seq.toList 
         }
-        let indexSeq= 
-            match lambda.Body.NodeType with
-            | ExpressionType.Equal
-            | ExpressionType.AndAlso ->
-                EqEq.binaryExpressionAndOrEqualOrMemberAccess (lambda.Body :?> BinaryExpression) c
-            | ExpressionType.Call ->
-                EqEq.unaryResultExpression lambda c
-            | _ ->
-               raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; ExpressionType.AndAlso; ExpressionType.Call  |], lambda.Body.NodeType))
-        Map indexSeq
+        match lambda.Body.NodeType with
+        | ExpressionType.Equal ->
+            let b=lambda.Body :?> BinaryExpression
+            match b.Left.NodeType with
+            | ExpressionType.MemberAccess -> EqEq.binaryExpressionWithMemberAccess b c
+            | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t)) 
+        | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; |], t))
+    [<CompiledName("ExpressionWithEqualEqualOrCall2")>]
+    let expressionWithEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,'U1*'U2>=
+        let c = {
+            EqEq.Source=lambda.Parameters |> Seq.head
+            EqEq.Parameters=lambda.Parameters |> Seq.tail |> Seq.toList 
+        }
+        match lambda.Body.NodeType with
+        | ExpressionType.AndAlso ->
+            let b=lambda.Body :?> BinaryExpression
+            DataLens.compose (EqEq.binaryExpressionWithMemberAccess (b.Left:?>BinaryExpression) c)
+                             (EqEq.binaryExpressionWithMemberAccess (b.Right:?>BinaryExpression) c)
+        | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
 

@@ -9,36 +9,48 @@ open System.Collections
 open System.Collections.ObjectModel
 open System.Linq
 open System.Reflection
+    
 /// Used internally to represent field or property
 type FieldOrProperty=FieldOrProperty of Choice<PropertyInfo,FieldInfo>
 with
-    static member Create(p)=FieldOrProperty (Choice1Of2 p)
-    static member Create(p)=FieldOrProperty (Choice2Of2 p)
-
-    member this.Name =
-        let getName = fun (FieldOrProperty c)->
-                    match c with
-                    | Choice1Of2 p -> p.Name
-                    | Choice2Of2 f -> f.Name
-        getName this 
-    member this.Value(t:obj)=
-        let getValue = fun (FieldOrProperty c) t ->
-                        match c with
-                        | Choice1Of2 p -> p.GetValue(t, null)
-                        | Choice2Of2 f -> f.GetValue(t)
-        getValue this t
+    [<CompiledName("Create")>]
+    static member create(p)=FieldOrProperty (Choice1Of2 p)
+    [<CompiledName("Create")>]
+    static member create(p)=FieldOrProperty (Choice2Of2 p)
+    [<CompiledName("Unwrap")>]
+    static member unwrap(FieldOrProperty p)= p
+    
+    [<CompiledName("_Name")>]
+    static member name(FieldOrProperty v)= 
+        match v with
+        | Choice1Of2 p -> p.Name
+        | Choice2Of2 f -> f.Name
+    [<CompiledName("_Value")>]
+    static member value (FieldOrProperty v) (t:obj)= 
+        match v with
+        | Choice1Of2 p -> p.GetValue(t, null)
+        | Choice2Of2 f -> f.GetValue(t)
+    [<CompiledName("_SetValue")>]
+    static member setValue (FieldOrProperty v) (t:obj) value= 
+        match v with
+        | Choice1Of2 p -> p.SetValue (t, value)
+        | Choice2Of2 f -> f.SetValue (t, value)
+        
+    [<CompiledName("_DeclaringType")>]
+    static member declaringType(FieldOrProperty v)= 
+        match v with
+        | Choice1Of2 p -> p.DeclaringType
+        | Choice2Of2 f -> f.DeclaringType
+    member this.Name = FieldOrProperty.name this
+    member this.Value(t:obj)=FieldOrProperty.value this t
+    member this.SetValue(t:obj,v)=FieldOrProperty.setValue this t v
+    member this.DeclaringType=FieldOrProperty.declaringType this
+        
 module FieldOrPropertyMap=
     let withValues (values:obj array) (map: Map<int,FieldOrProperty>) : NameAndValue array=
        values |> Array.mapi (fun i v-> let fieldOrProperty= map |> Map.find i
                                        NameAndValue(fieldOrProperty.Name, v))
-[<Extension>]
-type public FSharpFuncUtil = 
-    [<Extension>] 
-    static member ToFSharpFunc<'a,'b> (func:System.Func<'a,'b>) = fun x -> func.Invoke(x)
-    [<Extension>] 
-    static member ToFSharpFunc<'a,'b,'c> (func:System.Func<'a,'b,'c>) = fun x y -> func.Invoke(x,y)
-    [<Extension>] 
-    static member ToFSharpFunc<'a,'b,'c,'d> (func:System.Func<'a,'b,'c,'d>) = fun x y z -> func.Invoke(x,y,z)
+
 
 module Reflection = 
    open System.Collections.Generic
@@ -137,8 +149,8 @@ module Reflection =
            
    let fieldsOrProperties =
        let ctor typ = seq{
-           yield! getPublicFields(typ) |> Array.map FieldOrProperty.Create
-           yield! getPublicProperties(typ) |> Array.map FieldOrProperty.Create
+           yield! getPublicFields(typ) |> Array.map FieldOrProperty.create
+           yield! getPublicProperties(typ) |> Array.map FieldOrProperty.create
        }
        weakMemoize(ctor)
    let enumerableCast = typeof<Enumerable>.GetTypeInfo().GetMethod ("Cast")
@@ -156,8 +168,7 @@ module Reflection =
                failwithf "parameter type %s is not assignable from %s" parameterType.Name (v.GetType().Name)
        else
            v
-
-        
+     
    let internal getConstructorParameterValues (t:obj) (specifiedValues:IReadOnlyDictionary<string, obj>) (props: FieldOrProperty array) (ctor:ConstructorInfo)=
        let ctorParams = ctor.GetParameters()
        let map (param:ParameterInfo) =
@@ -196,6 +207,40 @@ type CreateInstanceFromValues=
    static member Create<'TSource,'TDestination> (parent:'TSource,values) :'TDestination = 
         Reflection.create typeof<'TSource> typeof<'TDestination> parent values :?> 'TDestination
 
+///Copy of Lens definition from FSharpx.Extras : 
+// https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs
+type DataLens<'T,'U>={ Get: 'T -> 'U
+                       Set: 'U -> 'T -> 'T } 
+                     member l.Update f a = l.Set (f (l.Get a)) a
+module DataLens =
+   let inline get a (l: DataLens<_,_>) = l.Get a
+   let inline set v a (l: DataLens<_,_>) = l.Set v a
+   let inline update f (l: DataLens<_,_>) = l.Update f
+   let inline combine (l1: DataLens<'t,'v1>) (l2: DataLens<'t,'v2>) = 
+        { Get = fun t->(l1.Get t, l2.Get t)
+          Set = fun (v1,v2) t ->  l2.Set v2 (l1.Set v1 t) }
+   /// Sequentially composes two lenses
+   let inline compose (l1: DataLens<_,_>) (l2: DataLens<_,_>) = 
+                  { Get = l2.Get >> l1.Get
+                    Set = l1.Set >> l2.Update }
+   let fieldOrPropertyToLens<'T,'U> v : DataLens<'T,'U>=
+       let typ = FieldOrProperty.declaringType v
+       let n = FieldOrProperty.name v
+       { Get = fun t-> FieldOrProperty.value v t :?> 'U
+         Set = fun v t -> Reflection.create typ typ t [NameAndValue(n,v)] :?> 'T }
+
+   let fieldOrPropertiesToLens (fields:FieldOrProperty list)=
+       match fields |> List.tryHead with
+       | Some field ->
+           let typ =FieldOrProperty.declaringType field
+           let names =fields |> List.map FieldOrProperty.name  
+           { Get= fun t-> fields |> List.map (fun f-> f.Value t) 
+             Set = fun v t -> Reflection.create typ typ t (List.zip names v |> List.map NameAndValue) }
+       | None ->
+           { Get= fun t-> [] 
+             Set = fun _ t -> t }
+   
+   //let combine = DataLensBuilder()
 module ApplyOperation=
 
     open Reflection
