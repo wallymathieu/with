@@ -79,7 +79,7 @@ module Expressions=
         match lambda.Body.NodeType with
         | ExpressionType.AndAlso ->
             let b=lambda.Body :?> BinaryExpression
-            DataLens.compose (EqEq.binaryExpressionWithMemberAccess (b.Left:?>BinaryExpression) c)
+            DataLens.combine (EqEq.binaryExpressionWithMemberAccess (b.Left:?>BinaryExpression) c)
                              (EqEq.binaryExpressionWithMemberAccess (b.Right:?>BinaryExpression) c)
         | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
 

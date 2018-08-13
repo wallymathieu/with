@@ -45,11 +45,6 @@ with
     member this.Value(t:obj)=FieldOrProperty.value this t
     member this.SetValue(t:obj,v)=FieldOrProperty.setValue this t v
     member this.DeclaringType=FieldOrProperty.declaringType this
-        
-module FieldOrPropertyMap=
-    let withValues (values:obj array) (map: Map<int,FieldOrProperty>) : NameAndValue array=
-       values |> Array.mapi (fun i v-> let fieldOrProperty= map |> Map.find i
-                                       NameAndValue(fieldOrProperty.Name, v))
 
 
 module Reflection = 
