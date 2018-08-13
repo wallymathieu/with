@@ -10,38 +10,43 @@ namespace Tests.With
 {
     public class Manipulation_of_enumerable
     {
-       /* [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_add_to_enumerable(
             Customer myClass, string newValue)
         {
+            /*
             var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Add(v)).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
+            */
         }
 
-        [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_union_add_to_enumerable(
             Customer myClass, string newValue)
         {
+            /*
             var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Union(new[] {v})).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] {newValue};
             ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences.Union(v)).Copy(myClass, array);
             Assert.Equal(newValue, ret.Preferences.Last());
+            */
         }
 
-        [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_concat_add_to_enumerable(
             Customer myClass, string newValue)
         {
+            /*
             var ret = Prepare.Copy<Customer, string>((m, v) => m.Preferences.Concat(new[] {v})).Copy(myClass, newValue);
             Assert.Equal(newValue, ret.Preferences.Last());
 
             var array = new[] {newValue};
             ret = Prepare.Copy<Customer, string[]>((m, v) => m.Preferences.Concat(v)).Copy(myClass, array);
             Assert.Equal(newValue, ret.Preferences.Last());
+            */
         }
-*/
         public class FlyFishingBuddyCustomer
         {
             public FlyFishingBuddyCustomer(Customer customer, DateTime whenToGoFishing)
@@ -71,7 +76,7 @@ namespace Tests.With
             Assert.Equal(new string[0], ret.Preferences.ToArray());
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_add_const_to_enumerable(
             Customer myClass)
         {
@@ -88,7 +93,7 @@ namespace Tests.With
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_add_range_with_new_array_to_enumerable(
             Customer myClass, string newValue)
         {
@@ -97,7 +102,7 @@ namespace Tests.With
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_add_range_to_enumerable(
             Customer myClass, IEnumerable<string> newValue)
         {
@@ -106,7 +111,7 @@ Assert.Equal(newValue.Last(), ret.Preferences.Last());*/
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_remove_from_enumerable(
             Customer myClass)
         {
@@ -116,7 +121,7 @@ Assert.NotEqual(first, ret.Preferences.First());*/
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_where_remove_from_enumerable(
             Customer myClass)
         {
@@ -144,7 +149,7 @@ Assert.NotEqual(first, ret.Preferences.First());*/
             public readonly IEnumerable<FlyFishingBuddyCustomer> MyClassWIthObjects;
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_set_enumerable_on_model_with_empty_constructor(
             AllOurCustomers models)
         {
@@ -154,7 +159,7 @@ Assert.NotEqual(first, ret.Preferences.First());*/
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_set_enumerable_with_new(AllOurCustomers models)
         {
             /*var ret = models.With(m => m.MyClasses.Add(new Customer(-1, string.Empty, new string[0])));
@@ -162,7 +167,7 @@ Assert.NotEqual(first, ret.Preferences.First());*/
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_use_call_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
             /*var newModels = models.With(o => o.MyClasses.Add(myclasses.First()));
@@ -170,7 +175,7 @@ Assert.NotEqual(first, ret.Preferences.First());*/
             throw new NotImplementedException();
         }
 
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void Should_be_able_to_use_invoke_in_expression(AllOurCustomers models, IEnumerable<Customer> myclasses)
         {
 /*Func<Customer> getMyClass = () => myclasses.First();

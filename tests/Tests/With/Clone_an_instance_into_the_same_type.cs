@@ -39,16 +39,6 @@ namespace Tests
             Assert.Equal(newStrValue, ret.Name);
         }
 
-        /*[Theory, AutoData]
-        public void A_class_should_throw_a_decent_exception_when_changing_the_order(
-            Customer anInstance, Customer anotherInstance)
-        {
-            Assert.Throws<ShouldBeAnExpressionLeftToRightException>(() =>
-            {
-                anInstance.With(m => anotherInstance.Id == m.Id);
-            });
-        }*/
-
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_eql(
             Customer instance, int newInt)

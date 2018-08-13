@@ -32,7 +32,7 @@ namespace Tests
             Assert.Equal(myClass.Id, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
         }
-        //TODO: [Theory, AutoData]
+        [Theory(Skip = "not implemented"), AutoData]
         public void A_class_should_be_able_to_use_lambda(
             Customer myClass, DateTime time)
         {
