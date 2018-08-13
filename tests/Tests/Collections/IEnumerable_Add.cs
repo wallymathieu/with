@@ -1,8 +1,6 @@
 ﻿using Xunit;
 using With;
-using With.Linq;
-using System.Collections.Generic;
-using With.ReadonlyEnumerable;
+using With.Ranges;
 using System.Linq;
 namespace Tests
 {

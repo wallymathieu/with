@@ -1,6 +1,5 @@
 using System;
 using With.Coercions;
-using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 
 namespace Timing
@@ -46,12 +45,6 @@ namespace Timing
         {
             var time = new DateTime (2001, 1, 1).AddMinutes (2);
             var ret = _myClass.As<MyClass, MyClass2,DateTime> (m => m.MyProperty3, time);
-        }
-        [Benchmark]
-        public void Timing_dictionary ()
-        {
-            var time = new DateTime (2001, 1, 1).AddMinutes (2);
-            var ret = _myClass.As<MyClass, MyClass2> (new Dictionary<String, object> { { "MyProperty3", time } });
         }
 
         [Benchmark]

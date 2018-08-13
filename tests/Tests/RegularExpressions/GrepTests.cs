@@ -1,6 +1,6 @@
 ﻿using Xunit;
-using With.Linq;
-using With;
+using With.Ranges;
+using With.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 

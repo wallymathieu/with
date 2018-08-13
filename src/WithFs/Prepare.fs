@@ -14,15 +14,3 @@ type Prepare=
         { new IPreparedCopy<'T,'TValue1,'TValue2> 
           with 
             member __.Copy(t,v1,v2)= DataLens.set (v1,v2) t eqeq }
-    (*static member Copy(expr:Expression<Func<'T, 'TValue1, 'TValue2, 'TValue3, bool>> )
-      : IPreparedCopy<'T,'TValue1,'TValue2, 'TValue3>= failwith "!"
-        let eqeq=Expressions.expressionWithEqualEqualOrCall expr 
-        { new IPreparedCopy<'T,'TValue1,'TValue2, 'TValue3> 
-          with 
-            member __.Copy(t,v1,v2,v3)=DataLens.set (v1,v2,v3) t eqeq }*)
-    (*static member Copy(expr:Expression<Func<'T, 'TValue1, 'TValue2, 'TValue3, 'TValue4, bool>> ) 
-      :IPreparedCopy<'T,'TValue1,'TValue2, 'TValue3, 'TValue4> = failwith "!"
-        let eqeq=Expressions.expressionWithEqualEqualOrCall expr 
-        { new IPreparedCopy<'T,'TValue1,'TValue2, 'TValue3, 'TValue4>
-          with 
-            member __.Copy(t,v1,v2,v3,v4)=DataLens.set (v1,v2,v3,v4) t eqeq} *)

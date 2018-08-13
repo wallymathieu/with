@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using With;
+using With.Ranges;
 using With.Linq;
 using Xunit;
 

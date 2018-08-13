@@ -4,9 +4,9 @@ open System.Reflection
 open System
 open System.Collections
 open System.Linq.Expressions
-module Object=
+module internal Object=
     let equals a b=Object.Equals(a,b)
-module Expressions=
+module internal Expressions=
     [<CompiledName("GetMember")>]
     let getMember (memberAccess:MemberExpression)=
         let m = memberAccess.Member

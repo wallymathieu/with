@@ -44,13 +44,6 @@ namespace Timing
         }
 
         [Benchmark]
-        public void Timing_dictionary()
-        {
-            var time = new DateTime(2001, 1, 1).AddMinutes(2);
-            var res = _myClass.With(new Dictionary<String, object> {{"MyProperty2", time.ToString()}});
-        }
-
-        [Benchmark]
         public void Timing_fluent()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);

@@ -204,10 +204,11 @@ type CreateInstanceFromValues=
 
 ///Copy of Lens definition from FSharpx.Extras : 
 // https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs
-type DataLens<'T,'U>={ Get: 'T -> 'U
-                       Set: 'U -> 'T -> 'T } 
-                     member l.Update f a = l.Set (f (l.Get a)) a
-module DataLens =
+type internal DataLens<'T,'U>={ Get: 'T -> 'U
+                                Set: 'U -> 'T -> 'T }
+with  
+     member l.Update f a = l.Set (f (l.Get a)) a
+module internal DataLens =
    let inline get a (l: DataLens<_,_>) = l.Get a
    let inline set v a (l: DataLens<_,_>) = l.Set v a
    let inline update f (l: DataLens<_,_>) = l.Update f
@@ -223,20 +224,8 @@ module DataLens =
        let n = FieldOrProperty.name v
        { Get = fun t-> FieldOrProperty.value v t :?> 'U
          Set = fun v t -> Reflection.create typ typ t [NameAndValue(n,v)] :?> 'T }
-
-   let fieldOrPropertiesToLens (fields:FieldOrProperty list)=
-       match fields |> List.tryHead with
-       | Some field ->
-           let typ =FieldOrProperty.declaringType field
-           let names =fields |> List.map FieldOrProperty.name  
-           { Get= fun t-> fields |> List.map (fun f-> f.Value t) 
-             Set = fun v t -> Reflection.create typ typ t (List.zip names v |> List.map NameAndValue) }
-       | None ->
-           { Get= fun t-> [] 
-             Set = fun _ t -> t }
-   
-   //let combine = DataLensBuilder()
-module ApplyOperation=
+/// TODO: Create apply operation
+module internal ApplyOperation=
 
     open Reflection
     let private doReplace (memberValue:obj) (paramValues:obj array) :obj= 

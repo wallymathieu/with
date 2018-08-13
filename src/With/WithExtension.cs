@@ -37,17 +37,6 @@ namespace With
 
             return CreateInstanceFromValues.Create<T,T>(t,new[] { GetNameAndValue.Get(t, memberAccess.Members, val) });
         }
-        /// <summary>
-        /// Constructs another object based on a base object.
-        /// </summary>
-        /// <returns>A new object based on the existing object.</returns>
-        /// <param name="t">The object to use as a template.</param>
-        /// <param name="parameters">The constructor parameters to override.</param>
-        /// <typeparam name="T">The type of the object that should be returned.</typeparam>
-        public static T With<T>(this T t, IDictionary<string, object> parameters)
-        {
-            return CreateInstanceFromValues.Create<T,T>(t,parameters);
-        }
     }
 
 }

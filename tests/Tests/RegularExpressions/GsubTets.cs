@@ -1,5 +1,6 @@
 using Xunit;
-using With.Linq;
+using With.RegularExpressions;
+
 namespace With.Tests.Linq
 {
     public class GsubTests
@@ -39,15 +40,15 @@ namespace With.Tests.Linq
         public void test_multiline()
         {
             var expected = @"X";
-            var input = @"First sentence.".Split(' ').Join("\n");
+            var input = string.Join("\n", @"First sentence.".Split(' '));
             Assert.Equal(expected, input.Sub("/(.+)/m", "X"));
         }
 
         [Fact]
         public void test_not_multiline()
         {
-            var expected = @"X sentence.".Split(' ').Join("\n");
-            var input = @"First sentence.".Split(' ').Join("\n");
+            var expected = string.Join("\n", @"X sentence.".Split(' '));
+            var input = string.Join("\n", @"First sentence.".Split(' '));
             Assert.Equal(expected, input.Sub("/(.+)/", "X"));
         }
 

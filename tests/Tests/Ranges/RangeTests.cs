@@ -1,5 +1,6 @@
 ﻿using System;
 using With;
+using With.Ranges;
 using Xunit;
 using System.Linq;
 using Ploeh.AutoFixture.Xunit2;

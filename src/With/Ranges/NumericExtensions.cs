@@ -1,7 +1,7 @@
 ﻿using System;
 using With.RangePlumbing;
 
-namespace With
+namespace With.Ranges
 {
     /// <summary>
     /// 

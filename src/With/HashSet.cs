@@ -7,14 +7,10 @@ namespace With
     /// </summary>
     public class HashSet
     {
-        public static HashSet<T> Create<T>(IEnumerable<T> collection)
-        {
-            return new HashSet<T>(collection);
-        }
+        public static HashSet<T> Create<T>(IEnumerable<T> collection) => 
+            new HashSet<T>(collection);
 
-        public static HashSet<T> Create<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer)
-        {
-            return new HashSet<T>(collection, comparer);
-        }
+        public static HashSet<T> Create<T>(IEnumerable<T> collection, IEqualityComparer<T> comparer) => 
+            new HashSet<T>(collection, comparer);
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using With.Linq;
 
-namespace With.Linq
+namespace With.RegularExpressions
 {
     public static class GrepExtensions
     {

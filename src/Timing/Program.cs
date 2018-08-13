@@ -23,11 +23,6 @@ namespace Timing
                     var summary = BenchmarkRunner.Run<TimingsClone> ();
                     break;
                 }
-            case "equal": {
-                    Console.WriteLine ("Starting: Struct Equals");
-                    var summary = BenchmarkRunner.Run<TimingsEquals> ();
-                    break;
-                }
             default: {
                     Console.WriteLine (@"Select one of 
 new

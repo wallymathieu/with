@@ -12,11 +12,11 @@ namespace With
         /// <summary>
         /// The start of the interval, the first element
         /// </summary>
-        public T From { get; private set; }
+        public T From { get; }
         /// <summary>
         /// The end of the interval, the last element
         /// </summary>
-        public T To { get; private set; }
+        public T To { get; }
         /// <summary>
         /// 
         /// </summary>
@@ -62,9 +62,6 @@ namespace With
         /// Returns an interval like repressentation of the contents:
         /// [From, To]
         /// </summary>
-        public override string ToString()
-        {
-            return string.Format("[{0}, {1}]", From, To);
-        }
+        public override string ToString() => $"[{From}, {To}]";
     }
 }

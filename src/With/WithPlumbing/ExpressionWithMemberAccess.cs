@@ -23,12 +23,12 @@ namespace With.WithPlumbing
                             Members.AddRange(Expressions.ExpressionWithMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand));
                             break;
                         default:
-                            throw new ExpectedButGotException(
+                            throw new ExpectedButGotException<ExpressionType>(
                                 new[] { ExpressionType.MemberAccess, ExpressionType.Convert }, expr.Body.NodeType);
                     }
                     break;
                 default:
-                    throw new ExpectedButGotException(new[] { ExpressionType.Lambda },
+                    throw new ExpectedButGotException<ExpressionType>(new[] { ExpressionType.Lambda },
                                                       expr.NodeType);
             }
         }

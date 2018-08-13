@@ -21,26 +21,13 @@ namespace With
         /// <summary>
         /// Execute a func on the object. Return value is the result from the func.
         /// </summary>
-        public static TResult Yield<T, TResult>(this T value, Func<T, TResult> func)
-        {
-            return func(value);
-        }
-
-        /// <summary>
-        /// Concatenates the enumerable collection using the separator between each element.
-        /// </summary>
-        public static string Join(this IEnumerable<string> enumerable, string separator)
-        {
-            return string.Join(separator, enumerable);
-        }
+        public static TResult Yield<T, TResult>(this T value, Func<T, TResult> func) => func(value);
 
         /// <summary>
         /// Sorts the elements in ascending order by using a compare function
         /// </summary>
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare)
-        {
-            return enumerable.OrderBy(t => t, Comparer.Create(compare));
-        }
+        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare) => 
+            enumerable.OrderBy(t => t, Comparer.Create(compare));
 
         /// <summary>
         /// Gets the next value in the <see cref="System.Collections.Generic.IEnumerator{T}"/> or throws an <see cref="OutOfRangeException"/> if there are no more elements.
