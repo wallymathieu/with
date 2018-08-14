@@ -42,9 +42,9 @@ public class CustomerNameChangeHandler
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
         // change the name of that customer:
-    	var changedNameToErik = customer.With(c => c.Name, "Erik Testsson")
+    	var changedNameToErik = customer.With(c => c.Name, "Erik Testsson");
         // or
-        var changedNameToErik = customer.With().Eql(c => c.Name, "Erik Testsson").To()
+        var changedNameToErik = customer.With().Eql(c => c.Name, "Erik Testsson").To();
         // ...
     }
 }
