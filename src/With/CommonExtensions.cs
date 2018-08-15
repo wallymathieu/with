@@ -30,21 +30,6 @@ namespace With
             enumerable.OrderBy(t => t, Comparer.Create(compare));
 
         /// <summary>
-        /// Gets the next value in the <see cref="System.Collections.Generic.IEnumerator{T}"/> or throws an <see cref="OutOfRangeException"/> if there are no more elements.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumerator"></param>
-        /// <returns></returns>
-        public static T GetNext<T>(this IEnumerator<T> enumerator)
-        {
-            if (enumerator.MoveNext())
-            {
-                return enumerator.Current;
-            }
-            throw new OutOfRangeException();
-        }
-
-        /// <summary>
         /// Returns an an <see cref="System.Collections.Generic.IEnumerable{T}"/> by doing a yield return of the values of the <see cref="System.Collections.Generic.IEnumerator{T}"/>
         /// </summary>
         public static IEnumerable<T> Yield<T>(this IEnumerator<T> enumerator)
