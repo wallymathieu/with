@@ -6,7 +6,7 @@ open System.Collections
 open System.Linq.Expressions
 module internal Object=
     let equals a b=Object.Equals(a,b)
-module internal Expressions=
+module Expressions=
     [<CompiledName("GetMember")>]
     let getMember (memberAccess:MemberExpression)=
         let m = memberAccess.Member

@@ -10,7 +10,7 @@ namespace With
     /// <summary>
     /// With extensions. Used to create 
     /// </summary>
-    public static class WithExtensions
+    internal static class WithExtensions
     {
         /// <summary>
         /// Starts constructing another object based on a base object.

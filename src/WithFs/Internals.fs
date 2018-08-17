@@ -204,11 +204,11 @@ type CreateInstanceFromValues=
 
 ///Copy of Lens definition from FSharpx.Extras : 
 // https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs
-type internal DataLens<'T,'U>={ Get: 'T -> 'U
-                                Set: 'U -> 'T -> 'T }
+type DataLens<'T,'U>={ Get: 'T -> 'U
+                       Set: 'U -> 'T -> 'T }
 with  
      member l.Update f a = l.Set (f (l.Get a)) a
-module internal DataLens =
+module DataLens =
    let inline get a (l: DataLens<_,_>) = l.Get a
    let inline set v a (l: DataLens<_,_>) = l.Set v a
    let inline update f (l: DataLens<_,_>) = l.Update f

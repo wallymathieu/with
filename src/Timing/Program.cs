@@ -13,11 +13,6 @@ namespace Timing
         public static void Main (string [] args)
         {
             switch (args.FirstOrDefault ()?.ToLowerInvariant ()) {
-            case "new": {
-                    Console.WriteLine ("Starting: Class with additional property");
-                    var summary = BenchmarkRunner.Run<TimingsNewClass> ();
-                    break;
-                }
             case "clone": {
                     Console.WriteLine ("Starting: Same Class");
                     var summary = BenchmarkRunner.Run<TimingsClone> ();

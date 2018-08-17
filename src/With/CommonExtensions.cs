@@ -28,17 +28,6 @@ namespace With
         /// </summary>
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare) => 
             enumerable.OrderBy(t => t, Comparer.Create(compare));
-
-        /// <summary>
-        /// Returns an an <see cref="System.Collections.Generic.IEnumerable{T}"/> by doing a yield return of the values of the <see cref="System.Collections.Generic.IEnumerator{T}"/>
-        /// </summary>
-        public static IEnumerable<T> Yield<T>(this IEnumerator<T> enumerator)
-        {
-            while (enumerator.MoveNext())
-            {
-                yield return enumerator.Current;
-            }
-        }
     }
 
 }

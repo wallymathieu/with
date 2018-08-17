@@ -30,26 +30,6 @@ public class CustomerNameChangeHandler
 }
 ```
 
-Or 
-
-```c#
-using With;
-	...
-public class CustomerNameChangeHandler
-{
-    public void Handle()
-    {
-        // fetch customer, say:
-        var customer = new Customer(id:1, name:"Johan Testsson");
-        // change the name of that customer:
-    	var changedNameToErik = customer.With(c => c.Name, "Erik Testsson");
-        // or
-        var changedNameToErik = customer.With().Eql(c => c.Name, "Erik Testsson").To();
-        // ...
-    }
-}
-```
-
 ### Performance impact of working with immutable types (by using With) in c\#
 
 To generate use the Timings project.
