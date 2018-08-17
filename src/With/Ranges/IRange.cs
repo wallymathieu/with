@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace With
+namespace With.Ranges
 {
     /// <summary>
     /// Represents a range, where the collection need not be enumerated.

@@ -2,7 +2,7 @@ using System;
 using With;
 using System.Collections;
 using System.Collections.Generic;
-
+using With.Ranges;
 namespace Tests.Ranges.Adapters
 {
 

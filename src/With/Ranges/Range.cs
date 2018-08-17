@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
-using With.RangePlumbing;
+using System.Collections.Generic;
+using With.Ranges.Plumbing;
 
-namespace With
+namespace With.Ranges
 {
     public class Range
     {

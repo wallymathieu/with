@@ -1,5 +1,5 @@
 ﻿using System;
-using With.RangePlumbing;
+using With.Ranges.Plumbing;
 
 namespace With.Ranges
 {

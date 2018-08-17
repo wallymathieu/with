@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace With.RangePlumbing
+namespace With.Ranges.Plumbing
 {
     internal class DecimalRange : IRange<Decimal>
     {
