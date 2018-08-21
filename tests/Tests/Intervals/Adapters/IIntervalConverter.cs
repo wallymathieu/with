@@ -1,5 +1,6 @@
 using System;
 using With;
+using With.Collections;
 
 namespace Tests.Intervals.Adapters
 {

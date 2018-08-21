@@ -1,8 +1,8 @@
-﻿using Xunit;
-using With.Linq;
-using System.Linq;
+﻿using System.Linq;
+using With.Collections;
+using Xunit;
 
-namespace Tests
+namespace Tests.Collections
 {
     public class MinMaxTests
     {
@@ -24,15 +24,15 @@ namespace Tests
         public void MinMaxBy()
         {
             var result = new[] { new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MinMaxBy(e => e.i);
-            Assert.Equal("c", result.Max.First().a);
-            Assert.Equal("a", result.Min.First().a);
+            Assert.Equal("c", result.Maxima.First().a);
+            Assert.Equal("a", result.Minima.First().a);
         }
         [Fact]
         public void MinMax()
         {
             var result = new[] { new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MinMax((a, b) => a.i.CompareTo(b.i));
-            Assert.Equal("c", result.Max.First().a);
-            Assert.Equal("a", result.Min.First().a);
+            Assert.Equal("c", result.Maxima.First().a);
+            Assert.Equal("a", result.Minima.First().a);
         }
     }
 }

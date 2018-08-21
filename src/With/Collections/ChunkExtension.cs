@@ -2,17 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-namespace With.Linq
+
+namespace With.Collections
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ChunkExtension
     {
         internal class Chunks<TKey, T> : IGrouping<TKey, T>
         {
-            public Chunks(TKey key)
-            {
-                Key = key;
-                Enumerable = new List<T>();
-            }
             public Chunks(TKey key, T firstItem)
             {
                 Key = key;
@@ -31,14 +30,24 @@ namespace With.Linq
             public TKey Key
             {
                 get;
-                private set;
             }
         }
-
-        public static IEnumerable<IGrouping<TKey, T>> Chunk<TKey, T>(this IEnumerable<T> self, Func<T, TKey> keySelector)
+        /// <summary>
+        /// Enumerates over the items, chunking them together based on the return value of the block.
+        ///
+        /// Consecutive elements which return the same block value are chunked together.
+        ///
+        /// Compare this to GroupBy <see cref="Enumerable.GroupBy{TSource,TKey}(System.Collections.Generic.IEnumerable{TSource},System.Func{TSource,TKey})"/> 
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="keySelector"></param>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<IGrouping<TKey, T>> Chunk<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
         {
             Chunks<TKey, T> currentChunk = null;
-            foreach (var item in self)
+            foreach (var item in collection)
             {
                 var currentKey = keySelector(item);
                 if (null == currentKey)

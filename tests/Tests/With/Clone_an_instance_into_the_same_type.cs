@@ -1,10 +1,11 @@
 ﻿using System;
-using With;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using System.Collections.Generic;
+using Tests.With.TestData;
+using With;
 using Xunit;
+using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 
-namespace Tests
+namespace Tests.With
 {
     public class Clone_an_instance_into_the_same_type
     {

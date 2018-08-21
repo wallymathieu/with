@@ -1,14 +1,11 @@
-﻿using With.Linq;
-using Xunit;
-using With;
-using With.Ranges;
+﻿using System.Linq;
 using Ploeh.AutoFixture.Xunit2;
-using System.Linq;
-using Tests.Linq;
+using Tests.Json;
+using With.Ranges;
+using Xunit;
 
-namespace Tests
+namespace Tests.Collections
 {
-    using Json;
     public class EachSliceTests
     {
         [Fact]

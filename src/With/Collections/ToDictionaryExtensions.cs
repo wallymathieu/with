@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace With.Linq
+
+namespace With.Collections
 {
     /// <summary>
     /// 

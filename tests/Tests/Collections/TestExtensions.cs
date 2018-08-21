@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using With;
+using With.Collections;
 
-namespace Tests.Linq
+namespace Tests.Collections
 {
     public static class TestExtensions
     {

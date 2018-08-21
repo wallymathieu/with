@@ -1,10 +1,11 @@
 using System;
+using Tests.With.TestData;
 using With;
+using Xunit;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using Assert = Xunit.Assert;
-using Xunit;
 
-namespace Tests
+namespace Tests.With
 {
     public class Clone_an_instance_with_property_of_property
     {

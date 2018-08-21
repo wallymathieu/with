@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace With
+namespace With.Collections
 {
     /// <summary>
     /// This is an inclusive interval. The end is contained in the interval. 

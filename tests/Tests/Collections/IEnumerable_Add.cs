@@ -1,8 +1,9 @@
-﻿using Xunit;
+﻿using System.Linq;
 using With;
 using With.Ranges;
-using System.Linq;
-namespace Tests
+using Xunit;
+
+namespace Tests.Collections
 {
     public class IEnumerable_Add
     {

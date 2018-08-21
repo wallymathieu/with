@@ -1,7 +1,8 @@
-using Xunit;
-using With.Linq;
 using System.Linq;
-namespace Tests.Linq
+using With.Collections;
+using Xunit;
+
+namespace Tests.Collections
 {
     public class PartitionTests
     {

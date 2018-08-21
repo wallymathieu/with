@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using With;
+using With.Collections;
 using With.Ranges;
-using With.Linq;
 using Xunit;
 
-namespace Tests.Destructure
+namespace Tests.Collections
 {
     public class PairwiseTests
     {

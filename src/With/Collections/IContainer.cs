@@ -1,4 +1,4 @@
-﻿namespace With
+﻿namespace With.Collections
 {
     /// <summary>
     /// Represents a container, where the collection need not be enumerated.

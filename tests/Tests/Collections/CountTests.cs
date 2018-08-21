@@ -1,6 +1,7 @@
-using Xunit;
 using System.Linq;
-namespace Tests.Linq
+using Xunit;
+
+namespace Tests.Collections
 {
     public class CountTests
     {

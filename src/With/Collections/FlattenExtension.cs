@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace With.Linq
+namespace With.Collections
 {
     public static class FlattenExtension
     {

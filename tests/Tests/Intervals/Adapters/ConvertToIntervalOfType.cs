@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using With;
+using With.Collections;
 
 namespace Tests.Intervals.Adapters
 {

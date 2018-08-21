@@ -1,7 +1,7 @@
-using Xunit;
 using With.RegularExpressions;
+using Xunit;
 
-namespace With.Tests.Linq
+namespace Tests.RegularExpressions
 {
     public class GsubTests
     {

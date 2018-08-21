@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using With.Collections;
-namespace With.Linq
+
+namespace With.Collections
 {
     /// <summary>
     /// Maximum, minimum extensions. 

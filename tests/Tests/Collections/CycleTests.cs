@@ -1,7 +1,8 @@
-﻿using With.Linq;
+﻿using System.Linq;
+using With.Collections;
 using Xunit;
-using System.Linq;
-namespace Tests
+
+namespace Tests.Collections
 {
     public class CycleTests
     {

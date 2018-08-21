@@ -22,12 +22,6 @@ namespace With
         /// Execute a func on the object. Return value is the result from the func.
         /// </summary>
         public static TResult Yield<T, TResult>(this T value, Func<T, TResult> func) => func(value);
-
-        /// <summary>
-        /// Sorts the elements in ascending order by using a compare function
-        /// </summary>
-        public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> enumerable, Func<T, T, int> compare) => 
-            enumerable.OrderBy(t => t, Comparer.Create(compare));
     }
 
 }

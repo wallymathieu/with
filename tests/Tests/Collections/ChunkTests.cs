@@ -1,10 +1,9 @@
-using Xunit;
-using With.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using With;
+using With.Collections;
+using Xunit;
 
-namespace Tests.Linq
+namespace Tests.Collections
 {
     public class ChunkTests
     {

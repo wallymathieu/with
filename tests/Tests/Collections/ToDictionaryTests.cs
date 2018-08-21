@@ -1,10 +1,9 @@
 ﻿using System;
-using Xunit;
-using With.Linq;
-using With;
 using System.Collections.Generic;
+using With.Collections;
+using Xunit;
 
-namespace Tests
+namespace Tests.Collections
 {
     public class ToHTests
     {

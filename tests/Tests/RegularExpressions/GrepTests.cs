@@ -1,10 +1,10 @@
-﻿using Xunit;
+﻿using System.Collections.Generic;
+using System.Linq;
 using With.Ranges;
 using With.RegularExpressions;
-using System.Collections.Generic;
-using System.Linq;
+using Xunit;
 
-namespace Tests
+namespace Tests.RegularExpressions
 {
     public class GrepTests
     {
