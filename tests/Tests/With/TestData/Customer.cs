@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tests
+namespace Tests.With.TestData
 {
     public class Customer
     {

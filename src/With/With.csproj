@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\..\netfx.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
     <AssemblyName>With</AssemblyName>
@@ -13,8 +13,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
-    <PackageVersion>4.3.1</PackageVersion>
+    <PackageVersion>5.0.0</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -24,5 +23,7 @@
     <Copyright>Copyright 2017</Copyright>
     <PackageReleaseNotes>Adding net45 as target framework and fix for partition null reference exception bug</PackageReleaseNotes>
   </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\WithFs\WithFs.fsproj" />
+  </ItemGroup>
 </Project>
