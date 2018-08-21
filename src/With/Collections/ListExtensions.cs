@@ -7,7 +7,7 @@ namespace With.Collections
     /// <summary>
     /// Collection extensions
     /// </summary>
-    public static class Extensions
+    public static class ListExtensions
     {
         private static bool ReturnsTrue<T>(T element) { return true; }
         /// <summary>

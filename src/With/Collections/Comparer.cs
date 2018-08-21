@@ -5,7 +5,7 @@ namespace With.Collections
     /// <summary>
     /// Class that holds methods related to comparers
     /// </summary>
-    internal class Comparer
+    internal static class Comparer
     {
         /// <summary>
         /// Create a <see cref="System.Collections.Generic.IComparer{T}"/> from a comparison Func
