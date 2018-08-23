@@ -17,15 +17,6 @@ namespace Tests.Collections
             }
             return self;
         }
-        public static IEnumerable<Tuple<T1, T2>> Each<T1, T2>(this IEnumerable<Tuple<T1, T2>> self, Action<T1, T2> action)
-        {
-            foreach (var elem in self)
-            {
-                action(elem.Item1, elem.Item2);
-            }
-
-            return self;
-        }
         public static IEnumerable<IGrouping<T1, T2>> Each<T1, T2>(this IEnumerable<IGrouping<T1, T2>> self, Action<T1, IEnumerable<T2>> action)
         {
             foreach (var elem in self)
@@ -35,7 +26,6 @@ namespace Tests.Collections
 
             return self;
         }
-        public static IEnumerable<IEnumerable<T>> EachSlice<T>(this IEnumerable<T> self, int count, Action<IEnumerable<T>> slice) => self.EachSlice(count).Each(slice);
         public static IEnumerable<IEnumerable<T>> EachSlice<T>(this IEnumerable<T> self, int count) => self.BatchesOf(count);
     }
 }

@@ -52,7 +52,6 @@ Processor=Intel Core i7-4770HQ CPU 2.20GHz (Haswell), ProcessorCount=8
 |           Timing_by_hand |    508.8 ns |   9.032 ns |     8.006 ns |
 
 
-
 ### Reasoning about performance
 
 As can be seen there is a slight penalty to use the different constructs.
@@ -60,6 +59,99 @@ As can be seen there is a slight penalty to use the different constructs.
 As always with performance. Many times, you need to be aware of the impact of different things. Writing in assembler is contraproductive since it's much harder to structure your code.
 
 The benefit of using immutable types and _With_ is that you can get started with multithreaded programming and pass your objects to different threads. Later on if you find that some part of your code is done very often, then that part can be rewritten to something more performant.
+
+## Enumerable extensions provided by the library
+
+### Minima, Maxima
+Alias (Minimums, Maximums)
+
+These function finds the minima or the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
+
+```c#
+using With.Collections;
+...
+var minima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.Minima((a,b)=>a.i.CompareTo(b.i));
+var maxima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.Maxima((a,b)=>a.i.CompareTo(b.i));
+```
+### MinimaBy, MaximaBy
+Alias (MinimumsBy, MaximumsBy)
+
+These function finds the minima or the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
+
+```c#
+using With.Collections;
+...
+var minima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MinimaBy(a=>a.i);
+var maxima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MaximaBy(a=>a.i);
+```
+
+### Partition
+
+The partition function takes a predicate and a collection and returns the pair of collections of elements which do and do not satisfy the predicate.
+
+```c#
+using With.Collections;
+...
+var partition = new[] { 1,2,3,4,5,6,7}.Partition(num=>num%2==0).ToArray();
+// partition.True will be new[] { 2, 4, 6 }
+// partition.False will be new[] { 1, 3, 5, 7 }
+```
+
+### Chunk
+Enumerates over the items, chunking them together based on the return value of the block.
+
+Consecutive elements which return the same block value are chunked together.
+```c#
+using With.Collections;
+...
+var array = new[] {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
+var chunked = new List<(bool, int[])>();
+
+array.Chunk(n => n.Even()).Each((even, ary) => chunked.Add((even, ary.ToArray())));
+Assert.Equal(new[]
+{
+    (false, new[] {3, 1}),
+    (true, new[] {4}),
+    (false, new[] {1, 5, 9}),
+    (true, new[] {2, 6}),
+    (false, new[] {5, 3, 5})
+}, chunked.ToArray());
+```
+
+### Flatten
+
+Returns a new array that is a one-dimensional flattening of self (recursively).
+
+That is, for every element that is an array, extract its elements into the new array.
+
+The optional level argument determines the level of recursion to flatten.
+        
+### Cycle
+Yields each element of collection repeatedly n times or forever if null is given.
+If a non-positive number is given or the collection is empty, returns an empty enumerable.
+
+```c#
+using With.Collections;
+...
+Assert.Equal(new[]{
+    "a", "b", "c",
+    "a", "b", "c"
+}, new[] { "a", "b", "c" }.Cycle(2).ToArray());
+```
+
+### Pairwise
+
+Used to iterate over collection and get the collection elements pairwise.
+Yields the result of the application of the map function over each pair.
+
+```c#
+using With.Collections;
+...
+var pairs = 0.To(3).Pairwise(Tuple.Create).ToArray(); 
+// will be 
+Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
+```
+
 
 ## Why shouldn't you use this library?
 

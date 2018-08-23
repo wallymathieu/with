@@ -12,14 +12,14 @@ namespace Tests.Intervals.Adapters
             return (T)Convert.ChangeType(o, typeof(T));
         }
 
-        public object[] ToArrayOf<SourceType>(SourceType[] array)
+        public object[] ToArrayOf<TSourceType>(TSourceType[] array)
         {
             return array.Select(i => C(i)).Cast<object>().ToArray();
         }
 
         public Interval<WrapComparable> Interval(int from, int to)
         {
-            return new Interval<WrapComparable>(ToVal( @from), ToVal(to));
+            return new Interval<WrapComparable>(ToVal(@from), ToVal(to));
         }
 
         public WrapComparable ToVal(int v)

@@ -12,9 +12,14 @@ namespace With.Collections
     {
         /// <summary>
         /// Used to iterate over collection and get the collection elements pairwise.
+        /// Yields the result of the application of the map function over each pair.
         /// </summary>
+        /// <remarks>
+        /// Note that the same element will at most 2 times. For example for
+        /// 0.To(3).Pairwise(Tuple.Create).ToArray() you will get new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) }
+        /// </remarks>
         /// <param name="collection"></param>
-        /// <param name="func"></param>
+        /// <param name="func">The map of pairs</param>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
@@ -110,7 +115,7 @@ namespace With.Collections
                 Enumerable = new List<T>() { { firstItem } };
             }
 
-            public IList<T> Enumerable;
+            public readonly IList<T> Enumerable;
             public IEnumerator<T> GetEnumerator()
             {
                 return Enumerable.GetEnumerator();
