@@ -27,6 +27,7 @@ namespace With
         /// Throws an format exception if the value can't parse the value.
         /// </summary>
         /// <param name="value">The string representation of the enumeration name or underlying value to convert.</param>
+        /// <param name="ignoreCase"></param>
         /// <typeparam name="TEnum">An enumeration type.</typeparam>
         [MethodImpl (MethodImplOptions.AggressiveInlining)]
         public static TEnum Parse<TEnum> (string value, bool ignoreCase) where TEnum : struct =>

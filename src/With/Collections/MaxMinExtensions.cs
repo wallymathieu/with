@@ -43,7 +43,7 @@ namespace With.Collections
             return self.GetMax(Comparer.Create(compare));
         }
         /// <summary>
-        /// Returns maximums based on the compare function.
+        /// This function finds the maximums in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
@@ -64,7 +64,7 @@ namespace With.Collections
             return self.GetMax(Comparer.Create(map)).FirstOrDefault();
         }
         /// <summary>
-        /// Returns maximums based on mapped values.
+        /// This function finds the maximums in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
@@ -75,7 +75,7 @@ namespace With.Collections
             return self.GetMax(Comparer.Create(map));
         }
         /// <summary>
-        /// Returns maximums based on mapped values.
+        /// This function finds the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
@@ -117,7 +117,7 @@ namespace With.Collections
             return self.GetMin(Comparer.Create(compare)).FirstOrDefault();
         }
         /// <summary>
-        /// Returns minimums based on the compare function.
+        /// This function finds the minima in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
@@ -127,7 +127,7 @@ namespace With.Collections
             return self.GetMin(Comparer.Create(compare));
         }
         /// <summary>
-        /// Returns minimums based on the compare function.
+        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
@@ -148,7 +148,7 @@ namespace With.Collections
             return self.GetMin(Comparer.Create(map)).FirstOrDefault();
         }
         /// <summary>
-        /// Returns minimums based on the mapped values.
+        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
@@ -159,7 +159,7 @@ namespace With.Collections
             return self.GetMin(Comparer.Create(map));
         }
         /// <summary>
-        /// Returns minimums based on the mapped values.
+        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
         /// </summary>
         /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
