@@ -13,7 +13,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageVersion>5.0.0</PackageVersion>
+    <PackageVersion>5.0.1</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -21,9 +21,16 @@
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2017</Copyright>
-    <PackageReleaseNotes>Adding net45 as target framework and fix for partition null reference exception bug</PackageReleaseNotes>
+    <PackageReleaseNotes>Missing dependency on FSharp.Core</PackageReleaseNotes>
+    <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WithFs\WithFs.fsproj" />
+    <ProjectReference Include="..\WithFs\WithFs.fsproj" PrivateAssets="all"/>
+    <PackageReference Include="FSharp.Core" Version="4.5.*" />
   </ItemGroup>
+  <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))" />
+    </ItemGroup>
+  </Target>
 </Project>
