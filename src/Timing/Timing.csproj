@@ -9,6 +9,7 @@
     <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0;MARKDOWNLOG</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="../../src/WithFs/WithFs.fsproj" />
     <ProjectReference Include="..\With\With.csproj" />
   </ItemGroup>
   <ItemGroup>
