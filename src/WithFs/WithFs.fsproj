@@ -13,6 +13,6 @@
     <Compile Include="Prepare.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="4.5.*" />
+    <PackageReference Update="FSharp.Core" Version="4.5.4" />
   </ItemGroup>
 </Project>

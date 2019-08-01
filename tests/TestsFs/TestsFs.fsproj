@@ -19,6 +19,6 @@
     <PackageReference Include="AutoFixture" Version="3.*" />
     <PackageReference Include="AutoFixture.Xunit2" Version="3.*" />
     <PackageReference Include="xunit" Version="2.2.0" />
-    <PackageReference Include="FSharp.Core" Version="4.5.2" />
+    <PackageReference Update="FSharp.Core" Version="4.5.4" />
   </ItemGroup>
 </Project>
