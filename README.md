@@ -18,7 +18,7 @@ using With;
 public class CustomerNameChangeHandler
 {
     private static readonly IPreparedCopy<Customer, string> NameCopy = 
-        Prepare.Copy<Customer,int>((m,v) => m.Name == v);
+        Prepare.Copy<Customer,string>((m,v) => m.Name == v);
     public void Handle()
     {
         // fetch customer, say:
