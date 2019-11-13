@@ -39,15 +39,15 @@ module Expressions=
             }
     module private rec EqEq=
 
-        let rec expressionWithMemberAccess (expr:Expression) =
+        let rec expressionWithMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    DataLens.fieldOrPropertyToLens <| getMember memberAccess
+                    DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
                 else
                     let inner = expressionWithMemberAccess memberAccess.Expression
-                    let current = DataLens.fieldOrPropertyToLens <| getMember memberAccess
+                    let current = DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
                     DataLens.compose inner current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
             

@@ -1,3 +1,5 @@
+using System;
+using With;
 using Xunit;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 namespace Tests.With
@@ -19,19 +21,21 @@ namespace Tests.With
             public string MyProperty4 { get; private set; }
         }
 
-        [Theory(Skip = "Not implemented"), AutoData]
+        readonly Lazy<IPreparedCopy<AClassWithManyProperties, Tuple<Tuple<int, string>, Tuple<string, string>>>> copyExpr = LazyT.Create(() => 
+            LensBuilder<AClassWithManyProperties>
+                        .Of<int, string>((m, v1, v2) => m.MyProperty == v1 && m.MyProperty2 == v2)
+                        .And<string, string>((m, v1, v2) => m.MyProperty3 == v1 && m.MyProperty4 == v2)
+                        .ToPreparedCopy());
+
+        [Theory, AutoData]
         public void should_be_able_to_create_a_clone_using_builder(
-            AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
+                AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            /*var ret = instance.With()
-                .Eql(m => m.MyProperty, newValue)
-                .Eql(m => m.MyProperty2, newValue2)
-                .Eql(m => m.MyProperty3, newValue3)
-                .Eql(m => m.MyProperty4, newValue4).Copy();
+            var ret = copyExpr.Value.Copy(instance, Tuple.Create(Tuple.Create(newValue, newValue2), Tuple.Create(newValue3, newValue4)));
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);
-            Assert.Equal(newValue4, ret.MyProperty4);*/
+            Assert.Equal(newValue4, ret.MyProperty4);
         }
     }
 }
