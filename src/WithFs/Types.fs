@@ -16,9 +16,16 @@ type IPreparedCopy<'T, 'TValue1, 'TValue2> =
 type IPreparedCopy<'T, 'TValue1, 'TValue2, 'TValue3> =
     inherit IPreparedCopy
     abstract member Copy : 'T * 'TValue1 * 'TValue2 * 'TValue3 -> 'T
-type IPreparedCopy<'T, 'TValue1, 'TValue2, 'TValue3, 'TValue4> =
-    inherit IPreparedCopy
-    abstract member Copy : 'T * 'TValue1 * 'TValue2 * 'TValue3 * 'TValue4 -> 'T
 type NameAndValue = System.Collections.Generic.KeyValuePair<string, obj>
 
 exception MissingValueException of string
+open System.Runtime.CompilerServices
+
+[<Extension>]
+type PreparedCopies() =
+    [<Extension>]
+    static member Copy (self: IPreparedCopy<'T, Tuple<'TValue1,'TValue2>>, t:'T, value1:'TValue1, value2: 'TValue2) =self.Copy(t,Tuple.Create(value1,value2))
+    [<Extension>]
+    static member Copy (self: IPreparedCopy<'T, Tuple<'TValue1,Tuple<'TValue2,'TValue3>>>, t:'T, value1:'TValue1, value2: 'TValue2, value3: 'TValue3) =self.Copy(t,Tuple.Create(value1,Tuple.Create(value2,value3)))
+    [<Extension>]
+    static member Copy (self: IPreparedCopy<'T, Tuple<Tuple<'TValue1,'TValue2>,'TValue3>>, t:'T, value1:'TValue1, value2: 'TValue2, value3: 'TValue3) =self.Copy(t,Tuple.Create(Tuple.Create(value1,value2),value3))
