@@ -17,10 +17,10 @@ namespace With.WithPlumbing
                     switch (expr.Body.NodeType)
                     {
                         case ExpressionType.MemberAccess:
-                            Members.AddRange(Expressions.ExpressionWithMemberAccess((MemberExpression)expr.Body));
+                            Members.AddRange(Expressions.WithMemberAccess((MemberExpression)expr.Body));
                             break;
                         case ExpressionType.Convert:
-                            Members.AddRange(Expressions.ExpressionWithMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand));
+                            Members.AddRange(Expressions.WithMemberAccess((MemberExpression)((UnaryExpression)expr.Body).Operand));
                             break;
                         default:
                             throw new ExpectedButGotException<ExpressionType>(
