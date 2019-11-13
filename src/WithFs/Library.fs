@@ -17,15 +17,15 @@ module Expressions=
            FieldOrProperty.create (m.DeclaringType.GetTypeInfo().GetProperty(m.Name))
         | _ -> 
            raise (ExpectedButGotException<MemberTypes>([| MemberTypes.Field; MemberTypes.Property |], m.MemberType))
-    [<CompiledName("ExpressionWithMemberAccess")>]
-    let rec expressionWithMemberAccess (expr:Expression): FieldOrProperty seq=
+    [<CompiledName("WithMemberAccess")>]
+    let rec withMemberAccess (expr:Expression): FieldOrProperty seq=
         match expr.NodeType with
         | ExpressionType.Parameter->
             Seq.empty
         | ExpressionType.MemberAccess->
             let memberAccess = expr :?>MemberExpression
             seq { 
-                yield! expressionWithMemberAccess memberAccess.Expression
+                yield! withMemberAccess memberAccess.Expression
                 yield getMember(memberAccess)
             }
         | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.Parameter; ExpressionType.MemberAccess |], expr.NodeType))
@@ -39,14 +39,14 @@ module Expressions=
             }
     module private rec EqEq=
 
-        let rec expressionWithMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
+        let rec withMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
                     DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
                 else
-                    let inner = expressionWithMemberAccess memberAccess.Expression
+                    let inner = withMemberAccess memberAccess.Expression
                     let current = DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
                     DataLens.compose inner current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
@@ -55,9 +55,9 @@ module Expressions=
             let tryFind e = List.tryFind (Object.equals e) c.Parameters
             match tryFind expr.Right, tryFind expr.Left with
             | Some _,None ->
-                expressionWithMemberAccess expr.Left
+                withMemberAccess expr.Left
             | None, Some _->
-                expressionWithMemberAccess expr.Right
+                withMemberAccess expr.Right
             | None, None ->
                 failwithf "1) Expected expression '%O' to yield either a left side member access or a right side member access (%A)" expr c
             | _ ->
@@ -79,11 +79,11 @@ module Expressions=
                                  (EqEq.binaryExpressionWithMemberAccess<'T,'U2> (b.Right:?>BinaryExpression) c)
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
     
-    [<CompiledName("ExpressionWithEqualEqualOrCall")>]
-    let expressionWithEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
+    [<CompiledName("WithEqualEqualOrCall")>]
+    let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = fromExpression lambda
         EqEq.expressionWithMemberAccessOrCall lambda.Body c
-    [<CompiledName("ExpressionWithEqualEqualOrCall2")>]
-    let expressionWithEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,'U1*'U2>=
+    [<CompiledName("WithEqualEqualOrCall2")>]
+    let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,'U1*'U2>=
         let c = fromExpression lambda
         AndAlso.expressionWithMemberAccessOrCall2<'T, 'U1, 'U2> lambda.Body c
