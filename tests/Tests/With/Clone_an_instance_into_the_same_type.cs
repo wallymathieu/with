@@ -16,7 +16,7 @@ namespace Tests.With
         private static readonly Lazy<IPreparedCopy<Customer, Tuple<Tuple<int, string>, IEnumerable<string>>>> IdAndNameAndPreferencesCopy = LazyT.Create(() =>
             LensBuilder<Customer>.Of<int, string>((m, v1, v2) => m.Id == v1 && m.Name == v2)
                                  .And<IEnumerable<string>>((m, v) => m.Preferences == v)
-                                 .ToPreparedCopy());
+                                 .BuildPreparedCopy());
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(

@@ -25,7 +25,7 @@ namespace Tests.With
             LensBuilder<AClassWithManyProperties>
                         .Of<int, string>((m, v1, v2) => m.MyProperty == v1 && m.MyProperty2 == v2)
                         .And<string, string>((m, v1, v2) => m.MyProperty3 == v1 && m.MyProperty4 == v2)
-                        .ToPreparedCopy());
+                        .BuildPreparedCopy());
 
         [Theory, AutoData]
         public void should_be_able_to_create_a_clone_using_builder(

@@ -23,8 +23,8 @@ type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
         LensBuilder<'T,('U*'U2)>(DataLens.combine built <| Expressions.expressionWithEqualEqualOrCall expr)
     member __.And(expr:Expression<Func<'T, 'U2, 'U3, bool>>) = 
         LensBuilder<'T,('U * ('U2*'U3))>(DataLens.combine built <| Expressions.expressionWithEqualEqualOrCall2 expr)
-    member __.Value = built
-    member __.ToPreparedCopy()=built.ToPreparedCopy()
+    member __.Build() = built
+    member __.BuildPreparedCopy()=built.ToPreparedCopy()
 
 type LensBuilder<'T>()=
     static member Of(expr:Expression<Func<'T, 'U, bool>> ) = 
