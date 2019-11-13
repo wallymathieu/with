@@ -15,7 +15,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageVersion>5.1.0-alpha-1</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wallymathieu/with.git</RepositoryUrl>
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
