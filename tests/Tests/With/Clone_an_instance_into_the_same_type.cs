@@ -43,17 +43,16 @@ namespace Tests.With
             Assert.Equal(newStrValue, ret.Name);
             Assert.Equal(prefs, ret.Preferences);
         }
+        private static readonly Lazy<IPreparedCopy<CustomerWithEmptyCtor, int, string>> EmptyCtorIdAndNameCopy = new Lazy<IPreparedCopy<CustomerWithEmptyCtor, int, string>>(() =>
+             Prepare.Copy<CustomerWithEmptyCtor, int, string>((m, v1, v2) => m.Id == v1 && m.Name == v2));
 
-        [Theory(Skip = "Not implemented"), AutoData]
+        [Theory(Skip ="Does not work"), AutoData]
         public void A_class_with_empty_ctor(
             CustomerWithEmptyCtor instance, int newInt, string newString)
         {
-            /*var ret = instance.With()
-                .Eql(m => m.Id, newInt)
-                .Eql(m => m.Name, newString)
-                .Copy();
+            var ret = EmptyCtorIdAndNameCopy.Value.Copy(instance, newInt, newString);
             Assert.Equal(newInt, ret.Id);
-            Assert.Equal(newString, ret.Name);*/
+            Assert.Equal(newString, ret.Name);
         }
         public class CustomerWithEmptyCtor : Customer
         {

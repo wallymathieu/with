@@ -1,4 +1,4 @@
-﻿using Xunit;
+using Xunit;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 namespace Tests.With
 {
