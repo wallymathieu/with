@@ -37,21 +37,6 @@ namespace Timing
         }
 
         [Benchmark]
-        public void Timing_propertyname_only()
-        {
-            var time = new DateTime(2001, 1, 1).AddMinutes(2);
-            var res = _myClass.With(m => m.MyProperty2, time.ToString());
-        }
-
-        [Benchmark]
-        public void Timing_fluent()
-        {
-            var time = new DateTime(2001, 1, 1).AddMinutes(2);
-            var res = _myClass.With().Eql(p => p.MyProperty2, time.ToString())
-                .Copy(); // use to or cast to get the new instance
-        }
-
-        [Benchmark]
         public void Timing_by_hand()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);
