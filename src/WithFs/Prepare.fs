@@ -3,14 +3,19 @@ open System
 open System.Linq.Expressions
 open With.Lenses
 open With.Internals
+/// Helper type to create lenses
 type Lens<'T>=
+    /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue>> ) : DataLens<'T,'TValue>= 
         Expressions.withMemberAccess expr 
+    /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue, bool>> ) : DataLens<'T,'TValue>= 
-        Expressions.withEqualEqualOrCall expr 
+        Expressions.withEqualEqualOrCall expr
+    /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue1, 'TValue2, bool>>) : DataLens<'T,('TValue1*'TValue2)>= 
         Expressions.withEqualEqualOrCall2 expr
 
+/// LensBuilder in order to simplify building lenses in c#
 type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
     /// Combine existing lens with expression representing another lens
     member __.And(expr: Expression<Func<'T, 'U2>>) = 
@@ -25,14 +30,18 @@ type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
     member __.Then(expr: Expression<Func<'U, 'V>>) =
         let next = Expressions.withMemberAccess expr 
         LensBuilder<'T, 'V>(DataLens.compose next built)
-
+    /// Build a lens
     member __.Build() = built
 
+/// LensBuilder in order to simplify building lenses in c#
 type LensBuilder<'T>()=
+    /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U>> ) = 
         LensBuilder<'T,'U>(Expressions.withMemberAccess expr) 
+    /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U, bool>> ) = 
         LensBuilder<'T,'U>(Expressions.withEqualEqualOrCall expr) 
+    /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U1, 'U2, bool>>) = 
         LensBuilder<'T,('U1*'U2)>(Expressions.withEqualEqualOrCall2 expr)
 

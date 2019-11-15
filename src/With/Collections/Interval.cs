@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace With.Collections
 {
@@ -38,12 +38,12 @@ namespace With.Collections
             }
             return To.CompareTo(value) <= 0 && value.CompareTo(From) <= 0;
         }
-
+        /// 
         public override bool Equals(object obj)
         {
             return Equals(obj as Interval<T>);
         }
-
+        /// 
         public bool Equals(Interval<T> other)
         {
             if (ReferenceEquals(other, null))
