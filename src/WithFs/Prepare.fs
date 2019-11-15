@@ -12,12 +12,20 @@ type Lens<'T>=
         Expressions.withEqualEqualOrCall2 expr
 
 type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
+    /// Combine existing lens with expression representing another lens
     member __.And(expr: Expression<Func<'T, 'U2>>) = 
         LensBuilder<'T,('U*'U2)>(DataLens.combine built <| Expressions.withMemberAccess expr)
+    /// Combine existing lens with expression representing another lens
     member __.And(expr:Expression<Func<'T, 'U2, bool>> ) = 
         LensBuilder<'T,('U*'U2)>(DataLens.combine built <| Expressions.withEqualEqualOrCall expr)
+    /// Combine existing lens with expression representing another lens
     member __.And(expr:Expression<Func<'T, 'U2, 'U3, bool>>) = 
         LensBuilder<'T,('U * ('U2*'U3))>(DataLens.combine built <| Expressions.withEqualEqualOrCall2 expr)
+    /// Compose existing lens with expression representing deeper lens
+    member __.Then(expr: Expression<Func<'U, 'V>>) =
+        let next = Expressions.withMemberAccess expr 
+        LensBuilder<'T, 'V>(DataLens.compose next built)
+
     member __.Build() = built
 
 type LensBuilder<'T>()=
@@ -42,6 +50,14 @@ open System.Runtime.CompilerServices
 /// Extensions to simplify usage in c#
 [<Extension>]
 type LensBuilderExtensions() =
+    /// Build prepared copy
+    [<Extension>]
+    static member BuildPreparedCopy (self: LensBuilder<'T, 'U1>) =
+        let lens = self.Build()
+        { new IPreparedCopy<'T, 'U1> 
+          with 
+            member __.Copy(t,v1)= DataLens.set v1 t lens }
+
     /// Build prepared copy
     [<Extension>]
     static member BuildPreparedCopy (self: LensBuilder<'T, ('U1*'U2)>) =
