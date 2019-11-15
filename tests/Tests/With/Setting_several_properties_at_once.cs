@@ -21,7 +21,7 @@ namespace Tests.With
             public string MyProperty4 { get; private set; }
         }
 
-        readonly Lazy<IPreparedCopy<AClassWithManyProperties, Tuple<Tuple<Tuple<int, string>, string>, string>>> copyExpr = LazyT.Create(() =>
+        readonly Lazy<IPreparedCopy<AClassWithManyProperties, Tuple<int, string>, string, string>> copyExpr = LazyT.Create(() =>
             LensBuilder<AClassWithManyProperties>
                         .Of<int, string>((m, v1, v2) => m.MyProperty == v1 && m.MyProperty2 == v2)
                         .And<string>((m, v1) => m.MyProperty3 == v1)
@@ -32,7 +32,7 @@ namespace Tests.With
         public void should_be_able_to_create_a_clone_using_builder(
                 AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            var ret = copyExpr.Value.Copy(instance, Tuple.Create(Tuple.Create( Tuple.Create(newValue, newValue2), newValue3), newValue4));
+            var ret = copyExpr.Value.Copy(instance, Tuple.Create(newValue, newValue2), newValue3, newValue4);
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);

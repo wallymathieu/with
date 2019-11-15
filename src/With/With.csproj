@@ -13,7 +13,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageVersion>5.1.0-alpha-1</PackageVersion>
+    <PackageVersion>5.1.0-alpha-2</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>

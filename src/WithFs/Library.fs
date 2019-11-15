@@ -81,7 +81,6 @@ module Expressions=
     [<CompiledName("WithMemberAccess")>]
     let withMemberAccess<'T,'U> (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
         Expr.withMemberAccess lambda.Body
-    
     [<CompiledName("WithEqualEqualOrCall")>]
     let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = fromExpression lambda

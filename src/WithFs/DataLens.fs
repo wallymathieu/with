@@ -23,6 +23,14 @@ module DataLens =
        let n = FieldOrProperty.name v
        { Get = fun t-> FieldOrProperty.value v t :?> 'U
          Set = fun v t -> Reflection.create typ typ t [NameAndValue(n,v)] :?> 'T }
+   /// Split a combination of 2 2-tuples into a 3-tuple
+   let ofLeftTuple() : DataLens<(('v1*'v2)*'v3),('v1*'v2*'v3)>=
+       { Get = fun ((v1,v2),v3)->(v1,v2,v3)
+         Set = fun (v1,v2,v3) _ -> ((v1,v2),v3)}
+   /// Split a combination of 2 2-tuples into a 3-tuple
+   let ofRightTuple() : DataLens<('v1*('v2*'v3)),('v1*'v2*'v3)>=
+       { Get = fun (v1,(v2,v3))->(v1,v2,v3)
+         Set = fun (v1,v2,v3) _ -> (v1,(v2,v3))}
 type DataLens<'T,'U> with
     member l1.Combine l2 = DataLens.combine l1 l2
     /// Sequentially composes two lenses

@@ -19,11 +19,3 @@ type IPreparedCopy<'T, 'TValue1, 'TValue2, 'TValue3> =
 type NameAndValue = System.Collections.Generic.KeyValuePair<string, obj>
 
 exception MissingValueException of string
-open System.Runtime.CompilerServices
-
-/// Extensions to simplify usage in c#
-[<Extension>]
-type PreparedCopies() =
-    /// Invoke a 2 tupled prepared copy as a function of 2 parameters
-    [<Extension>]
-    static member Copy (self: IPreparedCopy<'T, Tuple<'U1,'U2>>, t:'T, v1:'U1, v2: 'U2) =self.Copy(t,Tuple.Create(v1,v2))
