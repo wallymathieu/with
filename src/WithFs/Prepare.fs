@@ -67,3 +67,12 @@ type LensBuilderExtensions() =
         { new IPreparedCopy<'T, 'U1,'U2, 'U3> 
           with 
             member __.Copy(t,v1,v2,v3)= DataLens.set (v1,v2,v3) t combined }
+    /// Build prepared copy
+    [<Extension>]
+    static member BuildPreparedCopy (self: LensBuilder<'T, ((('U1*'U2)*'U3)*'U4)>) =
+        let lens = self.Build()
+        let left = DataLens.ofLeftTuple'()
+        let combined = DataLens.compose left lens
+        { new IPreparedCopy<'T, 'U1, 'U2, 'U3, 'U4> 
+          with 
+            member __.Copy(t,v1,v2,v3,v4)= DataLens.set (v1,v2,v3,v4) t combined }

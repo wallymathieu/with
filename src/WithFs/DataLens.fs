@@ -28,6 +28,10 @@ module DataLens =
        { Get = fun ((v1,v2),v3)->(v1,v2,v3)
          Set = fun (v1,v2,v3) _ -> ((v1,v2),v3)}
    /// Split a combination of 2 2-tuples into a 3-tuple
+   let ofLeftTuple'() : DataLens<((('v1*'v2)*'v3)*'v4),('v1*'v2*'v3*'v4)>=
+        { Get = fun (((v1,v2),v3),v4)->(v1,v2,v3,v4)
+          Set = fun (v1,v2,v3,v4) _  ->(((v1,v2),v3),v4)}
+   /// Split a combination of 2 2-tuples into a 3-tuple
    let ofRightTuple() : DataLens<('v1*('v2*'v3)),('v1*'v2*'v3)>=
        { Get = fun (v1,(v2,v3))->(v1,v2,v3)
          Set = fun (v1,v2,v3) _ -> (v1,(v2,v3))}
