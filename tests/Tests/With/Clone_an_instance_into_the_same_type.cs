@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Tests.With.TestData;
 using With;
@@ -9,10 +9,14 @@ namespace Tests.With
 {
     public class Clone_an_instance_into_the_same_type
     {
-        private static readonly Lazy<IPreparedCopy<Customer, int>> IdCopy = new Lazy<IPreparedCopy<Customer, int>>(()=> 
-            Prepare.Copy<Customer,int>((m,v) => m.Id == v));
-        private static readonly Lazy<IPreparedCopy<Customer, int, string>> IdAndNameCopy =new Lazy<IPreparedCopy<Customer, int, string>>(()=> 
-            Prepare.Copy<Customer,int,string>((m,v1,v2) => m.Id == v1 && m.Name==v2));
+        private static readonly Lazy<IPreparedCopy<Customer, int>> IdCopy = LazyT.Create(() =>
+            Prepare.Copy<Customer, int>((m, v) => m.Id == v));
+        private static readonly Lazy<IPreparedCopy<Customer, int, string>> IdAndNameCopy = LazyT.Create(() =>
+             LensBuilder<Customer>.Of<int, string>((m, v1, v2) => m.Id == v1 && m.Name == v2).BuildPreparedCopy());
+        private static readonly Lazy<IPreparedCopy<Customer, int, string, IEnumerable<string>>> IdAndNameAndPreferencesCopy = LazyT.Create(() =>
+            LensBuilder<Customer>.Of<int, string>((m, v1, v2) => m.Id == v1 && m.Name == v2)
+                          .And<IEnumerable<string>>((m, v) => m.Preferences == v)
+                          .BuildPreparedCopy());
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(
@@ -32,17 +36,25 @@ namespace Tests.With
             Assert.Equal(newStrValue, ret.Name);
         }
 
+        [Theory, AutoData]
+        public void A_class_should_be_able_to_create_a_clone_with_three_property_set_using_equal_equal(
+            Customer myClass, int newIntValue, string newStrValue, IEnumerable<string> prefs)
+        {
+            var ret = IdAndNameAndPreferencesCopy.Value.Copy(myClass, newIntValue, newStrValue, prefs);
+            Assert.Equal(newIntValue, ret.Id);
+            Assert.Equal(newStrValue, ret.Name);
+            Assert.Equal(prefs, ret.Preferences);
+        }
+        private static readonly Lazy<IPreparedCopy<CustomerWithEmptyCtor, int, string>> EmptyCtorIdAndNameCopy = LazyT.Create(() =>
+             Prepare.Copy<CustomerWithEmptyCtor, int, string>((m, v1, v2) => m.Id == v1 && m.Name == v2));
 
-        [Theory(Skip = "Not implemented"), AutoData]
+        [Theory, AutoData]
         public void A_class_with_empty_ctor(
             CustomerWithEmptyCtor instance, int newInt, string newString)
         {
-            /*var ret = instance.With()
-                .Eql(m => m.Id, newInt)
-                .Eql(m => m.Name, newString)
-                .Copy();
+            var ret = EmptyCtorIdAndNameCopy.Value.Copy(instance, newInt, newString);
             Assert.Equal(newInt, ret.Id);
-            Assert.Equal(newString, ret.Name);*/
+            Assert.Equal(newString, ret.Name);
         }
         public class CustomerWithEmptyCtor : Customer
         {

@@ -3,12 +3,14 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
     <RootNamespace>With</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="Collections.fs" />
     <Compile Include="Internals.fs" />
+    <Compile Include="DataLens.fs" />
     <Compile Include="Library.fs" />
     <Compile Include="Prepare.fs" />
   </ItemGroup>

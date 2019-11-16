@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace With.RegularExpressions
 {
+    /// <summary>
+    /// Add Sub extensions on string
+    /// </summary>
     public static class SubExtensions
     {
         private static Regex BackReference = new Regex(@"
@@ -88,34 +91,52 @@ namespace With.RegularExpressions
                     throw new Exception("Regex option unknown: " + token);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Gsub(this string self, Regex regex, string evaluator)
         {
             return regex.Replace(self, Evaluate(evaluator));
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Gsub(this string self, string regex, string evaluator)
         {
             return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator));
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self ?? String.Empty, evaluator);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Sub(this string self, Regex regex, string evaluator)
         {
             return regex.Replace(self ?? String.Empty, Evaluate(evaluator), 1);
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Sub(this string self, string regex, string evaluator)
         {
             return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator), 1);
         }
+        /// <summary>
+        /// 
+        /// </summary>
         public static string Sub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self ?? String.Empty, evaluator, 1);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static Match Match(this string self, Regex regex)
         {
             return regex.Match(self ?? String.Empty);

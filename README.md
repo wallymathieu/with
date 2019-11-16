@@ -14,10 +14,11 @@ If you need to get a copy of a readonly object but with some other value set in 
 
 ```c#
 using With;
-	...
+...
 public class CustomerNameChangeHandler
 {
-    private static readonly IPreparedCopy<Customer, string> NameCopy = 
+    // start with initializing the copy update expression once (main cost is around parsing expressions)
+    private static readonly IPreparedCopy<Customer, string> NameCopy =
         Prepare.Copy<Customer,string>((m,v) => m.Name == v);
     public void Handle()
     {
@@ -25,6 +26,28 @@ public class CustomerNameChangeHandler
         var customer = new Customer(id:1, name:"Johan Testsson");
         // change the name of that customer:
         var changedNameToErik = NameCopy.Copy(customer, "Erik Testsson");
+        // ...
+    }
+}
+```
+
+Another alternative is to use lens to formulate prepared copy expression:
+
+```c#
+using With;
+...
+public class CustomerChangeHandler
+{
+    // start with initializing the copy update expression once (main cost is around parsing expressions)
+    private static readonly IPreparedCopy<Customer, int, string, IEnumerable<string>> CopyUpdate =
+        LensBuilder<Customer>.Of(m => m.Id).And(m => m.Name).And(m => m.Preferences)
+                          .BuildPreparedCopy();
+    public void Handle()
+    {
+        // fetch customer, say:
+        var customer = new Customer(id:1, name:"Johan Testsson");
+        // change that customer with new values:
+        var change = CopyUpdate.Copy(customer, NextId(), "Erik Testsson", new []{"Swedish fish"});
         // ...
     }
 }
