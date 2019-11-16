@@ -12,7 +12,7 @@ namespace Tests.With
         private static readonly Lazy<IPreparedCopy<Sale, string>> CustomerNameCopy = new Lazy<IPreparedCopy<Sale, string>>(()=>
             Prepare.Copy<Sale,string>((sp,v) => sp.Customer.Name == v));
 
-        [Theory(Skip = "not implemented"), AutoData]
+        [Theory, AutoData]
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_equalequal(Sale myClass, string newValue)
         {
             var ret = CustomerNameCopy.Value.Copy(myClass, newValue);

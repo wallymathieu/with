@@ -41,6 +41,11 @@ with
         match v with
         | Choice1Of2 p -> p.DeclaringType
         | Choice2Of2 f -> f.DeclaringType
+    [<CompiledName("_FieldType")>]
+    static member fieldType(FieldOrProperty v)= 
+        match v with
+        | Choice1Of2 p -> p.PropertyType
+        | Choice2Of2 f -> f.FieldType
     member this.Name = FieldOrProperty.name this
     member this.Value(t:obj)=FieldOrProperty.value this t
     member this.SetValue(t:obj,v)=FieldOrProperty.setValue this t v

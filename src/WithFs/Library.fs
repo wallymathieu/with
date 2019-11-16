@@ -37,17 +37,36 @@ module Expressions=
                         yield getMember(memberAccess)
                     }
                 | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.Parameter; ExpressionType.MemberAccess |], expr.NodeType))
+        let rec _withMemberAccess (expr:Expression) : DataLens=
+
+            match expr.NodeType with
+            | ExpressionType.MemberAccess->
+                let memberAccess = expr :?>MemberExpression
+                if memberAccess.Expression.NodeType = ExpressionType.Parameter then
+                    DataLens._fieldOrPropertyToLens <| getMember memberAccess
+                else
+                    let current = _withMemberAccess memberAccess.Expression
+                    let next = DataLens._fieldOrPropertyToLens <| getMember memberAccess
+                    DataLens._compose next current
+            | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
+
 
         let rec withMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
+
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
                     DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
                 else
-                    let inner = withMemberAccess memberAccess.Expression
-                    let current = DataLens.fieldOrPropertyToLens<'T,'U> <| getMember memberAccess
-                    DataLens.compose inner current
+                    let l=_withMemberAccess expr
+                    //let withMemberAccessG = 
+
+                    //let inner = _withMemberAccess memberAccess.Expression
+                    //let current = DataLens.fieldOrPropertyToLens <| getMember memberAccess
+                    //DataLens.compose current inner
+                    DataLens.cast<'T,'U> l
+                    //failwith "!"
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
     module private rec EqEq=

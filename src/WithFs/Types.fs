@@ -21,4 +21,5 @@ type IPreparedCopy<'T, 'TValue1, 'TValue2, 'TValue3, 'TValue4> =
     abstract member Copy : 'T * 'TValue1 * 'TValue2 * 'TValue3 * 'TValue4 -> 'T
 type NameAndValue = System.Collections.Generic.KeyValuePair<string, obj>
 
-exception MissingValueException of string
+type MissingValueException(name:string)=
+    inherit Exception(String.Format("Missing value named: {0}", name))
