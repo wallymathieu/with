@@ -88,8 +88,6 @@ module Reflection =
 
     [<CompiledName("GetIDictionaryTypeParameters")>]
     let getIDictionaryTypeParameters =
-        let dic = ConditionalWeakTable<Type, Type []>()
-
         let create (tp: Type) =
             let t =
                 seq {
