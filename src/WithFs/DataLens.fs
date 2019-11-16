@@ -2,8 +2,9 @@
 
 open With
 open With.Internals
-///Copy of Lens definition from FSharpx.Extras :
-// https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs
+/// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
+/// A lens is sort of like a property for immutable data on steroids.
+/// You can compose and combine lenses 
 type DataLens<'T, 'U> =
     { /// Get value from 'T
       Get: 'T -> 'U
@@ -25,7 +26,8 @@ module DataLens =
     let inline combine (l1: DataLens<'t, 'v1>) (l2: DataLens<'t, 'v2>) =
         { Get = fun t -> (l1.Get t, l2.Get t)
           Set = fun (v1, v2) t -> l2.Set v2 (l1.Set v1 t) }
-    /// Sequentially composes two lenses. Can be used to 
+    /// Sequentially composes two lenses. Can be used to "drill down" into an object grap.
+    /// For instance to be able to do something <c> t.Customer.Name = v </c> for immutable data.
     let inline compose (l1: DataLens<'TU, 'U>) (l2: DataLens<'T, 'TU>) =
         { Get = l2.Get >> l1.Get
           Set = l1.Set >> l2.Update }
