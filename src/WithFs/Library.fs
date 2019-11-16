@@ -96,13 +96,25 @@ module Expressions=
                 let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> (b.Right:?>BinaryExpression) c
                 DataLens.combine left right
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
+    /// create a data lens out an expression that looks like : 
+    /// <c>t=>t.Property</c>
+    /// or in f# terms:
+    /// <c>fun t -> t.Property</c>
     [<CompiledName("WithMemberAccess")>]
     let withMemberAccess<'T,'U> (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
         DataLens.ofMemberAccess lambda.Body
+    /// create a data lens out an expression that looks like : 
+    /// <c>(t,v)=>t.Property == v</c>
+    /// or in f# terms:
+    /// <c>fun (t,v)-> t.Property = v</c>
     [<CompiledName("WithEqualEqualOrCall")>]
     let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = Ctx.ofExpression lambda
         DataLens.ofBinaryExpressionEquals lambda.Body c
+    /// create a data lens out an expression that looks like : 
+    /// <c>(t,v1,v2)=>t.Property1 == v1 && t.Property2 == v2</c>
+    /// or in f# terms:
+    /// <c>fun (t,v1,v2)-> t.Property1 = v1 && t.Property2 = v2</c>
     [<CompiledName("WithEqualEqualOrCall2")>]
     let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,'U1*'U2>=
         let c = Ctx.ofExpression lambda
