@@ -214,9 +214,26 @@ module Reflection =
             failwithf "Missing constructor parameters on '%s' for: [%s]" tDest.Name (String.Join(",", unusedKeys))
         else instance
 
-type CreateInstanceFromValues =
-    static member Create(tSource, tDest, parent, values) = Reflection.create tSource tDest parent values
-    static member Create<'TDestination>(parent, values): 'TDestination =
-        Reflection.create (parent.GetType()) typeof<'TDestination> parent values :?> 'TDestination
-    static member Create<'TSource, 'TDestination>(parent: 'TSource, values): 'TDestination =
-        Reflection.create typeof<'TSource> typeof<'TDestination> parent values :?> 'TDestination
+module InternalExpressions=
+    [<CompiledName("FSharpCreate")>]
+    let fieldOrPropertyToLens<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
+        let ctor = Reflection.getConstructorWithMostParameters tDest
+        let parameterValue=Expression.Parameter(typeof<'V>,"v")
+        let parameterT = Expression.Parameter(typeof<'T>,"t")
+        let mapParamToExpressionParam (param:ParameterInfo) : Expression =
+            match value.Name.Equals(param.Name, StringComparison.CurrentCultureIgnoreCase) with
+            | true -> //coerce v (param.ParameterType)
+                parameterValue :> Expression
+            | false ->
+                match props |> Array.tryFind (fun p -> p.Name.Equals(param.Name, StringComparison.OrdinalIgnoreCase)) with
+                | Some p -> 
+                    Expression.PropertyOrField(parameterT,p.Name) :> Expression
+                | None -> raise (MissingValueException param.Name)
+
+        let parameters : Expression list = 
+            ctor.GetParameters() |> Array.map mapParamToExpressionParam |> Array.toList
+        let expressions : Expression list = [Expression.New(ctor, parameters)]
+
+        Expression.Lambda<Func<'V,'T,'T>>(Expression.Block(expressions),
+            parameterValue,parameterT)

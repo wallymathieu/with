@@ -37,8 +37,10 @@ module DataLens =
     let fieldOrPropertyToLens<'T, 'U> v: DataLens<'T, 'U> =
         let typ = typeof<'T>
         let n = FieldOrProperty.name v
+        let lens = InternalExpressions.fieldOrPropertyToLens<'T,'U> typ typ v
+        let compiledLens = lens.Compile()
         { Get = fun t -> FieldOrProperty.value v t :?> 'U
-          Set = fun v t -> Reflection.create typ typ t [ NameAndValue(n, v) ] :?> 'T }
+          Set = fun v t -> compiledLens.Invoke(v,t) }
     /// 
     let internal fieldOrPropertyToLensUntyped v: DataLens =
         let typ = FieldOrProperty.declaringType v
