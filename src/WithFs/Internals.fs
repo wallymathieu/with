@@ -215,8 +215,8 @@ module Reflection =
         else instance
 
 module InternalExpressions=
-    [<CompiledName("FSharpCreate")>]
-    let fieldOrPropertyToLens<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+    [<CompiledName("FieldOrPropertyToSet")>]
+    let fieldOrPropertyToSet<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
         let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
         let ctor = Reflection.getConstructorWithMostParameters tDest
         let parameterValue=Expression.Parameter(typeof<'V>,"v")
