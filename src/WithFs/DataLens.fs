@@ -33,18 +33,28 @@ module DataLens =
           Set = l1.Set >> l2.Update }
     /// Sequentially composes two lenses in an untyped manner
     let inline internal composeUntyped (l1: DataLens) (l2: DataLens) = compose l1 l2
-    /// Given field or property access, return lens implemented through reflection
+    /// Given field or property access, return lens implemented through reflection and expression compile
     let fieldOrPropertyToLens<'T, 'U> v: DataLens<'T, 'U> =
         let typ = typeof<'T>
-        let n = FieldOrProperty.name v
-        { Get = fun t -> FieldOrProperty.value v t :?> 'U
-          Set = fun v t -> Reflection.create typ typ t [ NameAndValue(n, v) ] :?> 'T }
+        let compiledSetter = 
+            let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> typ typ v
+            lens.Compile()
+        let compiledGetter =
+            let lens = InternalExpressions.fieldOrPropertyToGet<'T,'U> v
+            lens.Compile()
+        { Get = fun t -> compiledGetter.Invoke(t)
+          Set = fun v t -> compiledSetter.Invoke(v,t) }
     /// 
     let internal fieldOrPropertyToLensUntyped v: DataLens =
         let typ = FieldOrProperty.declaringType v
-        let n = FieldOrProperty.name v
-        { Get = fun t -> FieldOrProperty.value v t
-          Set = fun v t -> Reflection.create typ typ t [ NameAndValue(n, v) ] }
+        let compiledSetter = 
+            let lens = InternalExpressions.fieldOrPropertyToSetUntyped typ typ v
+            lens.Compile()
+        let compiledGetter =
+            let lens = InternalExpressions.fieldOrPropertyToGetUntyped typ v
+            lens.Compile()
+        { Get = fun t -> compiledGetter.DynamicInvoke(t)
+          Set = fun v t -> compiledSetter.DynamicInvoke(v,t) }
     /// Split a combination of 2 2-tuples into a 3-tuple
     let ofLeftTuple(): DataLens<('v1 * 'v2) * 'v3, 'v1 * 'v2 * 'v3> =
         { Get = fun ((v1, v2), v3) -> (v1, v2, v3)

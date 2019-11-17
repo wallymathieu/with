@@ -1,7 +1,5 @@
 ﻿using System;
-using With;
 using System.Linq;
-using System.Collections.Generic;
 using BenchmarkDotNet.Running;
 
 namespace Timing
@@ -20,9 +18,7 @@ namespace Timing
                 }
             default: {
                     Console.WriteLine (@"Select one of 
-new
 clone
-equal
 ");
                     break;
                 }
