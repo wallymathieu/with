@@ -58,30 +58,20 @@ public class CustomerChangeHandler
 To generate use the Timings project.
 
 ``` ini
-
-BenchmarkDotNet=v0.10.10, OS=Mac OS X 10.13
-Processor=Intel Core i7-4770HQ CPU 2.20GHz (Haswell), ProcessorCount=8
-.NET Core SDK=2.1.301
-  [Host]     : .NET Core 2.0.5 (Framework 4.6.0.0), 64bit RyuJIT
-  DefaultJob : .NET Core 2.0.5 (Framework 4.6.0.0), 64bit RyuJIT
-
-
+BenchmarkDotNet=v0.10.10, OS=Windows 10.0.19023
+Processor=Intel Core i7-8650U CPU 1.90GHz, ProcessorCount=8
+.NET Core SDK=3.0.100
+  [Host]     : .NET Core 2.1.13 (Framework 4.6.28008.01), 64bit RyuJIT
+  DefaultJob : .NET Core 2.1.13 (Framework 4.6.28008.01), 64bit RyuJIT
 ```
-|                   Method |        Mean |      Error |       StdDev |
-|------------------------- |------------:|-----------:|-------------:|
-|        Timing_equalequal |  9,903.2 ns | 192.309 ns |   236.172 ns |
-| Timing_propertyname_only | 22,653.1 ns | 451.988 ns | 1,001.574 ns |
-|            Timing_fluent | 22,899.5 ns | 471.217 ns |   885.060 ns |
-|           Timing_by_hand |    508.8 ns |   9.032 ns |     8.006 ns |
+
+|            Method |     Mean |    Error |   StdDev |
+|------------------ |---------:|---------:|---------:|
+| Timing_equalequal | 624.4 ns | 16.50 ns | 47.86 ns |
+|    Timing_by_hand | 548.6 ns | 12.37 ns | 12.70 ns |
 
 
-### Reasoning about performance
-
-As can be seen there is a slight penalty to use the different constructs.
-
-As always with performance. Many times, you need to be aware of the impact of different things. Writing in assembler is contraproductive since it's much harder to structure your code.
-
-The benefit of using immutable types and _With_ is that you can get started with multithreaded programming and pass your objects to different threads. Later on if you find that some part of your code is done very often, then that part can be rewritten to something more performant.
+As can be seen there is a slight penalty to use the different constructs. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
 
 ## Enumerable extensions provided by the library
 

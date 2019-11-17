@@ -197,7 +197,7 @@ module Reflection =
 
         ctorParams |> Array.map map
 
-    [<CompiledName("FSharpCreate")>]
+    [<CompiledName("FSharpCreate")>][<Obsolete("Use InternalExpressions")>]
     let create (tSource: Type) (tDest: Type) (parent: obj) (values: NameAndValue seq) =
         let props = fieldsOrProperties tSource |> Seq.toArray
         let ctor = getConstructorWithMostParameters tDest
@@ -215,12 +215,12 @@ module Reflection =
         else instance
 
 module InternalExpressions=
-    [<CompiledName("FieldOrPropertyToSet")>]
-    let fieldOrPropertyToSet<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+    let internal fieldOrPropertyToSetT (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
         let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
         let ctor = Reflection.getConstructorWithMostParameters tDest
-        let parameterValue=Expression.Parameter(typeof<'V>,"v")
-        let parameterT = Expression.Parameter(typeof<'T>,"t")
+        let valueType =FieldOrProperty.fieldType value
+        let parameterValue=Expression.Parameter(valueType,"v")
+        let parameterT = Expression.Parameter(tSource,"t")
         let mapParamToExpressionParam (param:ParameterInfo) : Expression =
             match value.Name.Equals(param.Name, StringComparison.CurrentCultureIgnoreCase) with
             | true -> //coerce v (param.ParameterType)
@@ -234,6 +234,27 @@ module InternalExpressions=
         let parameters : Expression list = 
             ctor.GetParameters() |> Array.map mapParamToExpressionParam |> Array.toList
         let expressions : Expression list = [Expression.New(ctor, parameters)]
+        (Expression.Block(expressions),[parameterValue;parameterT])
+    [<CompiledName("FieldOrPropertyToSetUntyped")>]
+    let fieldOrPropertyToSetUntyped (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+        Expression.Lambda(block, parameters)
+        
+    [<CompiledName("FieldOrPropertyToSet")>]
+    let fieldOrPropertyToSet<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+        Expression.Lambda<Func<'V,'T,'T>>(block, parameters)
+    let internal fieldOrPropertyToGetT (tSource: Type) (value: FieldOrProperty) =
+        let parameterT = Expression.Parameter(tSource, "t")
+        let expressions = [Expression.PropertyOrField(parameterT,value.Name) :> Expression]
+        (Expression.Block(expressions),[parameterT])
 
-        Expression.Lambda<Func<'V,'T,'T>>(Expression.Block(expressions),
-            parameterValue,parameterT)
+    [<CompiledName("FieldOrPropertyToGetUntyped")>]
+    let fieldOrPropertyToGetUntyped (tSource: Type) (value: FieldOrProperty) =
+        let (block,parameters)=fieldOrPropertyToGetT tSource value
+        Expression.Lambda(block,parameters)
+
+    [<CompiledName("FieldOrPropertyToGet")>]
+    let fieldOrPropertyToGet<'T,'V> (value: FieldOrProperty) =
+        let (block,parameters)=fieldOrPropertyToGetT typeof<'T> value
+        Expression.Lambda<Func<'T,'V>>(block,parameters)
