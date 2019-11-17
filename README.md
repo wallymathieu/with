@@ -59,20 +59,19 @@ To generate use the Timings project.
 
 ``` ini
 
-BenchmarkDotNet=v0.10.10, OS=Mac OS X 10.13
+BenchmarkDotNet=v0.10.10, OS=Mac OS X 10.15
 Processor=Intel Core i7-4770HQ CPU 2.20GHz (Haswell), ProcessorCount=8
-.NET Core SDK=2.1.301
-  [Host]     : .NET Core 2.0.5 (Framework 4.6.0.0), 64bit RyuJIT
-  DefaultJob : .NET Core 2.0.5 (Framework 4.6.0.0), 64bit RyuJIT
-
-
+.NET Core SDK=3.0.100
+  [Host]     : .NET Core 2.0.7 (Framework 4.6.0.0), 64bit RyuJIT
+  DefaultJob : .NET Core 2.0.7 (Framework 4.6.0.0), 64bit RyuJIT
 ```
-|                   Method |        Mean |      Error |       StdDev |
-|------------------------- |------------:|-----------:|-------------:|
-|        Timing_equalequal |  9,903.2 ns | 192.309 ns |   236.172 ns |
-| Timing_propertyname_only | 22,653.1 ns | 451.988 ns | 1,001.574 ns |
-|            Timing_fluent | 22,899.5 ns | 471.217 ns |   885.060 ns |
-|           Timing_by_hand |    508.8 ns |   9.032 ns |     8.006 ns |
+
+|            Method |        Mean |      Error |     StdDev |
+|------------------ |------------:|-----------:|-----------:|
+| Timing_equalequal | 10,284.0 ns | 193.697 ns | 161.746 ns |
+|    Timing_by_hand |    394.1 ns |   7.720 ns |   7.928 ns |
+
+
 
 
 ### Reasoning about performance
