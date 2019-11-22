@@ -38,6 +38,8 @@ namespace With.Collections
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="compare">The compare function.</param>
+        [Obsolete("Not a common enough pattern")]
+
         public static IEnumerable<T> Maxima<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMax(Comparer.Create(compare));
@@ -48,6 +50,7 @@ namespace With.Collections
         /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="compare">The compare function.</param>
+        [Obsolete("Not a common enough pattern")]
         public static IEnumerable<T> Maximums<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMax(Comparer.Create(compare));
