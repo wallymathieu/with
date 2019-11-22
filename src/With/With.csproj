@@ -18,6 +18,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wallymathieu/with.git</RepositoryUrl>
+    <PackageTags>copy;clone;with;Immutable;Extensions</PackageTags>
+
     <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2019</Copyright>
