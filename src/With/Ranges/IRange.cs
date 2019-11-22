@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using With.Collections;
 
@@ -7,6 +8,7 @@ namespace With.Ranges
     /// Represents a range, where the collection need not be enumerated.
     /// </summary>
     /// <typeparam name="T">Is an integer or decimal.</typeparam>
+    [Obsolete("Use c# 8 range expressions")]
     public interface IRange<T> : IEnumerable<T>, IContainer<T> //where T: IComparable, IComparable<T>
     {
         /// <summary>

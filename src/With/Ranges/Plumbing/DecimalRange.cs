@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace With.Ranges.Plumbing
 {
+    [Obsolete("Use c# 8 range expressions")]
     internal class DecimalRange : IRange<Decimal>
     {
         private readonly Decimal @from;

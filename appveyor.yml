@@ -10,3 +10,4 @@ test_script:
 branches:
   only: 
     - master
+    - v6

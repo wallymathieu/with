@@ -8,6 +8,7 @@ namespace With.Ranges
     /// <summary>
     /// Range represents a sequence of numeric or comparable values
     /// </summary>
+    [Obsolete("Use c# 8 range expressions")]
     public class Range
     {
         /// <summary>
@@ -27,6 +28,7 @@ namespace With.Ranges
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Obsolete("Use c# 8 range expressions")]
     public class Range<T> : IEnumerable<T>, IRange<T>
         where T : IComparable, IComparable<T>
     {
