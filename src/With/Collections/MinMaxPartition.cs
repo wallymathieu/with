@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace With.Collections
@@ -5,6 +6,7 @@ namespace With.Collections
     /// <summary>
     /// A partition of a sequence into minima and maxima elements
     /// </summary>
+    [Obsolete("Not a common enough pattern")]
     public class MinMaxPartition<T> : IEnumerable<IEnumerable<T>>
     {
         /// <summary>

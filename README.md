@@ -2,7 +2,7 @@
 
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
-### What can we learn from "With"?
+## What can we learn from "With"
 
 Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) can help with doing extensions to a language in a relatively simple way.
 
@@ -70,33 +70,9 @@ Processor=Intel Core i7-8650U CPU 1.90GHz, ProcessorCount=8
 | Timing_equalequal | 624.4 ns | 16.50 ns | 47.86 ns |
 |    Timing_by_hand | 548.6 ns | 12.37 ns | 12.70 ns |
 
-
 As can be seen there is a slight penalty to use the different constructs. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
 
 ## Enumerable extensions provided by the library
-
-### Minima, Maxima
-Alias (Minimums, Maximums)
-
-These function finds the minima or the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
-
-```c#
-using With.Collections;
-...
-var minima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.Minima((a,b)=>a.i.CompareTo(b.i));
-var maxima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.Maxima((a,b)=>a.i.CompareTo(b.i));
-```
-### MinimaBy, MaximaBy
-Alias (MinimumsBy, MaximumsBy)
-
-These function finds the minima or the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
-
-```c#
-using With.Collections;
-...
-var minima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MinimaBy(a=>a.i);
-var maxima = new []{ new { a = "a", i = 10 }, new { a = "b", i = 15 }, new { a = "c", i = 20 } }.MaximaBy(a=>a.i);
-```
 
 ### Partition
 
@@ -111,9 +87,11 @@ var partition = new[] { 1,2,3,4,5,6,7}.Partition(num=>num%2==0).ToArray();
 ```
 
 ### Chunk
+
 Enumerates over the items, chunking them together based on the return value of the block.
 
 Consecutive elements which return the same block value are chunked together.
+
 ```c#
 using With.Collections;
 ...
@@ -138,8 +116,9 @@ Returns a new array that is a one-dimensional flattening of self (recursively).
 That is, for every element that is an array, extract its elements into the new array.
 
 The optional level argument determines the level of recursion to flatten.
-        
+
 ### Cycle
+
 Yields each element of collection repeatedly n times or forever if null is given.
 If a non-positive number is given or the collection is empty, returns an empty enumerable.
 
