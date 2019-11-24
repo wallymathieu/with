@@ -8,9 +8,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Types.fs" />
-    <Compile Include="Collections.fs" />
-    <Compile Include="Internals.fs" />
     <Compile Include="DataLens.fs" />
+    <Compile Include="Internals.fs" />
     <Compile Include="Library.fs" />
     <Compile Include="Prepare.fs" />
   </ItemGroup>

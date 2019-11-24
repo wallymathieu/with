@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Ploeh.AutoFixture.Xunit2;
 using Tests.Json;
-using With.Ranges;
 using Xunit;
 
 namespace Tests.Collections
@@ -14,11 +13,11 @@ namespace Tests.Collections
             new []{4, 5, 6},
             new []{7, 8, 9},
             new []{10}
-        }.ToJson(), 1.To(10).EachSlice(3).ToJson());
+        }.ToJson(), Enumerable.Range(1,10).EachSlice(3).ToJson());
 
         [Theory, AutoData]
         public void Int_range(int size) => 
-            Assert.Equal(size, 0.To(size * 2 - 1).EachSlice(2).Count());
+            Assert.Equal(size, Enumerable.Range(0, size * 2 - 1).EachSlice(2).Count());
 
         [Theory, AutoData]
         public void Array(int size) => 

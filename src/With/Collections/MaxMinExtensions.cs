@@ -5,10 +5,6 @@ using System.Linq;
 namespace With.Collections
 {
     /// <summary>
-    /// Maximum, minimum extensions. 
-    /// For the alias, see https://en.wikipedia.org/wiki/Maxima_and_minima
-    /// Maximums and minimums are the colloquial expressions. You should be able to use
-    /// whatever you fancy.
     /// </summary>
     public static class MaxMinExtensions
     {
@@ -32,29 +28,7 @@ namespace With.Collections
         {
             return self.GetMax(Comparer.Create(compare)).FirstOrDefault();
         }
-        /// <summary>
-        /// Returns maximums based on the compare function.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
-        /// <param name="self">The sequence that contains the values</param>
-        /// <param name="compare">The compare function.</param>
-        [Obsolete("Not a common enough pattern")]
 
-        public static IEnumerable<T> Maxima<T>(this IEnumerable<T> self, Func<T, T, int> compare)
-        {
-            return self.GetMax(Comparer.Create(compare));
-        }
-        /// <summary>
-        /// This function finds the maximums in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
-        /// <param name="self">The sequence that contains the values</param>
-        /// <param name="compare">The compare function.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> Maximums<T>(this IEnumerable<T> self, Func<T, T, int> compare)
-        {
-            return self.GetMax(Comparer.Create(compare));
-        }
         /// <summary>
         /// Returns the first maximum based on the mapped values.
         /// </summary>
@@ -66,30 +40,7 @@ namespace With.Collections
         {
             return self.GetMax(Comparer.Create(map)).FirstOrDefault();
         }
-        /// <summary>
-        /// This function finds the maximums in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
-        /// <param name="self">The sequence that contains the values</param>
-        /// <param name="map">A map from the element to a value used for calculating max.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> MaximaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            return self.GetMax(Comparer.Create(map));
-        }
-        /// <summary>
-        /// This function finds the maxima in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of maxima (all max elements).</returns>
-        /// <param name="self">The sequence that contains the values</param>
-        /// <param name="map">A map from the element to a value used for calculating max.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> MaximumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            return self.GetMax(Comparer.Create(map));
-        }
+
         private static IEnumerable<T> GetMax<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
             using (var enumerator = self.GetEnumerator())
@@ -121,28 +72,7 @@ namespace With.Collections
         {
             return self.GetMin(Comparer.Create(compare)).FirstOrDefault();
         }
-        /// <summary>
-        /// This function finds the minima in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
-        /// <param name="self">The sequence that contains the minimum value</param>
-        /// <param name="compare">The compare function.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> Minima<T>(this IEnumerable<T> self, Func<T, T, int> compare)
-        {
-            return self.GetMin(Comparer.Create(compare));
-        }
-        /// <summary>
-        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
-        /// <param name="self">The sequence that contains the minimum value</param>
-        /// <param name="compare">The compare function.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> Minimums<T>(this IEnumerable<T> self, Func<T, T, int> compare)
-        {
-            return self.GetMin(Comparer.Create(compare));
-        }
+
         /// <summary>
         /// Returns the first minimum based on the mapped values.
         /// </summary>
@@ -154,30 +84,7 @@ namespace With.Collections
         {
             return self.GetMin(Comparer.Create(map)).FirstOrDefault();
         }
-        /// <summary>
-        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
-        /// <param name="self">The sequence that contains the minimum value</param>
-        /// <param name="map">A map from the element to a value used for calculating min.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> MinimaBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            return self.GetMin(Comparer.Create(map));
-        }
-        /// <summary>
-        /// This function finds the minimums in a collection of values, preserving the sequence of retained values from the supplied list.
-        /// </summary>
-        /// <returns>A sequence of elements considered part of minima (all min elements).</returns>
-        /// <param name="self">The sequence that contains the minimum value</param>
-        /// <param name="map">A map from the element to a value used for calculating min.</param>
-        [Obsolete("Not a common enough pattern")]
-        public static IEnumerable<T> MinimumsBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            return self.GetMin(Comparer.Create(map));
-        }
+
         private static IEnumerable<T> GetMin<T>(this IEnumerable<T> self, IComparer<T> compare)
         {
             //var list = self.ToList(compare).Min(); does not work when using comparer
@@ -200,40 +107,7 @@ namespace With.Collections
                 return self.GetEquivalentBy(current, compare);
             }
         }
-        /// <summary>
-        /// Returns both minimums and maximums from the sequence
-        /// </summary>
-        [Obsolete("Not a common enough pattern")]
-        public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self)
-            where T : IComparable
-        {
-            var array = self.ToArray();
-            var comparer = Comparer<T>.Default;
-            return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
-        }
-        /// <summary>
-        /// Returns both minimums and maximums from the sequence
-        /// </summary>
-        [Obsolete("Not a common enough pattern")]
-        public static MinMaxPartition<T> MinMax<T>(this IEnumerable<T> self, Func<T, T, int> compare)
-        {
-            var array = self.ToArray();
-            var comparer = Comparer.Create(compare);
-            return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
-        }
-        /// <summary>
-        /// Returns both minimums and maximums from the sequence
-        /// </summary>
-        [Obsolete("Not a common enough pattern")]
-        public static MinMaxPartition<T> MinMaxBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
-            where TComparable : IComparable
-        {
-            var array = self.ToArray();
-            var comparer = Comparer.Create(map);
-            return new MinMaxPartition<T>(array.GetMin(comparer), array.GetMax(comparer));
-        }
 
-        /*MinMax, MinMaxBy*/
     }
 }
 

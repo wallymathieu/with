@@ -43,7 +43,7 @@ namespace With.RegularExpressions
         /// <summary>
         /// 
         /// </summary>
-        public static IEnumerable<TRet> Grep<T, TRet>(this IEnumerable<T> self, IContainer<T> pattern, Func<T, TRet> map)
+        public static IEnumerable<TRet> Grep<T, TRet>(this IEnumerable<T> self, ICollection<T> pattern, Func<T, TRet> map)
         {
             return self.Grep(pattern).Select(map);
         }
@@ -51,7 +51,7 @@ namespace With.RegularExpressions
         /// <summary>
         /// 
         /// </summary>
-        public static IEnumerable<T> Grep<T>(this IEnumerable<T> self, IContainer<T> pattern)
+        public static IEnumerable<T> Grep<T>(this IEnumerable<T> self, ICollection<T> pattern)
         {
             return self.Where(s => pattern.Contains(s));
         }
@@ -88,21 +88,6 @@ namespace With.RegularExpressions
             return self.Where(s => pattern.Contains(s));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public static IEnumerable<TRet> Grep<T, TRet>(this IEnumerable<T> self, ICollection<T> pattern, Func<T, TRet> map)
-        {
-            return self.Grep(pattern).Select(map);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static IEnumerable<T> Grep<T>(this IEnumerable<T> self, ICollection<T> pattern)
-        {
-            return self.Where(s => pattern.Contains(s));
-        }
 
     }
 }

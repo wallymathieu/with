@@ -6,6 +6,8 @@ open With.Lenses
 open System.Linq.Expressions
 module internal Object=
     let equals a b=Object.Equals(a,b)
+
+
 module Expressions=
     module private Ctx=
         type Context = { Source:ParameterExpression; Parameters: ParameterExpression list }
@@ -47,10 +49,10 @@ module Expressions=
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    DataLens.fieldOrPropertyToLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
                 else
                     let current = ofMemberAccessUntyped memberAccess.Expression
-                    let next = DataLens.fieldOrPropertyToLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    let next = FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
                     DataLens.composeUntyped next current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
@@ -60,7 +62,7 @@ module Expressions=
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    DataLens.fieldOrPropertyToLens<'T,'U> <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLens<'T,'U> <| FieldOrProperty.ofMemberExpression memberAccess
                 else
                     // unable to continue with typed expressions:
                     let l=ofMemberAccessUntyped expr
