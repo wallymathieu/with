@@ -5,10 +5,6 @@ using System.Linq;
 namespace With.Collections
 {
     /// <summary>
-    /// Maximum, minimum extensions. 
-    /// For the alias, see https://en.wikipedia.org/wiki/Maxima_and_minima
-    /// Maximums and minimums are the colloquial expressions. You should be able to use
-    /// whatever you fancy.
     /// </summary>
     public static class MaxMinExtensions
     {

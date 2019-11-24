@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using With.Ranges;
 using With.RegularExpressions;
 using Xunit;
 
@@ -17,20 +16,20 @@ namespace Tests.RegularExpressions
         [Fact]
         public void GrepOther()
         {
-            Assert.Equal(38.To(44).ToArray(),
-                1.To(100).Grep(38.To(44)).ToArray());
+            Assert.Equal(Enumerable.Range(38, 44).ToArray(),
+                Enumerable.Range(1, 100).Grep(Enumerable.Range(38, 44).ToArray()).ToArray());
         }
         [Fact]
         public void GrepHash()
         {
-            Assert.Equal<int[]>(38.To(44).ToArray(),
-                1.To(100).Grep(38.To(44).ToDictionary(i => i, i => i)).ToArray());
+            Assert.Equal<int[]>(Enumerable.Range(38, 44).ToArray(),
+                Enumerable.Range(1, 100).Grep(Enumerable.Range(38, 44).ToDictionary(i => i, i => i)).ToArray());
         }
         [Fact]
         public void GrepSet()
         {
-            Assert.Equal<int[]>(38.To(44).ToArray(),
-                1.To(100).Grep(new HashSet<int>(38.To(44))).ToArray());
+            Assert.Equal<int[]>(Enumerable.Range(38, 44).ToArray(),
+                Enumerable.Range(1, 100).Grep(new HashSet<int>(Enumerable.Range(38, 44))).ToArray());
         }
     }
 }

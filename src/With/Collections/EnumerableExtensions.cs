@@ -16,7 +16,7 @@ namespace With.Collections
         /// </summary>
         /// <remarks>
         /// Note that the same element will at most 2 times. For example for
-        /// 0.To(3).Pairwise(Tuple.Create).ToArray() you will get new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) }
+        /// Enumerable.Range(0, 3).Pairwise(Tuple.Create).ToArray() you will get new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) }
         /// </remarks>
         /// <param name="collection"></param>
         /// <param name="func">The map of pairs</param>

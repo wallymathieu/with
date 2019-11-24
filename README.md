@@ -65,10 +65,10 @@ Processor=Intel Core i7-8650U CPU 1.90GHz, ProcessorCount=8
   DefaultJob : .NET Core 2.1.13 (Framework 4.6.28008.01), 64bit RyuJIT
 ```
 
-|            Method |     Mean |    Error |   StdDev |
-|------------------ |---------:|---------:|---------:|
-| Timing_equalequal | 624.4 ns | 16.50 ns | 47.86 ns |
-|    Timing_by_hand | 548.6 ns | 12.37 ns | 12.70 ns |
+|               Method |     Mean |    Error |   StdDev |
+|--------------------- |---------:|---------:|---------:|
+| Timing using library | 624.4 ns | 16.50 ns | 47.86 ns |
+| When writing in code | 548.6 ns | 12.37 ns | 12.70 ns |
 
 As can be seen there is a slight penalty to use the different constructs. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
 
@@ -139,7 +139,7 @@ Yields the result of the application of the map function over each pair.
 ```c#
 using With.Collections;
 ...
-var pairs = 0.To(3).Pairwise(Tuple.Create).ToArray(); 
+var pairs = Enumerable.Range(0, 3).Pairwise(Tuple.Create).ToArray(); 
 // will be 
 Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
 ```
