@@ -10,7 +10,7 @@ namespace Tests.Collections
         [Fact]
         public void Pairwise()
         {
-            var r = Enumerable.Range(0, 4);
+            var r = Enumerable.Range(0, 5);
             var result = r.Pairwise(Tuple.Create);
             Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3), Tuple.Create(3, 4) },
                 result.ToArray());
@@ -18,7 +18,7 @@ namespace Tests.Collections
         [Fact]
         public void Pairwise_tuple()
         {
-            var result = Enumerable.Range(0, 4).Pairwise((i, i1) => (i,i1)); //TODO: Add overload next API version
+            var result = Enumerable.Range(0, 5).Pairwise((i, i1) => (i,i1)); //TODO: Add overload next API version
             Assert.Equal(new[] { (0, 1), (1, 2), (2, 3), (3, 4) },
                 result.ToArray());
         }
@@ -26,14 +26,14 @@ namespace Tests.Collections
         [Fact]
         public void Pairwise_for_list_of_odd_length()
         {
-            var result = Enumerable.Range(0, 3).Pairwise(Tuple.Create);
+            var result = Enumerable.Range(0, 4).Pairwise(Tuple.Create);
             Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },
                 result.ToArray());
         }
         [Fact]
         public void Pairwise_for_list_of_odd_length_tuple()
         {
-            var result = Enumerable.Range(0, 3).Pairwise((i, i1) => (i,i1)); //TODO: Add overload next API version
+            var result = Enumerable.Range(0, 4).Pairwise((i, i1) => (i,i1)); //TODO: Add overload next API version
             Assert.Equal(new[] { (0, 1), (1, 2), (2, 3) },
                 result.ToArray());
         }

@@ -139,7 +139,7 @@ Yields the result of the application of the map function over each pair.
 ```c#
 using With.Collections;
 ...
-var pairs = Enumerable.Range(0, 3).Pairwise(Tuple.Create).ToArray(); 
+var pairs = Enumerable.Range(0, 4).Pairwise(Tuple.Create).ToArray(); 
 // will be 
 Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
 ```
