@@ -1,4 +1,6 @@
 using System;
+using With;
+using With.Lenses;
 
 namespace Tests.With.TestData
 {
@@ -13,5 +15,7 @@ namespace Tests.With.TestData
         }
         public int Id { get { return id; } private set { throw new Exception(); } }
         public Customer Customer { get { return customer; } private set { throw new Exception(); } }
+        public static DataLens<Sale,Customer> _Customer = LensBuilder<Sale>.Of(c=>c.Customer).Build();
+        public static DataLens<Sale,int> _Id = LensBuilder<Sale>.Of(c=>c.Id).Build();
     }
 }
