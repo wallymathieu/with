@@ -40,8 +40,11 @@ public class CustomerChangeHandler
 {
     // start with initializing the copy update expression once (main cost is around parsing expressions)
     private static readonly IPreparedCopy<Customer, int, string, IEnumerable<string>> CopyUpdate =
-        LensBuilder<Customer>.Of(m => m.Id).And(m => m.Name).And(m => m.Preferences)
-                          .BuildPreparedCopy();
+        LensBuilder<Customer>
+            .Of(m => m.Id)
+            .And(m => m.Name)
+            .And(m => m.Preferences)
+            .BuildPreparedCopy();
     public void Handle()
     {
         // fetch customer, say:

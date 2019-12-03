@@ -1,11 +1,10 @@
 using System;
 using With;
-using System.Collections.Generic;
 using BenchmarkDotNet.Attributes;
 
 namespace Timing
 {
-    public class TimingsClone : TimingsBase
+    public class Copy_update_single_property
     {
         private static readonly MyClass _myClass = new MyClass(1, "2");
 
@@ -30,14 +29,14 @@ namespace Timing
         }
 
         [Benchmark]
-        public void Timing_equalequal()
+        public void Using_static_prepered_copy_expression()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);
             var res = _myClassPreparedCopy.Copy(_myClass, time.ToString());
         }
 
         [Benchmark]
-        public void Timing_by_hand()
+        public void Hand_written_method_returning_new_instance()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);
             var res = _myClass.SetMyProperty2(time.ToString());
