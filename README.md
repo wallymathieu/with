@@ -78,6 +78,8 @@ Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 
 As can be seen there is a slight penalty to use the different approaches. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
 
+The language ext approach has some disadvantages that you might be OK with, for instance that it complicates your build and makes it more dependent on specific build environment (thought that could be fixed by contributing to [dotnet codegen](https://www.nuget.org/packages/dotnet-codegen)).
+
 ## Enumerable extensions provided by the library
 
 ### Partition
