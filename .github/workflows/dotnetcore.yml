@@ -14,7 +14,7 @@ jobs:
       with:
         dotnet-version: 3.0.100
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build --configuration Release ./src/With
     - name: Test c#
       run: dotnet test ./tests/Tests --configuration Release
     - name: Test f#
