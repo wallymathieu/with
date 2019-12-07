@@ -62,7 +62,7 @@ type Prepare=
         let eqeq=Expressions.withEqualEqualOrCall2 expr 
         { new IPreparedCopy<'T, 'TValue1,'TValue2> 
           with 
-            member __.Copy(t,v1,v2)= DataLens.set (v1,v2) t eqeq }
+            member __.Copy(t,v1,v2)= DataLens.set t (v1,v2) eqeq }
 
 open System.Runtime.CompilerServices
 /// Extensions to simplify usage in c#
@@ -74,7 +74,7 @@ type LensBuilderExtensions() =
         let lens = self.Build()
         { new IPreparedCopy<'T, 'U1> 
           with 
-            member __.Copy(t,v1)= DataLens.set v1 t lens }
+            member __.Copy(t,v1)= DataLens.set t v1 lens }
 
     /// Build prepared copy
     [<Extension>]
@@ -82,7 +82,7 @@ type LensBuilderExtensions() =
         let lens = self.Build()
         { new IPreparedCopy<'T, 'U1,'U2> 
           with 
-            member __.Copy(t,v1,v2)= DataLens.set (v1,v2) t lens }
+            member __.Copy(t,v1,v2)= DataLens.set t (v1,v2) lens }
     /// Build prepared copy
     [<Extension>]
     static member BuildPreparedCopy (self: LensBuilder<'T, ('U1*('U2*'U3))>) =
@@ -91,7 +91,7 @@ type LensBuilderExtensions() =
         let combined = DataLens.compose right lens 
         { new IPreparedCopy<'T, 'U1,'U2, 'U3> 
           with 
-            member __.Copy(t,v1,v2,v3)= DataLens.set (v1,v2,v3) t combined }
+            member __.Copy(t,v1,v2,v3)= DataLens.set t (v1,v2,v3) combined }
     /// Build prepared copy
     [<Extension>]
     static member BuildPreparedCopy (self: LensBuilder<'T, (('U1*'U2)*'U3)>) =
@@ -100,7 +100,7 @@ type LensBuilderExtensions() =
         let combined = DataLens.compose left lens 
         { new IPreparedCopy<'T, 'U1,'U2, 'U3> 
           with 
-            member __.Copy(t,v1,v2,v3)= DataLens.set (v1,v2,v3) t combined }
+            member __.Copy(t,v1,v2,v3)= DataLens.set t (v1,v2,v3) combined }
     /// Build prepared copy
     [<Extension>]
     static member BuildPreparedCopy (self: LensBuilder<'T, ((('U1*'U2)*'U3)*'U4)>) =
@@ -109,4 +109,4 @@ type LensBuilderExtensions() =
         let combined = DataLens.compose left lens
         { new IPreparedCopy<'T, 'U1, 'U2, 'U3, 'U4> 
           with 
-            member __.Copy(t,v1,v2,v3,v4)= DataLens.set (v1,v2,v3,v4) t combined }
+            member __.Copy(t,v1,v2,v3,v4)= DataLens.set t (v1,v2,v3,v4) combined }

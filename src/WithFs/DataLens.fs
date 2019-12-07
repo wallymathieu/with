@@ -8,11 +8,11 @@ type DataLens<'T, 'U> =
     { /// Get value from 'T
       Get: 'T -> 'U
       /// Get a new instance of 'T with value set to the first parameter
-      Set: 'U -> 'T -> 'T }
+      Set: 'T -> 'U -> 'T }
 with
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
-    member l.Update f t = l.Set (f (l.Get t)) t
-    static member Create(get:Func<'T,'U>,set:Func<'T,'U,'T>)={ Get=(fun t-> get.Invoke(t)); Set = fun u t -> set.Invoke(t,u) }
+    member l.Update f t = l.Set t (f (l.Get t))
+    static member Create(get:Func<'T,'U>,set:Func<'T,'U,'T>)={ Get=(fun t-> get.Invoke(t)); Set = fun t u -> set.Invoke(t,u) }
 type internal DataLens = DataLens<obj, obj>
 
 module DataLens =
@@ -25,27 +25,27 @@ module DataLens =
     /// combine two lenses into one where the two lenses operates on the same "record" type
     let inline combine (l1: DataLens<'t, 'v1>) (l2: DataLens<'t, 'v2>) =
         { Get = fun t -> (l1.Get t, l2.Get t)
-          Set = fun (v1, v2) t -> l2.Set v2 (l1.Set v1 t) }
+          Set = fun t (v1, v2) -> l2.Set (l1.Set t v1) v2 }
     /// Sequentially composes two lenses. Can be used to "drill down" into an object grap.
     /// For instance to be able to do something <c> t.Customer.Name = v </c> for immutable data.
     let inline compose (l1: DataLens<'TU, 'U>) (l2: DataLens<'T, 'TU>) =
         { Get = l2.Get >> l1.Get
-          Set = l1.Set >> l2.Update }
+          Set = fun t u -> l2.Update (fun v-> l1.Set v u) t }
     /// Sequentially composes two lenses in an untyped manner
     let inline internal composeUntyped (l1: DataLens) (l2: DataLens) = compose l1 l2
 
     /// Split a combination of 2 2-tuples into a 3-tuple
     let ofLeftTuple(): DataLens<('v1 * 'v2) * 'v3, 'v1 * 'v2 * 'v3> =
         { Get = fun ((v1, v2), v3) -> (v1, v2, v3)
-          Set = fun (v1, v2, v3) _ -> ((v1, v2), v3) }
+          Set = fun _ (v1, v2, v3) -> ((v1, v2), v3) }
     /// Split a combination of 2 2-tuples into a 3-tuple
     let ofLeftTuple'(): DataLens<(('v1 * 'v2) * 'v3) * 'v4, 'v1 * 'v2 * 'v3 * 'v4> =
         { Get = fun (((v1, v2), v3), v4) -> (v1, v2, v3, v4)
-          Set = fun (v1, v2, v3, v4) _ -> (((v1, v2), v3), v4) }
+          Set = fun _ (v1, v2, v3, v4) -> (((v1, v2), v3), v4) }
     /// Split a combination of 2 2-tuples into a 3-tuple
     let ofRightTuple(): DataLens<'v1 * ('v2 * 'v3), 'v1 * 'v2 * 'v3> =
         { Get = fun (v1, (v2, v3)) -> (v1, v2, v3)
-          Set = fun (v1, v2, v3) _ -> (v1, (v2, v3)) }
+          Set = fun _ (v1, v2, v3) -> (v1, (v2, v3)) }
     /// Unbox an untyped lens into a typed lens
     let internal unbox<'T, 'U> (l: DataLens): DataLens<'T, 'U> =
         { Get = fun t -> unbox (l.Get(box t))
@@ -59,8 +59,8 @@ type DataLens<'T, 'U> with
     /// 
     member l.ToPreparedCopy() =
         { new IPreparedCopy<'T, 'U> with
-            member __.Copy(t, v1) = DataLens.set v1 t l }
+            member __.Copy(t, v1) = DataLens.set t v1 l }
     /// Set value and return result
-    member l.Write(t, v) = DataLens.set v t l
+    member l.Write(t, v) = DataLens.set t v l
     /// Get value out lens
     member l.Read(t) = DataLens.get t l
