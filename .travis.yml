@@ -5,7 +5,7 @@ dist: xenial
 dotnet: 3.0.100
 script: 
   - dotnet restore ./With.sln
-  - dotnet build ./With.sln
+  - dotnet build ./src/With
   - dotnet test ./tests/Tests
   - dotnet test ./tests/TestsFs
 branches:

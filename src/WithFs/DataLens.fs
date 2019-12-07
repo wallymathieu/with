@@ -1,5 +1,5 @@
-﻿namespace With.Lenses
-
+namespace With.Lenses
+open System
 open With
 open With.Internals
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
@@ -10,9 +10,10 @@ type DataLens<'T, 'U> =
       Get: 'T -> 'U
       /// Get a new instance of 'T with value set to the first parameter
       Set: 'U -> 'T -> 'T }
+with
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
     member l.Update f t = l.Set (f (l.Get t)) t
-
+    static member Create(get:Func<'T,'U>,set:Func<'T,'U,'T>)={ Get=(fun t-> get.Invoke(t)); Set = fun u t -> set.Invoke(t,u) }
 type internal DataLens = DataLens<obj, obj>
 
 module DataLens =
