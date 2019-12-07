@@ -7,7 +7,7 @@ open With.Internals
 type Lens<'T>=
     /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue>> ) : DataLens<'T,'TValue>= 
-        Expressions.withMemberAccess expr 
+        Expressions.withMemberAccess expr
     /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue, bool>> ) : DataLens<'T,'TValue>= 
         Expressions.withEqualEqualOrCall expr
@@ -17,6 +17,9 @@ type Lens<'T>=
 
 /// LensBuilder in order to simplify building lenses in c#
 type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
+    /// Combine existing lens with another lens
+    member __.And(lens: DataLens<'T, 'U2>) = 
+        LensBuilder<'T,('U*'U2)>(DataLens.combine built lens)
     /// Combine existing lens with expression representing another lens
     member __.And(expr: Expression<Func<'T, 'U2>>) = 
         LensBuilder<'T,('U*'U2)>(DataLens.combine built <| Expressions.withMemberAccess expr)
@@ -30,11 +33,17 @@ type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
     member __.Then(expr: Expression<Func<'U, 'V>>) =
         let next = Expressions.withMemberAccess expr 
         LensBuilder<'T, 'V>(DataLens.compose next built)
+    /// Compose existing lens with deeper lens
+    member __.Then(next: DataLens<'U, 'V>) =
+        LensBuilder<'T, 'V>(DataLens.compose next built)
     /// Build a lens
     member __.Build() = built
 
 /// LensBuilder in order to simplify building lenses in c#
 type LensBuilder<'T>()=
+    /// Create a lensbuilder, created from the lens
+    static member Of(lens:DataLens<'T, 'U> ) = 
+        LensBuilder<'T,'U>(lens)
     /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U>> ) = 
         LensBuilder<'T,'U>(Expressions.withMemberAccess expr) 
