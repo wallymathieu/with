@@ -2,6 +2,7 @@ using System;
 using With;
 using Xunit;
 using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
+using With.Lenses;
 namespace Tests.With
 {
     public class Setting_several_properties_at_once
@@ -21,25 +22,25 @@ namespace Tests.With
             public string MyProperty4 { get; private set; }
         }
 
-        readonly Lazy<IPreparedCopy<AClassWithManyProperties, int, string, string, string>> copyExpr = LazyT.Create(() =>
+        readonly Lazy<DataLens<AClassWithManyProperties, (int, string, string, string)>> copyExpr = LazyT.Create(() =>
             LensBuilder<AClassWithManyProperties>
                         .Of<int, string>((m, v1, v2) => m.MyProperty == v1 && m.MyProperty2 == v2)
                         .And<string>((m, v1) => m.MyProperty3 == v1)
                         .And(m => m.MyProperty4)
-                        .BuildPreparedCopy());
-        readonly Lazy<IPreparedCopy<AClassWithManyProperties, int, string, string, string>> copyExpr2 = LazyT.Create(() =>
+                        .Build());
+        readonly Lazy<DataLens<AClassWithManyProperties, (int, string, string, string)>> copyExpr2 = LazyT.Create(() =>
             LensBuilder<AClassWithManyProperties>
                         .Of<int>((m, v1) => m.MyProperty == v1)
                         .And<string>((m, v1) => m.MyProperty2 == v1)
                         .And<string>((m, v1) => m.MyProperty3 == v1)
                         .And(m => m.MyProperty4)
-                        .BuildPreparedCopy());
+                        .Build());
 
         [Theory, AutoData]
         public void should_be_able_to_create_a_clone_using_builder1(
                 AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            var ret = copyExpr.Value.Copy(instance, newValue, newValue2, newValue3, newValue4);
+            var ret = copyExpr.Value.Write(instance, (newValue, newValue2, newValue3, newValue4));
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);
@@ -49,7 +50,7 @@ namespace Tests.With
         public void should_be_able_to_create_a_clone_using_builder2(
                 AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            var ret = copyExpr2.Value.Copy(instance, newValue, newValue2, newValue3, newValue4);
+            var ret = copyExpr2.Value.Write(instance, (newValue, newValue2, newValue3, newValue4));
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);

@@ -11,7 +11,7 @@
     <Compile Include="DataLens.fs" />
     <Compile Include="Internals.fs" />
     <Compile Include="Library.fs" />
-    <Compile Include="Prepare.fs" />
+    <Compile Include="Builders.fs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.5.4" />

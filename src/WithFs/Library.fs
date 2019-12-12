@@ -90,7 +90,7 @@ module Expressions=
                 | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression b c
                 | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t)) 
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; |], t))
-        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> (lambda:Expression) (c:Context): DataLens<'T,'U1*'U2>=
+        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
             match lambda.NodeType with
             | ExpressionType.AndAlso ->
                 let b=lambda :?> BinaryExpression
@@ -118,6 +118,6 @@ module Expressions=
     /// or in f# terms:
     /// <c>fun (t,v1,v2)-> t.Property1 = v1 && t.Property2 = v2</c>
     [<CompiledName("WithEqualEqualOrCall2")>]
-    let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,'U1*'U2>=
+    let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
         let c = Ctx.ofExpression lambda
         DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> lambda.Body c

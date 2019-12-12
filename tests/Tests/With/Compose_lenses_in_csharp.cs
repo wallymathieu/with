@@ -23,7 +23,7 @@ namespace Tests.With
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set(
             Customer myClass, int newIntValue, string newStrValue)
         {
-            var ret = Customer._Id.Combine(Customer._Name).Write(myClass, Tuple.Create(newIntValue, newStrValue));
+            var ret = Customer._Id.Combine(Customer._Name).Write(myClass, (newIntValue, newStrValue));
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
         }
@@ -33,7 +33,7 @@ namespace Tests.With
             Customer myClass, int newIntValue, string newStrValue, IEnumerable<string> prefs)
         {
             var ret = Customer._Id.Combine(Customer._Name).Combine(Customer._Preferenses).Write(myClass, 
-                Tuple.Create(Tuple.Create(newIntValue, newStrValue), prefs));
+                ((newIntValue, newStrValue), prefs));
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
             Assert.Equal(prefs, ret.Preferences);
