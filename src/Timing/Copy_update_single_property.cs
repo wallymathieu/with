@@ -1,6 +1,7 @@
 using System;
 using With;
 using BenchmarkDotNet.Attributes;
+using With.Lenses;
 
 namespace Timing
 {
@@ -8,15 +9,15 @@ namespace Timing
     {
         private static readonly Customer _myClass = new Customer(1, "2", new[] { "t" });
 
-        private static readonly IPreparedCopy<Customer, string> _myClassPreparedCopy =
-            Prepare.Copy<Customer, string>((m, v) => m.Name == v);
+        private static readonly DataLens<Customer, string> _myClassPreparedCopy =
+            LensBuilder<Customer>.Of(m => m.Name).Build();
 
 
         [Benchmark]
         public void Using_static_prepered_copy_expression()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);
-            var res = _myClassPreparedCopy.Copy(_myClass, time.ToString());
+            var res = _myClassPreparedCopy.Write(_myClass, time.ToString());
         }
 
         [Benchmark]
