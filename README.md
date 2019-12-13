@@ -22,6 +22,8 @@ public interface IDataLens<T, TValue>
 }
 ```
 
+There are some heavy to read examples of lenses. These are cool, but perhaps not as useful as what relative simple things you can achieve in business code using immutable data.
+
 The basic operations are combine and compose.
 
 - Combine
@@ -30,7 +32,7 @@ The basic operations are combine and compose.
     Customer.IdLens.Combine(Customer.NameLens)
     ```
 
-    Gives you a lens that gets/sets both Id and Name on the same class Customer
+    Gives you a lens that gets/sets both Id and Name on the same class Customer. Given that the static properties IdLens and NameLens are Id and Name lenses for Customer.
 
     This can be thought of as doing the following for mutable code:
 
@@ -45,7 +47,7 @@ The basic operations are combine and compose.
     Sale.CustomerLens.Compose(Customer.NameLens)
     ```
 
-    Gives you a lens that gets/sets both Name of the property Customer on the class Sale
+    Gives you a lens that gets/sets both Name of the property Customer on the class Sale. Given that the static properties CustomerLens and NameLens are Customer and Name lenses for Sale and Customer.
 
     This can be thought of as doing the following for mutable code:
 
