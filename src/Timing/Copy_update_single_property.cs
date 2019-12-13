@@ -17,7 +17,7 @@ namespace Timing
         public void Using_static_prepered_copy_expression()
         {
             var time = new DateTime(2001, 1, 1).AddMinutes(2);
-            var res = _myClassPreparedCopy.Write(_myClass, time.ToString());
+            var res = _myClassPreparedCopy.Set(_myClass, time.ToString());
         }
 
         [Benchmark]

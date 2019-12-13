@@ -118,8 +118,8 @@ module internal FieldOrProperty=
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGet<'T,'U> v
             lens.Compile()
-        { Get = fun t -> compiledGetter.Invoke(t)
-          Set = fun v t -> compiledSetter.Invoke(v,t) }
+        { get = fun t -> compiledGetter.Invoke(t)
+          set = fun v t -> compiledSetter.Invoke(v,t) }
     /// 
     let toLensUntyped v: DataLens =
         let typ = FieldOrProperty.declaringType v
@@ -129,5 +129,5 @@ module internal FieldOrProperty=
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGetUntyped typ v
             lens.Compile()
-        { Get = fun t -> compiledGetter.DynamicInvoke(t)
-          Set = fun v t -> compiledSetter.DynamicInvoke(v,t) }
+        { get = fun t -> compiledGetter.DynamicInvoke(t)
+          set = fun v t -> compiledSetter.DynamicInvoke(v,t) }

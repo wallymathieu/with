@@ -10,48 +10,90 @@ Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.l
 
 ### Working with immutable data
 
-If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx).
+If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.
+
+#### Simplest example
 
 ```c#
 using With;
+using With.Lenses;
 ...
 public class CustomerNameChangeHandler
 {
     // start with initializing the copy update expression once (main cost is around parsing expressions)
-    private static readonly IPreparedCopy<Customer, string> NameCopy =
-        Prepare.Copy<Customer,string>((m,v) => m.Name == v);
+    private static readonly DataLens<Customer, string> CustomerNameLens =
+        LensBuilder<Customer>.Of(m => m.Name).Build();
     public void Handle()
     {
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
-        // change the name of that customer:
-        var changedNameToErik = NameCopy.Copy(customer, "Erik Testsson");
+        // get a new instance of that customer but with changed name:
+        var changedNameToErik = CustomerNameLens.Set(customer, "Erik Testsson");
         // ...
     }
 }
 ```
 
-Another alternative is to use lens to formulate prepared copy expression:
+#### Settings several properties at the same time
 
 ```c#
 using With;
+using With.Lenses;
 ...
 public class CustomerChangeHandler
 {
     // start with initializing the copy update expression once (main cost is around parsing expressions)
-    private static readonly IPreparedCopy<Customer, int, string, IEnumerable<string>> CopyUpdate =
+    private static readonly DataLens<Customer, (int, string, IEnumerable<string>)> CustomerIdNamePreferencesLens =
         LensBuilder<Customer>
             .Of(m => m.Id)
             .And(m => m.Name)
             .And(m => m.Preferences)
-            .BuildPreparedCopy();
+            .Build();
     public void Handle()
     {
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
-        // change that customer with new values:
-        var change = CopyUpdate.Copy(customer, NextId(), "Erik Testsson", new []{"Swedish fish"});
+        // get a new instance of that customer but with id, name and preferences changed:
+        var change = CustomerIdNamePreferencesLens.Set(customer, (NextId(), "Erik Testsson", new []{"Swedish fish"}) );
         // ...
+    }
+}
+```
+
+#### Using pure c# without libraries
+
+The basic operations needed to work with immutable data is get and set, so we need setter equivalents implemented as shown below:
+
+```c#
+public class Customer
+{
+    public Customer(int id, string name, IEnumerable<string> preferences)
+    {
+        this.Id = id;
+        this.Name = name;
+        this.Preferences = preferences;
+    }
+    public int Id { get; }
+    public string Name { get; }
+    public IEnumerable<string> Preferences { get; }
+
+    public Customer SetId(int v)
+    {
+        return new Customer(v, Name, Preferences);
+    }
+    public Customer SetName(string v)
+    {
+        return new Customer(Id, v, Preferences);
+    }
+    public Customer SetPreferences(IEnumerable<string> v)
+    {
+        return new Customer(Id, Name, v);
+    }
+
+    // another approach if you do not use nulls would be:
+    public With(int? id=null, string name=null, IEnumerable<string> preferences=null)
+    {
+        return new Customer(id??Id, name??Name, preferences??Preferences);
     }
 }
 ```
@@ -147,13 +189,12 @@ Yields the result of the application of the map function over each pair.
 ```c#
 using With.Collections;
 ...
-var pairs = Enumerable.Range(0, 4).Pairwise(Tuple.Create).ToArray(); 
-// will be 
+var pairs = Enumerable.Range(0, 4).Pairwise(Tuple.Create).ToArray();
+// will be
 Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
 ```
 
-
-## Why shouldn't you use this library?
+## Why shouldn't you use this library
 
 The immutable data support in this library is done as an extensions to the language using the [expression](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) support in c#. A better way to add these things to c# would be to write some sort of [roslyn](https://github.com/dotnet/roslyn/) extension in order to extend the language in a way that can be optimised during compile time. Problem is that using c# in this manner is that it's not idiomatic c#.  A better way is to write some of your code in [f#](http://fsharp.org/) and be able to use pattern matching, immutable data structures and copy update expressions in for a language designed with these things in mind.
 

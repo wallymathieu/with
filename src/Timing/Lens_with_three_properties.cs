@@ -23,18 +23,18 @@ namespace Timing
         [Benchmark]
         public void Using_lens_built_from_library()
         {
-            var res = _usingBuiltLens.Write(_myClass, (2, "2", new[] { "2"}));
+            var res = _usingBuiltLens.Set(_myClass, (2, "2", new[] { "2"}));
         }
 
         [Benchmark]
         public void Hand_written_lenses_composed()
         {
-            var res = _usingHandWrittenLens.Write(_myClass, (2, "2", new[] { "2" }));
+            var res = _usingHandWrittenLens.Set(_myClass, (2, "2", new[] { "2" }));
         }
         [Benchmark]
         public void Hand_written_copy_update_instance()
         {
-            var res = _usingHandWrittenCopyUpdate.Write(_myClass, (2, "2", new[] { "2" }));
+            var res = _usingHandWrittenCopyUpdate.Set(_myClass, (2, "2", new[] { "2" }));
         }
         /* [Benchmark]
         public void Language_ext_lens()

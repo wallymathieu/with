@@ -40,7 +40,7 @@ namespace Tests.With
         public void should_be_able_to_create_a_clone_using_builder1(
                 AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            var ret = copyExpr.Value.Write(instance, (newValue, newValue2, newValue3, newValue4));
+            var ret = copyExpr.Value.Set(instance, (newValue, newValue2, newValue3, newValue4));
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);
@@ -50,7 +50,7 @@ namespace Tests.With
         public void should_be_able_to_create_a_clone_using_builder2(
                 AClassWithManyProperties instance, int newValue, string newValue2, string newValue3, string newValue4)
         {
-            var ret = copyExpr2.Value.Write(instance, (newValue, newValue2, newValue3, newValue4));
+            var ret = copyExpr2.Value.Set(instance, (newValue, newValue2, newValue3, newValue4));
             Assert.Equal(newValue, ret.MyProperty);
             Assert.Equal(newValue2, ret.MyProperty2);
             Assert.Equal(newValue3, ret.MyProperty3);

@@ -23,7 +23,7 @@ namespace Tests.With
         public void A_class_should_be_able_to_create_a_clone_with_a_property_set_using_equal_equal(
             Customer myClass, int newValue)
         {
-            var ret = IdCopy.Value.Write(myClass, newValue);
+            var ret = IdCopy.Value.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
         }
@@ -32,7 +32,7 @@ namespace Tests.With
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set_using_equal_equal(
             Customer myClass, int newIntValue, string newStrValue)
         {
-            var ret = IdAndNameCopy.Value.Write(myClass, (newIntValue, newStrValue));
+            var ret = IdAndNameCopy.Value.Set(myClass, (newIntValue, newStrValue));
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
         }
@@ -41,7 +41,7 @@ namespace Tests.With
         public void A_class_should_be_able_to_create_a_clone_with_three_property_set_using_equal_equal(
             Customer myClass, int newIntValue, string newStrValue, IEnumerable<string> prefs)
         {
-            var ret = IdAndNameAndPreferencesCopy.Value.Write(myClass, (newIntValue, newStrValue, prefs));
+            var ret = IdAndNameAndPreferencesCopy.Value.Set(myClass, (newIntValue, newStrValue, prefs));
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
             Assert.Equal(prefs, ret.Preferences);
@@ -53,7 +53,7 @@ namespace Tests.With
         public void A_class_with_empty_ctor(
             CustomerWithEmptyCtor instance, int newInt, string newString)
         {
-            var ret = EmptyCtorIdAndNameCopy.Value.Write(instance, (newInt, newString));
+            var ret = EmptyCtorIdAndNameCopy.Value.Set(instance, (newInt, newString));
             Assert.Equal(newInt, ret.Id);
             Assert.Equal(newString, ret.Name);
         }

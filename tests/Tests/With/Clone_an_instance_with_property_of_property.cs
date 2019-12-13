@@ -16,7 +16,7 @@ namespace Tests.With
         [Theory, AutoData]
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_equalequal(Sale myClass, string newValue)
         {
-            var ret = CustomerNameCopy.Value.Write(myClass, newValue);
+            var ret = CustomerNameCopy.Value.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Customer.Name);
             Assert.Equal(myClass.Id, ret.Id);
         }
@@ -26,7 +26,7 @@ namespace Tests.With
         [Theory, AutoData]
         public void Should_be_able_to_create_a_clone_with_a_property_set_using_compose(Sale myClass, string newValue)
         {
-            var ret = CustomerNameComposeCopy.Value.Write(myClass, newValue);
+            var ret = CustomerNameComposeCopy.Value.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Customer.Name);
             Assert.Equal(myClass.Id, ret.Id);
         }
