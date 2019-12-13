@@ -12,6 +12,47 @@ Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.l
 
 If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.
 
+You can think of a [data lens](http://hackage.haskell.org/package/lens-4.18.1/docs/Data-Data-Lens.html) as an instance of a class that implements the interface:
+
+```c#
+public interface IDataLens<T, TValue>
+{
+    TValue Get(T entity);
+    T Set(T entity, TValue value);
+}
+```
+
+The basic operations are combine and compose.
+
+- Combine
+
+    ```c#
+    Customer.IdLens.Combine(Customer.NameLens)
+    ```
+
+    Gives you a lens that gets/sets both Id and Name on the same class Customer
+
+    This can be thought of as doing the following for mutable code:
+
+    ```c#
+    customer.Id = newId;
+    customer.Name = newName;
+    ```
+
+- Compose
+
+    ```c#
+    Sale.CustomerLens.Compose(Customer.NameLens)
+    ```
+
+    Gives you a lens that gets/sets both Name of the property Customer on the class Sale
+
+    This can be thought of as doing the following for mutable code:
+
+    ```c#
+    sale.Customer.Name = newName;
+    ```
+
 #### Simplest example
 
 ```c#
