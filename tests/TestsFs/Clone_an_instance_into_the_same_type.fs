@@ -1,7 +1,7 @@
 ﻿namespace WithFs
 open System.Linq.Expressions
 
-open Ploeh.AutoFixture.Xunit2
+open AutoFixture.Xunit2
 open Xunit
 open With
 type ``Clone an instance into the same type``()=

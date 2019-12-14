@@ -1,8 +1,8 @@
 using System;
+using AutoFixture.Xunit2;
 using Tests.With.TestData;
 using With;
 using Xunit;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using Assert = Xunit.Assert;
 
 namespace Tests.With
