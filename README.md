@@ -10,47 +10,52 @@ Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.l
 
 ### Working with immutable data
 
-If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx).
+If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.
 
 ```c#
 using With;
+using With.Lenses;
 ...
 public class CustomerNameChangeHandler
 {
-    // start with initializing the copy update expression once (main cost is around parsing expressions)
-    private static readonly IPreparedCopy<Customer, string> NameCopy =
-        Prepare.Copy<Customer,string>((m,v) => m.Name == v);
+    // start with initializing the lens expression once (main cost is around parsing expressions)
+    private static readonly DataLens<Customer, string> NameLens =
+        LensBuilder<Customer>
+            .Of(m => m.Name)
+            .Build();
     public void Handle()
     {
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
         // change the name of that customer:
-        var changedNameToErik = NameCopy.Copy(customer, "Erik Testsson");
+        var changedNameToErik = NameLens.Write(customer, "Erik Testsson");
         // ...
     }
 }
 ```
 
-Another alternative is to use lens to formulate prepared copy expression:
+Another alternative is the following:
 
 ```c#
+using System;
 using With;
+using With.Lenses;
 ...
 public class CustomerChangeHandler
 {
-    // start with initializing the copy update expression once (main cost is around parsing expressions)
-    private static readonly IPreparedCopy<Customer, int, string, IEnumerable<string>> CopyUpdate =
+    // start with initializing the lens expression once (main cost is around parsing expressions)
+    private static readonly DataLens<Customer, Tuple<Tuple<int, string>, IEnumerable<string>>> CustomerLens =
         LensBuilder<Customer>
             .Of(m => m.Id)
             .And(m => m.Name)
             .And(m => m.Preferences)
-            .BuildPreparedCopy();
+            .Build();
     public void Handle()
     {
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
-        // change that customer with new values:
-        var change = CopyUpdate.Copy(customer, NextId(), "Erik Testsson", new []{"Swedish fish"});
+        // get a new instance of that customer but with id, name and preferences changed:
+        var change = CustomerLens.Write(customer, Tuple.Create( Tuple.Create(NextId(), "Erik Testsson"), new []{"Swedish fish"}));
         // ...
     }
 }
