@@ -1,7 +1,7 @@
 using System;
+using AutoFixture.Xunit2;
 using With;
 using Xunit;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 namespace Tests.With
 {
     public class Setting_several_properties_at_once

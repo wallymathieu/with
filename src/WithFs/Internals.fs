@@ -75,20 +75,91 @@ module Reflection =
 
 
 module InternalExpressions=
+    module internal T=
+        /// is assignable to type (where type is generic with 1 type parameter)
+        let isAssignableToT1 (genT:Type) (t:TypeInfo) =
+            t.IsGenericType && genT.MakeGenericType(t.GetGenericArguments() |> Array.head).GetTypeInfo().IsAssignableFrom( t )
+        let eqToT1 (genT:Type) (t:TypeInfo)=
+            t.IsGenericType && genT.MakeGenericType(t.GetGenericArguments() |> Array.head).GetTypeInfo().Equals( t )
+
+        module Enumerable=
+            let ityp = typedefof<seq<_>>
+            let toList = typeof<Linq.Enumerable>.GetTypeInfo().GetMethod("ToList")
+            let exprToListT (t:Type) parameterValue=Expression.Call(toList.MakeGenericMethod(t), [|parameterValue|]) :> Expression
+        module ReadOnlyCollection=
+            let typ = typedefof<Collections.ObjectModel.ReadOnlyCollection<_>>
+            let ityp = typedefof<Collections.Generic.IReadOnlyCollection<_>>
+            let ctorT (t:Type) = typ.MakeGenericType(t).GetTypeInfo().GetConstructors() |> Seq.find (fun c->c.GetParameters().Length =1)
+        module List=
+            let typ = typedefof<Collections.Generic.List<_>>
+            let ityp = typedefof<Collections.Generic.IList<_>>
+        module Dic=
+            let typ = typedefof<Collections.Generic.Dictionary<_,_>>
+            let ityp = typedefof<Collections.Generic.IDictionary<_,_>>
+
     let internal fieldOrPropertyToSetT (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        /// return value of Name property of an entity 
+        let inline getName(r:^a) = ( ^a : ( member get_Name: unit->String ) (r) )
+        /// compare two named things and make sure that they have the same Name (ignoring case)
+        let inline haveSameName p1 p2 = 
+            let p1Name = getName p1
+            let p2Name = getName p2
+            p1Name.Equals(p2Name, StringComparison.CurrentCultureIgnoreCase)
+        /// fun (s:seq) -> s.ToList()
+        let trySeqToList listT (sourceT:TypeInfo) (destT:TypeInfo) (parameterValue:Expression) : Expression option=
+            if T.isAssignableToT1 T.Enumerable.ityp sourceT && T.eqToT1 listT destT then
+                let t=destT.GenericTypeArguments |> Array.head
+                T.Enumerable.exprToListT t parameterValue |> Some
+            else None
+        /// fun (l:ResizeArray) -> ReadOnlyCollection(l)
+        let tryListToReadonlyCollection readOnlyT (sourceT:TypeInfo) (destT:TypeInfo) (parameterValue:Expression) : Expression option=
+            if T.isAssignableToT1 T.List.typ sourceT && T.eqToT1 readOnlyT destT then
+                let t=destT.GenericTypeArguments |> Array.head
+                let ctor=T.ReadOnlyCollection.ctorT t
+                Expression.New(ctor, [| 
+                    parameterValue
+                |]) :> Expression |> Some
+            else None
+        /// fun (s:seq) -> ReadOnlyCollection(s.ToList())
+        let trySeqToReadonlyCollection readOnlyT (sourceT:TypeInfo) (destT:TypeInfo) (parameterValue:Expression) : Expression option=
+            if T.isAssignableToT1 T.Enumerable.ityp sourceT && T.eqToT1 readOnlyT destT then
+                let t=destT.GenericTypeArguments |> Array.head
+                let ctor=T.ReadOnlyCollection.ctorT t
+                Expression.New(ctor, [| 
+                    T.Enumerable.exprToListT t parameterValue
+                |]) :> Expression |> Some
+            else None
+        /// fun (s:'A) -> s :> 'B
+        let tryConvertAssignable (sourceT:TypeInfo) (destT:TypeInfo) (parameterValue:Expression) : Expression option=
+            if destT.IsAssignableFrom(sourceT) then
+                Expression.Convert(parameterValue, destT.AsType()) :> Expression |> Some
+            else None
+        let changeTypeFromTo (sourceT:TypeInfo) (destT:TypeInfo) (parameterValue:#Expression) =
+                let tryOut = [tryConvertAssignable; 
+                    tryListToReadonlyCollection T.ReadOnlyCollection.typ; tryListToReadonlyCollection T.ReadOnlyCollection.ityp;
+                    trySeqToReadonlyCollection T.ReadOnlyCollection.typ; trySeqToReadonlyCollection T.ReadOnlyCollection.ityp;
+                    trySeqToList T.List.typ; trySeqToList T.List.ityp]
+                tryOut |> List.tryPick (fun f->f sourceT destT parameterValue)
         let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
         let ctor = Reflection.getConstructorWithMostParameters tDest
         let valueType =FieldOrProperty.fieldType value
         let parameterValue=Expression.Parameter(valueType,"v")
         let parameterT = Expression.Parameter(tSource,"t")
-        let parameterNamedAsValue (param:ParameterInfo) = value.Name.Equals(param.Name, StringComparison.CurrentCultureIgnoreCase)
+
         let mutable usedValue=false 
-        let mapParamToExpressionParam (param:ParameterInfo) : Expression = 
-            if parameterNamedAsValue param then
+        let mapParamToExpressionParam (param:ParameterInfo) : Expression =
+            if haveSameName param value then
                 usedValue <- true
-                parameterValue :> Expression
+                let sourceT = FieldOrProperty.fieldType value
+                let destT = param.ParameterType
+                if destT.Equals(sourceT) then
+                    parameterValue :> Expression
+                else
+                    match parameterValue |> changeTypeFromTo ( sourceT.GetTypeInfo() ) ( destT.GetTypeInfo() ) with
+                    | Some v -> v                
+                    | None-> failwithf "No known conversion from %A to %A, please make sure that property named %s has a type that fits the constructor argument with same name" sourceT destT value.Name
             else
-                match props |> Array.tryFind (fun p -> p.Name.Equals(param.Name, StringComparison.OrdinalIgnoreCase)) with
+                match props |> Array.tryFind (fun p ->haveSameName p param) with
                 | Some p -> 
                     Expression.PropertyOrField(parameterT,p.Name) :> Expression
                 | None -> raise (MissingValueException param.Name)
