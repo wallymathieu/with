@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Ploeh.AutoFixture.Xunit2;
+using AutoFixture.Xunit2;
 using Tests.Json;
 using Xunit;
 

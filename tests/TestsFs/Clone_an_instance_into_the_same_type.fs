@@ -1,7 +1,7 @@
 namespace WithFs
 open System.Linq.Expressions
 
-open Ploeh.AutoFixture.Xunit2
+open AutoFixture.Xunit2
 open Xunit
 open With
 type ``Clone an instance into the same type``()=
@@ -19,3 +19,8 @@ type ``Clone an instance into the same type``()=
         let ret = idAndNameCopy.Value.Set(myClass,(newIntValue,newStrValue))
         Assert.Equal(newIntValue, ret.id)
         Assert.Equal(newStrValue, ret.name)
+
+    [<Theory; AutoData>]
+    member this.``A class with a missing constructor parameter should give an exception on build`` (myClass:Customer, newIntValue:int, newStrValue:string)=
+        Assert.Throws<MissingConstructorParameterException> (fun ()->
+            LensBuilder<CustomerWithMissingCtorArgument>.Of( fun m v1 v2-> m.id = v1 && m.name = v2).Build() |> ignore ) 

@@ -1,7 +1,7 @@
 using System;
+using AutoFixture.Xunit2;
 using With;
 using Xunit;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 using With.Lenses;
 namespace Tests.With
 {

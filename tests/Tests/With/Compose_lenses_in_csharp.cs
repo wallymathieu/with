@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using AutoFixture.Xunit2;
 using Tests.With.TestData;
 using With;
 using Xunit;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 
 namespace Tests.With
 {

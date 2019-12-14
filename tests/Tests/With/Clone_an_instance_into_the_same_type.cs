@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using AutoFixture.Xunit2;
 using Tests.With.TestData;
 using With;
 using With.Lenses;
 using Xunit;
-using AutoDataAttribute = Ploeh.AutoFixture.Xunit2.AutoDataAttribute;
 
 namespace Tests.With
 {
@@ -50,23 +50,18 @@ namespace Tests.With
              LensBuilder<CustomerWithEmptyCtor>.Of<int,string>((m, v1, v2) => m.Id == v1 && m.Name == v2).Build());
 
         [Theory, AutoData]
-        public void A_class_with_empty_ctor(
+        public void A_class_with_empty_ctor_and_a_longer_ctor_should_use_the_one_with_the_most_parameters(
             CustomerWithEmptyCtor instance, int newInt, string newString)
         {
             var ret = EmptyCtorIdAndNameCopy.Value.Set(instance, (newInt, newString));
             Assert.Equal(newInt, ret.Id);
             Assert.Equal(newString, ret.Name);
         }
-        public class CustomerWithEmptyCtor : Customer
+        [Fact]
+        public void A_class_with_a_missing_constructor_parameter_should_give_an_exception_on_build()
         {
-            public CustomerWithEmptyCtor()
-                : this(-1, null, new string[0])
-            {
-            }
-            public CustomerWithEmptyCtor(int id, string name, IEnumerable<string> preferences)
-                : base(id, name, preferences)
-            {
-            }
+            Assert.Throws<MissingConstructorParameterException> (()=>
+                LensBuilder<CustomerWithMissingConstructorParameter>.Of( m=> m.Id).And(m=>m.Name).Build());
         }
     }
 }
