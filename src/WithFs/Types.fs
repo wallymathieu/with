@@ -31,3 +31,6 @@ type NameAndValue = System.Collections.Generic.KeyValuePair<string, obj>
 
 type MissingValueException(name:string)=
     inherit Exception(String.Format("Missing value named: {0}", name))
+
+type MissingConstructorParameterException(name:string)=
+    inherit Exception(String.Format("Missing constructor parameter for property named: {0}", name))

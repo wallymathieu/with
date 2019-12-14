@@ -19,3 +19,8 @@ type ``Clone an instance into the same type``()=
         let ret = idAndNameCopy.Value.Copy(myClass,newIntValue,newStrValue)
         Assert.Equal(newIntValue, ret.id)
         Assert.Equal(newStrValue, ret.name)
+
+    [<Theory; AutoData>]
+    member this.``A class with a missing constructor parameter should give an exception on build`` (myClass:Customer, newIntValue:int, newStrValue:string)=
+        Assert.Throws<MissingConstructorParameterException> (fun ()->
+            LensBuilder<CustomerWithMissingCtorArgument>.Of( fun m v1 v2-> m.id = v1 && m.name = v2).Build() |> ignore ) 
