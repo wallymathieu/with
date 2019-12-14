@@ -148,14 +148,15 @@ Yields the result of the application of the map function over each pair.
 using With.Collections;
 ...
 var pairs = 0.To(3).Pairwise(Tuple.Create).ToArray(); 
-// will be 
+// will be
 Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
 ```
 
+## Why shouldn't you use this library
 
-## Why shouldn't you use this library?
+The immutable data support in this library is done as an extensions to the language using the [expression](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) support in c#. A different way to add these things to c# would be to write some sort of [roslyn](https://github.com/dotnet/roslyn/) extension in order to extend the language in a way that can be generated at compile time. This is done for instance in [language ext](https://github.com/louthy/language-ext) codegen project. An approach such as that could be useful depending on your requirements.
 
-The immutable data support in this library is done as an extensions to the language using the [expression](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) support in c#. A better way to add these things to c# would be to write some sort of [roslyn](https://github.com/dotnet/roslyn/) extension in order to extend the language in a way that can be optimised during compile time. Problem is that using c# in this manner is that it's not idiomatic c#.  A better way is to write some of your code in [f#](http://fsharp.org/) and be able to use pattern matching, immutable data structures and copy update expressions in for a language designed with these things in mind.
+On the .net platform there is already a language that allows you to write immutable first code in a terse and helpful way, [f#](https://fsharp.org/), you can find out more on: [f# for fun and profit](https://fsharpforfunandprofit.com/). Many programmers prefer to work in c#/java why this library or codegen makes more sense.
 
 ## Nuget
 
