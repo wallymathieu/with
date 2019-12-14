@@ -42,7 +42,7 @@ namespace Tests.With
             var ret = TypeWithDifferentTypeOfCollectionsForArgumentsEpsilon._Epsilon.Value.Write(instance, newValue);
             Assert.Equal(newValue, ret.Epsilon);
         }
-        // [Theory, AutoData] // Not implemented
+        [Theory, AutoData]
         public void Zeta(
             TypeWithDifferentTypeOfCollectionsForArgumentsZeta instance, IReadOnlyDictionary<string,string> newValue)
         {
