@@ -81,11 +81,13 @@ module InternalExpressions=
         let valueType =FieldOrProperty.fieldType value
         let parameterValue=Expression.Parameter(valueType,"v")
         let parameterT = Expression.Parameter(tSource,"t")
-        let mapParamToExpressionParam (param:ParameterInfo) : Expression =
-            match value.Name.Equals(param.Name, StringComparison.CurrentCultureIgnoreCase) with
-            | true -> //coerce v (param.ParameterType)
+        let parameterNamedAsValue (param:ParameterInfo) = value.Name.Equals(param.Name, StringComparison.CurrentCultureIgnoreCase)
+        let mutable usedValue=false 
+        let mapParamToExpressionParam (param:ParameterInfo) : Expression = 
+            if parameterNamedAsValue param then
+                usedValue <- true
                 parameterValue :> Expression
-            | false ->
+            else
                 match props |> Array.tryFind (fun p -> p.Name.Equals(param.Name, StringComparison.OrdinalIgnoreCase)) with
                 | Some p -> 
                     Expression.PropertyOrField(parameterT,p.Name) :> Expression
@@ -93,6 +95,7 @@ module InternalExpressions=
 
         let parameters : Expression list = 
             ctor.GetParameters() |> Array.map mapParamToExpressionParam |> Array.toList
+        if not usedValue then raise (MissingConstructorParameterException value.Name)
         let expressions : Expression list = [Expression.New(ctor, parameters)]
         (Expression.Block(expressions),[parameterValue;parameterT])
     [<CompiledName("FieldOrPropertyToSetUntyped")>]
