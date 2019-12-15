@@ -4,7 +4,7 @@ open With
 open With.Internals
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
 /// A lens is sort of like a property for immutable data on steroids.
-/// You can compose and combine lenses 
+/// You can compose and combine lenses
 type DataLens<'T, 'U> =
     { /// Get value from 'T
       Get: 'T -> 'U
@@ -37,7 +37,7 @@ module DataLens =
     /// Given field or property access, return lens implemented through reflection and expression compile
     let fieldOrPropertyToLens<'T, 'U> v: DataLens<'T, 'U> =
         let typ = typeof<'T>
-        let compiledSetter = 
+        let compiledSetter =
             let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> typ typ v
             lens.Compile()
         let compiledGetter =
@@ -45,10 +45,10 @@ module DataLens =
             lens.Compile()
         { Get = fun t -> compiledGetter.Invoke(t)
           Set = fun v t -> compiledSetter.Invoke(v,t) }
-    /// 
+    ///
     let internal fieldOrPropertyToLensUntyped v: DataLens =
         let typ = FieldOrProperty.declaringType v
-        let compiledSetter = 
+        let compiledSetter =
             let lens = InternalExpressions.fieldOrPropertyToSetUntyped typ typ v
             lens.Compile()
         let compiledGetter =
@@ -78,11 +78,23 @@ type DataLens<'T, 'U> with
     member l1.Combine l2 = DataLens.combine l1 l2
     /// Sequentially composes two lenses
     member l1.Compose l2 = DataLens.compose l1 l2
-    /// 
+    ///
     member l.ToPreparedCopy() =
         { new IPreparedCopy<'T, 'U> with
             member __.Copy(t, v1) = DataLens.set v1 t l }
     /// Set value and return result
+    [<Obsolete("Use Set instead")>]
     member l.Write(t, v) = DataLens.set v t l
-    /// Get value out lens
+    /// Get value
+    [<Obsolete("Use Get instead")>]
     member l.Read(t) = DataLens.get t l
+open System.Runtime.CompilerServices
+[<Extension>]
+type LensExtensions() =
+    /// Set value and return result
+    [<Extension>]
+    static member Set (l: DataLens<'T, 'V>, t:'T,v:'V) = DataLens.set v t l
+    /// Get value
+    [<Extension>]
+    static member Get (l: DataLens<'T, 'V>, t:'T) = DataLens.get t l
+
