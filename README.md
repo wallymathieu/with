@@ -106,44 +106,6 @@ public class CustomerChangeHandler
 }
 ```
 
-#### Using pure c# without libraries
-
-The basic operations needed to work with immutable data is get and set, so we need setter equivalents implemented as shown below:
-
-```c#
-public class Customer
-{
-    public Customer(int id, string name, IEnumerable<string> preferences)
-    {
-        this.Id = id;
-        this.Name = name;
-        this.Preferences = preferences;
-    }
-    public int Id { get; }
-    public string Name { get; }
-    public IEnumerable<string> Preferences { get; }
-
-    public Customer SetId(int v)
-    {
-        return new Customer(v, Name, Preferences);
-    }
-    public Customer SetName(string v)
-    {
-        return new Customer(Id, v, Preferences);
-    }
-    public Customer SetPreferences(IEnumerable<string> v)
-    {
-        return new Customer(Id, Name, v);
-    }
-
-    // another approach if you do not use nulls would be:
-    public With(int? id=null, string name=null, IEnumerable<string> preferences=null)
-    {
-        return new Customer(id??Id, name??Name, preferences??Preferences);
-    }
-}
-```
-
 ## Enumerable extensions provided by the library
 
 ### Partition
