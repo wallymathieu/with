@@ -105,9 +105,9 @@ type DataLens<'T, 'U> with
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
     member l.Update (f:Func<'U,'U>, t) = DataLens.update (f.Invoke) t l
 open System.Runtime.CompilerServices
-// Additional member functions inteded for c# code
+// Additional member functions intended for c# code
 [<Extension>]
-type DataLensExtensions= //IDataLens<'T, 'U>
+type DataLensExtensions=
     /// combine two lenses into one where the two lenses operates on the same "record" type
     [<Extension>] static member Combine (l1:IDataLens<'T, 'U>,l2:IDataLens<_, _>) = DataLens.combine (DataLens.coerce l1) (DataLens.coerce l2)
     /// Sequentially composes two lenses
