@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using AutoFixture.Xunit2;
 using Tests.With.TestData;
 using Xunit;
-
+using With.Lenses;
 namespace Tests.With
 {
     public class Coercion_should_work

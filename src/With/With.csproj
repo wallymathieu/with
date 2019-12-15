@@ -24,7 +24,8 @@
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2019</Copyright>
 
-    <PackageReleaseNotes>Documentation update. Add obsolete attributes to parts intended to be deprecated.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+    </PackageReleaseNotes>
 
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>

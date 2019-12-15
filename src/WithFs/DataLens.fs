@@ -11,7 +11,7 @@ end
 
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
 /// A lens is sort of like a property for immutable data on steroids.
-/// You can compose and combine lenses 
+/// You can compose and combine lenses
 type DataLens<'T, 'U> =
     { /// Get value from 'T
       [<CompiledName("Get")>]
@@ -32,7 +32,7 @@ type internal DataLens = DataLens<obj, obj>
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DataLens =
     /// change the IDataLens to a DataLens in order to work with it
-    let internal coerce(l:IDataLens<'T,'U>) = 
+    let internal coerce(l:IDataLens<'T,'U>) =
         match l with
         | :? DataLens<'T,'U> as lr ->lr
         | _ -> { get=(fun t-> l.Get(t)); set = fun u t -> l.Set(t,u) }
