@@ -79,6 +79,7 @@ type DataLens<'T, 'U> with
     /// Sequentially composes two lenses
     member l1.Compose l2 = DataLens.compose l1 l2
     ///
+    [<Obsolete("Use Set instead")>]
     member l.ToPreparedCopy() =
         { new IPreparedCopy<'T, 'U> with
             member __.Copy(t, v1) = DataLens.set v1 t l }
