@@ -61,30 +61,6 @@ public class CustomerChangeHandler
 }
 ```
 
-### Performance impact of working with immutable types (by using With) in c\#
-
-To generate use the Timings project.
-
-``` ini
-
-BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19033
-Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=3.0.100
-  [Host]     : .NET Core 2.1.13 (CoreCLR 4.6.28008.01, CoreFX 4.6.28008.01), X64 RyuJIT
-  DefaultJob : .NET Core 2.1.13 (CoreCLR 4.6.28008.01, CoreFX 4.6.28008.01), X64 RyuJIT
-
-```
-
-|                                     Method |     Mean |    Error |   StdDev |
-|------------------------------------------- |---------:|---------:|---------:|
-|      Using_static_prepered_copy_expression | 478.1 ns |  9.39 ns | 14.06 ns |
-| Hand_written_method_returning_new_instance | 457.3 ns | 11.15 ns | 10.95 ns |
-|                     Language_ext_generated | 476.0 ns |  9.42 ns | 14.38 ns |
-
-As can be seen there is a slight penalty to use the different approaches. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
-
-The language ext approach has some disadvantages that you might be OK with, for instance that it complicates your build and makes it more dependent on specific build environment (thought that could be fixed by contributing to [dotnet codegen](https://www.nuget.org/packages/dotnet-codegen)).
-
 ## Enumerable extensions provided by the library
 
 ### Partition
@@ -156,6 +132,30 @@ var pairs = 0.To(3).Pairwise(Tuple.Create).ToArray();
 // will be
 Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
 ```
+
+## Performance impact of working with immutable types (by using With) in c\#
+
+To generate use the Timings project.
+
+``` ini
+
+BenchmarkDotNet=v0.12.0, OS=Windows 10.0.19033
+Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=3.0.100
+  [Host]     : .NET Core 2.1.13 (CoreCLR 4.6.28008.01, CoreFX 4.6.28008.01), X64 RyuJIT
+  DefaultJob : .NET Core 2.1.13 (CoreCLR 4.6.28008.01, CoreFX 4.6.28008.01), X64 RyuJIT
+
+```
+
+|                                     Method |     Mean |    Error |   StdDev |
+|------------------------------------------- |---------:|---------:|---------:|
+|      Using_static_prepered_copy_expression | 478.1 ns |  9.39 ns | 14.06 ns |
+| Hand_written_method_returning_new_instance | 457.3 ns | 11.15 ns | 10.95 ns |
+|                     Language_ext_generated | 476.0 ns |  9.42 ns | 14.38 ns |
+
+As can be seen there is a slight penalty to use the different approaches. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
+
+The language ext approach has some disadvantages that you might be OK with, for instance that it complicates your build and makes it more dependent on specific build environment (thought that could be fixed by contributing to [dotnet codegen](https://www.nuget.org/packages/dotnet-codegen)).
 
 ## Why shouldn't you use this library
 
