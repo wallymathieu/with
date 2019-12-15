@@ -20,6 +20,15 @@ namespace Tests.With
             Assert.Equal(myClass.Name, ret.Name);
             Assert.Equal(newValue, Customer._Id.Get(ret));
         }
+        [Theory, AutoData]
+        public void Should_be_able_to_update_price(Sale sale)
+        {
+            var lens=Product._Price.Compose(Sale._Product);
+            var expectedPrice = sale.Product.Price+1;
+            var ret = lens.Update(price=>price+1, sale);
+            Assert.Equal(expectedPrice, ret.Product.Price);
+            Assert.Equal(expectedPrice, lens.Get(ret));
+        }
 
         [Theory, AutoData]
         public void A_class_should_be_able_to_create_a_clone_with_two_property_set(
