@@ -13,7 +13,7 @@
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageVersion>5.1.2</PackageVersion>
+    <PackageVersion>5.1.3</PackageVersion>
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -24,7 +24,11 @@
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2019</Copyright>
 
-    <PackageReleaseNotes>Documentation update. Add obsolete attributes to parts intended to be deprecated.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      Bugfix: https://github.com/wallymathieu/with/issues/58
+      Enhancement: https://github.com/wallymathieu/with/issues/54
+      Additional methods considered obsolete.
+    </PackageReleaseNotes>
 
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>

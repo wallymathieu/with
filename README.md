@@ -28,7 +28,7 @@ public class CustomerNameChangeHandler
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
         // change the name of that customer:
-        var changedNameToErik = NameLens.Write(customer, "Erik Testsson");
+        var changedNameToErik = NameLens.Set(customer, "Erik Testsson");
         // ...
     }
 }
@@ -55,7 +55,7 @@ public class CustomerChangeHandler
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
         // get a new instance of that customer but with id, name and preferences changed:
-        var change = CustomerLens.Write(customer, Tuple.Create( Tuple.Create(NextId(), "Erik Testsson"), new []{"Swedish fish"}));
+        var change = CustomerLens.Set(customer, Tuple.Create( Tuple.Create(NextId(), "Erik Testsson"), new []{"Swedish fish"}));
         // ...
     }
 }
