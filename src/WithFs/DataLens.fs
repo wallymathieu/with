@@ -98,12 +98,12 @@ type DataLens<'T, 'U> with
     member l1.Compose l2 = DataLens.compose l1 l2
     /// Sequentially composes two lenses. Same as compose but in the opposite direction.
     member l1.AndThen l2 = DataLens.compose l2 l1
-    /// Set value and return new instance
+    /// Set value targeted by lens and return new instance
     member l.Set(t, v) = DataLens.set v t l
-    /// Get value from instance
-    member l.Get(t) = DataLens.get t l
+    /// Read value targeted by lens from instance.
+    member l.View(t) = DataLens.get t l
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
-    member l.Update (f:Func<'U,'U>, t) = DataLens.update (f.Invoke) t l
+    member l.Over (f:Func<'U,'U>, t) = DataLens.update (f.Invoke) t l
 open System.Runtime.CompilerServices
 // Additional member functions intended for c# code
 [<Extension>]

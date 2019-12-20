@@ -18,16 +18,16 @@ namespace Tests.With
             var ret = Customer._Id.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Id);
             Assert.Equal(myClass.Name, ret.Name);
-            Assert.Equal(newValue, Customer._Id.Get(ret));
+            Assert.Equal(newValue, Customer._Id.View(ret));
         }
         [Theory, AutoData]
         public void Should_be_able_to_update_price(Sale sale)
         {
             var lens=Product._Price.Compose(Sale._Product);
             var expectedPrice = sale.Product.Price+1;
-            var ret = lens.Update(price=>price+1, sale);
+            var ret = lens.Over(price=>price+1, sale);
             Assert.Equal(expectedPrice, ret.Product.Price);
-            Assert.Equal(expectedPrice, lens.Get(ret));
+            Assert.Equal(expectedPrice, lens.View(ret));
         }
 
         [Theory, AutoData]
@@ -39,7 +39,7 @@ namespace Tests.With
             var ret = lens.Set(myClass, arg);
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
-            Assert.Equal(arg, lens.Get(ret));
+            Assert.Equal(arg, lens.View(ret));
         }
 
         [Theory, AutoData]
@@ -52,7 +52,7 @@ namespace Tests.With
             Assert.Equal(newIntValue, ret.Id);
             Assert.Equal(newStrValue, ret.Name);
             Assert.Equal(prefs, ret.Preferences);
-            Assert.Equal(arg, lens.Get(ret));
+            Assert.Equal(arg, lens.View(ret));
         }
     }
 }
