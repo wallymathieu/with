@@ -1,19 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\netfx.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;net45;netstandard2.0</TargetFrameworks>
     <AssemblyName>With</AssemblyName>
     <PackageId>With</PackageId>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
-    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
-    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageVersion>6.0.0-alpha-1</PackageVersion>
+
     <Authors>Oskar Gewalli</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
@@ -31,7 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\WithFs\WithFs.fsproj" PrivateAssets="all" />
-    <PackageReference Include="FSharp.Core" Version="4.5.4" />
+    <PackageReference Include="FSharp.Core" Version="$(FSharpCoreVersion)" />
   </ItemGroup>
   <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="ResolveReferences">
     <ItemGroup>
