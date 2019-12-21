@@ -2,6 +2,8 @@
 
 With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
 
+Why is this library small? Parts of the library has been removed as c# has evolved (and my understanding of what can be useful in c#).
+
 ## What can we learn from "With"
 
 Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) can help with doing extensions to a language in a relatively simple way.
