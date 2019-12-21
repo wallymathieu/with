@@ -10,50 +10,7 @@ Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.l
 
 ### Working with immutable data
 
-If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.
-
-You can think of a [data lens](http://hackage.haskell.org/package/lens-4.18.1/docs/Data-Data-Lens.html) as an instance of a class that implements the interface:
-
-```c#
-public interface IDataLens<T, TValue>
-{
-    TValue Get(T entity);
-    T Set(T entity, TValue value);
-}
-```
-
-There are some heavy to read examples of lenses. These are cool, but perhaps not as useful as what relative simple things you can achieve in business code using immutable data.
-
-The basic operations are combine and compose.
-
-- Combine
-
-    ```c#
-    Customer.IdLens.Combine(Customer.NameLens)
-    ```
-
-    Gives you a lens that gets/sets both Id and Name on the same class Customer. Given that the static properties IdLens and NameLens are Id and Name lenses for Customer.
-
-    This can be thought of as doing the following for mutable code:
-
-    ```c#
-    customer.Id = newId;
-    customer.Name = newName;
-    ```
-
-- Compose
-
-    ```c#
-    Sale.CustomerLens.Compose(Customer.NameLens)
-    ```
-
-    Gives you a lens that gets/sets both Name of the property Customer on the class Sale. Given that the static properties CustomerLens and NameLens are Customer and Name lenses for Sale and Customer.
-
-    This can be thought of as doing the following for mutable code:
-
-    ```c#
-    sale.Customer.Name = newName;
-    ```
+If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.  For further reading see the [Basic lens operation part of the wiki](https://github.com/wallymathieu/with/wiki/Basic-lens-operations)
 
 #### Simplest example
 
