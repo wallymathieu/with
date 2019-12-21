@@ -8,13 +8,13 @@ module internal Object=
     let equals a b=Object.Equals(a,b)
 
 
-module Expressions=
+module internal Expressions=
     module private Ctx=
         type Context = { Source:ParameterExpression; Parameters: ParameterExpression list }
         let ofExpression (lambda:LambdaExpression)=
             {
                 Source=lambda.Parameters |> Seq.head
-                Parameters=lambda.Parameters |> Seq.tail |> Seq.toList 
+                Parameters=lambda.Parameters |> Seq.tail |> Seq.toList
             }
     module private FieldOrProperty=
         /// return field or property given member expression
@@ -25,7 +25,7 @@ module Expressions=
                FieldOrProperty.create (m.DeclaringType.GetTypeInfo().GetField(m.Name))
             | MemberTypes.Property ->
                FieldOrProperty.create (m.DeclaringType.GetTypeInfo().GetProperty(m.Name))
-            | _ -> 
+            | _ ->
                raise (ExpectedButGotException<MemberTypes>([| MemberTypes.Field; MemberTypes.Property |], m.MemberType))
         /// given expression, return field or property
         let rec ofExpression (expr:Expression): FieldOrProperty seq=
@@ -34,7 +34,7 @@ module Expressions=
                 Seq.empty
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
-                seq { 
+                seq {
                     yield! ofExpression memberAccess.Expression
                     yield ofMemberExpression(memberAccess)
                 }
@@ -88,7 +88,7 @@ module Expressions=
                 let b=lambda :?> BinaryExpression
                 match b.Left.NodeType with
                 | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression b c
-                | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t)) 
+                | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t))
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; |], t))
         let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
             match lambda.NodeType with
@@ -98,26 +98,23 @@ module Expressions=
                 let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> (b.Right:?>BinaryExpression) c
                 DataLens.combine left right
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
-    /// create a data lens out an expression that looks like : 
+    /// create a data lens out an expression that looks like :
     /// <c>t=>t.Property</c>
     /// or in f# terms:
     /// <c>fun t -> t.Property</c>
-    [<CompiledName("WithMemberAccess")>]
     let withMemberAccess<'T,'U> (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
         DataLens.ofMemberAccess lambda.Body
-    /// create a data lens out an expression that looks like : 
+    /// create a data lens out an expression that looks like :
     /// <c>(t,v)=>t.Property == v</c>
     /// or in f# terms:
     /// <c>fun (t,v)-> t.Property = v</c>
-    [<CompiledName("WithEqualEqualOrCall")>]
     let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = Ctx.ofExpression lambda
         DataLens.ofBinaryExpressionEquals lambda.Body c
-    /// create a data lens out an expression that looks like : 
+    /// create a data lens out an expression that looks like :
     /// <c>(t,v1,v2)=>t.Property1 == v1 && t.Property2 == v2</c>
     /// or in f# terms:
     /// <c>fun (t,v1,v2)-> t.Property1 = v1 && t.Property2 = v2</c>
-    [<CompiledName("WithEqualEqualOrCall2")>]
     let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
         let c = Ctx.ofExpression lambda
         DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> lambda.Body c
