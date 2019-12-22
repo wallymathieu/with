@@ -2,13 +2,6 @@ namespace With.Lenses
 open System
 open With
 open System.ComponentModel
-/// Data Lens abstraction
-type IDataLens<'T,'U> = interface
-    /// Get value out lens
-    abstract member Get: 'T -> 'U
-    /// Set value and return result
-    abstract member Set: 'T*'U -> 'T
-end
 
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
 /// A lens is sort of like a property for immutable data on steroids.
@@ -22,19 +15,11 @@ type DataLens<'T, 'U> =
       set: 'U -> 'T -> 'T }
 with
     static member Create(get:Func<'T,'U>,set:Func<'T,'U,'T>)={ get=(fun t-> get.Invoke(t)); set = fun u t -> set.Invoke(t,u) }
-    interface IDataLens<'T,'U> with
-        member l.Get (t)=l.get t
-        member l.Set (t,v)=l.set v t
 
 type internal DataLens = DataLens<obj, obj>
 /// DataLens operations intended for f# code
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module DataLens =
-    /// change the IDataLens to a DataLens in order to work with it
-    let internal coerce(l:IDataLens<'T,'U>) =
-        match l with
-        | :? DataLens<'T,'U> as lr ->lr
-        | _ -> { get=(fun t-> l.Get(t)); set = fun u t -> l.Set(t,u) }
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
     let update f t l = l.set (f (l.get t)) t
 
@@ -104,15 +89,3 @@ type DataLens<'T, 'U> with
     member l.View(t) = DataLens.get t l
     /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
     member l.Over (f:Func<'U,'U>, t) = DataLens.update (f.Invoke) t l
-open System.Runtime.CompilerServices
-// Additional member functions intended for c# code
-[<Extension>]
-type DataLensExtensions=
-    /// combine two lenses into one where the two lenses operates on the same "record" type
-    [<Extension>] static member Combine (l1:IDataLens<'T, 'U>,l2:IDataLens<_, _>) = DataLens.combine (DataLens.coerce l1) (DataLens.coerce l2)
-    /// Sequentially composes two lenses
-    [<Extension>] static member Compose (l1:IDataLens<'T, 'U>,l2:IDataLens<_, _>) = DataLens.compose (DataLens.coerce l1) (DataLens.coerce l2)
-    /// Sequentially composes two lenses. Same as compose but in the opposite direction.
-    [<Extension>] static member AndThen (l1:IDataLens<'T, 'U>,l2:IDataLens<_, _>) = DataLens.compose (DataLens.coerce l2) (DataLens.coerce l1)
-    /// Read the value of t, then apply the function f on that value and set the value into a new instance of t of 'T
-    [<Extension>] static member Update (l1:IDataLens<'T, 'U>, f:Func<'U,'U>, t) = DataLens.update (f.Invoke) t (DataLens.coerce l1)
