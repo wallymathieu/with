@@ -4,8 +4,7 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/WithFs/WithFs.fsproj" />
-    <ProjectReference Include="..\With\With.csproj" />
+    <ProjectReference Include="../../src/With/With.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.0" />
