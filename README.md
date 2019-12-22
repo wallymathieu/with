@@ -65,78 +65,6 @@ public class CustomerChangeHandler
 }
 ```
 
-## Enumerable extensions provided by the library
-
-### Partition
-
-The partition function takes a predicate and a collection and returns the pair of collections of elements which do and do not satisfy the predicate.
-
-```c#
-using With.Collections;
-...
-var partition = new[] { 1,2,3,4,5,6,7}.Partition(num=>num%2==0).ToArray();
-// partition.True will be new[] { 2, 4, 6 }
-// partition.False will be new[] { 1, 3, 5, 7 }
-```
-
-### Chunk
-
-Enumerates over the items, chunking them together based on the return value of the block.
-
-Consecutive elements which return the same block value are chunked together.
-
-```c#
-using With.Collections;
-...
-var array = new[] {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5};
-var chunked = new List<(bool, int[])>();
-
-array.Chunk(n => n.Even()).Each((even, ary) => chunked.Add((even, ary.ToArray())));
-Assert.Equal(new[]
-{
-    (false, new[] {3, 1}),
-    (true, new[] {4}),
-    (false, new[] {1, 5, 9}),
-    (true, new[] {2, 6}),
-    (false, new[] {5, 3, 5})
-}, chunked.ToArray());
-```
-
-### Flatten
-
-Returns a new array that is a one-dimensional flattening of self (recursively).
-
-That is, for every element that is an array, extract its elements into the new array.
-
-The optional level argument determines the level of recursion to flatten.
-
-### Cycle
-
-Yields each element of collection repeatedly n times or forever if null is given.
-If a non-positive number is given or the collection is empty, returns an empty enumerable.
-
-```c#
-using With.Collections;
-...
-Assert.Equal(new[]{
-    "a", "b", "c",
-    "a", "b", "c"
-}, new[] { "a", "b", "c" }.Cycle(2).ToArray());
-```
-
-### Pairwise
-
-Used to iterate over collection and get the collection elements pairwise.
-Yields the result of the application of the map function over each pair.
-
-```c#
-using With.Collections;
-...
-var pairs = Enumerable.Range(0, 4).Pairwise(Tuple.Create).ToArray();
-// will be
-Assert.Equal(new[] { Tuple.Create(0, 1), Tuple.Create(1, 2), Tuple.Create(2, 3) },pairs);
-```
-
 ## Performance impact of working with immutable types (by using With) in c\#
 
 To generate use the Timings project.
@@ -159,7 +87,7 @@ Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 
 As can be seen there is a slight penalty to use the different approaches. The naive hand written version has similar performance why this library might be good enough when you have access to reflection and expression compile on the platform.
 
-The language ext approach has some disadvantages that you might be OK with, for instance that it complicates your build and makes it more dependent on specific build environment (thought that could be fixed by contributing to [dotnet codegen](https://www.nuget.org/packages/dotnet-codegen)).
+The language ext approach has some disadvantages that you might be OK with, for instance that it complicates your build and makes it more dependent on specific build environment (though that could be fixed by contributing to [dotnet codegen](https://www.nuget.org/packages/dotnet-codegen)).
 
 ## Why shouldn't you use this library
 
