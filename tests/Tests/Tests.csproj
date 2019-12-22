@@ -7,8 +7,7 @@
     <PackageId>Tests</PackageId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../src/With/With.csproj" />
-    <ProjectReference Include="../../src/WithFs/WithFs.fsproj" />
+    <ProjectReference Include="../../src/With/With.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
