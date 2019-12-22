@@ -24,11 +24,7 @@
     <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
     <Copyright>Copyright 2019</Copyright>
 
-    <PackageReleaseNotes>
-      Bugfix: https://github.com/wallymathieu/with/issues/58
-      Enhancement: https://github.com/wallymathieu/with/issues/54
-      Additional methods considered obsolete.
-    </PackageReleaseNotes>
+    <PackageReleaseNotes>Additional methods considered obsolete.</PackageReleaseNotes>
 
     <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
   </PropertyGroup>
