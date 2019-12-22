@@ -23,6 +23,7 @@ namespace With.Collections
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static IEnumerable<TResult> Pairwise<T, TResult>(
             this IEnumerable<T> collection, Func<T, T, TResult> func)
         {
@@ -33,7 +34,7 @@ namespace With.Collections
                 {
                     yield break;
                 }
-                
+
                 var last = enumerator.Current;
                 for (; enumerator.MoveNext();)
                 {
@@ -50,6 +51,7 @@ namespace With.Collections
         /// <param name="n"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static IEnumerable<T> Cycle<T>(this IEnumerable<T> collection, int? n = null)
         {
             while (n == null || n-- > 0)
@@ -67,6 +69,7 @@ namespace With.Collections
         /// <param name="predicate"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static Partition<T> Partition<T>(this IEnumerable<T> collection, Func<T, bool> predicate)
         {
             var groups = collection.GroupBy(predicate).ToArray();
@@ -74,7 +77,7 @@ namespace With.Collections
             var falseArray = groups.SingleOrDefault(g => g.Key.Equals(false))?.ToArray() ?? new T[0];
             return new Partition<T>(trueArray, falseArray);
         }
-        
+
         /// <summary>
         /// Returns a new array that is a one-dimensional flattening of self (recursively).
         ///
@@ -82,6 +85,7 @@ namespace With.Collections
         ///
         ///The optional level argument determines the level of recursion to flatten.
         /// </summary>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static IEnumerable Flatten(this IEnumerable self, int? order = null)
         {
             if (order == null || order >= 0)
@@ -134,13 +138,14 @@ namespace With.Collections
         ///
         /// Consecutive elements which return the same block value are chunked together.
         ///
-        /// Compare this to GroupBy <see cref="Enumerable.GroupBy{TSource,TKey}(System.Collections.Generic.IEnumerable{TSource},System.Func{TSource,TKey})"/> 
+        /// Compare this to GroupBy <see cref="Enumerable.GroupBy{TSource,TKey}(System.Collections.Generic.IEnumerable{TSource},System.Func{TSource,TKey})"/>
         /// </summary>
         /// <param name="collection"></param>
         /// <param name="keySelector"></param>
         /// <typeparam name="TKey"></typeparam>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static IEnumerable<IGrouping<TKey, T>> Chunk<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
         {
             Chunks<TKey, T> currentChunk = null;

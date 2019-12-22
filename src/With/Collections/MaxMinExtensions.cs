@@ -5,7 +5,7 @@ using System.Linq;
 namespace With.Collections
 {
     /// <summary>
-    /// Maximum, minimum extensions. 
+    /// Maximum, minimum extensions.
     /// For the alias, see https://en.wikipedia.org/wiki/Maxima_and_minima
     /// Maximums and minimums are the colloquial expressions. You should be able to use
     /// whatever you fancy.
@@ -28,6 +28,7 @@ namespace With.Collections
         /// <returns>The maximum or default if no maximum can be found.</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="compare">The compare function.</param>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T Max<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMax(Comparer.Create(compare)).FirstOrDefault();
@@ -61,6 +62,7 @@ namespace With.Collections
         /// <returns>The maximum or default if no maximum can be found.</returns>
         /// <param name="self">The sequence that contains the values</param>
         /// <param name="map">A map from the element to a value used for calculating max.</param>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T MaxBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {
@@ -117,6 +119,7 @@ namespace With.Collections
         /// <returns>The minimum or default if no maximum can be found.</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
         /// <param name="compare">The compare function.</param>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T Min<T>(this IEnumerable<T> self, Func<T, T, int> compare)
         {
             return self.GetMin(Comparer.Create(compare)).FirstOrDefault();
@@ -149,6 +152,7 @@ namespace With.Collections
         /// <returns>The minimum or default if no maximum can be found.</returns>
         /// <param name="self">The sequence that contains the minimum value</param>
         /// <param name="map">A map from the element to a value used for calculating min.</param>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T MinBy<T, TComparable>(this IEnumerable<T> self, Func<T, TComparable> map)
             where TComparable : IComparable
         {

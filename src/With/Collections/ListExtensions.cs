@@ -20,6 +20,7 @@ namespace With.Collections
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="OutOfRangeException"></exception>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T Next<T>(this IList<T> that, int index, Func<T, bool> filter = null, Func<int, T> valueWhenOutOfRange = null)
         {
             if (null == filter) filter = ReturnsTrue;
@@ -46,6 +47,7 @@ namespace With.Collections
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="OutOfRangeException"></exception>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static T Previous<T>(this IList<T> that, int index, Func<T, bool> filter = null, Func<int, T> valueWhenOutOfRange = null)
         {
             if (null == filter) filter = ReturnsTrue;
@@ -61,13 +63,14 @@ namespace With.Collections
             }
             throw new OutOfRangeException();
         }
-        
+
         /// <summary>
         /// Returns sub lists of at most 'count' elements from the IEnumerable
         /// </summary>
         /// <returns>An IEnumerable of IEnumerable with Count less than 'count'</returns>
         /// <param name="enumerable"></param>
         /// <param name="count">The number of elements that should be at most found in each "batch".</param>
+        [Obsolete("Use Wallymathieu.Collections")]
         public static IEnumerable<IEnumerable<T>> BatchesOf<T>(this IEnumerable<T> enumerable, int count)
         {
             using (var enumerator = enumerable.GetEnumerator())
@@ -89,6 +92,6 @@ namespace With.Collections
         }
     }
 
-    
+
 }
 

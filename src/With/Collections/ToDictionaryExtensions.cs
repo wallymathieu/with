@@ -5,12 +5,12 @@ using System.Linq;
 namespace With.Collections
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public static class ToDictionaryExtensions
     {
         /// <summary>
-        /// Returns a dictionary from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value 
+        /// Returns a dictionary from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value
         /// </summary>
         public static IDictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
         {
@@ -24,7 +24,7 @@ namespace With.Collections
             return self.ToDictionary(kv => kv.Item1, kv => kv.Item2);
         }
         /// <summary>
-        /// Returns a lookup from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value 
+        /// Returns a lookup from a <see cref="System.Collections.Generic.KeyValuePair{TKey, TValue}"/> where the Key is the key and the Value is the value
         /// </summary>
         public static ILookup<TKey, TValue> ToLookup<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> self)
         {

@@ -92,51 +92,58 @@ namespace With.RegularExpressions
             }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Gsub(this string self, Regex regex, string evaluator)
         {
             return regex.Replace(self, Evaluate(evaluator));
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Gsub(this string self, string regex, string evaluator)
         {
             return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator));
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self ?? String.Empty, evaluator);
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Sub(this string self, Regex regex, string evaluator)
         {
             return regex.Replace(self ?? String.Empty, Evaluate(evaluator), 1);
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Sub(this string self, string regex, string evaluator)
         {
             return regex.AsRegex().Replace(self ?? String.Empty, Evaluate(evaluator), 1);
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static string Sub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self ?? String.Empty, evaluator, 1);
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
+        [Obsolete("Use Wallymathieu.RegularExpressions")]
         public static Match Match(this string self, Regex regex)
         {
             return regex.Match(self ?? String.Empty);
