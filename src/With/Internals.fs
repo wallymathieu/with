@@ -129,7 +129,7 @@ module internal InternalExpressions=
             let ityp = typedefof<IReadOnlyDictionary<_,_>>
             let ctorT (t:Type) = typ.MakeGenericType(t).GetTypeInfo().GetConstructors() |> Seq.find (fun c->c.GetParameters().Length =1)
 
-    let internal fieldOrPropertyToSetT (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+    let internal fieldOrPropertyToSetT (options:DataLensOptions) (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
         /// compare parameter and field or property and make sure that they have the same Name (ignoring case)
         let haveSameName (p1:ParameterInfo) (p2:FieldOrProperty) =
             let p1Name = p1.Name
