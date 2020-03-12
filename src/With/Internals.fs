@@ -222,12 +222,12 @@ module internal InternalExpressions=
         if not usedValue then raise (MissingConstructorParameterException value.Name)
         let expressions : Expression list = [Expression.New(ctor, parameters)]
         (Expression.Block(expressions),[parameterValue;parameterT])
-    let fieldOrPropertyToSetUntyped (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
-        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+    let fieldOrPropertyToSetUntyped opt (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT opt tSource tDest value
         Expression.Lambda(block, parameters)
 
-    let fieldOrPropertyToSet<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
-        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+    let fieldOrPropertyToSet<'T,'V> opt (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT opt tSource tDest value
         Expression.Lambda<Func<'V,'T,'T>>(block, parameters)
     let fieldOrPropertyToGetT (tSource: Type) (value: FieldOrProperty) =
         let parameterT = Expression.Parameter(tSource, "t")
@@ -244,10 +244,10 @@ module internal InternalExpressions=
 
 module internal FieldOrProperty=
     /// Given field or property access, return lens implemented through reflection and expression compile
-    let toLens<'T, 'U> v: DataLens<'T, 'U> =
+    let toLens<'T, 'U> opt v: DataLens<'T, 'U> =
         let typ = typeof<'T>
         let compiledSetter =
-            let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> typ typ v
+            let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> opt typ typ v
             lens.Compile()
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGet<'T,'U> v
@@ -255,10 +255,10 @@ module internal FieldOrProperty=
         { get = fun t -> compiledGetter.Invoke(t)
           set = fun v t -> compiledSetter.Invoke(v,t) }
     ///
-    let toLensUntyped v: DataLens =
+    let toLensUntyped opt v: DataLens =
         let typ = FieldOrProperty.declaringType v
         let compiledSetter =
-            let lens = InternalExpressions.fieldOrPropertyToSetUntyped typ typ v
+            let lens = InternalExpressions.fieldOrPropertyToSetUntyped opt typ typ v
             lens.Compile()
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGetUntyped typ v
@@ -272,7 +272,7 @@ module internal Object=
 
 module internal Expressions=
     module private Ctx=
-        type Context = { Source:ParameterExpression; Parameters: ParameterExpression list }
+        type Context = { Source:ParameterExpression; Parameters: ParameterExpression list; }
         let ofExpression (lambda:LambdaExpression)=
             {
                 Source=lambda.Parameters |> Seq.head
@@ -305,78 +305,78 @@ module internal Expressions=
     module private DataLens=
         open Ctx
         /// turn member access in expression into untyped DataLens
-        let rec ofMemberAccessUntyped (expr:Expression) : DataLens=
+        let rec ofMemberAccessUntyped opt (expr:Expression) : DataLens=
 
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLensUntyped opt <| FieldOrProperty.ofMemberExpression memberAccess
                 else
-                    let current = ofMemberAccessUntyped memberAccess.Expression
-                    let next = FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    let current = ofMemberAccessUntyped opt memberAccess.Expression
+                    let next = FieldOrProperty.toLensUntyped opt <| FieldOrProperty.ofMemberExpression memberAccess
                     DataLens.composeUntyped next current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
         /// turn member access in expression into typed DataLens
-        let rec ofMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
+        let rec ofMemberAccess<'T,'U> opt (expr:Expression) : DataLens<'T,'U>=
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    FieldOrProperty.toLens<'T,'U> <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLens<'T,'U> opt <| FieldOrProperty.ofMemberExpression memberAccess
                 else
                     // unable to continue with typed expressions:
-                    let l=ofMemberAccessUntyped expr
+                    let l=ofMemberAccessUntyped opt expr
                     DataLens.unbox<'T,'U> l
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
         /// turn binary expression with member expression into typed DataLens, the assumption being that the binary expression is an equals
-        let expectLeftAndRightMemberAccessInBinaryExpression<'T,'U> (expr:BinaryExpression) (c:Context): DataLens<'T,'U>=
+        let expectLeftAndRightMemberAccessInBinaryExpression<'T,'U> opt (expr:BinaryExpression) (c:Context): DataLens<'T,'U>=
             let tryFind e = List.tryFind (Object.equals e) c.Parameters
             match tryFind expr.Right, tryFind expr.Left with
             | Some _,None ->
-                ofMemberAccess expr.Left
+                ofMemberAccess opt expr.Left
             | None, Some _->
-                ofMemberAccess expr.Right
+                ofMemberAccess opt expr.Right
             | None, None ->
                 failwithf "1) Expected expression '%O' to yield either a left side member access or a right side member access (%A)" expr c
             | _ ->
                 failwithf "2) Expected expression '%O' to yield either a left side member access or a right side member access (%A)" expr c
         /// turn binary expression with member expression into typed DataLens
-        let ofBinaryExpressionEquals<'T,'U> (lambda:Expression) (c:Context): DataLens<'T,'U>=
+        let ofBinaryExpressionEquals<'T,'U> opt (lambda:Expression) (c:Context): DataLens<'T,'U>=
             match lambda.NodeType with
             | ExpressionType.Equal ->
                 let b=lambda :?> BinaryExpression
                 match b.Left.NodeType with
-                | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression b c
+                | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression opt b c
                 | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t))
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; |], t))
-        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
+        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> opt (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
             match lambda.NodeType with
             | ExpressionType.AndAlso ->
                 let b=lambda :?> BinaryExpression
-                let left = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U1> (b.Left:?>BinaryExpression) c
-                let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> (b.Right:?>BinaryExpression) c
+                let left = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U1> opt (b.Left:?>BinaryExpression) c
+                let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> opt (b.Right:?>BinaryExpression) c
                 DataLens.combine left right
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
     /// create a data lens out an expression that looks like :
     /// <c>t=>t.Property</c>
     /// or in f# terms:
     /// <c>fun t -> t.Property</c>
-    let withMemberAccess<'T,'U> (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
-        DataLens.ofMemberAccess lambda.Body
+    let withMemberAccess<'T,'U> opt (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
+        DataLens.ofMemberAccess opt lambda.Body
     /// create a data lens out an expression that looks like :
     /// <c>(t,v)=>t.Property == v</c>
     /// or in f# terms:
     /// <c>fun (t,v)-> t.Property = v</c>
-    let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
+    let withEqualEqualOrCall<'T,'U> opt (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = Ctx.ofExpression lambda
-        DataLens.ofBinaryExpressionEquals lambda.Body c
+        DataLens.ofBinaryExpressionEquals opt lambda.Body c
     /// create a data lens out an expression that looks like :
     /// <c>(t,v1,v2)=>t.Property1 == v1 && t.Property2 == v2</c>
     /// or in f# terms:
     /// <c>fun (t,v1,v2)-> t.Property1 = v1 && t.Property2 = v2</c>
-    let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
+    let withEqualEqualOrCall2<'T,'U1,'U2> opt (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
         let c = Ctx.ofExpression lambda
-        DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> lambda.Body c
+        DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> opt lambda.Body c

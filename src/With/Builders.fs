@@ -7,35 +7,35 @@ open With.Internals
 type Lens<'T>=
     /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue>> ) : DataLens<'T,'TValue>=
-        Expressions.withMemberAccess expr
+        Expressions.withMemberAccess DataLensOptions.Empty expr
     /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue, bool>> ) : DataLens<'T,'TValue>=
-        Expressions.withEqualEqualOrCall expr
+        Expressions.withEqualEqualOrCall DataLensOptions.Empty expr
     /// Create a lens, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'TValue1, 'TValue2, bool>>) : DataLens<'T,struct('TValue1*'TValue2)>=
-        Expressions.withEqualEqualOrCall2 expr
+        Expressions.withEqualEqualOrCall2 DataLensOptions.Empty expr
 
 /// LensBuilder in order to simplify building lenses in c#
-type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
+type LensBuilder<'T,'U>(built:DataLens<'T,'U>, opt:DataLensOptions)=
     /// Combine existing lens with another lens
     member __.And(lens: DataLens<'T, 'U2>) =
-        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built lens)
+        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built lens, opt)
     /// Combine existing lens with expression representing another lens
     member __.And(expr: Expression<Func<'T, 'U2>>) =
-        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built <| Expressions.withMemberAccess expr)
+        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built <| Expressions.withMemberAccess opt expr, opt)
     /// Combine existing lens with expression representing another lens
     member __.And(expr:Expression<Func<'T, 'U2, bool>> ) =
-        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built <| Expressions.withEqualEqualOrCall expr)
+        LensBuilder<'T,struct('U*'U2)>(DataLens.combine built <| Expressions.withEqualEqualOrCall opt expr, opt)
     /// Combine existing lens with expression representing another lens
     member __.And(expr:Expression<Func<'T, 'U2, 'U3, bool>>) =
-        LensBuilder<'T,struct('U * struct('U2*'U3))>(DataLens.combine built <| Expressions.withEqualEqualOrCall2 expr)
+        LensBuilder<'T,struct('U * struct('U2*'U3))>(DataLens.combine built <| Expressions.withEqualEqualOrCall2 opt expr, opt)
     /// Compose existing lens with expression representing deeper lens
     member __.Then(expr: Expression<Func<'U, 'V>>) =
-        let next = Expressions.withMemberAccess expr
-        LensBuilder<'T, 'V>(DataLens.compose next built)
+        let next = Expressions.withMemberAccess opt expr
+        LensBuilder<'T, 'V>(DataLens.compose next built, opt)
     /// Compose existing lens with deeper lens
     member __.Then(next: DataLens<'U, 'V>) =
-        LensBuilder<'T, 'V>(DataLens.compose next built)
+        LensBuilder<'T, 'V>(DataLens.compose next built, opt)
     /// Current lens
     member __.Current = built
 
@@ -43,16 +43,19 @@ type LensBuilder<'T,'U>(built:DataLens<'T,'U>)=
 type LensBuilder<'T>()=
     /// Create a lensbuilder, created from the lens
     static member Of(lens:DataLens<'T, 'U> ) =
-        LensBuilder<'T,'U>(lens)
+        LensBuilder<'T,'U>(lens, DataLensOptions.Empty)
     /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U>> ) =
-        LensBuilder<'T,'U>(Expressions.withMemberAccess expr)
+        let opt = DataLensOptions.Empty
+        LensBuilder<'T,'U>(Expressions.withMemberAccess opt expr, opt)
     /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U, bool>> ) =
-        LensBuilder<'T,'U>(Expressions.withEqualEqualOrCall expr)
+        let opt = DataLensOptions.Empty
+        LensBuilder<'T,'U>(Expressions.withEqualEqualOrCall opt expr, opt)
     /// Create a lensbuilder, created from the expression and the base type
     static member Of(expr:Expression<Func<'T, 'U1, 'U2, bool>>) =
-        LensBuilder<'T,struct('U1*'U2)>(Expressions.withEqualEqualOrCall2 expr)
+        let opt = DataLensOptions.Empty
+        LensBuilder<'T,struct('U1*'U2)>(Expressions.withEqualEqualOrCall2 opt expr, opt)
 
 
 open System.Runtime.CompilerServices
