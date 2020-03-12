@@ -6,33 +6,52 @@ open System.Runtime.CompilerServices
 open System.Linq.Expressions
 open System.Reflection
 open With.Lenses
+open With.Lenses.Internals
 
 /// Used internally to represent field or property
 type internal FieldOrProperty =
-    | FieldOrProperty of Choice<PropertyInfo, FieldInfo>
+    | Property of PropertyInfo
+    | Field of FieldInfo
+    static member create (p) = Property p
+    static member create (p) = Field p
 
-    static member create (p) = FieldOrProperty(Choice1Of2 p)
-
-    static member create (p) = FieldOrProperty(Choice2Of2 p)
-
-    static member name (FieldOrProperty v) =
+    static member name v =
         match v with
-        | Choice1Of2 p -> p.Name
-        | Choice2Of2 f -> f.Name
+        | Property p -> p.Name
+        | Field f -> f.Name
 
-    static member declaringType (FieldOrProperty v) =
+    static member declaringType v =
         match v with
-        | Choice1Of2 p -> p.DeclaringType
-        | Choice2Of2 f -> f.DeclaringType
+        | Property p -> p.DeclaringType
+        | Field f -> f.DeclaringType
 
-    static member fieldType (FieldOrProperty v) =
+    static member fieldType v =
         match v with
-        | Choice1Of2 p -> p.PropertyType
-        | Choice2Of2 f -> f.FieldType
+        | Property p -> p.PropertyType
+        | Field f -> f.FieldType
 
     member this.Name = FieldOrProperty.name this
     member this.DeclaringType = FieldOrProperty.declaringType this
+type internal Ctor =
+    | Ctor of ConstructorInfo
+    | CtorFun of MethodInfo
+    static member create (c) = Ctor c
+    static member create (m) = CtorFun m
+    static member name (v) =
+        match v with
+        | Ctor c -> c.Name
+        | CtorFun m -> m.Name
 
+    static member declaringType v =
+        match v with
+        | Ctor c -> c.DeclaringType
+        | CtorFun m -> m.DeclaringType
+
+    static member parameters v =
+        match v with
+        | Ctor c -> c.GetParameters()
+        | CtorFun m -> m.GetParameters()
+    member this.Parameters = Ctor.parameters this
 
 module internal Reflection =
 
@@ -47,14 +66,23 @@ module internal Reflection =
                     table.Add(key, value)
                     value)
 
-    let getConstructorWithMostParameters: Type -> ConstructorInfo =
+    let getConstructorWithMostParameters: Type -> ConstructorInfo option =
         let create (tp: Type) =
             let ctors = tp.GetTypeInfo().GetConstructors()
             match ctors.Length with
-            | 1 -> ctors.[0]
-            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length)
+            | 0 -> None
+            | 1 -> Some ctors.[0]
+            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length) |> Some
         weakMemoize create
-
+    /// get constructor function with the most parameters
+    let getConstructorFunctionWithMostParameters : (Type*DataLensOptions) -> MethodInfo option =
+        let create (tp: Type,opt:DataLensOptions) =
+            let ctors = tp.GetTypeInfo().GetMethods() |> Array.filter (fun m->m.IsStatic && m.IsPublic)
+            match ctors.Length with
+            | 0 -> None
+            | 1 -> Some ctors.[0]
+            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length) |> Some
+        weakMemoize create
     let getPublicFields (typ: Type) = typ.GetTypeInfo().GetFields(BindingFlags.Public ||| BindingFlags.Instance)
     let getPublicProperties (typ: Type) = typ.GetTypeInfo().GetProperties(BindingFlags.Public ||| BindingFlags.Instance)
 
@@ -192,7 +220,14 @@ module internal InternalExpressions=
                     trySeqToList T.List.typ; trySeqToList T.List.ityp]
                 tryOut |> List.tryPick (fun f->f sourceT destT parameterValue)
         let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
-        let ctor = Reflection.getConstructorWithMostParameters tDest
+        let ctorCtor = Reflection.getConstructorWithMostParameters tDest
+        let ctorFun= Reflection.getConstructorFunctionWithMostParameters (tDest,options)
+        let ctor = match ctorCtor,ctorFun with 
+                   | Some ctor,_->Ctor.create ctor
+                   | _,Some m->Ctor.create m
+                   | _, _ -> failwithf "Could not find constructor or constructor function for %A" tDest
+
+
         let parameterValue=Expression.Parameter(FieldOrProperty.fieldType value,"v")
         let parameterT = Expression.Parameter(tSource,"t")
         let noKnwownConversion sourceT destT (p:ParameterInfo)=failwithf "No known conversion from %A to %A, please make sure that property named %s has a type that fits the constructor argument with same name" sourceT destT (p.Name)
@@ -218,9 +253,13 @@ module internal InternalExpressions=
                 | None -> raise (MissingValueException param.Name)
 
         let parameters : Expression list =
-            ctor.GetParameters() |> Array.map mapParamToExpressionParam |> Array.toList
+            ctor.Parameters |> Array.map mapParamToExpressionParam |> Array.toList
         if not usedValue then raise (MissingConstructorParameterException value.Name)
-        let expressions : Expression list = [Expression.New(ctor, parameters)]
+        let expressions : Expression list = 
+            match ctor with 
+            | Ctor c->[Expression.New(c, parameters)]
+            | CtorFun m->[Expression.Call(m, parameters)]
+        
         (Expression.Block(expressions),[parameterValue;parameterT])
     let fieldOrPropertyToSetUntyped opt (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
         let (block,parameters)= fieldOrPropertyToSetT opt tSource tDest value

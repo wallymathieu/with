@@ -2,6 +2,7 @@ namespace With
 open System
 open System.Linq.Expressions
 open With.Lenses
+open With.Lenses.Internals
 open With.Internals
 /// Helper type to create lenses
 type Lens<'T>=
@@ -40,7 +41,21 @@ type LensBuilder<'T,'U>(built:DataLens<'T,'U>, opt:DataLensOptions)=
     member __.Current = built
 
 /// LensBuilder in order to simplify building lenses in c#
-type LensBuilder<'T>()=
+type LensBuilder<'T>(opt:DataLensOptions)=
+    member __.Of(lens:DataLens<'T, 'U>) =
+        LensBuilder<'T,'U>(lens, opt)
+    /// Create a lensbuilder, created from the expression and the base type
+    member __.Of(expr:Expression<Func<'T, 'U>> ) =
+        LensBuilder<'T,'U>(Expressions.withMemberAccess opt expr, opt)
+    /// Create a lensbuilder, created from the expression and the base type
+    member __.Of(expr:Expression<Func<'T, 'U, bool>> ) =
+        LensBuilder<'T,'U>(Expressions.withEqualEqualOrCall opt expr, opt)
+    /// Create a lensbuilder, created from the expression and the base type
+    member __.Of(expr:Expression<Func<'T, 'U1, 'U2, bool>>) =
+        LensBuilder<'T,struct('U1*'U2)>(Expressions.withEqualEqualOrCall2 opt expr, opt)
+
+    static member Constructors(constructors:string array)=
+        LensBuilder<'T>(DataLensOptions.Create constructors)
     /// Create a lensbuilder, created from the lens
     static member Of(lens:DataLens<'T, 'U> ) =
         LensBuilder<'T,'U>(lens, DataLensOptions.Empty)
@@ -56,6 +71,8 @@ type LensBuilder<'T>()=
     static member Of(expr:Expression<Func<'T, 'U1, 'U2, bool>>) =
         let opt = DataLensOptions.Empty
         LensBuilder<'T,struct('U1*'U2)>(Expressions.withEqualEqualOrCall2 opt expr, opt)
+
+
 
 
 open System.Runtime.CompilerServices

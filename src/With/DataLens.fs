@@ -3,10 +3,11 @@ open System
 open With
 open System.ComponentModel
 
-type DataLensOptions(constructorAlias:string array)=
-    member __.ConstructorAlias = constructorAlias
-    static member Empty=DataLensOptions([||])
-
+module Internals=
+    type DataLensOptions = {ConstructorAlias:string list}
+    with
+        static member Empty={ConstructorAlias=[]}
+        static member Create a={ConstructorAlias=List.ofArray a}
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
 /// A lens is sort of like a property for immutable data on steroids.
 /// You can compose and combine lenses
