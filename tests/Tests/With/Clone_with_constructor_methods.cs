@@ -22,6 +22,8 @@ namespace Tests.With
             var ret = CustomerNameCopy.Value.Set (myClass, newValue);
             Assert.Equal (newValue, ret.Customer.Name);
             Assert.Equal (myClass.Id, ret.Id);
+            Assert.True (ret.FromMK, "from MK");
+            Assert.True (ret.Customer.FromNew, "from New");
         }
     }
 }
