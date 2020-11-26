@@ -4,6 +4,8 @@ With is a small library written in c# intended for alternative constructions in 
 
 Why is this library small? Parts of the library has been removed as c# has evolved (and my understanding of what can be useful in c#).
 
+The main reason for this library has been met by C# 9. You probably want to use that instead of using this library.
+
 ## What can we learn from "With"
 
 Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) can help with doing extensions to a language in a relatively simple way.
@@ -91,9 +93,7 @@ The language ext approach has some disadvantages that you might be OK with, for 
 
 ## Why shouldn't you use this library
 
-The immutable data support in this library is done as an extensions to the language using the [expression](https://msdn.microsoft.com/en-us/library/system.linq.expressions.expression(v=vs.110).aspx) support in c#. A different way to add these things to c# would be to write some sort of [roslyn](https://github.com/dotnet/roslyn/) extension in order to extend the language in a way that can be generated at compile time. This is done for instance in [language ext](https://github.com/louthy/language-ext) codegen project. An approach such as that could be useful depending on your requirements.
-
-On the .net platform there is already a language that allows you to write immutable first code in a terse and helpful way, [f#](https://fsharp.org/), you can find out more on: [f# for fun and profit](https://fsharpforfunandprofit.com/). Many programmers prefer to work in c#/java why this library or codegen makes more sense.
+You probably want to use C# 9 instead where the `with` has been integrated into the language. 
 
 ## Nuget
 
