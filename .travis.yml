@@ -2,7 +2,7 @@
 language: csharp 
 dist: xenial
 
-dotnet: 3.0.100
+dotnet: 5.0.100
 script: 
   - dotnet restore ./With.sln
   - dotnet build ./src/With
