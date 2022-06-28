@@ -15,7 +15,7 @@
     <PackageReference Include="AutoFixture" Version="4.*" />
     <PackageReference Include="AutoFixture.Xunit2" Version="4.*" />
     <PackageReference Include="xunit" Version="2.4.*" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System.Web.Extensions" />
