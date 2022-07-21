@@ -16,7 +16,7 @@ type ``Clone an instance into the same type``()=
 
     [<Theory; AutoData>]
     member this.``A class should be able to create a clone with two property set using equal`` (myClass:Customer, newIntValue:int, newStrValue:string)=
-        let ret = idAndNameCopy.Value.Set(myClass,(newIntValue,newStrValue))
+        let ret = idAndNameCopy.Value.Set(myClass,struct(newIntValue,newStrValue))
         Assert.Equal(newIntValue, ret.id)
         Assert.Equal(newStrValue, ret.name)
 

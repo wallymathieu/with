@@ -1,11 +1,23 @@
 <Project>
     <PropertyGroup>
-        <VersionPrefix>6.0.0</VersionPrefix>
-        <VersionSuffix></VersionSuffix>
+        <VersionPrefix>6.1.0</VersionPrefix>
+        <VersionSuffix>beta-1</VersionSuffix>
         <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionPrefix)-$(VersionSuffix)</Version>
         <Version Condition=" '$(VersionSuffix)' == '' ">$(VersionPrefix)</Version>
         <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
         <FileVersion>$(VersionPrefix).0</FileVersion>
+
+        <Authors>Oskar Gewalli</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/wallymathieu/with</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/wallymathieu/with.git</RepositoryUrl>
+        <PackageTags>copy;clone;with;Immutable;Extensions</PackageTags>
+    
+        <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+        <Description>Extensions to make c# easier to use when doing functional code. Copy update expressions. Helper extensions.</Description>
+        <Copyright>Copyright 2020</Copyright>
+    
+        <PackageReleaseNotes>Possible to create lenses on types with constructor methods.</PackageReleaseNotes>
 
         <FSharpCoreVersion>4.5.4</FSharpCoreVersion>
     </PropertyGroup>
