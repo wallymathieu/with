@@ -3,6 +3,11 @@ open System
 open With
 open System.ComponentModel
 
+module Internals=
+    type DataLensOptions = {ConstructorAlias:string list}
+    with
+        static member Empty={ConstructorAlias=[]}
+        static member Create a={ConstructorAlias=List.ofArray a}
 /// Copy of Lens definition from <a href="https://github.com/fsprojects/FSharpx.Extras/blob/master/src/FSharpx.Extras/Lens.fs">FSharpx.Extras</a>
 /// A lens is sort of like a property for immutable data on steroids.
 /// You can compose and combine lenses
@@ -40,37 +45,37 @@ module DataLens =
     let inline internal composeUntyped (l1: DataLens) (l2: DataLens) = compose l1 l2
     /// Split a 2-tuples into a 3-tuple
     let ofTuple(): DataLens<struct(struct('v1 * 'v2) * 'v3),struct( 'v1 * 'v2 * 'v3)> =
-        { get = fun struct(struct(v1, v2), v3) -> (v1, v2, v3)
-          set = fun struct(v1, v2, v3) _ -> ((v1, v2), v3) }
+        { get = fun struct(struct(v1, v2), v3) -> struct(v1, v2, v3)
+          set = fun struct(v1, v2, v3) _ -> struct(struct(v1, v2), v3) }
 
     /// Split a cons combination of 2 2-tuples into a 3-tuple
     let ofLeftTuple(): DataLens<struct(struct('v1 * 'v2) * 'v3), struct( 'v1 * 'v2 * 'v3)> =
-        { get = fun struct(struct(v1, v2), v3) -> (v1, v2, v3)
-          set = fun struct(v1, v2, v3) _ -> ((v1, v2), v3) }
+        { get = fun struct(struct(v1, v2), v3) -> struct(v1, v2, v3)
+          set = fun struct(v1, v2, v3) _ -> struct(struct(v1, v2), v3) }
     /// Split a cons combination of 2 2-tuples into a 4-tuple
     let ofLeftTuple2(): DataLens<struct(struct(struct('v1 * 'v2) * 'v3) * 'v4), struct('v1 * 'v2 * 'v3 * 'v4)> =
-        { get = fun struct(struct(struct(v1, v2), v3), v4) -> (v1, v2, v3, v4)
-          set = fun struct(v1, v2, v3, v4) _ -> (((v1, v2), v3), v4) }
+        { get = fun struct(struct(struct(v1, v2), v3), v4) -> struct(v1, v2, v3, v4)
+          set = fun struct(v1, v2, v3, v4) _ -> struct(struct(struct(v1, v2), v3), v4) }
     /// Split a cons combination of 3 2-tuples into a 5-tuple
     let ofLeftTuple3(): DataLens<struct(struct(struct(struct('v1 * 'v2) * 'v3) * 'v4)*'v5), struct('v1 * 'v2 * 'v3 * 'v4 * 'v5)> =
-        { get = fun struct(struct(struct(struct(v1, v2), v3), v4),v5) -> (v1, v2, v3, v4, v5)
-          set = fun struct(v1, v2, v3, v4, v5) _ -> ((((v1, v2), v3), v4), v5) }
+        { get = fun struct(struct(struct(struct(v1, v2), v3), v4),v5) -> struct(v1, v2, v3, v4, v5)
+          set = fun struct(v1, v2, v3, v4, v5) _ -> struct(struct(struct(struct(v1, v2), v3), v4), v5) }
     /// Split a cons combination of 4 2-tuples into a 6-tuple
     let ofLeftTuple4(): DataLens<struct(struct(struct(struct(struct('v1 * 'v2) * 'v3) * 'v4)*'v5)*'v6), struct('v1 * 'v2 * 'v3 * 'v4 * 'v5 * 'v6)> =
-        { get = fun struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6) -> (v1, v2, v3, v4, v5,v6)
-          set = fun struct(v1, v2, v3, v4, v5, v6) _ -> (((((v1, v2), v3), v4),v5),v6) }
+        { get = fun struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6) -> struct(v1, v2, v3, v4, v5,v6)
+          set = fun struct(v1, v2, v3, v4, v5, v6) _ -> struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6) }
     /// Split a cons combination of 5 2-tuples into a 7-tuple
     let ofLeftTuple5(): DataLens<struct(struct(struct(struct(struct(struct('v1 * 'v2) * 'v3) * 'v4)*'v5)*'v6)*'v7), struct('v1 * 'v2 * 'v3 * 'v4 * 'v5 * 'v6 * 'v7)> =
-        { get = fun struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7)-> (v1, v2, v3, v4, v5,v6, v7)
-          set = fun struct(v1, v2, v3, v4, v5,v6, v7) _ -> ((((((v1, v2), v3), v4),v5),v6),v7) }
+        { get = fun struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7)-> struct(v1, v2, v3, v4, v5,v6, v7)
+          set = fun struct(v1, v2, v3, v4, v5,v6, v7) _ -> struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7) }
     /// Split a cons combination of 6 2-tuples into a 8-tuple
     let ofLeftTuple6(): DataLens<struct(struct(struct(struct(struct(struct(struct('v1 * 'v2) * 'v3) * 'v4)*'v5)*'v6)*'v7)*'v8), struct('v1 * 'v2 * 'v3 * 'v4 * 'v5 * 'v6 * 'v7 * 'v8)> =
-        { get = fun struct(struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7),v8)-> (v1, v2, v3, v4, v5,v6, v7,v8)
-          set = fun struct(v1, v2, v3, v4, v5,v6, v7,v8) _ -> (((((((v1, v2), v3), v4),v5),v6),v7),v8) }
+        { get = fun struct(struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7),v8)-> struct(v1, v2, v3, v4, v5,v6, v7,v8)
+          set = fun struct(v1, v2, v3, v4, v5,v6, v7,v8) _ -> struct(struct(struct(struct(struct(struct(struct(v1, v2), v3), v4),v5),v6),v7),v8) }
     /// Split a cons combination of 2 2-tuples into a 3-tuple
     let ofRightTuple(): DataLens<struct('v1 * struct('v2 * 'v3)), struct('v1 * 'v2 * 'v3)> =
-        { get = fun struct(v1, struct(v2, v3)) -> (v1, v2, v3)
-          set = fun struct(v1, v2, v3) _ -> (v1, (v2, v3)) }
+        { get = fun struct(v1, struct(v2, v3)) -> struct(v1, v2, v3)
+          set = fun struct(v1, v2, v3) _ -> struct(v1, struct(v2, v3)) }
     /// Unbox an untyped lens into a typed lens
     let internal unbox<'T, 'U> (l: DataLens): DataLens<'T, 'U> =
         { get = fun t -> unbox (l.get(box t))

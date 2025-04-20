@@ -14,7 +14,7 @@ namespace Tests.With
             LensBuilder<Sale>.Of(sp => sp.Customer.Name).Build());
 
         [Theory, AutoData]
-        public void Should_be_able_to_create_a_clone_with_a_property_set_using_equalequal(Sale myClass, string newValue)
+        public void Should_be_able_to_create_a_clone_law_of_demeter(Sale myClass, string newValue)
         {
             var ret = CustomerNameCopy.Value.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Customer.Name);
@@ -24,7 +24,7 @@ namespace Tests.With
             LensBuilder<Sale>.Of(sp=>sp.Customer).Then(c => c.Name).Build());
 
         [Theory, AutoData]
-        public void Should_be_able_to_create_a_clone_with_a_property_set_using_compose(Sale myClass, string newValue)
+        public void Should_be_able_to_create_a_clone_using_compose(Sale myClass, string newValue)
         {
             var ret = CustomerNameComposeCopy.Value.Set(myClass, newValue);
             Assert.Equal(newValue, ret.Customer.Name);

@@ -6,33 +6,52 @@ open System.Runtime.CompilerServices
 open System.Linq.Expressions
 open System.Reflection
 open With.Lenses
+open With.Lenses.Internals
 
 /// Used internally to represent field or property
 type internal FieldOrProperty =
-    | FieldOrProperty of Choice<PropertyInfo, FieldInfo>
+    | Property of PropertyInfo
+    | Field of FieldInfo
+    static member create (p) = Property p
+    static member create (p) = Field p
 
-    static member create (p) = FieldOrProperty(Choice1Of2 p)
-
-    static member create (p) = FieldOrProperty(Choice2Of2 p)
-
-    static member name (FieldOrProperty v) =
+    static member name v =
         match v with
-        | Choice1Of2 p -> p.Name
-        | Choice2Of2 f -> f.Name
+        | Property p -> p.Name
+        | Field f -> f.Name
 
-    static member declaringType (FieldOrProperty v) =
+    static member declaringType v =
         match v with
-        | Choice1Of2 p -> p.DeclaringType
-        | Choice2Of2 f -> f.DeclaringType
+        | Property p -> p.DeclaringType
+        | Field f -> f.DeclaringType
 
-    static member fieldType (FieldOrProperty v) =
+    static member fieldType v =
         match v with
-        | Choice1Of2 p -> p.PropertyType
-        | Choice2Of2 f -> f.FieldType
+        | Property p -> p.PropertyType
+        | Field f -> f.FieldType
 
     member this.Name = FieldOrProperty.name this
     member this.DeclaringType = FieldOrProperty.declaringType this
+type internal Ctor =
+    | Ctor of ConstructorInfo
+    | CtorFun of MethodInfo
+    static member create (c) = Ctor c
+    static member create (m) = CtorFun m
+    static member name (v) =
+        match v with
+        | Ctor c -> c.Name
+        | CtorFun m -> m.Name
 
+    static member declaringType v =
+        match v with
+        | Ctor c -> c.DeclaringType
+        | CtorFun m -> m.DeclaringType
+
+    static member parameters v =
+        match v with
+        | Ctor c -> c.GetParameters()
+        | CtorFun m -> m.GetParameters()
+    member this.Parameters = Ctor.parameters this
 
 module internal Reflection =
 
@@ -47,14 +66,23 @@ module internal Reflection =
                     table.Add(key, value)
                     value)
 
-    let getConstructorWithMostParameters: Type -> ConstructorInfo =
+    let getConstructorWithMostParameters: Type -> ConstructorInfo option =
         let create (tp: Type) =
             let ctors = tp.GetTypeInfo().GetConstructors()
             match ctors.Length with
-            | 1 -> ctors.[0]
-            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length)
+            | 0 -> None
+            | 1 -> Some ctors.[0]
+            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length) |> Some
         weakMemoize create
-
+    /// get constructor function with the most parameters
+    let getConstructorFunctionWithMostParameters : (Type*DataLensOptions) -> MethodInfo option =
+        let create (tp: Type,opt:DataLensOptions) =
+            let ctors = tp.GetTypeInfo().GetMethods() |> Array.filter (fun m->m.IsStatic && m.IsPublic)
+            match ctors.Length with
+            | 0 -> None
+            | 1 -> Some ctors.[0]
+            | _ -> ctors |> Array.maxBy (fun ctor -> ctor.GetParameters().Length) |> Some
+        weakMemoize create
     let getPublicFields (typ: Type) = typ.GetTypeInfo().GetFields(BindingFlags.Public ||| BindingFlags.Instance)
     let getPublicProperties (typ: Type) = typ.GetTypeInfo().GetProperties(BindingFlags.Public ||| BindingFlags.Instance)
 
@@ -129,7 +157,7 @@ module internal InternalExpressions=
             let ityp = typedefof<IReadOnlyDictionary<_,_>>
             let ctorT (t:Type) = typ.MakeGenericType(t).GetTypeInfo().GetConstructors() |> Seq.find (fun c->c.GetParameters().Length =1)
 
-    let internal fieldOrPropertyToSetT (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+    let internal fieldOrPropertyToSetT (options:DataLensOptions) (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
         /// compare parameter and field or property and make sure that they have the same Name (ignoring case)
         let haveSameName (p1:ParameterInfo) (p2:FieldOrProperty) =
             let p1Name = p1.Name
@@ -192,7 +220,14 @@ module internal InternalExpressions=
                     trySeqToList T.List.typ; trySeqToList T.List.ityp]
                 tryOut |> List.tryPick (fun f->f sourceT destT parameterValue)
         let props = Reflection.fieldsOrProperties tSource |> Seq.toArray
-        let ctor = Reflection.getConstructorWithMostParameters tDest
+        let ctorCtor = Reflection.getConstructorWithMostParameters tDest
+        let ctorFun= Reflection.getConstructorFunctionWithMostParameters (tDest,options)
+        let ctor = match ctorCtor,ctorFun with 
+                   | Some ctor,_->Ctor.create ctor
+                   | _,Some m->Ctor.create m
+                   | _, _ -> failwithf "Could not find constructor or constructor function for %A" tDest
+
+
         let parameterValue=Expression.Parameter(FieldOrProperty.fieldType value,"v")
         let parameterT = Expression.Parameter(tSource,"t")
         let noKnwownConversion sourceT destT (p:ParameterInfo)=failwithf "No known conversion from %A to %A, please make sure that property named %s has a type that fits the constructor argument with same name" sourceT destT (p.Name)
@@ -218,16 +253,20 @@ module internal InternalExpressions=
                 | None -> raise (MissingValueException param.Name)
 
         let parameters : Expression list =
-            ctor.GetParameters() |> Array.map mapParamToExpressionParam |> Array.toList
+            ctor.Parameters |> Array.map mapParamToExpressionParam |> Array.toList
         if not usedValue then raise (MissingConstructorParameterException value.Name)
-        let expressions : Expression list = [Expression.New(ctor, parameters)]
+        let expressions : Expression list = 
+            match ctor with 
+            | Ctor c->[Expression.New(c, parameters)]
+            | CtorFun m->[Expression.Call(m, parameters)]
+        
         (Expression.Block(expressions),[parameterValue;parameterT])
-    let fieldOrPropertyToSetUntyped (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
-        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+    let fieldOrPropertyToSetUntyped opt (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT opt tSource tDest value
         Expression.Lambda(block, parameters)
 
-    let fieldOrPropertyToSet<'T,'V> (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
-        let (block,parameters)= fieldOrPropertyToSetT tSource tDest value
+    let fieldOrPropertyToSet<'T,'V> opt (tSource: Type) (tDest: Type) (value: FieldOrProperty) =
+        let (block,parameters)= fieldOrPropertyToSetT opt tSource tDest value
         Expression.Lambda<Func<'V,'T,'T>>(block, parameters)
     let fieldOrPropertyToGetT (tSource: Type) (value: FieldOrProperty) =
         let parameterT = Expression.Parameter(tSource, "t")
@@ -244,10 +283,10 @@ module internal InternalExpressions=
 
 module internal FieldOrProperty=
     /// Given field or property access, return lens implemented through reflection and expression compile
-    let toLens<'T, 'U> v: DataLens<'T, 'U> =
+    let toLens<'T, 'U> opt v: DataLens<'T, 'U> =
         let typ = typeof<'T>
         let compiledSetter =
-            let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> typ typ v
+            let lens = InternalExpressions.fieldOrPropertyToSet<'T,'U> opt typ typ v
             lens.Compile()
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGet<'T,'U> v
@@ -255,10 +294,10 @@ module internal FieldOrProperty=
         { get = fun t -> compiledGetter.Invoke(t)
           set = fun v t -> compiledSetter.Invoke(v,t) }
     ///
-    let toLensUntyped v: DataLens =
+    let toLensUntyped opt v: DataLens =
         let typ = FieldOrProperty.declaringType v
         let compiledSetter =
-            let lens = InternalExpressions.fieldOrPropertyToSetUntyped typ typ v
+            let lens = InternalExpressions.fieldOrPropertyToSetUntyped opt typ typ v
             lens.Compile()
         let compiledGetter =
             let lens = InternalExpressions.fieldOrPropertyToGetUntyped typ v
@@ -272,7 +311,7 @@ module internal Object=
 
 module internal Expressions=
     module private Ctx=
-        type Context = { Source:ParameterExpression; Parameters: ParameterExpression list }
+        type Context = { Source:ParameterExpression; Parameters: ParameterExpression list; }
         let ofExpression (lambda:LambdaExpression)=
             {
                 Source=lambda.Parameters |> Seq.head
@@ -305,78 +344,78 @@ module internal Expressions=
     module private DataLens=
         open Ctx
         /// turn member access in expression into untyped DataLens
-        let rec ofMemberAccessUntyped (expr:Expression) : DataLens=
+        let rec ofMemberAccessUntyped opt (expr:Expression) : DataLens=
 
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLensUntyped opt <| FieldOrProperty.ofMemberExpression memberAccess
                 else
-                    let current = ofMemberAccessUntyped memberAccess.Expression
-                    let next = FieldOrProperty.toLensUntyped <| FieldOrProperty.ofMemberExpression memberAccess
+                    let current = ofMemberAccessUntyped opt memberAccess.Expression
+                    let next = FieldOrProperty.toLensUntyped opt <| FieldOrProperty.ofMemberExpression memberAccess
                     DataLens.composeUntyped next current
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
         /// turn member access in expression into typed DataLens
-        let rec ofMemberAccess<'T,'U> (expr:Expression) : DataLens<'T,'U>=
+        let rec ofMemberAccess<'T,'U> opt (expr:Expression) : DataLens<'T,'U>=
             match expr.NodeType with
             | ExpressionType.MemberAccess->
                 let memberAccess = expr :?>MemberExpression
                 if memberAccess.Expression.NodeType = ExpressionType.Parameter then
-                    FieldOrProperty.toLens<'T,'U> <| FieldOrProperty.ofMemberExpression memberAccess
+                    FieldOrProperty.toLens<'T,'U> opt <| FieldOrProperty.ofMemberExpression memberAccess
                 else
                     // unable to continue with typed expressions:
-                    let l=ofMemberAccessUntyped expr
+                    let l=ofMemberAccessUntyped opt expr
                     DataLens.unbox<'T,'U> l
             | _ -> raise( ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess |], expr.NodeType));
 
         /// turn binary expression with member expression into typed DataLens, the assumption being that the binary expression is an equals
-        let expectLeftAndRightMemberAccessInBinaryExpression<'T,'U> (expr:BinaryExpression) (c:Context): DataLens<'T,'U>=
+        let expectLeftAndRightMemberAccessInBinaryExpression<'T,'U> opt (expr:BinaryExpression) (c:Context): DataLens<'T,'U>=
             let tryFind e = List.tryFind (Object.equals e) c.Parameters
             match tryFind expr.Right, tryFind expr.Left with
             | Some _,None ->
-                ofMemberAccess expr.Left
+                ofMemberAccess opt expr.Left
             | None, Some _->
-                ofMemberAccess expr.Right
+                ofMemberAccess opt expr.Right
             | None, None ->
                 failwithf "1) Expected expression '%O' to yield either a left side member access or a right side member access (%A)" expr c
             | _ ->
                 failwithf "2) Expected expression '%O' to yield either a left side member access or a right side member access (%A)" expr c
         /// turn binary expression with member expression into typed DataLens
-        let ofBinaryExpressionEquals<'T,'U> (lambda:Expression) (c:Context): DataLens<'T,'U>=
+        let ofBinaryExpressionEquals<'T,'U> opt (lambda:Expression) (c:Context): DataLens<'T,'U>=
             match lambda.NodeType with
             | ExpressionType.Equal ->
                 let b=lambda :?> BinaryExpression
                 match b.Left.NodeType with
-                | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression b c
+                | ExpressionType.MemberAccess -> expectLeftAndRightMemberAccessInBinaryExpression opt b c
                 | t->raise (ExpectedButGotException<ExpressionType>([| ExpressionType.MemberAccess; |], t))
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.Equal; |], t))
-        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
+        let ofAndAlsoThenLeftRightMemberAccessExpression<'T,'U1,'U2> opt (lambda:Expression) (c:Context): DataLens<'T,struct('U1*'U2)>=
             match lambda.NodeType with
             | ExpressionType.AndAlso ->
                 let b=lambda :?> BinaryExpression
-                let left = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U1> (b.Left:?>BinaryExpression) c
-                let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> (b.Right:?>BinaryExpression) c
+                let left = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U1> opt (b.Left:?>BinaryExpression) c
+                let right = expectLeftAndRightMemberAccessInBinaryExpression<'T,'U2> opt (b.Right:?>BinaryExpression) c
                 DataLens.combine left right
             | t -> raise (ExpectedButGotException<ExpressionType>([| ExpressionType.AndAlso |], t))
     /// create a data lens out an expression that looks like :
     /// <c>t=>t.Property</c>
     /// or in f# terms:
     /// <c>fun t -> t.Property</c>
-    let withMemberAccess<'T,'U> (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
-        DataLens.ofMemberAccess lambda.Body
+    let withMemberAccess<'T,'U> opt (lambda:Expression<Func<'T, 'U>>) : DataLens<'T,'U>=
+        DataLens.ofMemberAccess opt lambda.Body
     /// create a data lens out an expression that looks like :
     /// <c>(t,v)=>t.Property == v</c>
     /// or in f# terms:
     /// <c>fun (t,v)-> t.Property = v</c>
-    let withEqualEqualOrCall<'T,'U> (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
+    let withEqualEqualOrCall<'T,'U> opt (lambda:Expression<Func<'T, 'U, bool>>) : DataLens<'T,'U>=
         let c = Ctx.ofExpression lambda
-        DataLens.ofBinaryExpressionEquals lambda.Body c
+        DataLens.ofBinaryExpressionEquals opt lambda.Body c
     /// create a data lens out an expression that looks like :
     /// <c>(t,v1,v2)=>t.Property1 == v1 && t.Property2 == v2</c>
     /// or in f# terms:
     /// <c>fun (t,v1,v2)-> t.Property1 = v1 && t.Property2 = v2</c>
-    let withEqualEqualOrCall2<'T,'U1,'U2> (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
+    let withEqualEqualOrCall2<'T,'U1,'U2> opt (lambda:Expression<Func<'T, 'U1, 'U2, bool>>) : DataLens<'T,struct('U1*'U2)>=
         let c = Ctx.ofExpression lambda
-        DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> lambda.Body c
+        DataLens.ofAndAlsoThenLeftRightMemberAccessExpression<'T, 'U1, 'U2> opt lambda.Body c
