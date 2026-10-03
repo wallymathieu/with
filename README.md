@@ -1,10 +1,10 @@
 # with [![Build Status](https://travis-ci.org/wallymathieu/with.png?branch=master)](https://travis-ci.org/wallymathieu/with) [![Build status](https://ci.appveyor.com/api/projects/status/d9g3sthe02ikx319/branch/master?svg=true)](https://ci.appveyor.com/project/wallymathieu/with/branch/master) [![NuGet](http://img.shields.io/nuget/v/with.svg)](https://www.nuget.org/packages/with/)
 
-With is a small library written in c# intended for alternative constructions in c# to do things that may look clumsy in regular code.
+With is a small library written in C# that provides alternative constructions for tasks that can look clumsy in regular code.
 
-Why is this library small? Parts of the library has been removed as c# has evolved (and my understanding of what can be useful in c#).
+Why is this library small? Parts of the library have been removed as C# has evolved (and as my understanding of what can be useful in C# has changed).
 
-The main reason for this library has been met by C# 9. You probably want to use that instead of using this library.
+C# 9 introduced `with` expressions for records, which cover the library's original use case for record types. For other immutable types, this library may still be useful.
 
 ## What can we learn from "With"
 
@@ -14,7 +14,7 @@ Having access to [expressions](https://msdn.microsoft.com/en-us/library/system.l
 
 ### Working with immutable data
 
-If you need to get a copy of a readonly object but with some other value set in the new instance, you can use _With_. This is very similar to f# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answers the question "How do you read and update immutable data". It may help to think about them as properties for immutable data that you can combine and compose.  For further reading see the [Basic lens operation part of the wiki](https://github.com/wallymathieu/with/wiki/Basic-lens-operations)
+If you need to get a copy of a read-only object with another value set in the new instance, you can use _With_. This is very similar to the F# [copy and update record expression](https://msdn.microsoft.com/en-us/library/dd233184.aspx). The main abstraction is called a lens. Lenses answer the question "How do you read and update immutable data?" It may help to think of them as properties for immutable data that you can combine and compose. For further reading, see the [Basic lens operation part of the wiki](https://github.com/wallymathieu/with/wiki/Basic-lens-operations).
 
 #### Simplest example
 
@@ -34,13 +34,13 @@ public class CustomerNameChangeHandler
         // fetch customer, say:
         var customer = new Customer(id:1, name:"Johan Testsson");
         // get a new instance of that customer but with changed name:
-        var changedNameToErik = CustomerNameLens.Set(customer, "Erik Testsson");
+        var changedNameToErik = NameLens.Set(customer, "Erik Testsson");
         // ...
     }
 }
 ```
 
-#### Settings several properties at the same time
+#### Setting several properties at the same time
 
 ```c#
 using System;
@@ -69,7 +69,7 @@ public class CustomerChangeHandler
 
 ## Performance impact of working with immutable types (by using With) in c\#
 
-To generate use the Timings project.
+To generate these results, run the `Timing` project. These benchmark results are historical and were collected with the versions and hardware listed below; they should not be taken as current performance measurements.
 
 ``` ini
 
@@ -83,7 +83,7 @@ Intel Core i7-8650U CPU 1.90GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical c
 
 |                                     Method |     Mean |    Error |   StdDev |
 |------------------------------------------- |---------:|---------:|---------:|
-|      Using_static_prepered_copy_expression | 478.1 ns |  9.39 ns | 14.06 ns |
+|      Using_static_prepared_copy_expression | 478.1 ns |  9.39 ns | 14.06 ns |
 | Hand_written_method_returning_new_instance | 457.3 ns | 11.15 ns | 10.95 ns |
 |                     Language_ext_generated | 476.0 ns |  9.42 ns | 14.38 ns |
 
@@ -93,7 +93,7 @@ The language ext approach has some disadvantages that you might be OK with, for 
 
 ## Why shouldn't you use this library
 
-You probably want to use C# 9 instead where the `with` has been integrated into the language. 
+For record types, you probably want to use C# 9 or later, where `with` expressions are part of the language. This library can still be used with other immutable types.
 
 ## Nuget
 
